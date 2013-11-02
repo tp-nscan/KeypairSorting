@@ -50,7 +50,7 @@ namespace Sorting.SwitchFunctionSets
             _session = engine.CreateSession();
 
             Session.AddReference("System.Core");
-            Session.AddReference("C:\\Users\\tpnsc_000\\Desktop\\sandbox\\KeypairSorting\\MathUtils\\bin\\Debug\\MathUtils.dll");
+            Session.AddReference(AppDomain.CurrentDomain.BaseDirectory + "\\MathUtils.dll");
             Session.AddReference("Sorting.dll");
 
             Session.Execute("using System;");

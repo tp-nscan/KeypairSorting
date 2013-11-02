@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathUtils.Bits;
 
 namespace MathUtils.Collections
 {
@@ -21,8 +22,48 @@ namespace MathUtils.Collections
             b = c;
         }
 
-        public static IEnumerable<T> Mutate<T>(this IEnumerable<T> source, IEnumerable<bool> mutateIfTrue,
-            Func<T, T> mutator)
+        public static IEnumerable<Tuple<TA, TB>> Merge<TA, TB>(this IEnumerable<TA> ableA, IEnumerable<TB> ableB)
+        {
+            var atorA = ableA.GetEnumerator();
+            var atorB = ableB.GetEnumerator();
+            while (atorA.MoveNext() && atorB.MoveNext())
+            {
+                yield return new Tuple<TA, TB>(atorA.Current, atorB.Current);
+            }
+        }
+
+        public static int ToHash<T>(this IEnumerable<T> items, Func<T, int> itemHash)
+        {
+            return items.Aggregate(1, (current, item) => (current*397) ^ itemHash(item).DeZero(42));
+        }
+
+        public static IEnumerable<T> GetMatchingItems<T>(this IEnumerable<T> ableA, IEnumerable<T> ableB)
+        {
+            var atorA = ableA.GetEnumerator();
+            var atorB = ableB.GetEnumerator();
+            while (atorA.MoveNext() && atorB.MoveNext())
+            {
+                if (atorA.Current.Equals(atorB.Current))
+                {
+                    yield return atorA.Current;
+                }
+            }
+        }
+
+        public static IEnumerable<T> GetDifferentItems<T>(this IEnumerable<T> ableA, IEnumerable<T> ableB)
+        {
+            var atorA = ableA.GetEnumerator();
+            var atorB = ableB.GetEnumerator();
+            while (atorA.MoveNext() && atorB.MoveNext())
+            {
+                if (! atorA.Current.Equals(atorB.Current))
+                {
+                    yield return atorB.Current;
+                }
+            }
+        }
+
+        public static IEnumerable<T> Mutate<T>(this IEnumerable<T> source, IEnumerable<bool> mutateIfTrue, Func<T, T> mutator)
         {
             var sourceEnumerator = source.GetEnumerator();
             var mutateIfTrueEnumerator = mutateIfTrue.GetEnumerator();

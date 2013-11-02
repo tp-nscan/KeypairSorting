@@ -63,14 +63,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\IEntityFunctionParams.cs" />
+    <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />
     <Compile Include="KeyPairs\KeyPairSet.cs" />
     <Compile Include="Sorters\SorterTestResult.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
     <Compile Include="Sorters\SortingResult.cs" />
-    <Compile Include="Switchables\ISwitchable.cs" />
     <Compile Include="Switchables\Switchable.cs" />
     <Compile Include="Switchables\SwitchableDataType.cs" />
+    <Compile Include="Switchables\SwitchableGroup.cs" />
     <Compile Include="SwitchFunctionSets\ArraySwitchSet.cs" />
     <Compile Include="SwitchFunctionSets\NumSwitchSet.cs" />
     <Compile Include="SwitchFunctionSets\KeyPairSwitchSet.cs" />

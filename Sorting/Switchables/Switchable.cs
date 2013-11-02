@@ -1,13 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathUtils.Bits;
 using MathUtils.Collections;
 using MathUtils.Rand;
 
 namespace Sorting.Switchables
 {
+    public interface ISwitchable<out T> : ISwitchable
+    {
+        T Item { get; }
+    }
+
+    public interface ISwitchable
+    {
+        int KeyCount { get; }
+        Type SwitchableDataType { get; }
+    }
+
     public static class Switchable
     {
+        public static IEnumerable<ISwitchable<T>> MakeSwitchables<T>(this IRando random, int keyCount)
+        {
+            if (typeof (T) == typeof (uint))
+            {
+                return (IEnumerable<ISwitchable<T>>)random.ToRandomUintFlags(keyCount).ToUintSwitchable(keyCount);
+            }
+            if (typeof(T) == typeof(ulong))
+            {
+                return (IEnumerable<ISwitchable<T>>)random.ToRandomUlongFlags(keyCount).ToUlongSwitchable(keyCount);
+            }
+            if (typeof(T) == typeof(IReadOnlyList<bool>))
+            {
+                return (IEnumerable<ISwitchable<T>>)random.ToBoolEnumerator(0.5).Chunk(keyCount).Select(b => b.ToSwitchableBitArray());
+            }
+            if (typeof(T) == typeof(IReadOnlyList<uint>))
+            {
+                return (IEnumerable<ISwitchable<T>>)random.ToRandomEnumerator().Select(r => r.ToSwitchableIntArray(keyCount));
+            }
+            throw new Exception("unhandled switchable type");
+        }
+
         public static ISwitchable<IReadOnlyList<uint>> ToSwitchableIntArray(this IReadOnlyList<uint> ints)
         {
             return new SwitchableIntArrayImpl(ints);
@@ -23,49 +56,29 @@ namespace Sorting.Switchables
                     .ToSwitchableIntArray();
         }
 
-        public static IEnumerable<ISwitchable<IReadOnlyList<uint>>> ToSwitchableIntArrays(this IRando random, int keyCount)
-        {
-            return random.ToRandomEnumerator().Select(r => r.ToSwitchableIntArray(keyCount));
-        }
-
         public static ISwitchable<IReadOnlyList<bool>> ToSwitchableBitArray(this bool[] bits)
         {
             return new SwitchableBitArrayImpl(bits);
         }
 
-        public static IEnumerable<ISwitchable<IReadOnlyList<bool>>> ToSwitchableBitArrays(this IRando random, int keyCount)
-        {
-            return random.ToBoolEnumerator(0.5).Chunk(keyCount).Select(T => T.ToSwitchableBitArray());
-        }
-
-        public static IEnumerable<ISwitchable<uint>> ToUintSwitchables(this IRando rando, int keyCount)
-        {
-            return rando.ToRandomUintFlags(keyCount).ToUintSwitchable<uint>(keyCount);
-        }
-
-        public static IEnumerable<ISwitchable<ulong>> ToUlongSwitchables(this IRando rando, int keyCount)
-        {
-            return rando.ToRandomUlongFlags(keyCount).ToUlongSwitchable<ulong>(keyCount);
-        }
-
         public static IEnumerable<ISwitchable<uint>> AllUintEnumerablesForKeyCount(int keyCount)
         {
-            return Enumerable.Range(0, (int) Math.Pow(2, keyCount)).ToUintSwitchable<uint>(keyCount);
+            return Enumerable.Range(0, (int) Math.Pow(2, keyCount)).ToUintSwitchable(keyCount);
         }
 
         #region private helpers
 
-        private static IEnumerable<ISwitchable<uint>> ToUintSwitchable<T>(this IEnumerable<int> numbers, int keyCount)
+        private static IEnumerable<ISwitchable<uint>> ToUintSwitchable(this IEnumerable<int> numbers, int keyCount)
         {
             return numbers.Select(t => new SwitchableUintImpl((uint)t, keyCount));
         }
 
-        private static IEnumerable<ISwitchable<uint>> ToUintSwitchable<T>(this IEnumerable<uint> numbers, int keyCount)
+        private static IEnumerable<ISwitchable<uint>> ToUintSwitchable(this IEnumerable<uint> numbers, int keyCount)
         {
             return numbers.Select(t => new SwitchableUintImpl(t, keyCount));
         }
 
-        private static IEnumerable<ISwitchable<ulong>> ToUlongSwitchable<T>(this IEnumerable<ulong> numbers, int keyCount)
+        private static IEnumerable<ISwitchable<ulong>> ToUlongSwitchable(this IEnumerable<ulong> numbers, int keyCount)
         {
             return numbers.Select(t => new SwitchableUlongImpl(t, keyCount));
         }
@@ -79,10 +92,9 @@ namespace Sorting.Switchables
             : base(value, keyCount)
         {
         }
-
-        public override SwitchableDataType SwitchableType
+        public override int GetHashCode()
         {
-            get { return SwitchableDataType.Ushort; }
+            return Item;
         }
     }
 
@@ -92,10 +104,9 @@ namespace Sorting.Switchables
             : base(value, keyCount)
         {
         }
-
-        public override SwitchableDataType SwitchableType
+        public override int GetHashCode()
         {
-            get { return SwitchableDataType.UInt; }
+            return (int)Item;
         }
     }
 
@@ -104,11 +115,13 @@ namespace Sorting.Switchables
         public SwitchableUlongImpl(ulong value, int keyCount)
             : base(value, keyCount)
         {
+            _hash = ((int)(Item >> 32)).DeZero(8675309) * ((int)Item).DeZero(92017);
         }
 
-        public override SwitchableDataType SwitchableType
+        private readonly int _hash;
+        public override int GetHashCode()
         {
-            get { return SwitchableDataType.ULong; }
+            return _hash;
         }
     }
 
@@ -117,11 +130,13 @@ namespace Sorting.Switchables
         public SwitchableBitArrayImpl(IReadOnlyList<bool> bits)
             : base(bits, bits.Count)
         {
+            _hash = Item.ToHash();
         }
 
-        public override SwitchableDataType SwitchableType
+        private readonly int _hash;
+        public override int GetHashCode()
         {
-            get { return SwitchableDataType.BitArray; }
+            return _hash;
         }
     }
 
@@ -133,9 +148,10 @@ namespace Sorting.Switchables
 
         }
 
-        public override SwitchableDataType SwitchableType
+        private readonly int _hash;
+        public override int GetHashCode()
         {
-            get { return SwitchableDataType.IntArray; }
+            return _hash;
         }
     }
 
@@ -155,14 +171,31 @@ namespace Sorting.Switchables
             get { return _keyCount; }
         }
 
-        public abstract SwitchableDataType SwitchableType
+        public Type SwitchableDataType
         {
-            get;
+            get { return typeof(T); }
         }
 
         public T Item
         {
             get { return _item; }
         }
+
+        protected bool Equals(SwitchableImpl<T> other)
+        {
+            return _keyCount == other._keyCount && EqualityComparer<T>.Default.Equals(_item, other._item);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((SwitchableImpl<T>)obj);
+        }
+
+        public abstract override int GetHashCode();
+
     }
+
 }

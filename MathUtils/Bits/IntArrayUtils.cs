@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MathUtils.Bits
 {
@@ -20,5 +21,17 @@ namespace MathUtils.Bits
         {
             return !sequence.Where((t, i) => i != t).Any();
         }
+
+        public static int ToHash(IReadOnlyList<uint> ints)
+        {
+            var retVal = ints[0].DeZero(42);
+            for (var i = 0; i < ints.Count; i++)
+            {
+                retVal = (retVal * 397) ^ ints[i].DeZero(42);
+            }
+            return retVal;
+        }
+
+
     }
 }

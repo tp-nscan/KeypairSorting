@@ -1,11 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MathUtils.Bits
 {
     public static class NumberConverters
     {
+        public static int DeZero(this int value, int subst)
+        {
+            return (value == 0) ? subst : value;
+        }
+
+        public static int DeZero(this uint value, int subst)
+        {
+            return (value == 0) ? subst : (int)value;
+        }
+
         public static bool BitValue(this ushort value, int bitPos)
         {
             return (value & 1 << bitPos) > 0;
@@ -205,7 +214,7 @@ namespace MathUtils.Bits
         public static byte ToByte(this bool[] bits)
         {
             byte bRet = 0;
-            for (int i = bits.Length - 1; i > -1; i--)
+            for (var i = bits.Length - 1; i > -1; i--)
             {
                 bRet <<= 1;
                 if (bits[i]) bRet += 1;
@@ -216,7 +225,7 @@ namespace MathUtils.Bits
         public static ushort ToUShort(this bool[] bits)
         {
             ushort bRet = 0;
-            for (int i = bits.Length - 1; i > -1; i--)
+            for (var i = bits.Length - 1; i > -1; i--)
             {
                 bRet <<= 1;
                 if (bits[i]) bRet += 1;
@@ -228,7 +237,38 @@ namespace MathUtils.Bits
         public static uint ToUInt(this bool[] bits)
         {
             uint bRet = 0;
-            for (int i = bits.Length - 1; i > -1; i--)
+            for (var i = bits.Length - 1; i > -1; i--)
+            {
+                bRet <<= 1;
+                if (bits[i]) bRet += 1;
+            }
+            return bRet;
+        }
+
+        public static int ToHash(this IReadOnlyList<bool> bits)
+        {
+            if (bits.Count < 17)
+            {
+                return Hash0To16(bits);
+            }
+            return Hash0To16(bits) * Hash16To32(bits);
+        }
+
+        static int Hash16To32(IReadOnlyList<bool> bits)
+        {
+            var bRet = 0;
+            for (var i = bits.Count - 1; i > 15; i--)
+            {
+                bRet <<= 1;
+                if (bits[i]) bRet += 1;
+            }
+            return bRet;
+        }
+
+        static int Hash0To16(IReadOnlyList<bool> bits)
+        {
+            var bRet = 0;
+            for (var i = bits.Count - 1; i > -1; i--)
             {
                 bRet <<= 1;
                 if (bits[i]) bRet += 1;
@@ -239,7 +279,7 @@ namespace MathUtils.Bits
         public static ulong ToULong(this bool[] bits)
         {
             ulong bRet = 0;
-            for (int i = bits.Length - 1; i > -1; i--)
+            for (var i = bits.Length - 1; i > -1; i--)
             {
                 bRet <<= 1;
                 if (bits[i]) bRet += 1;

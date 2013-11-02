@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sorting.KeyPairs;
 using Sorting.Sorters;
 using Sorting.Switchables;
 using Sorting.SwitchFunctionSets;
@@ -25,13 +22,12 @@ namespace Sorting.Test.Sorters
 
             var switchSet = new UintSwitchSet(keyCount);
             var sorter = Sorter.RandomSorter(212, keyCount, keyPairCount);
-            var switchableSortingRuns = Rando.Fast(1234).ToUintSwitchables(keyCount)
-                                            .Take(switchableCount)
-                                            .ToList();
+            var switchables = Rando.Fast(1234).MakeSwitchables<uint>(keyCount)
+                                            .Take(switchableCount);
 
             stopwatch.Start();
 
-            var result = sorter.Sort(switchSet, switchableSortingRuns);
+            var result = sorter.Sort(switchSet, switchables);
 
             stopwatch.Stop();
 

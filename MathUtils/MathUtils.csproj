@@ -46,6 +46,7 @@
     <Compile Include="Bits\NumberConverters.cs" />
     <Compile Include="Collections\IGuid.cs" />
     <Compile Include="Collections\IKeyed.cs" />
+    <Compile Include="Collections\MoveNext.cs" />
     <Compile Include="Collections\ReadOnlyListExt.cs" />
     <Compile Include="Collections\Matrix.cs" />
     <Compile Include="Collections\EnumerableExt.cs" />

@@ -19,7 +19,7 @@ namespace Sorting.SwitchFunctionSets
             var session = engine.CreateSession();
 
             session.AddReference("System.Core");
-            session.AddReference("C:\\Users\\tpnsc_000\\Desktop\\sandbox\\KeypairSorting\\MathUtils\\bin\\Debug\\MathUtils.dll");
+            session.AddReference(AppDomain.CurrentDomain.BaseDirectory + "\\MathUtils.dll");
             session.AddReference("Sorting.dll");
 
             session.Execute("using System;");
@@ -103,7 +103,7 @@ namespace Sorting.SwitchFunctionSets
             _session = engine.CreateSession();
 
             Session.AddReference("System.Core");
-            Session.AddReference("C:\\Users\\tpnsc_000\\Desktop\\sandbox\\KeypairSorting\\MathUtils\\bin\\Debug\\MathUtils.dll");
+            Session.AddReference(AppDomain.CurrentDomain.BaseDirectory + "\\MathUtils.dll");
             Session.AddReference("Sorting.dll");
 
             Session.Execute("using System;");

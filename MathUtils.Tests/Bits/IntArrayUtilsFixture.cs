@@ -25,5 +25,7 @@ namespace MathUtils.Tests.Bits
 
             Assert.IsFalse(sortedArray.IsSorted());
         }
+
+
     }
 }
