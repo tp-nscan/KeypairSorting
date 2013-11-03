@@ -6,9 +6,13 @@ using MathUtils.Rand;
 
 namespace Sorting.Switchables
 {
-    public interface ISwitchableGroup<out T>
+    public interface ISwitchableGroup<out T> : ISwitchableGroup
     {
         IReadOnlyList<ISwitchable<T>> Switchables { get; }
+    }
+
+    public interface ISwitchableGroup
+    {
         Guid Guid { get; }
         int KeyCount { get; }
         Type SwitchableDataType { get; }
@@ -21,7 +25,7 @@ namespace Sorting.Switchables
             return new SwitchableGroup<T>(guid, keyCount, switchables);
         }
 
-        public static ISwitchableGroup<T> MakeSwitchableGroup<T>(this IRando rando, Guid guid, int keyCount, int switchableCount)
+        public static ISwitchableGroup<T> ToSwitchableGroup<T>(this IRando rando, Guid guid, int keyCount, int switchableCount)
         {
             return new SwitchableGroup<T>(guid, keyCount, rando.MakeSwitchables<T>(keyCount).Take(switchableCount));
         }

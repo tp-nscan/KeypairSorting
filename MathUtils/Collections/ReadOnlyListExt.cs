@@ -12,13 +12,56 @@ namespace MathUtils.Collections
             return list.Where((t, i) => indexer(t) != i).Any();
         }
 
+        public static IReadOnlyList<T> VectorSum<T>(this IEnumerable<IReadOnlyList<T>> listOfList, Func<T, T, T> adder)
+        {
+            var retVal = new T[0];
+            return listOfList.Aggregate(retVal, (current, list) => current.VectorSum(list, adder));
+        }
+
+        public static IReadOnlyList<T> VectorSum<T>(this IReadOnlyList<T> lhs, IReadOnlyList<T> rhs, Func<T, T, T> adder)
+        {
+            var retVal = new T[lhs.Count];
+            for (var i = 0; i < lhs.Count; i++)
+            {
+                retVal[i] = adder(lhs[i], rhs[i]);
+            }
+            return retVal;
+        }
+
+        public static T[] VectorSum<T>(this T[] lhs, IReadOnlyList<T> rhs, Func<T, T, T> adder)
+        {
+            if (lhs.Length == 0) { lhs = new T[rhs.Count];}
+            for (var i = 0; i < rhs.Count; i++)
+            {
+                lhs[i] = adder(lhs[i], rhs[i]);
+            }
+            return lhs;
+        }
+
+
+        public static IReadOnlyList<int> VectorSumInts(this IEnumerable<IReadOnlyList<int>> listOfList)
+        {
+            var retVal = new int[0];
+            return listOfList.Aggregate(retVal, (current, list) => current.VectorSumInt(list));
+        }
+
+        public static int[] VectorSumInt(this int[] lhs, IReadOnlyList<int> rhs)
+        {
+            if (lhs.Length == 0) { lhs = new int[rhs.Count]; }
+            for (var i = 0; i < rhs.Count; i++)
+            {
+                lhs[i] += rhs[i];
+            }
+            return lhs;
+        }
+
         public static bool IsOrdered<T>(this IEnumerable<T> source)
         {
             var comparer = Comparer<T>.Default;
-            T previous = default(T);
-            bool first = true;
+            var previous = default(T);
+            var first = true;
 
-            foreach (T element in source)
+            foreach (var element in source)
             {
                 if (!first && comparer.Compare(previous, element) > 0)
                 {

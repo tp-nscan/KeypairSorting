@@ -7,7 +7,7 @@ using Sorting.KeyPairs;
 
 namespace Sorting.SwitchFunctionSets
 {
-    public class BitArraySwitchSet : ArraySwitchSet<bool[]>
+    internal class BitArraySwitchSet : ArraySwitchSet<bool[]>
     {
         public BitArraySwitchSet(int keyCount) : base(keyCount)
         {
@@ -24,7 +24,7 @@ namespace Sorting.SwitchFunctionSets
         }
     }
 
-    public class IntArraySwitchSet : ArraySwitchSet<int[]>
+    internal class IntArraySwitchSet : ArraySwitchSet<int[]>
     {
         public IntArraySwitchSet(int keyCount)
             : base(keyCount)

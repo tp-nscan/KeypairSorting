@@ -17,7 +17,7 @@ namespace Sorting.Test.Switchables
             const int keyCount = 16;
             const int switchableCount = 100;
 
-            var switchableGroup = Rando.Fast(123).MakeSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
+            var switchableGroup = Rando.Fast(123).ToSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
 
             Assert.AreEqual(switchableGroup.KeyCount, keyCount);
             Assert.AreEqual(switchableGroup.Switchables.Count, switchableCount);
@@ -30,7 +30,7 @@ namespace Sorting.Test.Switchables
             const int switchableCount = 1000;
             const double mutationRate = 0.3;
 
-            var switchableGroup = Rando.Fast(123).MakeSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
+            var switchableGroup = Rando.Fast(123).ToSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
 
             var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
 
@@ -49,7 +49,7 @@ namespace Sorting.Test.Switchables
             const int switchableCount = 1000;
             const double mutationRate = 0.3;
 
-            var switchableGroup = Rando.Fast(123).MakeSwitchableGroup<ulong>(Guid.NewGuid(), keyCount, switchableCount);
+            var switchableGroup = Rando.Fast(123).ToSwitchableGroup<ulong>(Guid.NewGuid(), keyCount, switchableCount);
 
             var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
 
@@ -68,7 +68,7 @@ namespace Sorting.Test.Switchables
             const int switchableCount = 1000;
             const double mutationRate = 0.3;
 
-            var switchableGroup = Rando.Fast(123).MakeSwitchableGroup<IReadOnlyList<uint>>(Guid.NewGuid(), keyCount, switchableCount);
+            var switchableGroup = Rando.Fast(123).ToSwitchableGroup<IReadOnlyList<uint>>(Guid.NewGuid(), keyCount, switchableCount);
 
             var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
 
@@ -87,7 +87,7 @@ namespace Sorting.Test.Switchables
             const int switchableCount = 1000;
             const double mutationRate = 0.3;
 
-            var switchableGroup = Rando.Fast(123).MakeSwitchableGroup<IReadOnlyList<bool>>(Guid.NewGuid(), keyCount, switchableCount);
+            var switchableGroup = Rando.Fast(123).ToSwitchableGroup<IReadOnlyList<bool>>(Guid.NewGuid(), keyCount, switchableCount);
 
             var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
 

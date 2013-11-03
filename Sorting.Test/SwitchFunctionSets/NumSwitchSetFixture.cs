@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using MathUtils.Bits;
 using MathUtils.Rand;
@@ -17,8 +16,8 @@ namespace Sorting.Test.SwitchFunctionSets
             const int maxKeyCount = 16;
             for (var keyCount = 2; keyCount < maxKeyCount; keyCount++)
             {
-                var ushortSwitchSet = new UshortSwitchSet(keyCount);
-                for (int i = 0; i < keyCount; i++)
+                var ushortSwitchSet = KeyPairSwitchSet.Make<ushort>(keyCount);
+                for (var i = 0; i < keyCount; i++)
                 {
                     var bitArray = Enumerable.Repeat(false, i)
                                         .Concat(Enumerable.Repeat(true, keyCount - i))
@@ -36,8 +35,8 @@ namespace Sorting.Test.SwitchFunctionSets
             const int maxKeyCount = 32;
             for (var keyCount = 2; keyCount < maxKeyCount; keyCount++)
             {
-                var ushortSwitchSet = new UintSwitchSet(keyCount);
-                for (int i = 0; i < keyCount; i++)
+                var ushortSwitchSet = KeyPairSwitchSet.Make<uint>(keyCount);
+                for (var i = 0; i < keyCount; i++)
                 {
                     var bitArray = Enumerable.Repeat(false, i)
                                         .Concat(Enumerable.Repeat(true, keyCount - i))
@@ -55,8 +54,8 @@ namespace Sorting.Test.SwitchFunctionSets
             const int maxKeyCount = 64;
             for (var keyCount = 2; keyCount < maxKeyCount; keyCount++)
             {
-                var ushortSwitchSet = new UlongSwitchSet(keyCount);
-                for (int i = 0; i < keyCount; i++)
+                var ushortSwitchSet = KeyPairSwitchSet.Make<ulong>(keyCount);
+                for (var i = 0; i < keyCount; i++)
                 {
                     var bitArray = Enumerable.Repeat(false, i)
                                         .Concat(Enumerable.Repeat(true, keyCount - i))
@@ -75,7 +74,7 @@ namespace Sorting.Test.SwitchFunctionSets
 
             for (var keyCount = 2; keyCount < maxKeyCount + 1; keyCount++)
             {
-                var switchSet = new UshortSwitchSet(keyCount);
+                var switchSet = KeyPairSwitchSet.Make<ushort>(keyCount);
                 for (var i = 0; i < 1000; i++)
                 {
                     var testNum = (ushort)randy.NextInt();
@@ -95,7 +94,7 @@ namespace Sorting.Test.SwitchFunctionSets
 
             for (var keyCount = 2; keyCount < maxKeyCount + 1; keyCount++)
             {
-                var switchSet = new UintSwitchSet(keyCount);
+                var switchSet = KeyPairSwitchSet.Make<uint>(keyCount);
                 for (var i = 0; i < 100; i++)
                 {
                     var testNum = (uint)randy.NextInt();
@@ -158,7 +157,7 @@ namespace Sorting.Test.SwitchFunctionSets
             const int maxKeyCount = 16;
             var stopwatch = new Stopwatch();
             const int keyCount = 16;
-            var switchSet = new UshortSwitchSet(keyCount);
+            var switchSet = KeyPairSwitchSet.Make<ushort>(keyCount);
 
             var testResults = 0;
 
@@ -183,10 +182,9 @@ namespace Sorting.Test.SwitchFunctionSets
         [TestMethod]
         public void BenchUintForSorted()
         {
-            const int maxKeyCount = 16;
             var stopwatch = new Stopwatch();
             const int keyCount = 16;
-            var switchSet = new UintSwitchSet(keyCount);
+            var switchSet = KeyPairSwitchSet.Make<uint>(keyCount);
 
             var testResults = 0;
 
@@ -213,7 +211,7 @@ namespace Sorting.Test.SwitchFunctionSets
         {
 
             const int keyCount = 16;
-            var switchSet = new UshortSwitchSet(keyCount);
+            var switchSet = KeyPairSwitchSet.Make<ushort>(keyCount);
 
             var t = typeof(int[]);
             

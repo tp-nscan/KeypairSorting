@@ -24,6 +24,115 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
+        public void TestSum()
+        {
+            var listlist = new[] { new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 } };
+            var list1 = new int[] { 1, 2, 3, 4 };
+            var list2 = new[] { 1, 2, 3, 4 };
+
+            var res = listlist.VectorSum((s, t) => s + t);
+        }
+
+
+        [TestMethod]
+        public void TestSum2()
+        {
+            var listlist = new[] { new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 } };
+            var list1 = new int[] { 1, 2, 3, 4 };
+            var list2 = new[] { 1, 2, 3, 4 };
+
+            var res = listlist.VectorSum((s, t) => s + t);
+        }
+
+        [TestMethod]
+        public void TimeBigSum()
+        {
+            const int arrayLength = 7000;
+            const int arrayCount = 20000;
+
+            var listlist = new List<IReadOnlyList<int>>();
+
+            for (var i = 0; i < arrayCount; i++)
+            {
+                listlist.Add(Enumerable.Range(0, arrayLength).ToArray());
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var res = listlist.VectorSum((s, t) => s + t);
+
+            stopwatch.Stop();
+
+            Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
+
+        }
+
+        [TestMethod]
+        public void TimeIntSum()
+        {
+            const int arrayLength = 7000;
+            const int arrayCount = 20000;
+
+            var listlist = new List<IReadOnlyList<int>>();
+
+            for (var i = 0; i < arrayCount; i++)
+            {
+                listlist.Add(Enumerable.Range(0, arrayLength).ToArray());
+            }
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var res = listlist.VectorSumInts();
+
+            stopwatch.Stop();
+
+            Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
+
+        }
+
+        [TestMethod]
+        public void TimeBigSum2()
+        {
+            const int arrayLength = 7000;
+            const int arrayCount = 20000;
+
+            var listlist = new List<IReadOnlyList<int>>();
+
+            for (var i = 0; i < arrayCount; i++)
+            {
+                listlist.Add(Enumerable.Range(0, arrayLength).ToArray());
+            }
+
+            var sumList = new int[arrayLength];
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            //for (var i = 0; i < arrayCount; i++)
+            //{
+            //    for (var j = 0; j < arrayLength; j++)
+            //    {
+            //        sumList[j] += listlist[i][j];
+            //    }
+            //}
+
+            foreach (var list in listlist)
+            {
+                for (var j = 0; j < arrayLength; j++)
+                {
+                    sumList[j] += list[j];
+                }
+            }
+
+            stopwatch.Stop();
+
+            Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
+
+        }
+
+        [TestMethod]
         public void FisherYatesShuffleTest()
         {
             var stopwatch = new Stopwatch();
@@ -64,7 +173,6 @@ namespace MathUtils.Tests.Collections
             stopwatch.Stop();
 
             Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
-
         }
 
         [TestMethod]

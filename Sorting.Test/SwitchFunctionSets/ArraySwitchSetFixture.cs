@@ -13,7 +13,7 @@ namespace Sorting.Test.SwitchFunctionSets
         public void TestBitArraySwitchSetFunctionsAreNotNull()
         {
             var keyCount = 7;
-            var bitArraySwitchSet = new BitArraySwitchSet(keyCount);
+            var bitArraySwitchSet = KeyPairSwitchSet.Make<bool[]>(keyCount);
 
             var keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -22,7 +22,7 @@ namespace Sorting.Test.SwitchFunctionSets
             }
 
             keyCount = 16;
-            bitArraySwitchSet = new BitArraySwitchSet(keyCount);
+            bitArraySwitchSet = KeyPairSwitchSet.Make<bool[]>(keyCount);
 
             keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -31,7 +31,7 @@ namespace Sorting.Test.SwitchFunctionSets
             }
 
             keyCount = 33;
-            bitArraySwitchSet = new BitArraySwitchSet(keyCount);
+            bitArraySwitchSet = KeyPairSwitchSet.Make<bool[]>(keyCount);
 
             keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -44,7 +44,7 @@ namespace Sorting.Test.SwitchFunctionSets
         public void TestBitArraySwitchSetFunctionsSwitchTheRightIndexes()
         {
             var keyCount = 64;
-            var bitArraySwitchSet = new BitArraySwitchSet(keyCount);
+            var bitArraySwitchSet = KeyPairSwitchSet.Make<bool[]>(keyCount);
 
             var keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -65,7 +65,7 @@ namespace Sorting.Test.SwitchFunctionSets
         public void TestIntArraySwitchSetFunctionsAreNotNull()
         {
             var keyCount = 7;
-            var intArraySwitchSet = new IntArraySwitchSet(keyCount);
+            var intArraySwitchSet = KeyPairSwitchSet.Make<int[]>(keyCount);
 
             var keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -74,7 +74,7 @@ namespace Sorting.Test.SwitchFunctionSets
             }
 
             keyCount = 16;
-            intArraySwitchSet = new IntArraySwitchSet(keyCount);
+            intArraySwitchSet = KeyPairSwitchSet.Make<int[]>(keyCount);
 
             keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -83,7 +83,7 @@ namespace Sorting.Test.SwitchFunctionSets
             }
 
             keyCount = 33;
-            intArraySwitchSet = new IntArraySwitchSet(keyCount);
+            intArraySwitchSet = KeyPairSwitchSet.Make<int[]>(keyCount);
 
             keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -98,7 +98,7 @@ namespace Sorting.Test.SwitchFunctionSets
         public void TestIntArraySwitchSetFunctionsSwitchTheRightIndexes()
         {
             var keyCount = 7;
-            var intArraySwitchSet = new IntArraySwitchSet(keyCount);
+            var intArraySwitchSet = KeyPairSwitchSet.Make<int[]>(keyCount);
 
             var keyPairs = KeyPairRepository.KeyPairsForKeyCount(keyCount).ToList();
             foreach (var keyPair in keyPairs)
@@ -120,7 +120,7 @@ namespace Sorting.Test.SwitchFunctionSets
         public void TestIntArraySwitchSetFunctionIsSorted()
         {
             const int keyCount = 7;
-            var intArraySwitchSet = new IntArraySwitchSet(keyCount);
+            var intArraySwitchSet = KeyPairSwitchSet.Make<int[]>(keyCount);
 
             var sortedArray = Enumerable.Range(0, keyCount).ToArray();
 

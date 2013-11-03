@@ -5,7 +5,7 @@ using Sorting.KeyPairs;
 
 namespace Sorting.SwitchFunctionSets
 {
-    public class UshortSwitchSet : NumSwitchSet<ushort>
+    internal class UshortSwitchSet : NumSwitchSet<ushort>
     {
         public UshortSwitchSet(int keyCount)
             : base(keyCount)
@@ -49,7 +49,7 @@ namespace Sorting.SwitchFunctionSets
     }
 
 
-    public class UintSwitchSet : NumSwitchSet<uint>
+    internal class UintSwitchSet : NumSwitchSet<uint>
     {
         public UintSwitchSet(int keyCount) : base(keyCount)
         {
