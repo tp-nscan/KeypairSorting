@@ -30,19 +30,23 @@ namespace Sorting.Switchables
             return new SwitchableGroup<T>(guid, keyCount, rando.MakeSwitchables<T>(keyCount).Take(switchableCount));
         }
 
-        public static ISwitchableGroup<T> Mutate<T>(this ISwitchableGroup<T> switchableGroup, IRando rando,
-            double mutationRate, Guid newGuid)
+        public static IEnumerable<ISwitchableGroup<T>> Mutate<T>(this ISwitchableGroup<T> switchableGroup, IRando rando,
+            double mutationRate, IEnumerable<Guid> newGuids)
         {
             var mutationSource = rando.MakeSwitchables<T>(switchableGroup.KeyCount).ToMoveNext();
-            var switchables = switchableGroup.Switchables.Mutate(rando.ToBoolEnumerator(mutationRate),
-                t => mutationSource.Next());
 
-            return new SwitchableGroup<T>
-                (
-                    guid: newGuid,
-                    keyCount: switchableGroup.KeyCount,
-                    switchables: switchables
-                );
+            foreach (var newGuid in newGuids)
+            {
+                var switchables = switchableGroup.Switchables.Mutate(rando.ToBoolEnumerator(mutationRate),
+                    t => mutationSource.Next());
+
+                yield return new SwitchableGroup<T>
+                    (
+                        guid: newGuid,
+                        keyCount: switchableGroup.KeyCount,
+                        switchables: switchables
+                    );
+            }
         }
     }
 

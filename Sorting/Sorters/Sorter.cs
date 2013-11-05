@@ -23,36 +23,46 @@ namespace Sorting.Sorters
             return new SorterImpl(keyPairs, guid, keyCount);
         }
 
-        public static IEnumerable<ISorter> RandomSorters(this IRando rando, IReadOnlyList<KeyPair> keyPairs, int keyPairCount, int keyCount)
-        {
-            return rando.ToRandomEnumerator().Select(T => T.ToSorter(keyPairs, keyPairCount, keyCount));
-        }
-
-        public static ISorter ToSorter(this IRando rando, IReadOnlyList<KeyPair> keyPairs, int keyPairCount, int keyCount)
-        {
-            return rando.Pick(keyPairs).Take(keyPairCount).ToSorter(Guid.NewGuid(), keyCount);
-        }
-
         public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<int> keyPairChoices, int keyCount)
         {
             return keyPairs.PickMembers(keyPairChoices).ToSorter(Guid.NewGuid(), keyCount);
         }
 
-        public static ISorter RandomSorter(int seed, int keyCount, int keyPairCount)
+        public static ISorter ToSorter(this IRando rando, int keyCount, int keyPairCount, Guid guid)
         {
             var keyPairSet = KeyPairRepository.KeyPairSet(keyCount);
-            return Rando.Fast(seed).ToSorter(keyPairSet.KeyPairs, keyPairCount, keyCount);
+            return rando.ToSorter(keyPairSet.KeyPairs, keyPairCount, keyCount, guid);
+        }
+
+        public static ISorter ToSorter(this IRando rando, IReadOnlyList<KeyPair> keyPairs, int keyPairCount, int keyCount, Guid guid)
+        {
+            return rando.Pick(keyPairs).Take(keyPairCount).ToSorter(guid, keyCount);
         }
 
         public static IEnumerable<ISorter> Mutate(this ISorter sorter, IRando rando, double mutationRate)
         {
             var randoK = rando.Spawn();
-            var keyPairList = KeyPairRepository.KeyPairSet(16).KeyPairs;
+            var keyPairList = KeyPairRepository.KeyPairSet(sorter.KeyCount).KeyPairs;
+            var newb = randoK.Pick(keyPairList).ToMoveNext();
             while (true)
             {
+                //yield return new SorterImpl
+                //    (
+                //        keyPairs: sorter.KeyPairs.Mutate(rando.ToBoolEnumerator(mutationRate), T => randoK.Pick(keyPairList).First()),
+                //        guid: Guid.NewGuid(),
+                //        keyCount: sorter.KeyCount
+                //    );
                 yield return new SorterImpl
                     (
-                        keyPairs: sorter.KeyPairs.Mutate(rando.ToBoolEnumerator(mutationRate), T => randoK.Pick(keyPairList).First()),
+                        keyPairs: sorter.KeyPairs.MutateInsertDelete
+                        (
+                             rando.Spawn().ToBoolEnumerator(mutationRate),       
+                             rando.Spawn().ToBoolEnumerator(mutationRate),
+                             rando.Spawn().ToBoolEnumerator(mutationRate),
+                             T => newb.Next(),
+                             T => newb.Next(),
+                             () => newb.Next()
+                        ),
                         guid: Guid.NewGuid(),
                         keyCount: sorter.KeyCount
                     );

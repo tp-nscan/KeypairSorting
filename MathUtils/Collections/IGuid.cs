@@ -10,4 +10,15 @@ namespace MathUtils.Collections
     {
         Guid Guid { get; }
     }
+
+    public static class GuidExt
+    {
+        public static IEnumerable<Guid> NewGuids()
+        {
+            while (true)
+            {
+                yield return Guid.NewGuid();
+            }
+        }
+    }
 }

@@ -50,10 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CompetePool\SorterTestOnCompPoolFixture.cs" />
+    <Compile Include="CompetePool\SorterOnCompPoolFixture.cs" />
+    <Compile Include="CompetePool\CompetePoolFixture.cs" />
     <Compile Include="KeyPairSetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sorters\SortingFunctionsFixture.cs" />
+    <Compile Include="Sorters\SorterFixture.cs" />
     <Compile Include="Switchables\SwitchableFixture.cs" />
     <Compile Include="Switchables\SwitchableGroupFixture.cs" />
     <Compile Include="SwitchFunctionSets\SortedNumberEvalFixture.cs" />

@@ -39,6 +39,23 @@ namespace MathUtils.Collections
         }
 
 
+        public static IReadOnlyList<double> VectorSumDouble(this IEnumerable<IReadOnlyList<double>> listOfList)
+        {
+            var retVal = new double[0];
+            return listOfList.Aggregate(retVal, (current, list) => current.VectorSumDouble(list));
+        }
+
+        public static double[] VectorSumDouble(this double[] lhs, IReadOnlyList<double> rhs)
+        {
+            if (lhs.Length == 0) { lhs = new double[rhs.Count]; }
+            for (var i = 0; i < rhs.Count; i++)
+            {
+                lhs[i] += rhs[i];
+            }
+            return lhs;
+        }
+
+
         public static IReadOnlyList<int> VectorSumInts(this IEnumerable<IReadOnlyList<int>> listOfList)
         {
             var retVal = new int[0];
@@ -78,7 +95,7 @@ namespace MathUtils.Collections
             return choiceIndexes.Select(draw => drawPool[draw]);
         }
 
-        public static IReadOnlyList<T> FisherYatesShuffle<T>(this IReadOnlyList<T> origList, IRando rando)
+        public static T[] FisherYatesShuffle<T>(this IReadOnlyList<T> origList, IRando rando)
         {
             var arrayLength = origList.Count;
             var retArray = origList.ToArray();

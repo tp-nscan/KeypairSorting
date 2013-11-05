@@ -60,7 +60,7 @@ namespace Sorting.SwitchFunctionSets
                 created = new IntArraySwitchSet(keyCount);
             }
 
-            else if (switchableDataType == typeof (bool[]))
+            else if (switchableDataType == typeof(bool[]))
             {
                 created = new BitArraySwitchSet(keyCount);
             }

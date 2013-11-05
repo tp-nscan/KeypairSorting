@@ -32,7 +32,7 @@ namespace Sorting.Test.Switchables
 
             var switchableGroup = Rando.Fast(123).ToSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
 
-            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
+            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, GuidExt.NewGuids()).First();
 
             var diffs = switchableGroup.Switchables.GetDifferentItems(mutant.Switchables).ToList();
 
@@ -51,7 +51,7 @@ namespace Sorting.Test.Switchables
 
             var switchableGroup = Rando.Fast(123).ToSwitchableGroup<ulong>(Guid.NewGuid(), keyCount, switchableCount);
 
-            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
+            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, GuidExt.NewGuids()).First();
 
             var diffs = switchableGroup.Switchables.GetDifferentItems(mutant.Switchables).ToList();
 
@@ -70,7 +70,7 @@ namespace Sorting.Test.Switchables
 
             var switchableGroup = Rando.Fast(123).ToSwitchableGroup<IReadOnlyList<uint>>(Guid.NewGuid(), keyCount, switchableCount);
 
-            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
+            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, GuidExt.NewGuids()).First();
 
             var diffs = switchableGroup.Switchables.GetDifferentItems(mutant.Switchables).ToList();
 
@@ -89,7 +89,7 @@ namespace Sorting.Test.Switchables
 
             var switchableGroup = Rando.Fast(123).ToSwitchableGroup<IReadOnlyList<bool>>(Guid.NewGuid(), keyCount, switchableCount);
 
-            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, Guid.NewGuid());
+            var mutant = switchableGroup.Mutate(Rando.Fast(222), mutationRate, GuidExt.NewGuids()).First();
 
             var diffs = switchableGroup.Switchables.GetDifferentItems(mutant.Switchables).ToList();
 

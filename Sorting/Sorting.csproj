@@ -64,12 +64,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompetePool\CompPool.cs" />
-    <Compile Include="CompetePool\CompPoolResult.cs" />
-    <Compile Include="CompetePool\SorterTestOnCompPool.cs" />
-    <Compile Include="CompetePool\SwitchableGroupTestOnCompPool.cs" />
+    <Compile Include="CompetePool\SorterEval.cs" />
+    <Compile Include="CompetePool\SwitchableGroupEval.cs" />
     <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />
     <Compile Include="KeyPairs\KeyPairSet.cs" />
-    <Compile Include="CompetePool\SorterTestOnSwitchableGroup.cs" />
+    <Compile Include="CompetePool\SorterOnSwitchableGroup.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
     <Compile Include="Sorters\SortingResult.cs" />
     <Compile Include="Switchables\Switchable.cs" />

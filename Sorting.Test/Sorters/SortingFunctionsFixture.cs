@@ -19,7 +19,7 @@ namespace Sorting.Test.Sorters
             const int keyPairCount = 600;
             const int switchableCount = 2000;
 
-            var sorter = Sorter.RandomSorter(212, keyCount, keyPairCount);
+            var sorter = Rando.Fast(1243).ToSorter(keyCount, keyPairCount, Guid.NewGuid());
             var switchableGroup = Rando.Fast(1234).ToSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount);
 
             stopwatch.Start();
@@ -28,7 +28,7 @@ namespace Sorting.Test.Sorters
 
             stopwatch.Stop();
 
-            var score = sorterTestOnSwitchableGroup.UseCount;
+            var score = sorterTestOnSwitchableGroup.SwitchesUsed;
             var s = sorterTestOnSwitchableGroup.Success;
             Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
         }

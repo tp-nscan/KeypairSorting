@@ -30,38 +30,37 @@ namespace Sorting.Switchables
             {
                 return (IEnumerable<ISwitchable<T>>)random.ToRandomUlongFlags(keyCount).ToUlongSwitchable(keyCount);
             }
-            if (typeof(T) == typeof(IReadOnlyList<bool>))
+            if (typeof(T) == typeof(bool[]))
             {
                 return (IEnumerable<ISwitchable<T>>)random.ToBoolEnumerator(0.5).Chunk(keyCount).Select(b => b.ToSwitchableBitArray());
             }
-            if (typeof(T) == typeof(IReadOnlyList<uint>))
+            if (typeof(T) == typeof(int[]))
             {
                 return (IEnumerable<ISwitchable<T>>)random.ToRandomEnumerator().Select(r => r.ToSwitchableIntArray(keyCount));
             }
             throw new Exception("unhandled switchable type");
         }
 
-        public static ISwitchable<IReadOnlyList<uint>> ToSwitchableIntArray(this IReadOnlyList<uint> ints)
+        public static ISwitchable<int[]> ToSwitchableIntArray(this int[] ints)
         {
             return new SwitchableIntArrayImpl(ints);
         }
 
-        public static ISwitchable<IReadOnlyList<uint>> ToSwitchableIntArray(this IRando random, int keyCount)
+        public static ISwitchable<int[]> ToSwitchableIntArray(this IRando random, int keyCount)
         {
             return
                 Enumerable.Range(0, keyCount)
-                    .Select(T => (uint) T)
                     .ToArray()
                     .FisherYatesShuffle(random)
                     .ToSwitchableIntArray();
         }
 
-        public static ISwitchable<IReadOnlyList<bool>> ToSwitchableBitArray(this bool[] bits)
+        public static ISwitchable<bool[]> ToSwitchableBitArray(this bool[] bits)
         {
             return new SwitchableBitArrayImpl(bits);
         }
 
-        public static IEnumerable<ISwitchable<uint>> AllUintEnumerablesForKeyCount(int keyCount)
+        public static IEnumerable<ISwitchable<uint>> AllSwitchablesForKeyCount(int keyCount)
         {
             return Enumerable.Range(0, (int) Math.Pow(2, keyCount)).ToUintSwitchable(keyCount);
         }
@@ -125,10 +124,10 @@ namespace Sorting.Switchables
         }
     }
 
-    class SwitchableBitArrayImpl : SwitchableImpl<IReadOnlyList<bool>>
+    class SwitchableBitArrayImpl : SwitchableImpl<bool[]>
     {
-        public SwitchableBitArrayImpl(IReadOnlyList<bool> bits)
-            : base(bits, bits.Count)
+        public SwitchableBitArrayImpl(bool[] bits)
+            : base(bits, bits.Length)
         {
             _hash = Item.ToHash();
         }
@@ -140,12 +139,12 @@ namespace Sorting.Switchables
         }
     }
 
-    class SwitchableIntArrayImpl : SwitchableImpl<IReadOnlyList<uint>>
+    class SwitchableIntArrayImpl : SwitchableImpl<int[]>
     {
-        public SwitchableIntArrayImpl(IReadOnlyList<uint> ints)
-            : base(ints, ints.Count)
+        public SwitchableIntArrayImpl(int[] ints)
+            : base(ints, ints.Length)
         {
-
+            _hash = ints.ToHash(t=>t);
         }
 
         private readonly int _hash;

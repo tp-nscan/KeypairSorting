@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sorting.CompetePool;
 using Sorting.Switchables;
@@ -8,13 +9,13 @@ namespace Sorting.Sorters
 {
     public static class SortingFunctions
     {
-        public static SorterTestOnSwitchableGroup Sort<T>
+        public static SorterOnSwitchableGroup Sort<T>
             (
                 this ISorter sorter,
                 ISwitchableGroup<T> switchableGroup
             )
         {
-            var switchUseList = Enumerable.Repeat(0, sorter.KeyPairCount).ToList();
+            var switchUseList = Enumerable.Repeat(0.0, sorter.KeyPairCount).ToList();
             var totalSuccess = true;
             var switchSet = KeyPairSwitchSet.Make<T>(switchableGroup.KeyCount);
 
@@ -41,17 +42,23 @@ namespace Sorting.Sorters
                 totalSuccess &= sortSuccess;
             }
 
-            return new SorterTestOnSwitchableGroup(sorter, switchableGroup, switchUseList, totalSuccess);
+            return new SorterOnSwitchableGroup(sorter, switchableGroup, switchUseList, totalSuccess);
         }
 
-        public static SorterTestOnSwitchableGroup SortDetailed<T>
+        public static SorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)
+        {
+            return sorter.Sort(SwitchableGroup.MakeSwitchableGroup(Guid.NewGuid(), keyCount,
+                    Switchable.AllSwitchablesForKeyCount(keyCount)));
+        }
+
+        public static SorterOnSwitchableGroup SortDetailed<T>
             (
                 this ISorter sorter,
                 IKeyPairSwitchSet<T> switchSet,
                 ISwitchableGroup<T> switchableGroup
             )
         {
-            var switchUseList = Enumerable.Repeat(0, sorter.KeyPairCount).ToList();
+            var switchUseList = Enumerable.Repeat(0.0, sorter.KeyPairCount).ToList();
             var sortingResults = new List<ISortingResult<T>>();
 
             foreach (var switchable in switchableGroup.Switchables)
@@ -76,7 +83,7 @@ namespace Sorting.Sorters
                 sortingResults.Add(new SortingResultImpl<T>(switchable, current, sortSuccess));
             }
             //to do: fix last arg
-            return new SorterTestOnSwitchableGroup(sorter, switchableGroup, switchUseList, true);
+            return new SorterOnSwitchableGroup(sorter, switchableGroup, switchUseList, true);
         }
     }
 }

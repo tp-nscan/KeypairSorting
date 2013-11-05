@@ -14,7 +14,7 @@ namespace Sorting.Test.Switchables
         public void AllSwitchablesForKeyCount()
         {
             const int keyCountSize = 8;
-            Assert.AreEqual(Switchable.AllUintEnumerablesForKeyCount(keyCountSize).ToArray().Length, Math.Pow(2, keyCountSize));
+            Assert.AreEqual(Switchable.AllSwitchablesForKeyCount(keyCountSize).ToArray().Length, Math.Pow(2, keyCountSize));
         }
 
 

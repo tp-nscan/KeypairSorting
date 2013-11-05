@@ -7,6 +7,16 @@ namespace MathUtils.Collections
 {
     public static class EnumerableExt
     {
+        public static IEnumerable<T> ToEnumerable<T>(this T item)
+        {
+            yield return item;
+        }
+
+        public static IEnumerable<T> Filter<T>(this IReadOnlyList<T> items, Func<int, bool> selector)
+        {
+            return items.Where((t, i) => selector(i));
+        }
+
         public static void Swap<T>(ref T a, ref T b)
         {
             var c = a;

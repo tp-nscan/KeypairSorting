@@ -10,7 +10,7 @@ using Sorting.Switchables;
 namespace Sorting.Test.CompetePool
 {
     [TestClass]
-    public class SorterTestOnCompPoolFixture
+    public class SorterOnCompPoolFixture
     {
         [TestMethod]
         public void TestSorterTestOnCompPool()
@@ -21,7 +21,7 @@ namespace Sorting.Test.CompetePool
             const int switchableCount = 100;
             const int switchableGroupCount = 40;
 
-            var sorter = Sorter.RandomSorter(212, keyCount, keyPairCount);
+            var sorter = Rando.Fast(1243).ToSorter(keyCount, keyPairCount, Guid.NewGuid());
             var switchableGroups =
                 Enumerable.Range(77, switchableGroupCount)
                     .Select(i => Rando.Fast(1234 + i).ToSwitchableGroup<uint>(Guid.NewGuid(), keyCount, switchableCount))

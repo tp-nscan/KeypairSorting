@@ -60,6 +60,7 @@
     <Compile Include="Interval\RectangularRangeLinearMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rand\Rando.cs" />
+    <Compile Include="Vector\VectorExt.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

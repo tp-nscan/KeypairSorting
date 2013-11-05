@@ -5,22 +5,23 @@ using Sorting.Switchables;
 
 namespace Sorting.CompetePool
 {
-    public class SorterTestOnSwitchableGroup
+    public class SorterOnSwitchableGroup
     {
         private readonly ISorter _sorter;
 
-        public SorterTestOnSwitchableGroup
-            (
-                ISorter sorter,
-                ISwitchableGroup switchableGroup,
-                IReadOnlyList<int> switchUseList, 
-                bool success)
+        public SorterOnSwitchableGroup
+        (
+            ISorter sorter,
+            ISwitchableGroup switchableGroup,
+            IReadOnlyList<double> switchUseList, 
+            bool success
+        )
         {
             _sorter = sorter;
             _switchUseList = switchUseList;
             _success = success;
             _switchableGroup = switchableGroup;
-            _useCount = switchUseList.Count(t => t > 0);
+            _switchesUsed = switchUseList.Count(t => t > 0);
         }
 
         private readonly ISwitchableGroup _switchableGroup;
@@ -40,16 +41,16 @@ namespace Sorting.CompetePool
             get { return _success; }
         }
 
-        private readonly IReadOnlyList<int> _switchUseList;
-        public IReadOnlyList<int> SwitchUseList
+        private readonly IReadOnlyList<double> _switchUseList;
+        public IReadOnlyList<double> SwitchUseList
         {
             get { return _switchUseList; }
         }
 
-        private readonly int _useCount;
-        public int UseCount
+        private readonly int _switchesUsed;
+        public int SwitchesUsed
         {
-            get { return _useCount; }
+            get { return _switchesUsed; }
         }
     }
 }
