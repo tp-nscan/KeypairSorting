@@ -1,39 +1,23 @@
-﻿using System.Collections.Generic;
-using MathUtils.Rand;
-
-namespace Evo.Genomes
+﻿namespace Evo.Genomes
 {
     public interface ISymbolSet
-    {
-        IEnumerable<int> Choose(IRando rando);
-    }
-
-    public interface IBasicSymbolSet : ISymbolSet
     {
         int Count { get; }
     }
 
-    public static class BasicSymbolSet
+    public static class SymbolSet
     {
-        public static IBasicSymbolSet Make(int symbolCount)
+        public static ISymbolSet Make(int symbolCount)
         {
             return new BasicSymbolSetImpl(symbolCount);
         }
     }
 
-    public class BasicSymbolSetImpl : IBasicSymbolSet
+    public class BasicSymbolSetImpl : ISymbolSet
     {
         public BasicSymbolSetImpl(int count)
         {
             _count = count;
-        }
-
-        public IEnumerable<int> Choose(IRando rando)
-        {
-            while (true)
-            {
-                yield return rando.NextInt(Count);
-            }
         }
 
         private readonly int _count;

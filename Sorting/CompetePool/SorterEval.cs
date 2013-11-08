@@ -38,13 +38,14 @@ namespace Sorting.CompetePool
         public static IEnumerable<ISorter> GetBestSorters(this IReadOnlyList<ISorterEval> sorterEvals, int fraction)
         {
             return sorterEvals.OrderBy(t => t.SwitchesUsed)
-                .Select(e=>e.Sorter)
-                .Take(sorterEvals.Count/fraction);
+                              .Select(e=>e.Sorter)
+                              .Take(sorterEvals.Count/fraction);
         }
 
         public static int UsedKeyPairHash(this ISorterEval sorterEval)
         {
-            return sorterEval.Sorter.KeyPairs.Filter(i => sorterEval.SwitchUseList[i] > 0).ToHash(k => k.Index);
+            //return sorterEval.Sorter.KeyPairs.Filter(i => sorterEval.SwitchUseList[i] > 0).ToHash(k => k.Index);
+            return sorterEval.Sorter.KeyPairs.Where((t,i) => sorterEval.SwitchUseList[i] > 0).ToHash(k => k.Index);
         }
     }
 

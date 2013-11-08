@@ -35,7 +35,7 @@ namespace Sorting.Test.CompetePool
 
             stopwatch.Start();
 
-            var compPool = sorters.ToCompPool(switchableGroups);
+            var compPool = sorters.ToCompPoolParallel(switchableGroups);
 
             stopwatch.Stop();
 

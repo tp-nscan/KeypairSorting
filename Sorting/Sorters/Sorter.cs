@@ -23,9 +23,9 @@ namespace Sorting.Sorters
             return new SorterImpl(keyPairs, guid, keyCount);
         }
 
-        public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<int> keyPairChoices, int keyCount)
+        public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<int> keyPairChoices, int keyCount, Guid guid)
         {
-            return keyPairs.PickMembers(keyPairChoices).ToSorter(Guid.NewGuid(), keyCount);
+            return keyPairs.PickMembers(keyPairChoices).ToSorter(guid, keyCount);
         }
 
         public static ISorter ToSorter(this IRando rando, int keyCount, int keyPairCount, Guid guid)

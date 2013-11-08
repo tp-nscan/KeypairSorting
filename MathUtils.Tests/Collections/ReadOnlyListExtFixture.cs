@@ -323,6 +323,12 @@ namespace MathUtils.Tests.Collections
             //Assert.IsTrue(bOut.SequenceEqual(aList));
         }
 
+        [TestMethod]
+        public void ListLINQ()
+        {
+            var lst = new[] {1,0,77,3,0,7};
 
+            var lst2 = lst.Where((t, i) => lst[i] > 0).ToList();
+        }
     }
 }

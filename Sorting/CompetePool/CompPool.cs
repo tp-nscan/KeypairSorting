@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using MathUtils.Collections;
 using MathUtils.Rand;
-using Roslyn.Compilers.CSharp;
 using Sorting.Sorters;
 using Sorting.Switchables;
+using Sorting.SwitchFunctionSets;
 
 namespace Sorting.CompetePool
 {
@@ -36,6 +36,24 @@ namespace Sorting.CompetePool
             return new CompPoolImpl(switchableGroupEvals, sorterEvals);
         }
 
+        public static ICompPool ToCompPoolParallel<T>
+        (
+            this IEnumerable<ISorter> sorters,
+            IEnumerable<ISwitchableGroup<T>> switchableGroups
+        )
+        {
+            var switchableGroupList = switchableGroups.ToList();
+            KeyPairSwitchSet.Make<T>(switchableGroupList.First().KeyCount);
+            var sorterEvals = sorters.AsParallel().Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+                               .ToList();
+
+            //var switchableGroupEvals = switchableGroupList
+            //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+            var switchableGroupEvals = switchableGroupList
+                    .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+            return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+        }
 
         public static ICompPool SelectAndMutate<T>(this ICompPool originalPool, IRando rando)
         {

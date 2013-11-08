@@ -32,7 +32,6 @@ namespace Sorting.KeyPairs
         }
 
         private static readonly KeyPair[] KeyPairs;
-
         public static IEnumerable<KeyPair> KeyPairsForKeyCount(int keyCount)
         {
             for (var i = 0; i < KeyPairSetSizeForKeyCount(keyCount); i++)
