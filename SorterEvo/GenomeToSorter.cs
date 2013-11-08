@@ -7,14 +7,16 @@ namespace SorterEvo
 {
     public static class GenomeToSorter
     {
-        public static ISorter ToSorter(this IChromosome chromosome, int keyCount)
+        public static ISorter ToSorter(this IGenome genome, int keyCount)
         {
+            var chromosome = genome.Chromosomes[0];
             return KeyPairRepository.KeyPairSet(keyCount).KeyPairs.ToSorter
                 (
                     keyPairChoices: chromosome,
                     keyCount: keyCount,
-                    guid: chromosome.Id
+                    guid: genome.Guid
                 );
         }
+
     }
 }

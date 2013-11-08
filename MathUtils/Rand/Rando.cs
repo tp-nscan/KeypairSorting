@@ -31,6 +31,24 @@ namespace MathUtils.Rand
             return new RandoFast(rando.NextInt());
         }
 
+        public static Guid NextGuid(this IRando rando)
+        {
+            return new Guid
+                (
+                    (uint)rando.NextInt(),
+                    (ushort)rando.NextInt(),
+                    (ushort)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt(),
+                    (byte)rando.NextInt()
+                );
+        }
+
         public static IEnumerable<IRando> ToRandomEnumerator(this IRando rando)
         {
             while (true)
