@@ -10,7 +10,7 @@ namespace Evo.Repositories
     {
         void AddChromosome(IChromosome chromosome);
         IChromosome GetChromosome(Guid id);
-        IEnumerable<IChromosome> Chromosomes { get; } 
+        IEnumerable<IChromosome> Chromosomes { get; }
     }
 
     public static class ChromosomeRepository
@@ -19,14 +19,14 @@ namespace Evo.Repositories
         {
             return new ChromosomeRepositoryImpl(
 
-                new IChromosome[]
+                new []
                 {
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, 60).ToChromosome(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, 60).ToChromosome(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, 60).ToChromosome(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, 60).ToChromosome(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, 60).ToChromosome(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, 60).ToChromosome()                }
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, 60).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, 60).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, 60).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, 60).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, 60).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, 60).ToChromosome<int>()                }
                 
                 );
         }
@@ -34,7 +34,7 @@ namespace Evo.Repositories
 
     public class ChromosomeRepositoryImpl : IChromosomeRepository
     {
-        readonly Dictionary<Guid,IChromosome> _chromosomes = new Dictionary<Guid, IChromosome>();
+        readonly Dictionary<Guid, IChromosome> _chromosomes = new Dictionary<Guid, IChromosome>();
 
         public ChromosomeRepositoryImpl(IEnumerable<IChromosome> chromosomes)
         {

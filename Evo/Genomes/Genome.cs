@@ -23,7 +23,9 @@ namespace Evo.Genomes
                 (
                     guid: genomeBuildInfo.TargetId,
                     genomeBuildInfo: genomeBuildInfo,
-                    chromosomes: genomeBuildInfo.ChromosomeBuildInfos.Select(t => t.ToChromosome(chromosomeRepository)).ToList()
+                    chromosomes: genomeBuildInfo.ChromosomeBuildInfos
+                                    .Select(t => t.ToChromosome<int>(chromosomeRepository))
+                                    .ToList()
                 );
         }
     }

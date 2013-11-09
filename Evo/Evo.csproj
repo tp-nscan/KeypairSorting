@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="GenomeBuilders\ChromosomeBuildInfo.cs" />
     <Compile Include="GenomeBuilders\IBuildInfo.cs" />
-    <Compile Include="Genomes\IChromosome.cs" />
-    <Compile Include="Genomes\IGenome.cs" />
+    <Compile Include="Genomes\Chromosome.cs" />
+    <Compile Include="Genomes\Genome.cs" />
     <Compile Include="GenomeBuilders\GenomeBuildInfo.cs" />
     <Compile Include="GenomeBuilders\IParentIds.cs" />
     <Compile Include="Orgs\CompPool.cs" />

@@ -32,7 +32,7 @@ namespace Evo.Test.Genomes
             Assert.AreEqual(genome.Guid, genomeId);
             Assert.AreEqual(genome.GenomeBuildInfo.TargetId, genomeId);
             Assert.AreEqual(genome.Chromosomes.First().Id, chromosomeId);
-            Assert.AreEqual(genome.Chromosomes.First().Count, chromosomeLength);
+            Assert.AreEqual(genome.Chromosomes.First().GeneCount, chromosomeLength);
         }
 
         [TestMethod]
@@ -76,9 +76,12 @@ namespace Evo.Test.Genomes
                     insertionRate: insertionRate
                 ).ToGenome(chromRepository);
 
-            var diffs = parentGenome.Chromosomes[0].Where
+            var parentChromosome = (IChromosome<int>) parentGenome.Chromosomes[0];
+            var childChromosome = (IChromosome<int>)childGenome.Chromosomes[0];
+
+            var diffs = parentChromosome.Genes.Where
                 (
-                    (t, i) => parentGenome.Chromosomes[0][i] != childGenome.Chromosomes[0][i]
+                    (t, i) => parentChromosome.Genes[i] != childChromosome.Genes[i]
                 ).ToList();
 
             Assert.AreEqual(childGenome.Guid, childGenomeId);

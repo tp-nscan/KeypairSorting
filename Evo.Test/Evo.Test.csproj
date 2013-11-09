@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Genomes\GenomeFixture.cs" />
     <Compile Include="Genomes\ChromosomeFixture.cs" />
+    <Compile Include="Genomes\SymbolSetFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

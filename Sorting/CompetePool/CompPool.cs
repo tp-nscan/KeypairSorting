@@ -105,7 +105,6 @@ namespace Sorting.CompetePool
 
             return sb.ToString();
         }
-
     }
 
     class CompPoolImpl : ICompPool

@@ -6,16 +6,9 @@ using System.Threading.Tasks;
 
 namespace SorterEvo
 {
-    public interface ICompPool
-    {
-    }
-
-    public static class CompPool
+    public static class SorterCompPool
     {
 
     }    
     
-    class CompPoolImpl
-    {
-    }
 }
