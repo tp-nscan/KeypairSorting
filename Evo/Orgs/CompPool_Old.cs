@@ -6,7 +6,7 @@ using MathUtils.Collections;
 
 namespace Evo.Orgs
 {
-    public interface ICompPool<TG, TP>
+    public interface ICompPool_Old<TG, TP>
         where TG : IGenome
         where TP : IGuid
     {
@@ -16,16 +16,16 @@ namespace Evo.Orgs
         IReadOnlyList<IOrg<TG, TP>> Orgs { get; }
     }
 
-    public static class CompPool
+    public static class CompPool_Old
     {
-        public static ICompPool<TG, TP> Make<TG, TP>
+        public static ICompPool_Old<TG, TP> Make<TG, TP>
             (
                 Guid comPoolId,
                 int generation,
                 IEnumerable<IOrg<TG, TP>> orgs
             ) where TG : IGenome where TP : IGuid
         {
-            return new CompPoolImpl<TG, TP>
+            return new CompPoolOldImpl<TG, TP>
                 (
                     comPoolId,
                     generation,
@@ -34,7 +34,7 @@ namespace Evo.Orgs
         }
     }
 
-    class CompPoolImpl<TG, TP> : ICompPool<TG, TP>
+    class CompPoolOldImpl<TG, TP> : ICompPool_Old<TG, TP>
         where TG : IGenome
         where TP : IGuid
     {
@@ -42,7 +42,7 @@ namespace Evo.Orgs
         private readonly Guid _comPoolId;
         private readonly int _generation;
 
-        public CompPoolImpl
+        public CompPoolOldImpl
             (
                 Guid comPoolId, 
                 int generation, 

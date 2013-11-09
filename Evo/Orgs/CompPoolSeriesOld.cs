@@ -13,7 +13,7 @@ namespace Evo.Orgs
         where TG : IGenome
         where TP : IGuid
     {
-        ICompPool<TG, TP> CurrentPool { get; }
+        ICompPool_Old<TG, TP> CurrentPoolOld { get; }
         int CurrentSeed { get; }
         Guid Id { get; }
         Func<IOrg<TG, TP>, int, IOrg<TG, TP>> CopyOrgFunc { get; }
@@ -22,7 +22,7 @@ namespace Evo.Orgs
         int StartingSize { get; }
     }
 
-    public static class CompPoolSeries
+    public static class CompPoolSeriesOld
     {
 
         public static ICompPoolSeries<TG, TP> Update<TG, TP>
@@ -35,11 +35,10 @@ namespace Evo.Orgs
             where TP : IGuid
         {
             var randy = Rando.Fast(compPool.CurrentSeed);
-            var currentSeed = Rando.Fast((int) (randy.NextInt() ^ randy.NextUint())).NextInt();
 
             var winners = scores.OrderByDescending(t => t.Item2)
                 .Take(scores.Count/selectionRatio)
-                .Select(p => compPool.CurrentPool.GetOrg(p.Item1.Guid))
+                .Select(p => compPool.CurrentPoolOld.GetOrg(p.Item1.Guid))
                 .ToList();
 
             return Make
@@ -50,10 +49,10 @@ namespace Evo.Orgs
                     startingSeed: compPool.StartingSeed,
                     currentSeed: Rando.Fast(compPool.CurrentSeed ^ compPool.CurrentSeed).NextInt(),
                     startingSize: compPool.StartingSize,
-                    currentPool: CompPool.Make
+                    currentPoolOld: CompPool_Old.Make
                         (
                             comPoolId: randy.NextGuid(),
-                            generation: compPool.CurrentPool.Generation +1,
+                            generation: compPool.CurrentPoolOld.Generation +1,
                             orgs:winners.Repeat().Take(compPool.StartingSize)
                                                  .Select(p=> compPool.CopyOrgFunc(p, randy.NextInt()))
                         )
@@ -82,7 +81,7 @@ namespace Evo.Orgs
                     startingSeed:startingSeed,
                     currentSeed:startingSeed,
                     startingSize:startingSize,
-                    currentPool: CompPool.Make
+                    currentPoolOld: CompPool_Old.Make
                                 (
                                     comPoolId: randy.NextGuid(),
                                     generation: 0,
@@ -101,7 +100,7 @@ namespace Evo.Orgs
                 int startingSeed,
                 int currentSeed,
                 int startingSize,
-                ICompPool<TG, TP> currentPool
+                ICompPool_Old<TG, TP> currentPoolOld
             )
             where TG : IGenome
             where TP : IGuid
@@ -113,7 +112,7 @@ namespace Evo.Orgs
                     copyOrgFunc: copyOrgFunc,
                     startingSeed: startingSeed,
                     startingSize: startingSize,
-                    currentPool: currentPool,
+                    currentPoolOld: currentPoolOld,
                     currentSeed: currentSeed
                 );
         }
@@ -125,7 +124,7 @@ namespace Evo.Orgs
     {
         private readonly int _startingSeed;
         private readonly int _startingSize;
-        private readonly ICompPool<TG, TP> _currentPool;
+        private readonly ICompPool_Old<TG, TP> _currentPoolOld;
         private readonly Func<int, IOrg<TG, TP>> _initOrgFunc;
         private readonly Guid _id;
         private readonly Func<IOrg<TG, TP>, int, IOrg<TG, TP>> _copyOrgOrgFunc;
@@ -138,7 +137,7 @@ namespace Evo.Orgs
                 Func<IOrg<TG, TP>, int, IOrg<TG, TP>> copyOrgFunc,
                 int startingSeed, 
                 int startingSize, 
-                ICompPool<TG, TP> currentPool, 
+                ICompPool_Old<TG, TP> currentPoolOld, 
                 int currentSeed
             )
         {
@@ -147,13 +146,13 @@ namespace Evo.Orgs
             _copyOrgOrgFunc = copyOrgFunc;
             _startingSeed = startingSeed;
             _startingSize = startingSize;
-            _currentPool = currentPool;
+            _currentPoolOld = currentPoolOld;
             _currentSeed = currentSeed;
         }
 
-        public ICompPool<TG, TP> CurrentPool
+        public ICompPool_Old<TG, TP> CurrentPoolOld
         {
-            get { return _currentPool; }
+            get { return _currentPoolOld; }
         }
 
         public int CurrentSeed

@@ -48,8 +48,9 @@
     <Compile Include="Genomes\Genome.cs" />
     <Compile Include="GenomeBuilders\GenomeBuildInfo.cs" />
     <Compile Include="GenomeBuilders\IParentIds.cs" />
-    <Compile Include="Orgs\CompPool.cs" />
-    <Compile Include="Orgs\CompPoolSeries.cs" />
+    <Compile Include="Grades\Grade.cs" />
+    <Compile Include="Orgs\CompPool_Old.cs" />
+    <Compile Include="Orgs\CompPoolSeriesOld.cs" />
     <Compile Include="Orgs\Org.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Genomes\SymbolSet.cs" />

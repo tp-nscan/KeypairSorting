@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SorterEvo
 {
-    public static class SorterCompPool
+    public static class SorterGrade
     {
 
     }    
