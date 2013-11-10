@@ -26,8 +26,8 @@ namespace Evo.Test.Genomes
                     chromosomeId: chromosomeId,
                     seed: seed,
                     chromosomeLength: chromosomeLength,
-                    symbolCount: symbolCount
-                ).ToGenome(chromRepository);
+                    symbolSetInit: new IntSymbols.Initializer(symbolCount)
+                ).ToGenome<int>(chromRepository);
 
             Assert.AreEqual(genome.Guid, genomeId);
             Assert.AreEqual(genome.GenomeBuildInfo.TargetId, genomeId);
@@ -55,8 +55,8 @@ namespace Evo.Test.Genomes
                 chromosomeId: parentChromosomeId,
                 seed: parentSeed,
                 chromosomeLength: chromosomeLength,
-                symbolCount: symbolCount
-            ).ToGenome(chromRepository);
+                symbolSetInit: new IntSymbols.Initializer(symbolCount)
+            ).ToGenome<int>(chromRepository);
 
             chromRepository.AddChromosome(parentGenome.Chromosomes.First());
 
@@ -74,7 +74,7 @@ namespace Evo.Test.Genomes
                     deletionRate: deletionRate,
                     mutationRate: mutationRate,
                     insertionRate: insertionRate
-                ).ToGenome(chromRepository);
+                ).ToGenome<int>(chromRepository);
 
             var parentChromosome = (IChromosome<int>) parentGenome.Chromosomes[0];
             var childChromosome = (IChromosome<int>)childGenome.Chromosomes[0];
@@ -87,6 +87,17 @@ namespace Evo.Test.Genomes
             Assert.AreEqual(childGenome.Guid, childGenomeId);
             Assert.IsTrue(diffs.Count < 100);
             Assert.IsTrue(diffs.Count > 50);
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+            wank(5);
+        }
+
+        void wank(object o)
+        {
+            var res = (int)o;
         }
     }
 }

@@ -169,7 +169,7 @@ namespace MathUtils.Collections
             IEnumerable<bool> doDeletion,
             Func<T, T> mutator,
             Func<T, T> inserter,
-            Func<T> deleter
+            Func<T, T> deleter
         )
         {
             var tRet = new T[original.Count];
@@ -219,7 +219,7 @@ namespace MathUtils.Collections
 
             while (retDex < original.Count)
             {
-                tRet[retDex++] = deleter();
+                tRet[retDex++] = deleter(default(T));
             }
             return tRet;
         }

@@ -61,7 +61,7 @@ namespace Sorting.Sorters
                              rando.Spawn().ToBoolEnumerator(mutationRate),
                              T => newb.Next(),
                              T => newb.Next(),
-                             () => newb.Next()
+                             T => newb.Next()
                         ),
                         guid: Guid.NewGuid(),
                         keyCount: sorter.KeyCount

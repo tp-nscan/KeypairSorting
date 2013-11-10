@@ -17,10 +17,11 @@ namespace Evo.Test.Genomes
             const int seed = 1277;
             var id = Guid.NewGuid();
 
-            var chromo = ChromosomeBuildInfo.GenInfo(id, seed, chromosomeLength, symbolCount)
+            var chromo = ChromosomeBuildInfo.GenInfo(id, seed, chromosomeLength, 
+                            new IntSymbols.Initializer(symbolCount))
                                             .ToChromosome<int>();
             Assert.AreEqual(chromo.GeneCount, chromosomeLength);
-            Assert.AreEqual(chromo.SymbolSet.Count, symbolCount);
+            //Assert.AreEqual(chromo.SymbolSet.ArrayLength, symbolCount);
             Assert.AreEqual(chromo.Id, id);
         }
 
@@ -33,8 +34,9 @@ namespace Evo.Test.Genomes
             var parentId = Guid.NewGuid();
             var childId = Guid.NewGuid();
 
-            var parentChromo = ChromosomeBuildInfo.GenInfo(parentId, seed, chromosomeLength, symbolCount)
-                .ToChromosome<int>();
+            var parentChromo = ChromosomeBuildInfo.GenInfo(parentId, seed, chromosomeLength, 
+                                new IntSymbols.Initializer(symbolCount))
+                                    .ToChromosome<int>();
             var chromRepository = ChromosomeRepository.WithTestData();
             chromRepository.AddChromosome(parentChromo);
 
@@ -47,7 +49,7 @@ namespace Evo.Test.Genomes
                 .ToChromosome<int>(chromRepository);
 
             Assert.AreEqual(childChromo.GeneCount, chromosomeLength);
-            Assert.AreEqual(childChromo.SymbolSet.Count, symbolCount);
+            //Assert.AreEqual(childChromo.SymbolSet.ArrayLength, symbolCount);
             Assert.AreEqual(childChromo.Id, childId);
         }
 

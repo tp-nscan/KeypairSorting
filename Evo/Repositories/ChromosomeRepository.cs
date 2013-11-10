@@ -17,17 +17,17 @@ namespace Evo.Repositories
     {
         public static IChromosomeRepository WithTestData()
         {
+            var symbolSetInit = new IntSymbols.Initializer(60);
             return new ChromosomeRepositoryImpl(
 
                 new []
                 {
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, 60).ToChromosome<int>(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, 60).ToChromosome<int>(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, 60).ToChromosome<int>(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, 60).ToChromosome<int>(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, 60).ToChromosome<int>(),
-                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, 60).ToChromosome<int>()                }
-                
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, symbolSetInit).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, symbolSetInit).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, symbolSetInit).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, symbolSetInit).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, symbolSetInit).ToChromosome<int>(),
+                    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, symbolSetInit).ToChromosome<int>()                }
                 );
         }
     }

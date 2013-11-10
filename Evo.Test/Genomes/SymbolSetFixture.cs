@@ -12,9 +12,9 @@ namespace Evo.Test.Genomes
         [TestMethod]
         public void MakeFlagsUint()
         {
-            var symbolSet = SymbolSet.MakeFlags<uint>(10);
+            var symbolSet = SymbolSet.Make<uint>(new UIntSymbols.Initializer(10));
             var randy = Rando.Fast(123);
-            var avg = Enumerable.Range(0, 2000).Select(i => symbolSet.Choose(randy)).Average(t=>t);
+            var avg = Enumerable.Range(0, 2000).Select(i => symbolSet.Choose(randy, (uint) i)).Average(t=>t);
             Assert.IsTrue(avg  > 400);
             Assert.IsTrue(avg < 600);
         }
@@ -22,9 +22,9 @@ namespace Evo.Test.Genomes
         [TestMethod]
         public void MakeFlagsUlong()
         {
-            var symbolSet = SymbolSet.MakeFlags<ulong>(50);
+            var symbolSet = SymbolSet.Make<ulong>(new ULongSymbols.Initializer(50));
             var randy = Rando.Fast(123);
-            var avg = Enumerable.Range(0, 1000).Select(i => symbolSet.Choose(randy)).Average(t => (double)t);
+            var avg = Enumerable.Range(0, 1000).Select(i => symbolSet.Choose(randy, (ulong)i)).Average(t => (double)t);
             var mid = Math.Pow(2, 49);
 
             Assert.IsTrue(avg > 0.9 * mid);

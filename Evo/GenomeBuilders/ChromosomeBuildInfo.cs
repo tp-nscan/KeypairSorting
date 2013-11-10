@@ -11,7 +11,7 @@ namespace Evo.GenomeBuilders
     public interface IChromosomeGenInfo : IChromosomeBuildInfo
     {
         int ChromosomeLength { get; }
-        int SymbolCount { get; }
+        object Initializer { get; }
     }
 
     public interface IChromosomeCopyInfo : IChromosomeBuildInfo, IParentIds
@@ -27,7 +27,7 @@ namespace Evo.GenomeBuilders
             Guid targetId,
             int seed,
             int chromosomeLength,
-            int symbolCount
+            object symbolSetInit
             )
         {
             return new ChromosomeGenInfoImpl
@@ -35,7 +35,7 @@ namespace Evo.GenomeBuilders
                     targetId: targetId,
                     seed: seed,
                     chromosomeLength: chromosomeLength,
-                    symbolCount: symbolCount
+                    initializer: symbolSetInit
                 );
         }
 
@@ -129,16 +129,17 @@ namespace Evo.GenomeBuilders
     class ChromosomeGenInfoImpl : ChromosomeBuildInfoImpl, IChromosomeGenInfo
     {
         private readonly int _chromosomeLength;
-        private readonly int _symbolCount;
+        private readonly object _initializer;
 
         public ChromosomeGenInfoImpl(
             Guid targetId, 
             int seed, 
-            int chromosomeLength, 
-            int symbolCount) : base(targetId, seed)
+            int chromosomeLength,
+            object initializer)
+            : base(targetId, seed)
         {
             _chromosomeLength = chromosomeLength;
-            _symbolCount = symbolCount;
+            _initializer = initializer;
         }
 
         public int ChromosomeLength
@@ -146,9 +147,9 @@ namespace Evo.GenomeBuilders
             get { return _chromosomeLength; }
         }
 
-        public int SymbolCount
+        public object Initializer
         {
-            get { return _symbolCount; }
+            get { return _initializer; }
         }
     }
 }

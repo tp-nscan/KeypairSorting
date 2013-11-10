@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SorterCompPool.cs" />
+    <Compile Include="SorterGenome.cs" />
+    <Compile Include="SorterGrade.cs" />
     <Compile Include="GenomeToSorter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

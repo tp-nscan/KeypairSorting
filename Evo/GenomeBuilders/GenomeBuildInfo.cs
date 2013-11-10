@@ -28,7 +28,7 @@ namespace Evo.GenomeBuilders
                 Guid chromosomeId,
                 int seed,
                 int chromosomeLength,
-                int symbolCount
+                object symbolSetInit
             )
         {
             return new GenomeGenInfoImpl
@@ -43,7 +43,7 @@ namespace Evo.GenomeBuilders
                                     targetId: chromosomeId,
                                     seed: seed,
                                     chromosomeLength: chromosomeLength,
-                                    symbolCount: symbolCount
+                                    symbolSetInit: symbolSetInit
                                                                             
                                 ) 
                            }

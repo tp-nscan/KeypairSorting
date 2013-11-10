@@ -28,10 +28,10 @@ namespace Sorting.Test.Switchables
             var switchablesUlong = Rando.Fast(123).MakeSwitchables<ulong>(16).Take(switchCount).ToList();
             Assert.AreEqual(switchablesUlong.Count(), switchCount);
 
-            var switchablesBa = Rando.Fast(123).MakeSwitchables<IReadOnlyList<bool>>(16).Take(switchCount).ToList();
+            var switchablesBa = Rando.Fast(123).MakeSwitchables<bool[]>(16).Take(switchCount).ToList();
             Assert.AreEqual(switchablesBa.Count(), switchCount);
 
-            var switchablesIa = Rando.Fast(123).MakeSwitchables<IReadOnlyList<uint>>(16).Take(switchCount).ToList();
+            var switchablesIa = Rando.Fast(123).MakeSwitchables<int[]>(16).Take(switchCount).ToList();
             Assert.AreEqual(switchablesIa.Count(), switchCount);
 
         }

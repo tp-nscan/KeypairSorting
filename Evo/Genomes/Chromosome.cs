@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Evo.GenomeBuilders;
 using Evo.Repositories;
 using MathUtils.Collections;
@@ -19,7 +18,7 @@ namespace Evo.Genomes
     public interface IChromosome<T> : IChromosome
     {
         ISymbolSet<T> SymbolSet { get; }
-        new IReadOnlyList<T> Genes { get; } 
+        IReadOnlyList<T> Genes { get; } 
     }
 
     public static class Chromosome
@@ -60,9 +59,9 @@ namespace Evo.Genomes
                         doMutation: rando.Spawn().ToBoolEnumerator(copyInfo.MutationRate),
                         doInsertion: rando.Spawn().ToBoolEnumerator(copyInfo.InsertionRate),
                         doDeletion: rando.Spawn().ToBoolEnumerator(copyInfo.DeletionRate),
-                        mutator:   _ => parentChromosome.SymbolSet.Choose(rando),
-                        inserter:  _ => parentChromosome.SymbolSet.Choose(rando),
-                        deleter:  () => parentChromosome.SymbolSet.Choose(rando)
+                        mutator:  _ => parentChromosome.SymbolSet.Choose(rando, _ ),
+                        inserter: _ => parentChromosome.SymbolSet.Choose(rando, _),
+                        deleter:  _ => parentChromosome.SymbolSet.Choose(rando, _)
                     ),
                     symbolSet: parentChromosome.SymbolSet,
                     guid: copyInfo.TargetId
@@ -74,10 +73,10 @@ namespace Evo.Genomes
             )
         {
             var rando = Rando.Fast(genInfo.Seed);
-            var symbolSet = SymbolSet.Make<T>(genInfo.SymbolCount);
-            return UniformChromosome.MakeUniformChromosome<T>
+            var symbolSet = SymbolSet.Make<T>(genInfo.Initializer);
+            return UniformChromosome.MakeUniformChromosome
                 (
-                    data: Enumerable.Range(0, genInfo.ChromosomeLength).Select(t => symbolSet.Choose(rando)),
+                    data: Enumerable.Range(0, genInfo.ChromosomeLength).Select(t => symbolSet.Choose(rando, default(T))),
                     symbolSet:symbolSet,
                     guid: genInfo.TargetId
                 );

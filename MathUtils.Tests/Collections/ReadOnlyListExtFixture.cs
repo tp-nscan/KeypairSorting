@@ -221,14 +221,11 @@ namespace MathUtils.Tests.Collections
                         doDeletion:  randoDelete.ToBoolEnumerator(0.1),
                         mutator:     x => 0,
                         inserter:    x => 1,
-                        deleter:     () => 100000
+                        deleter:     x => 100000
                     );
 
                 var sum = insertedList.Sum(t => t);
                 Assert.AreEqual(insertedList.Count, 1000);
-                //Assert.IsTrue(sum == 0);
-                //Assert.IsTrue(sum < 150);
-                //Assert.IsTrue(sum > 50);
             }
 
             stopwatch.Stop();
@@ -260,9 +257,9 @@ namespace MathUtils.Tests.Collections
                         doMutation: randoMutate.ToBoolEnumerator(0.1),
                         doInsertion: randoInsert.ToBoolEnumerator(0.1),
                         doDeletion: randoDelete.ToBoolEnumerator(0.1),
-                        mutator: x => new Tuple<int, int, int>(1, x.Item2, x.Item3),
+                        mutator:  x => new Tuple<int, int, int>(1, x.Item2, x.Item3),
                         inserter: x => new Tuple<int, int, int>(x.Item1, 1, x.Item3), 
-                        deleter: () => new Tuple<int, int, int>(0, 0, 1)
+                        deleter:  x => new Tuple<int, int, int>(0, 0, 1)
                     );
 
                 //for (var j = 0; j < 1000; j++)

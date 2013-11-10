@@ -15,7 +15,7 @@ namespace Evo.Genomes
 
     public static class Genome
     {
-        public static IGenome ToGenome(
+        public static IGenome ToGenome<T>(
             this IGenomeBuildInfo genomeBuildInfo, 
             IChromosomeRepository chromosomeRepository)
         {
@@ -24,7 +24,7 @@ namespace Evo.Genomes
                     guid: genomeBuildInfo.TargetId,
                     genomeBuildInfo: genomeBuildInfo,
                     chromosomes: genomeBuildInfo.ChromosomeBuildInfos
-                                    .Select(t => t.ToChromosome<int>(chromosomeRepository))
+                                    .Select(t => t.ToChromosome<T>(chromosomeRepository))
                                     .ToList()
                 );
         }
