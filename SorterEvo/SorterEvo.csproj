@@ -42,10 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenomeToSwitchableGroup.cs" />
     <Compile Include="SorterGenome.cs" />
     <Compile Include="SorterGrade.cs" />
     <Compile Include="GenomeToSorter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SwitchableGroupGenome.cs" />
+    <Compile Include="SwitchableGroupGrade.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Evo\Evo.csproj">

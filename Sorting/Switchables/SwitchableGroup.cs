@@ -20,7 +20,7 @@ namespace Sorting.Switchables
 
     public static class SwitchableGroup
     {
-        public static ISwitchableGroup<T> MakeSwitchableGroup<T>(Guid guid, int keyCount, IEnumerable<ISwitchable<T>> switchables)
+        public static ISwitchableGroup<T> ToSwitchableGroup<T>( this IEnumerable<ISwitchable<T>> switchables, Guid guid, int keyCount)
         {
             return new SwitchableGroup<T>(guid, keyCount, switchables);
         }

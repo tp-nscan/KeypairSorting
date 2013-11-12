@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortingEvo.Test", "SortingE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorterEvo", "SorterEvo\SorterEvo.csproj", "{FA79B317-6A42-4DEC-9ED0-95B69D467C77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genomic", "Genomic\Genomic.csproj", "{D2F5B40C-8C15-42D6-8549-2F8695AE91A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genomic.Test", "Genomic.Test\Genomic.Test.csproj", "{794A111C-C547-4736-916F-8027D6F5B21C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,14 @@ Global
 		{FA79B317-6A42-4DEC-9ED0-95B69D467C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA79B317-6A42-4DEC-9ED0-95B69D467C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA79B317-6A42-4DEC-9ED0-95B69D467C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2F5B40C-8C15-42D6-8549-2F8695AE91A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2F5B40C-8C15-42D6-8549-2F8695AE91A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2F5B40C-8C15-42D6-8549-2F8695AE91A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2F5B40C-8C15-42D6-8549-2F8695AE91A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{794A111C-C547-4736-916F-8027D6F5B21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{794A111C-C547-4736-916F-8027D6F5B21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{794A111C-C547-4736-916F-8027D6F5B21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{794A111C-C547-4736-916F-8027D6F5B21C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

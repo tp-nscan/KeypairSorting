@@ -179,6 +179,44 @@ namespace MathUtils.Collections
         }
 
 
+        public static void Recombine<T>(IEnumerable<T> aIn, IEnumerable<T> bIn, IEnumerable<bool> swaps, out List<T> aOut, out List<T> bOut)
+        {
+            var aList = aIn.ToList();
+            var bList = bIn.ToList();
+            var swapList = swaps.ToList();
+            aOut = new List<T>();
+            bOut = new List<T>();
+
+            var ct = aList.Count;
+            if (ct < 2)
+            {
+                throw new Exception("arrays must be length 2 or more");
+            }
+            if ((bList.Count != ct) || (swapList.Count != ct))
+            {
+                throw new Exception("arrays are not the same length");
+            }
+            for (var i = 0; i < ct; i++)
+            {
+                EnumerableExt.SwapIf(ref aList, ref bList, swapList[i]);
+                aOut.Add(aList[i]);
+                bOut.Add(bList[i]);
+            }
+        }
+
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> original)
+        {
+            var origList = original as IList<T> ?? original.ToList();
+
+            while (true)
+            {
+                for (var j = 0; j < origList.Count(); j++)
+                {
+                    yield return origList[j];
+                }
+            }
+        }
+
     }
 
 

@@ -61,7 +61,7 @@ namespace Evo.Genomes
                         doDeletion: rando.Spawn().ToBoolEnumerator(copyInfo.DeletionRate),
                         mutator:  _ => parentChromosome.SymbolSet.Choose(rando, _ ),
                         inserter: _ => parentChromosome.SymbolSet.Choose(rando, _),
-                        deleter:  _ => parentChromosome.SymbolSet.Choose(rando, _)
+                        paddingFunc:  _ => parentChromosome.SymbolSet.Choose(rando, _)
                     ),
                     symbolSet: parentChromosome.SymbolSet,
                     guid: copyInfo.TargetId

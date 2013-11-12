@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MathUtils.Rand;
 
@@ -109,6 +110,21 @@ namespace MathUtils.Collections
             return retArray;
         }
 
+        public static T[] FisherYatesPartialShuffle<T>(this IReadOnlyList<T> origList, IRando rando, double mixingFrequency)
+        {
+            var arrayLength = origList.Count;
+            var retArray = origList.ToArray();
+            for (var i = arrayLength - 1; i > 0; i--)
+            {
+                if(rando.NextDouble() > mixingFrequency) continue;
+                var j = rando.NextInt(i + 1);
+                var temp = retArray[i];
+                retArray[i] = retArray[j];
+                retArray[j] = temp;
+            }
+            return retArray;
+        }
+
         public static IReadOnlyList<T> Insert<T>
             (
                 this IReadOnlyList<T> original, 
@@ -161,7 +177,7 @@ namespace MathUtils.Collections
             return tRet;
         }
 
-        public static IReadOnlyList<T> MutateInsertDelete<T>
+        public static IEnumerable<T> MutateInsertDelete<T>
         (
             this IReadOnlyList<T> original,
             IEnumerable<bool> doMutation,
@@ -169,7 +185,7 @@ namespace MathUtils.Collections
             IEnumerable<bool> doDeletion,
             Func<T, T> mutator,
             Func<T, T> inserter,
-            Func<T, T> deleter
+            Func<T, T> paddingFunc = null
         )
         {
             var tRet = new T[original.Count];
@@ -195,11 +211,13 @@ namespace MathUtils.Collections
                     }
                     else
                     {
-                        tRet[retDex++] = inserter(original[origDex]);
+                        retDex++;
+                        yield return inserter(original[origDex]);
                         if (retDex < original.Count)
                         {
-                            tRet[retDex++] = possiblyMutatedValue;
+                            retDex++;
                             origDex++;
+                            yield return possiblyMutatedValue;
                         }
                     }
                 }
@@ -211,55 +229,42 @@ namespace MathUtils.Collections
                     }
                     else
                     {
-                        tRet[retDex++] = possiblyMutatedValue;
+                        retDex++;
                         origDex++;
+                        yield return possiblyMutatedValue;
                     }
                 }
             }
 
             while (retDex < original.Count)
             {
-                tRet[retDex++] = deleter(default(T));
-            }
-            return tRet;
-        }
-
-        public static void Recombine<T>(IEnumerable<T> aIn, IEnumerable<T> bIn, IEnumerable<bool> swaps, out List<T> aOut, out List<T> bOut)
-        {
-            var aList = aIn.ToList();
-            var bList = bIn.ToList();
-            var swapList = swaps.ToList();
-            aOut = new List<T>();
-            bOut = new List<T>();
-
-            var ct = aList.Count;
-            if (ct < 2)
-            {
-                throw new Exception("arrays must be length 2 or more");
-            }
-            if ((bList.Count != ct) || (swapList.Count != ct))
-            {
-                throw new Exception("arrays are not the same length");
-            }
-            for (var i = 0; i < ct; i++)
-            {
-                EnumerableExt.SwapIf(ref aList, ref bList, swapList[i]);
-                aOut.Add(aList[i]);
-                bOut.Add(bList[i]);
-            }
-        }
-
-        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> original)
-        {
-            var origList = original as IList<T> ?? original.ToList();
-
-            while (true)
-            {
-                for (var j = 0; j < origList.Count(); j++)
+                if (paddingFunc != null)
                 {
-                    yield return origList[j];
+                    retDex++;
+                    yield return paddingFunc(default(T));
                 }
             }
+        }
+
+        public static IReadOnlyList<T> MutateInsertDeleteToList<T>
+        (
+            this IReadOnlyList<T> original,
+            IEnumerable<bool> doMutation,
+            IEnumerable<bool> doInsertion,
+            IEnumerable<bool> doDeletion,
+            Func<T, T> mutator,
+            Func<T, T> inserter,
+            Func<T, T> paddingFunc = null
+        )
+        {
+            return MutateInsertDelete(
+                original, 
+                doMutation, 
+                doInsertion, 
+                doDeletion, 
+                mutator, 
+                inserter, 
+                paddingFunc).ToList();
         }
 
         public static IEnumerable<T> ReadRange<T>(this IReadOnlyList<T> list, int start, int count)

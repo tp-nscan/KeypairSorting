@@ -7,8 +7,8 @@ using MathUtils.Rand;
 
 namespace Evo.Grades
 {
-    public interface IGrade<TG>
-        where TG : IGenome
+    public interface IGrade<TG, T>
+        where TG : IGenome<T>
     {
         Func<TG, int, TG> CopyGenomeFunc { get; }
         Guid GradeId { get; }
@@ -21,7 +21,7 @@ namespace Evo.Grades
     public static class Grade
     {
 
-        public static IGrade<TG> Create<TG>
+        public static IGrade<TG, T> Create<TG, T>
         (
             Guid id,
             int seed,
@@ -30,10 +30,10 @@ namespace Evo.Grades
             IReadOnlyList<Tuple<Guid, double>> scores,
             int genomeCount
         )
-        where TG : IGenome
+        where TG : IGenome<T>
         {
             var randy = Rando.Fast(seed);
-            return Make
+            return Make<TG, T>
                 (
                     gradeId: id,
                     generation: 0,
@@ -44,13 +44,13 @@ namespace Evo.Grades
                 );
         }
 
-        public static IGrade<TG> Update<TG>
+        public static IGrade<TG, T> Update<TG, T>
         (
-            this IGrade<TG> compPool,
+            this IGrade<TG, T> compPool,
             IReadOnlyList<Tuple<Guid, double>> scores,
             int selectionRatio
         )
-            where TG : IGenome
+            where TG : IGenome<T>
         {
             var randy = Rando.Fast(compPool.Seed);
 
@@ -59,7 +59,7 @@ namespace Evo.Grades
                 .Select(p => compPool.GetGenome(p.Item1))
                 .ToList();
 
-            return Make
+            return Make<TG, T>
                 (
                     gradeId: randy.NextGuid(),
                     generation: compPool.Generation +1,
@@ -74,7 +74,7 @@ namespace Evo.Grades
         }
 
 
-        public static IGrade<TG> Make<TG>
+        public static IGrade<TG, T> Make<TG, T>
             (
                 Guid gradeId,
                 int generation,
@@ -82,9 +82,9 @@ namespace Evo.Grades
                 Func<TG, int, TG> copyGenomeFunc,
                 int seed
             )
-            where TG : IGenome
+            where TG : IGenome<T>
         {
-            return new GradeImpl<TG>
+            return new GradeImpl<TG, T>
                 (
                     gradeId,
                     generation,
@@ -95,8 +95,8 @@ namespace Evo.Grades
         }
     }
 
-    class GradeImpl<TG> : IGrade<TG>
-        where TG : IGenome
+    class GradeImpl<TG, T> : IGrade<TG, T>
+        where TG : IGenome<T>
     {
         private readonly IReadOnlyDictionary<Guid, TG> _genomes;
         private readonly Guid _gradeId;

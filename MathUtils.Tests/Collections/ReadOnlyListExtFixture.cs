@@ -152,6 +152,25 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
+        public void FisherYatesPartialShuffleTest()
+        {
+            var stopwatch = new Stopwatch();
+            const int arraySize = 1000;
+
+            stopwatch.Start();
+            var startingPool = Enumerable.Range(0, arraySize).ToList();
+
+            var scrammy = 0;
+            for (var i = 0; i < 1000; i++)
+            {
+                scrammy += startingPool.FisherYatesPartialShuffle(Rando.Fast(i*37), 0.2)[0];
+            }
+
+            stopwatch.Stop();
+            Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
+        }
+
+        [TestMethod]
         public void TestInsert()
         {
             var stopwatch = new Stopwatch();
@@ -159,7 +178,6 @@ namespace MathUtils.Tests.Collections
             var rando = Rando.Fast(123);
 
             stopwatch.Start();
-
 
             for (var i = 0; i < 1000; i++)
             {
@@ -214,14 +232,14 @@ namespace MathUtils.Tests.Collections
 
             for (var i = 0; i < 1000; i++)
             {
-                var insertedList = origList.MutateInsertDelete
+                var insertedList = origList.MutateInsertDeleteToList
                     (
                         doMutation:  randoMutate.ToBoolEnumerator(0.1),
                         doInsertion: randoInsert.ToBoolEnumerator(0.1),
                         doDeletion:  randoDelete.ToBoolEnumerator(0.1),
                         mutator:     x => 0,
                         inserter:    x => 1,
-                        deleter:     x => 100000
+                        paddingFunc:     x => 100000
                     );
 
                 var sum = insertedList.Sum(t => t);
@@ -252,14 +270,14 @@ namespace MathUtils.Tests.Collections
 
             for (var i = 0; i < 1000; i++)
             {
-                var insertedList = origList.MutateInsertDelete
+                var insertedList = origList.MutateInsertDeleteToList
                     (
                         doMutation: randoMutate.ToBoolEnumerator(0.1),
                         doInsertion: randoInsert.ToBoolEnumerator(0.1),
                         doDeletion: randoDelete.ToBoolEnumerator(0.1),
                         mutator:  x => new Tuple<int, int, int>(1, x.Item2, x.Item3),
                         inserter: x => new Tuple<int, int, int>(x.Item1, 1, x.Item3), 
-                        deleter:  x => new Tuple<int, int, int>(0, 0, 1)
+                        paddingFunc:  x => new Tuple<int, int, int>(0, 0, 1)
                     );
 
                 //for (var j = 0; j < 1000; j++)

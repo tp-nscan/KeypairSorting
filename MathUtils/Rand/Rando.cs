@@ -151,7 +151,43 @@ namespace MathUtils.Rand
             }
         }
 
-        public static IEnumerable<uint> ToRandomUintFlags(this IRando rando, int flagCount)
+        public static IEnumerable<uint> ToUints(this IRando rando, uint maxVal)
+        {
+            if (maxVal > (UInt32.MaxValue >> 2))
+            {
+                return rando.NextUintCutoff(maxVal);
+            }
+
+            var cutoff = UInt32.MaxValue - (UInt32.MaxValue % maxVal);
+
+            return rando.NextUintCutoffAndMod(cutoff, maxVal);
+        }
+
+        static IEnumerable<uint> NextUintCutoff(this IRando rando, uint cutoff)
+        {
+            while (true)
+            {
+                var nextVal = rando.NextUint();
+                if (nextVal < cutoff)
+                {
+                    yield return nextVal;
+                }
+            }
+        }
+
+        static IEnumerable<uint> NextUintCutoffAndMod(this IRando rando, uint cutoff, uint modulo)
+        {
+            while (true)
+            {
+                var nextVal = rando.NextUint();
+                if (nextVal < cutoff)
+                {
+                    yield return nextVal % modulo;
+                }
+            }
+        }
+
+        public static IEnumerable<uint> NextUintByBits(this IRando rando, int flagCount)
         {
             uint mask = 0;
             for (var i = 0; i < flagCount; i++)
@@ -165,7 +201,7 @@ namespace MathUtils.Rand
             }
         }
 
-        public static IEnumerable<ulong> ToRandomUlongFlags(this IRando rando, int flagCount)
+        public static IEnumerable<ulong> NextUlongByBits(this IRando rando, int flagCount)
         {
             uint mask = 0;
             for (var i = 0; i < flagCount; i++)

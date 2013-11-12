@@ -47,8 +47,10 @@ namespace Sorting.Sorters
 
         public static SorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)
         {
-            return sorter.Sort(SwitchableGroup.MakeSwitchableGroup(Guid.NewGuid(), keyCount,
-                    Switchable.AllSwitchablesForKeyCount(keyCount)));
+            return sorter.Sort (
+                            Switchable.AllSwitchablesForKeyCount(keyCount)
+                                        .ToSwitchableGroup(Guid.NewGuid(), keyCount)
+                    );
         }
 
         public static SorterOnSwitchableGroup SortDetailed<T>
