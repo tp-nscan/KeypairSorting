@@ -23,7 +23,7 @@ namespace Sorting.Sorters
             return new SorterImpl(keyPairs, guid, keyCount);
         }
 
-        public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<int> keyPairChoices, int keyCount, Guid guid)
+        public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<uint> keyPairChoices, int keyCount, Guid guid)
         {
             return keyPairs.PickMembers(keyPairChoices).ToSorter(guid, keyCount);
         }

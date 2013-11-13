@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Evo.Genomes;
 using Sorting.KeyPairs;
 using Sorting.Sorters;
 using Sorting.Switchables;

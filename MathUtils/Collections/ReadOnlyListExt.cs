@@ -91,9 +91,9 @@ namespace MathUtils.Collections
             return true;
         }
 
-        public static IEnumerable<T> PickMembers<T>(this IReadOnlyList<T> drawPool, IEnumerable<int> choiceIndexes)
+        public static IEnumerable<T> PickMembers<T>(this IReadOnlyList<T> drawPool, IEnumerable<uint> choiceIndexes)
         {
-            return choiceIndexes.Select(draw => drawPool[draw]);
+            return choiceIndexes.Select(draw => drawPool[(int) draw]);
         }
 
         public static T[] FisherYatesShuffle<T>(this IReadOnlyList<T> origList, IRando rando)

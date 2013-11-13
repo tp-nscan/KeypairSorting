@@ -20,12 +20,11 @@ namespace Genomic
             (
                 int seed,
                 Func<int, TG> createFunc,
-                Func<TG, int, TG> copyFunc,
                 int genomeCount
             ) where TG : IGenome
         {
             var randy = Rando.Fast(seed);
-            return Make<TG>
+            return Make
                 (
                     generation: 0,
                     genomes: Enumerable.Range(0, genomeCount)
@@ -49,7 +48,7 @@ namespace Genomic
                 .Select(p => grade.GetGenome(p.Item1))
                 .ToList();
 
-            return Make<TG>
+            return Make
                 (
                     generation: grade.Generation + 1,
                     genomes: winners.Concat

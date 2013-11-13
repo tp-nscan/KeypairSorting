@@ -54,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Evo\Evo.csproj">
-      <Project>{44a97b37-ec95-4046-9728-00dc715c7562}</Project>
-      <Name>Evo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MathUtils\MathUtils.csproj">
       <Project>{45d0ac20-8adf-4830-8ce9-37749385834f}</Project>
       <Name>MathUtils</Name>

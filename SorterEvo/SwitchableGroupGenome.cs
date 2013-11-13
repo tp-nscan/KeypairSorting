@@ -4,12 +4,11 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Evo.GenomeBuilders;
-using Evo.Genomes;
+using Genomic;
 
 namespace SorterEvo
 {
-    public interface ISwitchableGroupGenome<T> : IGenome<T>
+    public interface ISwitchableGroupGenome : IGenome
     {
         int KeyCount { get; }
     }
@@ -19,28 +18,22 @@ namespace SorterEvo
 
     }
 
-    class SwitchableGroupGenomeImpl<T> : ISwitchableGroupGenome<T>
+    class SwitchableGroupGenomeImpl<T> : ISwitchableGroupGenome
     {
         private int _keyCount;
-        private IReadOnlyList<IChromosome<T>> _chromosomes;
-        private IGenomeBuildInfo _genomeBuildInfo;
-        private Guid _guid;
-
         public int KeyCount
         {
             get { return _keyCount; }
         }
 
-        public IReadOnlyList<IChromosome<T>> Chromosomes
+        private IReadOnlyList<IChromosome> _chromosomes;
+
+        public IReadOnlyList<IChromosome> Chromosomes
         {
             get { return _chromosomes; }
         }
 
-        public IGenomeBuildInfo GenomeBuildInfo
-        {
-            get { return _genomeBuildInfo; }
-        }
-
+        private Guid _guid;
         public Guid Guid
         {
             get { return _guid; }

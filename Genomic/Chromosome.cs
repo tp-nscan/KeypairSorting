@@ -20,10 +20,11 @@ namespace Genomic
 
     public static class Chromosome
     {
-        public static IUniformChromosome ToUniformChromosome(this IRando rando, Guid guid, uint symbolCount, int sequenceLength)
+        public static IUniformChromosome ToUniformChromosome(
+                this IRando rando, Guid guid, uint symbolCount, int sequenceLength)
         {
             return rando.ToUints(symbolCount).Take(sequenceLength)
-                .ToUniformChromosome(guid, SymbolSet.MakeUniformSymbolSet(symbolCount));
+                .ToUniformChromosome(guid, symbolCount);
         }
 
         public static IChromosome ToChromosome(this IReadOnlyList<uint> sequence, Guid guid, ISymbolSet symbolSet)
@@ -31,25 +32,28 @@ namespace Genomic
             return new ChromosomeImpl(guid, sequence, symbolSet);
         }
 
-        public static IUniformChromosome ToUniformChromosome(this IEnumerable<uint> sequence, Guid guid, IUniformSymbolSet symbolSet)
+        public static IUniformChromosome ToUniformChromosome(this IEnumerable<uint> sequence, Guid guid, uint symbolCount)
         {
-            return new UniformChromosomeImpl(guid, sequence.ToList(), symbolSet);
+            return new UniformChromosomeImpl
+                (
+                    guid: guid,
+                    sequence: sequence.ToList(),
+                    symbolSet: SymbolSet.MakeUniformSymbolSet(symbolCount)
+                );
         }
         public static IUniformChromosome Copy
             (
-                this IUniformChromosome chromosome, 
-                Guid newGuid, 
-                int seed, 
+                this IUniformChromosome chromosome,
+                IRando randy, 
                 double mutationRate, 
                 double insertionRate, 
                 double deletionRate
             )
         {
-            var randy = Rando.Fast(seed);
-            var newVals = chromosome.SymbolSet.Choose(randy).ToMoveNext();
+            var newVals = chromosome.SymbolSet.Choose(randy.Spawn()).ToMoveNext();
             return new UniformChromosomeImpl
                 (
-                    guid: newGuid, 
+                    guid: randy.NextGuid(), 
                     sequence: chromosome.Sequence.MutateInsertDeleteToList
                                 (
                                     doMutation: randy.ToBoolEnumerator(mutationRate),

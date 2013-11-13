@@ -36,7 +36,7 @@ namespace Genomic.Test
             const double insertionRate = 0.1;
             const double deletionRate = 0;
 
-            var newChromo = chromo.Copy(newGuid, seed, mutationRate, mutationRate, mutationRate);
+            var newChromo = chromo.Copy(Rando.Fast(seed), mutationRate, insertionRate, deletionRate);
 
             var diffCount = newChromo.Sequence.GetDifferentItems(chromo.Sequence).Count();
 

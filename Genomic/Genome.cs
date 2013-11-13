@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using MathUtils.Rand;
 
 namespace Genomic
 {
@@ -9,9 +9,9 @@ namespace Genomic
         Guid ParentGuid { get; }
     }
 
-    public interface ISingleChromosome
+    public interface ISingleChromosome<out TC> where TC : IChromosome
     {
-        IChromosome Chromosome { get; } 
+        TC Chromosome { get; } 
     }
 
     public interface IMultipleChromosomes
@@ -24,28 +24,43 @@ namespace Genomic
         Guid Guid { get; }
     }
 
-    public interface ISimpleGenome : IGenome, ISingleChromosome, IParentGuid
+    public interface ISimpleGenome<out TC> : IGenome, ISingleChromosome<TC>, IParentGuid
+        where TC : IChromosome
     {
     }
 
 
     public static class Genome
     {
-        public static ISimpleGenome MakeSimpleGenome(Guid guid, IChromosome chromosome, Guid parentGuid)
+        public static ISimpleGenome<TC> MakeSimple<TC>(Guid guid, TC chromosome, Guid parentGuid)
+            where TC : IChromosome
         {
-         return new SimpleGenomeImpl(guid, chromosome, parentGuid);
+            return new SimpleGenomeImpl<TC>(guid, chromosome, parentGuid);
         }
 
-        //public static ISimpleGenome Copy(this ISimpleGenome genome, Guid newGuid, IChromosome chromosome, Guid parentGuid)
-        //{
-        //    return new SimpleGenomeImpl(newGuid, genome.Chromosome.C .Copy(), genome.Guid);
-        //}
+        public static ISimpleGenome<IUniformChromosome> Copy
+            (
+                this ISimpleGenome<IUniformChromosome> genome,
+                IRando randy, 
+                double mutationRate,
+                double insertionRate,
+                double deletionRate
+            )
+        {
+            return new SimpleGenomeImpl<IUniformChromosome>
+                (
+                    guid: randy.NextGuid(),
+                    chromosome: genome.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
+                    parentGuid: genome.Guid
+                );
+        }
     }
 
-    class SimpleGenomeImpl : ISimpleGenome
+    public class SimpleGenomeImpl<TC> : ISimpleGenome<TC>
+        where TC : IChromosome
     {
 
-        public SimpleGenomeImpl(Guid guid, IChromosome chromosome, Guid parentGuid)
+        public SimpleGenomeImpl(Guid guid, TC chromosome, Guid parentGuid)
         {
             _guid = guid;
             _chromosome = chromosome;
@@ -58,8 +73,8 @@ namespace Genomic
             get { return _guid; }
         }
 
-        private readonly IChromosome _chromosome;
-        public IChromosome Chromosome
+        private readonly TC _chromosome;
+        public TC Chromosome
         {
             get { return _chromosome; }
         }
