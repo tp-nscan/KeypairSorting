@@ -44,9 +44,10 @@
   <ItemGroup>
     <Compile Include="GenomeToSwitchableGroup.cs" />
     <Compile Include="SorterGenome.cs" />
-    <Compile Include="SorterGrade.cs" />
+    <Compile Include="SorterLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchableGroupGenome.cs" />
+    <Compile Include="SwitchableGroupGenomeType.cs" />
     <Compile Include="SwitchableGroupGrade.cs" />
   </ItemGroup>
   <ItemGroup>

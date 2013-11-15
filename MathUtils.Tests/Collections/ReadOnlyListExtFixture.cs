@@ -232,7 +232,7 @@ namespace MathUtils.Tests.Collections
 
             for (var i = 0; i < 1000; i++)
             {
-                var insertedList = origList.MutateInsertDeleteToList
+                var insertedList = origList.MutateInsertDelete
                     (
                         doMutation:  randoMutate.ToBoolEnumerator(0.1),
                         doInsertion: randoInsert.ToBoolEnumerator(0.1),
@@ -240,7 +240,7 @@ namespace MathUtils.Tests.Collections
                         mutator:     x => 0,
                         inserter:    x => 1,
                         paddingFunc:     x => 100000
-                    );
+                    ).ToList();
 
                 var sum = insertedList.Sum(t => t);
                 Assert.AreEqual(insertedList.Count, 1000);
@@ -270,7 +270,7 @@ namespace MathUtils.Tests.Collections
 
             for (var i = 0; i < 1000; i++)
             {
-                var insertedList = origList.MutateInsertDeleteToList
+                var insertedList = origList.MutateInsertDelete
                     (
                         doMutation: randoMutate.ToBoolEnumerator(0.1),
                         doInsertion: randoInsert.ToBoolEnumerator(0.1),
@@ -278,7 +278,7 @@ namespace MathUtils.Tests.Collections
                         mutator:  x => new Tuple<int, int, int>(1, x.Item2, x.Item3),
                         inserter: x => new Tuple<int, int, int>(x.Item1, 1, x.Item3), 
                         paddingFunc:  x => new Tuple<int, int, int>(0, 0, 1)
-                    );
+                    ).ToList();
 
                 //for (var j = 0; j < 1000; j++)
                 //{

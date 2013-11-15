@@ -9,14 +9,16 @@ namespace Genomic
         Guid ParentGuid { get; }
     }
 
-    public interface ISingleChromosome<out TC> where TC : IChromosome
+    public interface ISingleChromosome<out TC> 
+        where TC : IChromosome
     {
         TC Chromosome { get; } 
     }
 
-    public interface IMultipleChromosomes
+    public interface IMultipleChromosomes<out TC>
+        where TC : IChromosome
     {
-        IReadOnlyList<IChromosome> Chromosomes { get; } 
+        IReadOnlyList<TC> Chromosomes { get; } 
     }
 
     public interface IGenome
@@ -38,19 +40,20 @@ namespace Genomic
             return new SimpleGenomeImpl<TC>(guid, chromosome, parentGuid);
         }
 
-        public static ISimpleGenome<IUniformChromosome> Copy
+        public static ISimpleGenome<TC> Copy<TC>
             (
-                this ISimpleGenome<IUniformChromosome> genome,
+                this ISimpleGenome<TC> genome,
                 IRando randy, 
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
             )
+            where TC : IChromosome<IChromosomeBlock>
         {
-            return new SimpleGenomeImpl<IUniformChromosome>
+            return new SimpleGenomeImpl<TC>
                 (
                     guid: randy.NextGuid(),
-                    chromosome: genome.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
+                    chromosome: (TC)genome.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
                     parentGuid: genome.Guid
                 );
         }

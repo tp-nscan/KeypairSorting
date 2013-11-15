@@ -6,7 +6,7 @@ using Sorting.Sorters;
 
 namespace SorterEvo
 {
-    public interface ISorterGenome : ISimpleGenome<IUniformChromosome>
+    public interface ISorterGenome : ISimpleGenome<IChromosome<ModNBlock>>
     {
         int KeyCount { get; }
         int KeyPairCount { get; }
@@ -34,8 +34,8 @@ namespace SorterEvo
                 );
         }
 
-        public static ISorterGenome Make
-            (Guid guid, Guid parentGuid, IUniformChromosome chromosome, int keyCount, int keyPairCount)
+        public static ISorterGenome Make(Guid guid, Guid parentGuid, IChromosome<ModNBlock> chromosome, 
+            int keyCount, int keyPairCount)
         {
             return new SorterGenomeImpl
                 (
@@ -48,7 +48,7 @@ namespace SorterEvo
         }
     }
 
-    class SorterGenomeImpl : SimpleGenomeImpl<IUniformChromosome>, ISorterGenome
+    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<ModNBlock>>, ISorterGenome
     {
         public SorterGenomeImpl(IRando randy, int keyCount, int keyPairCount) 
             : base
@@ -67,7 +67,7 @@ namespace SorterEvo
             _keyPairCount = keyPairCount;
         }
 
-        public SorterGenomeImpl(Guid guid, Guid parentGuid, IUniformChromosome chromosome, int keyCount, int keyPairCount) 
+        public SorterGenomeImpl(Guid guid, Guid parentGuid, IChromosome<ModNBlock> chromosome, int keyCount, int keyPairCount) 
             : base
             (
                 guid: guid,

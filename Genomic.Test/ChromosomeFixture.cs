@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +17,6 @@ namespace Genomic.Test
             const int sequenceLength = 1000;
             var chromo = Rando.Fast(123).ToUniformChromosome(guid, symbolCount, sequenceLength);
             Assert.AreEqual(chromo.Guid, guid);
-            Assert.AreEqual(chromo.SymbolSet.MaxVal, symbolCount);
             Assert.AreEqual(chromo.Sequence.Count, sequenceLength);
         }
 
@@ -41,7 +39,6 @@ namespace Genomic.Test
             var diffCount = newChromo.Sequence.GetDifferentItems(chromo.Sequence).Count();
 
             Assert.AreEqual(newChromo.Guid, newGuid);
-            Assert.AreEqual(newChromo.SymbolSet.MaxVal, symbolCount);
             Assert.AreEqual(newChromo.Sequence.Count, sequenceLength);
             Assert.IsTrue(diffCount < sequenceLength*mutationRate*1.1);
             Assert.IsTrue(diffCount > sequenceLength * mutationRate * 0.9);

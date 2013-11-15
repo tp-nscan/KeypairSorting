@@ -15,17 +15,16 @@ namespace Genomic
     {
         public static IChromosomeRepository WithTestData()
         {
-            var symbolSetInit = SymbolSet.MakeUniformSymbolSet(60);
             return new ChromosomeRepositoryImpl(
                 null
                 //new []
                 //{
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, symbolSetInit).ToChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, symbolSetInit).ToChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, symbolSetInit).ToChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, symbolSetInit).ToChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, symbolSetInit).ToChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, symbolSetInit).ToChromosome<int>()                
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, symbolSetInit).ToModNChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, symbolSetInit).ToModNChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, symbolSetInit).ToModNChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, symbolSetInit).ToModNChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, symbolSetInit).ToModNChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, symbolSetInit).ToModNChromosome<int>()                
                 //}
                 );
         }

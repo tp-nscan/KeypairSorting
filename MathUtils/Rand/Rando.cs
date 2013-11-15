@@ -187,6 +187,31 @@ namespace MathUtils.Rand
             }
         }
 
+        public static uint NextUint(this IRando rando, uint maxVal)
+        {
+            if (maxVal > (UInt32.MaxValue >> 2))
+            {
+                while (true)
+                {
+                    var nextVal = rando.NextUint();
+                    if (nextVal < maxVal)
+                    {
+                        return nextVal;
+                    }
+                }
+            }
+
+            var cutoff = UInt32.MaxValue - (UInt32.MaxValue % maxVal);
+            while (true)
+            {
+                var nextVal = rando.NextUint();
+                if (nextVal < cutoff)
+                {
+                    return (uint) (nextVal % maxVal);
+                }
+            }
+        }
+
         public static IEnumerable<uint> NextUintByBits(this IRando rando, int flagCount)
         {
             uint mask = 0;

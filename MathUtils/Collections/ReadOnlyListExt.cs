@@ -246,27 +246,6 @@ namespace MathUtils.Collections
             }
         }
 
-        public static IReadOnlyList<T> MutateInsertDeleteToList<T>
-        (
-            this IReadOnlyList<T> original,
-            IEnumerable<bool> doMutation,
-            IEnumerable<bool> doInsertion,
-            IEnumerable<bool> doDeletion,
-            Func<T, T> mutator,
-            Func<T, T> inserter,
-            Func<T, T> paddingFunc = null
-        )
-        {
-            return MutateInsertDelete(
-                original, 
-                doMutation, 
-                doInsertion, 
-                doDeletion, 
-                mutator, 
-                inserter, 
-                paddingFunc).ToList();
-        }
-
         public static IEnumerable<T> ReadRange<T>(this IReadOnlyList<T> list, int start, int count)
         {
             for (var i = start; i < start + count; i++)

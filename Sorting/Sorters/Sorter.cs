@@ -46,12 +46,6 @@ namespace Sorting.Sorters
             var newb = randoK.Pick(keyPairList).ToMoveNext();
             while (true)
             {
-                //yield return new SorterImpl
-                //    (
-                //        keyPairs: sorter.KeyPairs.Mutate(rando.ToBoolEnumerator(mutationRate), T => randoK.Pick(keyPairList).First()),
-                //        guid: Guid.NewGuid(),
-                //        keyCount: sorter.KeyCount
-                //    );
                 yield return new SorterImpl
                     (
                         keyPairs: sorter.KeyPairs.MutateInsertDelete

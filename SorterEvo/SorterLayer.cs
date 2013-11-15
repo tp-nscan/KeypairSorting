@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Genomic;
 using MathUtils.Rand;
 
 namespace SorterEvo
 {
-    public static class SorterGrade
+    public static class SorterLayer
     {
-        public static IGrade<ISorterGenome> Create
+        public static ILayer<ISorterGenome> Create
             (
             int seed,
             int genomeCount,
@@ -18,7 +15,7 @@ namespace SorterEvo
             int keyPairCount
             )
         {
-            return Grade.Create
+            return Layer.Create
                 (
                     seed: seed,
                     createFunc: CreateFunc(keyCount, keyPairCount),
@@ -26,9 +23,9 @@ namespace SorterEvo
                 );
         }
 
-        public static IGrade<ISorterGenome> Update
+        public static ILayer<ISorterGenome> Update
         (
-            IGrade<ISorterGenome> sorteGrade,
+            ILayer<ISorterGenome> sorterLayer,
             IReadOnlyList<Tuple<Guid, double>> scores,
             int selectionRatio,
             double mutationRate,
@@ -36,9 +33,9 @@ namespace SorterEvo
             double deletionRate
         )
             {
-                return Grade.Update
+                return Layer.Update
                     (
-                        sorteGrade,
+                        sorterLayer,
                         scores,
                         selectionRatio,
                         UpdateFunc

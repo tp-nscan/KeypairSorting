@@ -6,7 +6,7 @@ using MathUtils.Rand;
 
 namespace Genomic
 {
-    public interface IGrade<out TG> where TG : IGenome
+    public interface ILayer<out TG> where TG : IGenome
     {
         int Generation { get; }
         IReadOnlyList<TG> Genomes { get; }
@@ -14,9 +14,9 @@ namespace Genomic
         int Seed { get; }
     }
 
-    public static class Grade
+    public static class Layer
     {
-        public static IGrade<TG> Create<TG>
+        public static ILayer<TG> Create<TG>
             (
                 int seed,
                 Func<int, TG> createFunc,
@@ -33,34 +33,34 @@ namespace Genomic
                 );
         }
 
-        public static IGrade<TG> Update<TG>
+        public static ILayer<TG> Update<TG>
             (
-                IGrade<TG> grade,
+                ILayer<TG> layer,
                 IReadOnlyList<Tuple<Guid, double>> scores,
                 int selectionRatio,
                 Func<TG, int, TG> genomeCopyFunc 
             ) where TG : IGenome
         {
-            var randy = Rando.Fast(grade.Seed);
+            var randy = Rando.Fast(layer.Seed);
 
             var winners = scores.OrderByDescending(t => t.Item2)
                 .Take(scores.Count / selectionRatio)
-                .Select(p => grade.GetGenome(p.Item1))
+                .Select(p => layer.GetGenome(p.Item1))
                 .ToList();
 
             return Make
                 (
-                    generation: grade.Generation + 1,
+                    generation: layer.Generation + 1,
                     genomes: winners.Concat
                     (
-                        winners.Repeat().Take(grade.Genomes.Count - winners.Count)
+                        winners.Repeat().Take(layer.Genomes.Count - winners.Count)
                                 .Select(g => genomeCopyFunc(g, randy.NextInt()))
                     ),
-                    seed: Rando.Fast(grade.Seed ^ grade.Seed).NextInt()
+                    seed: Rando.Fast(layer.Seed ^ layer.Seed).NextInt()
                 );
         }
 
-        public static IGrade<TG> Make<TG>
+        public static ILayer<TG> Make<TG>
         (
             int generation,
             IEnumerable<TG> genomes,
@@ -68,7 +68,7 @@ namespace Genomic
         )
         where TG : IGenome
         {
-            return new GradeImpl<TG>
+            return new LayerImpl<TG>
                 (
                     generation,
                     seed,
@@ -78,13 +78,13 @@ namespace Genomic
 
     }
 
-    class GradeImpl<TG> : IGrade<TG> where TG : IGenome
+    class LayerImpl<TG> : ILayer<TG> where TG : IGenome
     {
         private readonly int _generation;
         private readonly IReadOnlyDictionary<Guid, TG> _genomes;
         private readonly int _seed;
 
-        public GradeImpl(int generation, int seed, IEnumerable<TG> genomes)
+        public LayerImpl(int generation, int seed, IEnumerable<TG> genomes)
         {
             _generation = generation;
             _seed = seed;

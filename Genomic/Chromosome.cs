@@ -9,85 +9,96 @@ namespace Genomic
     public interface IChromosome
     {
         Guid Guid { get; }
-        IReadOnlyList<uint> Sequence { get; } 
-        ISymbolSet SymbolSet { get; }
+        IReadOnlyList<uint> Sequence { get; }
+        IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid);
     }
 
-    public interface IUniformChromosome : IChromosome
+    public interface IChromosome<T> : IChromosome
+        where T : IChromosomeBlock
     {
-        new IUniformSymbolSet SymbolSet { get; }
+        IReadOnlyList<T> Blocks { get; }
     }
 
     public static class Chromosome
     {
-        public static IUniformChromosome ToUniformChromosome(
+        public static IChromosome<ModNBlock> ToUniformChromosome(
                 this IRando rando, Guid guid, uint symbolCount, int sequenceLength)
         {
             return rando.ToUints(symbolCount).Take(sequenceLength)
                 .ToUniformChromosome(guid, symbolCount);
         }
 
-        public static IChromosome ToChromosome(this IReadOnlyList<uint> sequence, Guid guid, ISymbolSet symbolSet)
+        public static IChromosome ToModNChromosome(this IReadOnlyList<uint> sequence, Guid guid, uint maxVal)
         {
-            return new ChromosomeImpl(guid, sequence, symbolSet);
+            return new ModNChromosome(guid, sequence, maxVal);
         }
 
-        public static IUniformChromosome ToUniformChromosome(this IEnumerable<uint> sequence, Guid guid, uint symbolCount)
+        public static IChromosome<ModNBlock> ToUniformChromosome(this IEnumerable<uint> sequence, Guid guid, uint maxVal)
         {
-            return new UniformChromosomeImpl
+            return new ModNChromosome
                 (
                     guid: guid,
                     sequence: sequence.ToList(),
-                    symbolSet: SymbolSet.MakeUniformSymbolSet(symbolCount)
+                    maxVal: maxVal
                 );
         }
-        public static IUniformChromosome Copy
+
+        //public static IChromosome<IChromosomeBlock> Copy
+        //(
+        //    this IChromosome<IChromosomeBlock> chromosome,
+        //    IRando randy,
+        //    double mutationRate,
+        //    double insertionRate,
+        //    double deletionRate
+        //)
+        //{
+        //    return (IChromosome<IChromosomeBlock>)chromosome.ReplaceDataWith(
+        //        data: chromosome.Blocks.MutateInsertDelete
+        //            (
+        //                doMutation: randy.ToBoolEnumerator(mutationRate),
+        //                doInsertion: randy.ToBoolEnumerator(insertionRate),
+        //                doDeletion: randy.ToBoolEnumerator(deletionRate),
+        //                mutator: x => x.Mutate(randy),
+        //                inserter: x => x.Mutate(randy),
+        //                paddingFunc: x => x.Mutate(randy)
+        //            )
+        //            .SelectMany(b => b.AsSerialized),
+        //        newGuid: Guid.NewGuid()
+        //        );
+        //}
+
+
+        public static IChromosome<T> Copy<T>
             (
-                this IUniformChromosome chromosome,
-                IRando randy, 
-                double mutationRate, 
-                double insertionRate, 
+                this IChromosome<T> chromosome,
+                IRando randy,
+                double mutationRate,
+                double insertionRate,
                 double deletionRate
-            )
+            ) where T : IChromosomeBlock
         {
-            var newVals = chromosome.SymbolSet.Choose(randy.Spawn()).ToMoveNext();
-            return new UniformChromosomeImpl
-                (
-                    guid: randy.NextGuid(), 
-                    sequence: chromosome.Sequence.MutateInsertDeleteToList
-                                (
-                                    doMutation: randy.ToBoolEnumerator(mutationRate),
-                                    doInsertion: randy.ToBoolEnumerator(insertionRate),
-                                    doDeletion: randy.ToBoolEnumerator(deletionRate),
-                                    mutator: x => newVals.Next(),
-                                    inserter: x => newVals.Next(),
-                                    paddingFunc: x => newVals.Next()
-                                ), 
-                    symbolSet: chromosome.SymbolSet
+            return (IChromosome<T>) chromosome.ReplaceDataWith(
+                data: chromosome.Blocks.MutateInsertDelete
+                    (
+                        doMutation: randy.ToBoolEnumerator(mutationRate),
+                        doInsertion: randy.ToBoolEnumerator(insertionRate),
+                        doDeletion: randy.ToBoolEnumerator(deletionRate),
+                        mutator: x => (T)x.Mutate(randy),
+                        inserter: x => (T)x.Mutate(randy),
+                        paddingFunc: x => (T)x.Mutate(randy)
+                    )
+                    .SelectMany(b => b.AsSerialized),
+                newGuid: Guid.NewGuid()
                 );
         }
     }
 
-    internal class UniformChromosomeImpl : ChromosomeImpl, IUniformChromosome
+    abstract class ChromosomeImpl<T> : IChromosome<T> where T : IChromosomeBlock
     {
-        public UniformChromosomeImpl(Guid guid, IReadOnlyList<uint> sequence, IUniformSymbolSet symbolSet) 
-            : base(guid, sequence, symbolSet)
-        {
-        }
-
-        public new IUniformSymbolSet SymbolSet
-        {
-            get { return (IUniformSymbolSet) base.SymbolSet; }
-        }
-    }
-
-    class ChromosomeImpl : IChromosome
-    {
-        public ChromosomeImpl(Guid guid, IReadOnlyList<uint> sequence, ISymbolSet symbolSet)
+        protected ChromosomeImpl(Guid guid, IReadOnlyList<uint> sequence)
         {
             _guid = guid;
             _sequence = sequence;
-            _symbolSet = symbolSet;
         }
 
         private readonly IReadOnlyList<uint> _sequence;
@@ -96,11 +107,7 @@ namespace Genomic
             get { return _sequence; }
         }
 
-        private readonly ISymbolSet _symbolSet;
-        public ISymbolSet SymbolSet
-        {
-            get { return _symbolSet; }
-        }
+        public abstract IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid);
 
         private readonly Guid _guid;
         public Guid Guid
@@ -108,5 +115,51 @@ namespace Genomic
             get { return _guid; }
         }
 
+        public abstract IReadOnlyList<T> Blocks
+        {
+            get;
+        }
+
     }
+
+    class ModNChromosome : ChromosomeImpl<ModNBlock>
+    {
+        public ModNChromosome(
+            Guid guid, 
+            IReadOnlyList<uint> sequence, 
+            uint maxVal
+            ) : base(guid, sequence)
+        {
+            _maxVal = maxVal;
+        }
+
+        private readonly uint _maxVal;
+        public uint MaxVal
+        {
+            get { return _maxVal; }
+        }
+
+        private IReadOnlyList<ModNBlock> _blockList;
+        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
+        {
+            return new ModNChromosome
+                (
+                    guid: newGuid,
+                    sequence: data.ToList(),
+                    maxVal: MaxVal
+                );
+        }
+
+        public override IReadOnlyList<ModNBlock> Blocks
+        {
+            get
+            {
+                return _blockList ?? (_blockList = Sequence.Select
+                    (
+                        t => new ModNBlock(t, MaxVal)).ToList()
+                    );
+            }
+        }
+    }
+
 }
