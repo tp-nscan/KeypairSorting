@@ -19,12 +19,12 @@ namespace Genomic
                 null
                 //new []
                 //{
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, symbolSetInit).ToModNChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, symbolSetInit).ToModNChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, symbolSetInit).ToModNChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, symbolSetInit).ToModNChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, symbolSetInit).ToModNChromosome<int>(),
-                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, symbolSetInit).ToModNChromosome<int>()                
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 123, 700, symbolSetInit).ToModUIntChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 124, 700, symbolSetInit).ToModUIntChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 125, 700, symbolSetInit).ToModUIntChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 126, 700, symbolSetInit).ToModUIntChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 127, 700, symbolSetInit).ToModUIntChromosome<int>(),
+                //    ChromosomeBuildInfo.GenInfo(Guid.NewGuid(), 128, 700, symbolSetInit).ToModUIntChromosome<int>()                
                 //}
                 );
         }

@@ -41,7 +41,8 @@ namespace Genomic
                 Func<TG, int, TG> genomeCopyFunc 
             ) where TG : IGenome
         {
-            var randy = Rando.Fast(layer.Seed);
+            var newSeed = Rando.Fast(layer.Seed ^ layer.Seed).NextInt();
+            var randy = Rando.Fast(newSeed);
 
             var winners = scores.OrderByDescending(t => t.Item2)
                 .Take(scores.Count / selectionRatio)
@@ -56,7 +57,7 @@ namespace Genomic
                         winners.Repeat().Take(layer.Genomes.Count - winners.Count)
                                 .Select(g => genomeCopyFunc(g, randy.NextInt()))
                     ),
-                    seed: Rando.Fast(layer.Seed ^ layer.Seed).NextInt()
+                    seed: newSeed
                 );
         }
 

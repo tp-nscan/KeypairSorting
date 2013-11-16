@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using MathUtils.Rand;
 
@@ -39,6 +38,17 @@ namespace MathUtils.Collections
             return lhs;
         }
 
+        public static IEnumerable<Tuple<int, T, T>> GetDiffs<T>(this IReadOnlyList<T> listA, IReadOnlyList<T> listB)
+        {
+            for (var i = 0; i < listA.Count; i++)
+            {
+                if (! listA[i].Equals(listB[i]))
+                {
+                    yield return new Tuple<int, T, T>(i, listA[i], listB[i]);
+                }
+            }
+
+        }
 
         public static IReadOnlyList<double> VectorSumDouble(this IEnumerable<IReadOnlyList<double>> listOfList)
         {
@@ -188,7 +198,6 @@ namespace MathUtils.Collections
             Func<T, T> paddingFunc = null
         )
         {
-            var tRet = new T[original.Count];
             var doMutationEnumer = doMutation.GetEnumerator();
             var doInsertionEnumer = doInsertion.GetEnumerator();
             var doDeletionEnumer = doDeletion.GetEnumerator();

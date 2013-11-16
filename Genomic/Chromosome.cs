@@ -14,59 +14,30 @@ namespace Genomic
     }
 
     public interface IChromosome<T> : IChromosome
-        where T : IChromosomeBlock
+        where T : IGene
     {
         IReadOnlyList<T> Blocks { get; }
+        T NewBlock(IRando rando);
     }
 
     public static class Chromosome
     {
-        public static IChromosome<ModNBlock> ToUniformChromosome(
+        public static IChromosome<GeneUintModN> ToUniformChromosome(
                 this IRando rando, Guid guid, uint symbolCount, int sequenceLength)
         {
-            return rando.ToUints(symbolCount).Take(sequenceLength)
-                .ToUniformChromosome(guid, symbolCount);
+            return rando.ToUintEnumerator(symbolCount).Take(sequenceLength)
+                .ToModUIntChromosome(guid, symbolCount);
         }
 
-        public static IChromosome ToModNChromosome(this IReadOnlyList<uint> sequence, Guid guid, uint maxVal)
+        public static IChromosome<GeneUintModN> ToModUIntChromosome(this IEnumerable<uint> sequence, Guid guid, uint maxVal)
         {
-            return new ModNChromosome(guid, sequence, maxVal);
+            return new ModUintChromosome(guid, sequence.ToList(), maxVal);
         }
 
-        public static IChromosome<ModNBlock> ToUniformChromosome(this IEnumerable<uint> sequence, Guid guid, uint maxVal)
+        public static IChromosome ToModUlongChromosome(this IEnumerable<uint> sequence, Guid guid, ulong maxVal)
         {
-            return new ModNChromosome
-                (
-                    guid: guid,
-                    sequence: sequence.ToList(),
-                    maxVal: maxVal
-                );
+            return new ModUlongChromosome(guid, sequence.ToList(), maxVal);
         }
-
-        //public static IChromosome<IChromosomeBlock> Copy
-        //(
-        //    this IChromosome<IChromosomeBlock> chromosome,
-        //    IRando randy,
-        //    double mutationRate,
-        //    double insertionRate,
-        //    double deletionRate
-        //)
-        //{
-        //    return (IChromosome<IChromosomeBlock>)chromosome.ReplaceDataWith(
-        //        data: chromosome.Blocks.MutateInsertDelete
-        //            (
-        //                doMutation: randy.ToBoolEnumerator(mutationRate),
-        //                doInsertion: randy.ToBoolEnumerator(insertionRate),
-        //                doDeletion: randy.ToBoolEnumerator(deletionRate),
-        //                mutator: x => x.Mutate(randy),
-        //                inserter: x => x.Mutate(randy),
-        //                paddingFunc: x => x.Mutate(randy)
-        //            )
-        //            .SelectMany(b => b.AsSerialized),
-        //        newGuid: Guid.NewGuid()
-        //        );
-        //}
-
 
         public static IChromosome<T> Copy<T>
             (
@@ -75,7 +46,7 @@ namespace Genomic
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
-            ) where T : IChromosomeBlock
+            ) where T : IGene
         {
             return (IChromosome<T>) chromosome.ReplaceDataWith(
                 data: chromosome.Blocks.MutateInsertDelete
@@ -85,7 +56,7 @@ namespace Genomic
                         doDeletion: randy.ToBoolEnumerator(deletionRate),
                         mutator: x => (T)x.Mutate(randy),
                         inserter: x => (T)x.Mutate(randy),
-                        paddingFunc: x => (T)x.Mutate(randy)
+                        paddingFunc: x => chromosome.NewBlock(randy)
                     )
                     .SelectMany(b => b.AsSerialized),
                 newGuid: Guid.NewGuid()
@@ -93,7 +64,7 @@ namespace Genomic
         }
     }
 
-    abstract class ChromosomeImpl<T> : IChromosome<T> where T : IChromosomeBlock
+    abstract class ChromosomeImpl<T> : IChromosome<T> where T : IGene
     {
         protected ChromosomeImpl(Guid guid, IReadOnlyList<uint> sequence)
         {
@@ -120,46 +91,6 @@ namespace Genomic
             get;
         }
 
+        public abstract T NewBlock(IRando rando);
     }
-
-    class ModNChromosome : ChromosomeImpl<ModNBlock>
-    {
-        public ModNChromosome(
-            Guid guid, 
-            IReadOnlyList<uint> sequence, 
-            uint maxVal
-            ) : base(guid, sequence)
-        {
-            _maxVal = maxVal;
-        }
-
-        private readonly uint _maxVal;
-        public uint MaxVal
-        {
-            get { return _maxVal; }
-        }
-
-        private IReadOnlyList<ModNBlock> _blockList;
-        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
-        {
-            return new ModNChromosome
-                (
-                    guid: newGuid,
-                    sequence: data.ToList(),
-                    maxVal: MaxVal
-                );
-        }
-
-        public override IReadOnlyList<ModNBlock> Blocks
-        {
-            get
-            {
-                return _blockList ?? (_blockList = Sequence.Select
-                    (
-                        t => new ModNBlock(t, MaxVal)).ToList()
-                    );
-            }
-        }
-    }
-
 }

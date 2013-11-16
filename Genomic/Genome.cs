@@ -48,7 +48,7 @@ namespace Genomic
                 double insertionRate,
                 double deletionRate
             )
-            where TC : IChromosome<IChromosomeBlock>
+            where TC : IChromosome<IGene>
         {
             return new SimpleGenomeImpl<TC>
                 (

@@ -65,6 +65,7 @@
     <Compile Include="Bits\BitArrayUtilsFixture.cs" />
     <Compile Include="Bits\NumberConvertersFixture.cs" />
     <Compile Include="Bits\IntArrayUtilsFixture.cs" />
+    <Compile Include="Collections\NumbersFixture.cs" />
     <Compile Include="Collections\ReadOnlyListExtFixture.cs" />
     <Compile Include="Collections\RepoBaseFixture.cs" />
     <Compile Include="Collections\EnumerableExtFixture.cs" />

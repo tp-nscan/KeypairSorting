@@ -121,35 +121,12 @@ namespace Sorting.Test.SwitchFunctionSets
                     testNum <<= 32;
                     testNum += (ulong)randy.NextInt();
 
-                    testNum >>= (maxKeyCount - keyCount - 1);
+                    testNum >>= (maxKeyCount - keyCount);
                     var testArray = testNum.ToBits().Take(keyCount).ToArray();
                     Assert.AreEqual(switchSet.IsSorted(testNum), testArray.IsSorted());
                 }
             }
         }
-
-
-        [TestMethod]
-        public void TestWhopper()
-        {
-            const int maxKeyCount = 64;
-            var randy = Rando.Fast(322);
-            const int keyCount = 64;
-
-            var switchSet = new UlongSwitchSet(keyCount);
-            for (var i = 0; i < 1000; i++)
-            {
-                var testNum = (ulong)randy.NextInt();
-                testNum <<= 32;
-                testNum += (ulong)randy.NextInt();
-
-                testNum >>= (maxKeyCount - keyCount - 1);
-                var testArray = testNum.ToBits().Take(keyCount).ToArray();
-                Assert.AreEqual(switchSet.IsSorted(testNum), testArray.IsSorted());
-            }
-
-        }
-
 
         [TestMethod]
         public void BenchUshortForSorted()

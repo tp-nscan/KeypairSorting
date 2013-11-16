@@ -14,7 +14,7 @@ namespace MathUtils.Tests.Rand
         //    var rando = Rando.Fast(33);
         //    for (var i = 0; i < 550; i++)
         //    {
-        //        var res = rando.ToUints();
+        //        var res = rando.ToUintEnumerator();
         //        if (res > 2132955153)
         //            System.Diagnostics.Debug.WriteLine(res);
         //    }
@@ -23,7 +23,7 @@ namespace MathUtils.Tests.Rand
         //[TestMethod]
         //public void TestRandomFlags()
         //{
-        //    var randomFlags = Rando.Fast(33).NextUlongByBits(50).Take(5000).OrderByDescending(T => T).ToList();
+        //    var randomFlags = Rando.Fast(33).ToUlongEnumeratorByBits(50).Take(5000).OrderByDescending(T => T).ToList();
 
         //    foreach (var randomFlag in randomFlags)
         //    {
@@ -45,9 +45,18 @@ namespace MathUtils.Tests.Rand
         public void TestUintWithLimit()
         {
             const uint maxVal = 100;
-            var avg = Rando.Fast(8823).ToUints(maxVal).Take(10000).Average(t => t);
+            var avg = Rando.Fast(8823).ToUintEnumerator(maxVal).Take(10000).Average(t => t);
             Assert.IsTrue(avg < (maxVal/2));
             Assert.IsTrue(avg > (maxVal / 2 - 1));
+        }
+
+        [TestMethod]
+        public void TestUlongWithLimit()
+        {
+            const ulong maxVal = 100000000000;
+            var avg = Rando.Fast(8823).ToUlongEnumerator(maxVal).Take(10000).Average(t => (long) t);
+            Assert.IsTrue(avg < (maxVal * 0.53));
+            Assert.IsTrue(avg > (maxVal * 0.47));
         }
     }
 }

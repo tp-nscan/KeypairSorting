@@ -53,6 +53,7 @@
     <Compile Include="SorterGenomeFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchableGroupGenomeFixture.cs" />
+    <Compile Include="SorterLayerFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Genomic\Genomic.csproj">

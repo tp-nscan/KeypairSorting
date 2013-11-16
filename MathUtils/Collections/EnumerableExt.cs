@@ -217,6 +217,36 @@ namespace MathUtils.Collections
             }
         }
 
+        public static IEnumerable<ulong> ToUlongs(this IEnumerable<uint> uints)
+        {
+            var ready = false;
+            ulong ulongRet = 0;
+            foreach (var u in uints)
+            {
+                if (ready)
+                {
+                    ulongRet <<= 32;
+                    yield return ulongRet + u;
+                    ready = false;
+                }
+                else
+                {
+                    ulongRet = u;
+                    ready = true;
+                }
+            }
+        }
+
+        public static IEnumerable<uint> ToUints(this IEnumerable<ulong> ulongs)
+        {
+            foreach (var u in ulongs)
+            {
+                var shift = u >> 32;
+                yield return (uint)shift;
+                yield return (uint) u;
+            }
+        }
+
     }
 
 

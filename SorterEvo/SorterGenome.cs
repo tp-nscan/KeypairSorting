@@ -6,7 +6,7 @@ using Sorting.Sorters;
 
 namespace SorterEvo
 {
-    public interface ISorterGenome : ISimpleGenome<IChromosome<ModNBlock>>
+    public interface ISorterGenome : ISimpleGenome<IChromosome<GeneUintModN>>
     {
         int KeyCount { get; }
         int KeyPairCount { get; }
@@ -24,7 +24,11 @@ namespace SorterEvo
                     guid: sorterGenome.Guid
                 );
         }
-        public static ISorterGenome ToSorterGenome(this IRando randy, int keyCount, int keyPairCount)
+
+        public static ISorterGenome ToSorterGenome(
+            this IRando randy, 
+            int keyCount, 
+            int keyPairCount)
         {
             return new SorterGenomeImpl
                 (
@@ -34,8 +38,12 @@ namespace SorterEvo
                 );
         }
 
-        public static ISorterGenome Make(Guid guid, Guid parentGuid, IChromosome<ModNBlock> chromosome, 
-            int keyCount, int keyPairCount)
+        public static ISorterGenome Make(
+            Guid guid, 
+            Guid parentGuid, 
+            IChromosome<GeneUintModN> chromosome, 
+            int keyCount, 
+            int keyPairCount)
         {
             return new SorterGenomeImpl
                 (
@@ -48,7 +56,7 @@ namespace SorterEvo
         }
     }
 
-    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<ModNBlock>>, ISorterGenome
+    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<GeneUintModN>>, ISorterGenome
     {
         public SorterGenomeImpl(IRando randy, int keyCount, int keyPairCount) 
             : base
@@ -67,7 +75,13 @@ namespace SorterEvo
             _keyPairCount = keyPairCount;
         }
 
-        public SorterGenomeImpl(Guid guid, Guid parentGuid, IChromosome<ModNBlock> chromosome, int keyCount, int keyPairCount) 
+        public SorterGenomeImpl(
+                Guid guid, 
+                Guid parentGuid, 
+                IChromosome<GeneUintModN> chromosome, 
+                int keyCount, 
+                int keyPairCount
+            ) 
             : base
             (
                 guid: guid,

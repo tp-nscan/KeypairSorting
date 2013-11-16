@@ -56,6 +56,33 @@ namespace MathUtils.Tests.Collections
             Assert.AreEqual(chunks[1].First(), "a3");
             Assert.AreEqual(chunks[1].Last(), "a5");
         }
+
+        [TestMethod]
+        public void UintUlongEnumerTest()
+        {
+            var startUints = Rando.Fast(123).ToUintEnumerator()
+                .Take(100).ToList();
+
+            var convUlongs = startUints.ToUlongs().ToList();
+            var endUints = convUlongs.ToUints().ToList();
+
+            var diffs = startUints.GetDiffs(endUints).ToList();
+            Assert.AreEqual(diffs.Count, 0);
+        }
+
+        [TestMethod]
+        public void UlongUintEnumerTest()
+        {
+            var startUlongs = Rando.Fast(123).ToUlongEnumerator()
+                .Take(100).ToList();
+
+            var convUints = startUlongs.ToUints().ToList();
+            var endUlongs = convUints.ToUlongs().ToList();
+
+            var diffs = startUlongs.GetDiffs(endUlongs).ToList();
+            Assert.AreEqual(diffs.Count, 0);
+        }
+
     }
 }
 

@@ -25,7 +25,7 @@ namespace SorterEvo
 
         public static ILayer<ISorterGenome> Update
         (
-            ILayer<ISorterGenome> sorterLayer,
+            this ILayer<ISorterGenome> sorterLayer,
             IReadOnlyList<Tuple<Guid, double>> scores,
             int selectionRatio,
             double mutationRate,

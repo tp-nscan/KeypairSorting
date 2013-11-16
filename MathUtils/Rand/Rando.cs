@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathUtils.Collections;
 
 namespace MathUtils.Rand
 {
@@ -31,6 +32,124 @@ namespace MathUtils.Rand
             return new RandoFast(rando.NextInt());
         }
 
+        public static IEnumerable<IRando> ToRandomEnumerator(this IRando rando)
+        {
+            while (true)
+            {
+                yield return Fast(rando.NextInt());
+            }
+        }
+
+        public static IEnumerable<int> ToIntEnumerator(this IRando rando, int maxValue)
+        {
+            while (true)
+            {
+                yield return rando.NextInt(maxValue);
+            }
+        }
+
+        #region uint
+
+        public static uint NextUint(this IRando rando, uint maxVal)
+        {
+            var mask = Numbers.UintMask(maxVal.HiBit());
+            while (true)
+            {
+                var retVal = rando.NextUint() & mask;
+                if (retVal < maxVal)
+                {
+                    return retVal;
+                }
+            }
+        }
+
+
+        public static IEnumerable<uint> ToUintEnumerator(this IRando rando)
+        {
+            while (true)
+            {
+                yield return rando.NextUint();
+            }
+        }
+
+        public static IEnumerable<uint> ToUintEnumerator(this IRando rando, uint maxVal)
+        {
+            var mask = Numbers.UintMask(maxVal.HiBit());
+            while (true)
+            {
+                var retVal = rando.NextUint() & mask;
+                if (retVal < maxVal)
+                {
+                    yield return retVal;
+                }
+            }
+        }
+
+        #endregion
+
+        #region ulong
+
+        public static IEnumerable<ulong> ToUlongEnumerator(this IRando rando)
+        {
+            while (true)
+            {
+                var retVal = (ulong) rando.NextUint();
+                yield return (retVal << 32) + rando.NextUint();
+            }
+        }
+
+        public static IEnumerable<ulong> ToUlongEnumerator(this IRando rando, ulong maxVal)
+        {
+            var mask = Numbers.UlongMask(maxVal.HiBit());
+            while (true)
+            {
+                var retVal = rando.NextUlong() & mask;
+                if (retVal < maxVal)
+                {
+                    yield return retVal;
+                }
+            }
+        }
+
+        public static ulong NextUlong(this IRando rando, ulong maxVal)
+        {
+            var mask = Numbers.UlongMask(maxVal.HiBit());
+            while (true)
+            {
+                var retVal = rando.NextUlong() & mask;
+                if (retVal < maxVal)
+                {
+                    return retVal;
+                }
+            }
+        }
+
+        public static ulong NextUlong(this IRando rando)
+        {
+            var mask = (ulong)rando.NextUint();
+            return (mask << 32) + rando.NextUint();
+        }
+
+        #endregion
+
+        public static IEnumerable<bool> ToBoolEnumerator(this IRando rando, double trueProbability)
+        {
+            while (true)
+            {
+                yield return rando.NextDouble() < trueProbability;
+            }
+        }
+
+        public static IEnumerable<double> ToDoubleEnumerator(this IRando rando)
+        {
+            while (true)
+            {
+                yield return rando.NextDouble();
+            }
+        }
+
+        #region guid
+
         public static Guid NextGuid(this IRando rando)
         {
             return new Guid
@@ -49,46 +168,6 @@ namespace MathUtils.Rand
                 );
         }
 
-        public static IEnumerable<IRando> ToRandomEnumerator(this IRando rando)
-        {
-            while (true)
-            {
-                yield return Fast(rando.NextInt());
-            }
-        }
-
-        public static IEnumerable<int> ToIntEnumerator(this IRando rando, int maxValue)
-        {
-            while (true)
-            {
-                yield return rando.NextInt(maxValue);
-            }
-        }
-
-        public static IEnumerable<ulong> ToUlongEnumerator(this IRando rando)
-        {
-            while (true)
-            {
-                var retVal = (ulong) rando.NextUint();
-                yield return (retVal << 32) + rando.NextUint();
-            }
-        }
-
-        public static IEnumerable<bool> ToBoolEnumerator(this IRando rando, double trueProbability)
-        {
-            while (true)
-            {
-                yield return rando.NextDouble() < trueProbability;
-            }
-        }
-
-        public static IEnumerable<double> ToDoubleEnumerator(this IRando rando)
-        {
-            while (true)
-            {
-                yield return rando.NextDouble();
-            }
-        }
 
         public static IEnumerable<Guid> ToGuidEnumerator(this IRando rando)
         {
@@ -110,6 +189,8 @@ namespace MathUtils.Rand
                     );
             }
         }
+
+        #endregion
 
         public static IEnumerable<T> Pick<T>(this IRando rando, IReadOnlyList<T> items)
         {
@@ -144,98 +225,12 @@ namespace MathUtils.Rand
 
         public static IEnumerable<double> PowDist(this IRando rando, double max, double pow)
         {
-            var logMax = Math.Log(max);
             while (true)
             {
                 yield return Math.Pow(rando.NextDouble(), pow)*max;
             }
         }
 
-        public static IEnumerable<uint> ToUints(this IRando rando, uint maxVal)
-        {
-            if (maxVal > (UInt32.MaxValue >> 2))
-            {
-                return rando.NextUintCutoff(maxVal);
-            }
-
-            var cutoff = UInt32.MaxValue - (UInt32.MaxValue % maxVal);
-
-            return rando.NextUintCutoffAndMod(cutoff, maxVal);
-        }
-
-        static IEnumerable<uint> NextUintCutoff(this IRando rando, uint cutoff)
-        {
-            while (true)
-            {
-                var nextVal = rando.NextUint();
-                if (nextVal < cutoff)
-                {
-                    yield return nextVal;
-                }
-            }
-        }
-
-        static IEnumerable<uint> NextUintCutoffAndMod(this IRando rando, uint cutoff, uint modulo)
-        {
-            while (true)
-            {
-                var nextVal = rando.NextUint();
-                if (nextVal < cutoff)
-                {
-                    yield return nextVal % modulo;
-                }
-            }
-        }
-
-        public static uint NextUint(this IRando rando, uint maxVal)
-        {
-            if (maxVal > (UInt32.MaxValue >> 2))
-            {
-                while (true)
-                {
-                    var nextVal = rando.NextUint();
-                    if (nextVal < maxVal)
-                    {
-                        return nextVal;
-                    }
-                }
-            }
-
-            var cutoff = UInt32.MaxValue - (UInt32.MaxValue % maxVal);
-            while (true)
-            {
-                var nextVal = rando.NextUint();
-                if (nextVal < cutoff)
-                {
-                    return (uint) (nextVal % maxVal);
-                }
-            }
-        }
-
-        public static IEnumerable<uint> NextUintByBits(this IRando rando, int flagCount)
-        {
-            uint mask = 0;
-            for (var i = 0; i < flagCount; i++)
-            {
-                mask <<= 1;
-                mask++;
-            }
-            while (true)
-            {
-                yield return rando.NextUint() & mask;
-            }
-        }
-
-        public static IEnumerable<ulong> NextUlongByBits(this IRando rando, int flagCount)
-        {
-            uint mask = 0;
-            for (var i = 0; i < flagCount; i++)
-            {
-                mask <<= 1;
-                mask++;
-            }
-            return rando.ToUlongEnumerator().Select(T => T & mask);
-        }
     }
 
     class RandoReg : IRando

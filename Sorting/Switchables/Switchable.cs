@@ -24,11 +24,11 @@ namespace Sorting.Switchables
         {
             if (typeof (T) == typeof (uint))
             {
-                return (IEnumerable<ISwitchable<T>>)random.NextUintByBits(keyCount).ToUintSwitchable(keyCount);
+                return (IEnumerable<ISwitchable<T>>)random.ToUintEnumerator(((uint)1) << (keyCount -1)).ToUintSwitchable(keyCount);
             }
             if (typeof(T) == typeof(ulong))
             {
-                return (IEnumerable<ISwitchable<T>>)random.NextUlongByBits(keyCount).ToUlongSwitchable(keyCount);
+                return (IEnumerable<ISwitchable<T>>)random.ToUlongEnumerator(((ulong)1) << (keyCount -1)).ToUlongSwitchable(keyCount);
             }
             if (typeof(T) == typeof(bool[]))
             {

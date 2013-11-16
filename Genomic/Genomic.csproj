@@ -40,11 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
-    <Compile Include="ChromosomeBlock.cs" />
+    <Compile Include="Gene.cs" />
     <Compile Include="ChromosomeRepository.cs" />
     <Compile Include="GenomeGenerator.cs" />
     <Compile Include="Genome.cs" />
     <Compile Include="Layer.cs" />
+    <Compile Include="ModUintChromosome.cs" />
+    <Compile Include="ModUlongChromosome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
