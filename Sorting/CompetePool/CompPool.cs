@@ -76,7 +76,7 @@ namespace Sorting.CompetePool
                     .SelectMany(t => t);
 
             return newSorters.ToCompPool(newSwitchables);
-            //return newSorters.ToCompPool(originalPool.SwitchableGroupEval.Select(t=>t.SwitchableGroup).Cast<ISwitchableGroup<T>>());
+            //return newSorters.ToCompPool(originalPool.SwitchableGroupEval.Select(t=>t.SwitchableGroupImpl).Cast<ISwitchableGroup<T>>());
         }
 
         public static string ToReport(this ICompPool compPool, int numRecords, string label_1, string label_2)

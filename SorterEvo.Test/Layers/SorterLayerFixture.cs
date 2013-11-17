@@ -2,8 +2,9 @@
 using System.Linq;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SorterEvo.Layers;
 
-namespace SorterEvo.Test
+namespace SorterEvo.Test.Layers
 {
     [TestClass]
     public class SorterLayerFixture

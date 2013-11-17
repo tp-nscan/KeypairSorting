@@ -15,19 +15,20 @@ namespace Sorting.Switchables
     {
         Guid Guid { get; }
         int KeyCount { get; }
+        int SwitchableCount { get; }
         Type SwitchableDataType { get; }
     }
 
-    public static class SwitchableGroup
+    public static class SwitchableGroupImpl
     {
-        public static ISwitchableGroup<T> ToSwitchableGroup<T>( this IEnumerable<ISwitchable<T>> switchables, Guid guid, int keyCount)
+        public static ISwitchableGroup<T> ToSwitchableGroup<T>(this IEnumerable<ISwitchable<T>> switchables, Guid guid, int keyCount)
         {
-            return new SwitchableGroup<T>(guid, keyCount, switchables);
+            return new SwitchableGroupImpl<T>(guid, keyCount, switchables);
         }
 
         public static ISwitchableGroup<T> ToSwitchableGroup<T>(this IRando rando, Guid guid, int keyCount, int switchableCount)
         {
-            return new SwitchableGroup<T>(guid, keyCount, rando.MakeSwitchables<T>(keyCount).Take(switchableCount));
+            return new SwitchableGroupImpl<T>(guid, keyCount, rando.MakeSwitchables<T>(keyCount).Take(switchableCount));
         }
 
         public static IEnumerable<ISwitchableGroup<T>> Mutate<T>(this ISwitchableGroup<T> switchableGroup, IRando rando,
@@ -40,7 +41,7 @@ namespace Sorting.Switchables
                 var switchables = switchableGroup.Switchables.Mutate(rando.ToBoolEnumerator(mutationRate),
                     t => mutationSource.Next());
 
-                yield return new SwitchableGroup<T>
+                yield return new SwitchableGroupImpl<T>
                     (
                         guid: newGuid,
                         keyCount: switchableGroup.KeyCount,
@@ -50,9 +51,9 @@ namespace Sorting.Switchables
         }
     }
 
-    public class SwitchableGroup<T> : ISwitchableGroup<T>
+    class SwitchableGroupImpl<T> : ISwitchableGroup<T>
     {
-        public SwitchableGroup(Guid guid, int keyCount, IEnumerable<ISwitchable<T>> switchables)
+        public SwitchableGroupImpl(Guid guid, int keyCount, IEnumerable<ISwitchable<T>> switchables)
         {
             _switchableDataType = typeof(T);
             _keyCount = keyCount;
@@ -76,6 +77,11 @@ namespace Sorting.Switchables
         public int KeyCount
         {
             get { return _keyCount; }
+        }
+
+        public int SwitchableCount
+        {
+            get { return _switchables.Count; }
         }
 
         private readonly Type _switchableDataType;

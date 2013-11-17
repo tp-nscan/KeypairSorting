@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Genomic;
+using Genomic.Chromosomes;
+using Genomic.Genomes;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Sorting.Switchables;
 
-namespace SorterEvo
+namespace SorterEvo.Genomes
 {
     public interface ISwitchableGroupGenome : ISimpleGenome<IChromosome>
     {
@@ -29,10 +30,11 @@ namespace SorterEvo
                             guid: rando.NextGuid(),
                             keyCount: keyCount,
                             chromosome: rando.ToUintEnumerator(((uint)1) << (keyCount - 1))
-                                                .Take(groupSize)
-                                                .ToModUIntChromosome(rando.NextGuid(), ((uint)1) << keyCount),
+                                             .Take(groupSize)
+                                             .ToChromosomeUintN(rando.NextGuid(), ((uint)1) << keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.UInt
                         );
+
                 case SwitchableGroupGenomeType.ULong:
                     return new SwitchableGroupGenomeImpl
                         (
@@ -41,7 +43,7 @@ namespace SorterEvo
                             chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
                                                 .Take(groupSize)
                                                 .ToUints()
-                                                .ToModUlongChromosome(rando.NextGuid(), ((ulong)1) << keyCount),
+                                                .ToChromosomeUlongN(rando.NextGuid(), ((ulong)1) << keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.ULong
                         );
 
@@ -53,19 +55,30 @@ namespace SorterEvo
                             chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
                                                 .Take(groupSize)
                                                 .ToUints()
-                                                .ToModUlongChromosome(rando.NextGuid(), ((ulong)1) << keyCount),
+                                                .ToChromosomePermutation(rando.NextGuid(), keyCount, 0.2),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray
                         );
 
                 case SwitchableGroupGenomeType.IntArray:
+
+                    var nummys =
+                        Enumerable.Range(0, groupSize)
+                            .SelectMany(i => Enumerable.Range(0, keyCount).ToList().FisherYatesShuffle(rando))
+                                .ToList();
+
+
                     return new SwitchableGroupGenomeImpl
                         (
                             guid: rando.NextGuid(),
                             keyCount: keyCount,
-                            chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
-                                                .Take(groupSize)
-                                                .ToUints()
-                                                .ToModUlongChromosome(rando.NextGuid(), ((ulong)1) << keyCount),
+                            chromosome: Enumerable.Range(0, groupSize)
+                            .SelectMany(i => Enumerable.Range(0, keyCount)
+                                                       .Select(t=>(uint)t)
+                                                       .ToList()
+                                                       .FisherYatesShuffle(rando)
+                                        )
+                                         .ToChromosomePermutation(rando.NextGuid(), keyCount, 0.2),
+
                             switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
                         );
 
@@ -85,7 +98,7 @@ namespace SorterEvo
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<uint>)switchableGroup).Switchables
                                             .Select(t => t.Item)
-                                            .ToModUIntChromosome(Guid.NewGuid(), symbolCount),
+                                            .ToChromosomeUintN(Guid.NewGuid(), symbolCount),
                         switchableGroupGenomeType: SwitchableGroupGenomeType.UInt
                     );
             }
@@ -110,7 +123,7 @@ namespace SorterEvo
                 //        keyCount: switchableGroup.KeyCount,
                 //        chromosome: ((ISwitchableGroup<int[]>)switchableGroup).Switchables
                 //                            .SelectMany(t => t.Item.Cast<uint>())
-                //                            .ToUniformChromosome(Guid.NewGuid(), symbolCount),
+                //                            .ToChromosomeUintN(Guid.NewGuid(), symbolCount),
                 //        switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
                 //    );
             }

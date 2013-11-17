@@ -39,14 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chromosome.cs" />
-    <Compile Include="Gene.cs" />
-    <Compile Include="ChromosomeRepository.cs" />
-    <Compile Include="GenomeGenerator.cs" />
-    <Compile Include="Genome.cs" />
-    <Compile Include="Layer.cs" />
-    <Compile Include="ModUintChromosome.cs" />
-    <Compile Include="ModUlongChromosome.cs" />
+    <Compile Include="Chromosomes\Chromosome.cs" />
+    <Compile Include="Chromosomes\ChromosomePermutation.cs" />
+    <Compile Include="Genes\Gene.cs" />
+    <Compile Include="Chromosomes\ChromosomeRepository.cs" />
+    <Compile Include="Genes\GeneBits.cs" />
+    <Compile Include="Genes\GenePermutation.cs" />
+    <Compile Include="Genes\GeneUintModN.cs" />
+    <Compile Include="Genes\GeneUlongModN.cs" />
+    <Compile Include="Genomes\Genome.cs" />
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Chromosomes\ChromosomeUintN.cs" />
+    <Compile Include="Chromosomes\ChromosomeUlongN.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

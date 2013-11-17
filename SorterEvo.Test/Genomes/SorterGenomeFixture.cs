@@ -1,9 +1,8 @@
-﻿using System;
-using MathUtils.Rand;
+﻿using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sorting.KeyPairs;
+using SorterEvo.Genomes;
 
-namespace SorterEvo.Test
+namespace SorterEvo.Test.Genomes
 {
     [TestClass]
     public class SorterGenomeFixture

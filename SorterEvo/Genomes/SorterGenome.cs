@@ -1,12 +1,15 @@
 ﻿using System;
-using Genomic;
+using System.Linq;
+using Genomic.Chromosomes;
+using Genomic.Genes;
+using Genomic.Genomes;
 using MathUtils.Rand;
 using Sorting.KeyPairs;
 using Sorting.Sorters;
 
-namespace SorterEvo
+namespace SorterEvo.Genomes
 {
-    public interface ISorterGenome : ISimpleGenome<IChromosome<GeneUintModN>>
+    public interface ISorterGenome : ISimpleGenome<IChromosome<IGeneUintModN>>
     {
         int KeyCount { get; }
         int KeyPairCount { get; }
@@ -41,7 +44,7 @@ namespace SorterEvo
         public static ISorterGenome Make(
             Guid guid, 
             Guid parentGuid, 
-            IChromosome<GeneUintModN> chromosome, 
+            IChromosome<IGeneUintModN> chromosome, 
             int keyCount, 
             int keyPairCount)
         {
@@ -56,18 +59,19 @@ namespace SorterEvo
         }
     }
 
-    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<GeneUintModN>>, ISorterGenome
+    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<IGeneUintModN>>, ISorterGenome
     {
         public SorterGenomeImpl(IRando randy, int keyCount, int keyPairCount) 
             : base
             (
                 guid: randy.NextGuid(),
-                chromosome: randy.ToUniformChromosome
-                    (
-                        guid: randy.NextGuid(),
-                        symbolCount: (uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount),
-                        sequenceLength: keyPairCount
-                    ),
+                chromosome: randy.ToUintEnumerator((uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount))
+                                 .Take(keyPairCount)
+                                 .ToChromosomeUintN
+                                   (
+                                    guid: randy.NextGuid(), 
+                                    maxVal: (uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount)
+                                   ),
                 parentGuid: Guid.Empty
             )
         {
@@ -78,7 +82,7 @@ namespace SorterEvo
         public SorterGenomeImpl(
                 Guid guid, 
                 Guid parentGuid, 
-                IChromosome<GeneUintModN> chromosome, 
+                IChromosome<IGeneUintModN> chromosome, 
                 int keyCount, 
                 int keyPairCount
             ) 

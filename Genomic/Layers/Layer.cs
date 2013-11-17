@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Genomic.Genomes;
 using MathUtils.Collections;
 using MathUtils.Rand;
 
-namespace Genomic
+namespace Genomic.Layers
 {
     public interface ILayer<out TG> where TG : IGenome
     {

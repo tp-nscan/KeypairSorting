@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Genomic;
+using Genomic.Chromosomes;
+using Genomic.Layers;
 using MathUtils.Rand;
+using SorterEvo.Genomes;
 
-namespace SorterEvo
+namespace SorterEvo.Layers
 {
     public static class SorterLayer
     {

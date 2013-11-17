@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Genomic.Genes;
 using MathUtils.Collections;
 using MathUtils.Rand;
 
-namespace Genomic
+namespace Genomic.Chromosomes
 {
-    internal class ModUlongChromosome : ChromosomeImpl<GeneUlongModN>
+    internal class ChromosomeUlongN : ChromosomeImpl<IGeneUlongModN>
     {
-        public ModUlongChromosome(
+        public ChromosomeUlongN(
             Guid guid, 
             IReadOnlyList<uint> sequence,
             ulong maxVal
@@ -23,10 +24,10 @@ namespace Genomic
             get { return _maxVal; }
         }
 
-        private IReadOnlyList<GeneUlongModN> _blockList;
+        private IReadOnlyList<IGeneUlongModN> _blockList;
         public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
         {
-            return new ModUlongChromosome
+            return new ChromosomeUlongN
                 (
                     guid: newGuid,
                     sequence: data.ToList(),
@@ -34,22 +35,22 @@ namespace Genomic
                 );
         }
 
-        public override IReadOnlyList<GeneUlongModN> Blocks
+        public override IReadOnlyList<IGeneUlongModN> Blocks
         {
             get
             {
                 return _blockList ??
                        (
                            _blockList = Sequence.ToUlongs()
-                               .Select(ul => new GeneUlongModN(ul, MaxVal))
+                               .Select(ul => GeneUlongModN.Make(ul, MaxVal))
                                 .ToList()
-                           );
+                       );
             }
         }
 
-        public override GeneUlongModN NewBlock(IRando rando)
+        public override IGeneUlongModN NewBlock(IRando rando)
         {
-            return new GeneUlongModN(rando.NextUlong(MaxVal), MaxVal);
+            return GeneUlongModN.Make(rando.NextUlong(MaxVal), MaxVal);
         }
     }
 }

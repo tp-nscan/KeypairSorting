@@ -42,13 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenomeToSwitchableGroup.cs" />
-    <Compile Include="SorterGenome.cs" />
-    <Compile Include="SorterLayer.cs" />
+    <Compile Include="Genomes\GenomeToSwitchableGroup.cs" />
+    <Compile Include="Genomes\SorterGenome.cs" />
+    <Compile Include="Layers\SorterLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SwitchableGroupGenome.cs" />
-    <Compile Include="SwitchableGroupGenomeType.cs" />
-    <Compile Include="SwitchableGroupGrade.cs" />
+    <Compile Include="Genomes\SwitchableGroupGenome.cs" />
+    <Compile Include="Genomes\SwitchableGroupGenomeType.cs" />
+    <Compile Include="Layers\SwitchableGroupLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Genomic\Genomic.csproj">

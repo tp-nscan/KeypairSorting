@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Genomic.Genes;
 using MathUtils.Collections;
 using MathUtils.Rand;
 
-namespace Genomic
+namespace Genomic.Chromosomes
 {
     public interface IChromosome
     {
@@ -22,21 +23,41 @@ namespace Genomic
 
     public static class Chromosome
     {
-        public static IChromosome<GeneUintModN> ToUniformChromosome(
-                this IRando rando, Guid guid, uint symbolCount, int sequenceLength)
+        public static IChromosome<IGeneUintModN> ToChromosomeUintN
+            (
+                this IEnumerable<uint> sequence, 
+                Guid guid, 
+                uint maxVal
+            )
         {
-            return rando.ToUintEnumerator(symbolCount).Take(sequenceLength)
-                .ToModUIntChromosome(guid, symbolCount);
+            return new ChromosomeUintN(guid, sequence.ToList(), maxVal);
         }
 
-        public static IChromosome<GeneUintModN> ToModUIntChromosome(this IEnumerable<uint> sequence, Guid guid, uint maxVal)
+        public static IChromosome ToChromosomeUlongN
+            (
+                this IEnumerable<uint> sequence, 
+                Guid guid, 
+                ulong maxVal
+            )
         {
-            return new ModUintChromosome(guid, sequence.ToList(), maxVal);
+            return new ChromosomeUlongN(guid, sequence.ToList(), maxVal);
         }
 
-        public static IChromosome ToModUlongChromosome(this IEnumerable<uint> sequence, Guid guid, ulong maxVal)
+        public static IChromosome ToChromosomePermutation
+            (
+                this IEnumerable<uint> sequence, 
+                Guid guid,
+                int permutationItemCount,
+                double mixingRate
+            )
         {
-            return new ModUlongChromosome(guid, sequence.ToList(), maxVal);
+            return new ChromosomePermutation
+                (
+                    guid:   guid,
+                    sequence:   sequence.ToList(),
+                    permutationItemCount:   permutationItemCount,
+                    mixingRate: mixingRate
+                );
         }
 
         public static IChromosome<T> Copy<T>

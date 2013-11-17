@@ -5,7 +5,7 @@ namespace Sorting.KeyPairs
 {
     public static class KeyPairRepository
     {
-        private static readonly List<KeyPairSet> _keyPairSets = Enumerable.Repeat<KeyPairSet>(null, 64).ToList();
+        private static readonly List<KeyPairSet> KeyPairSets = Enumerable.Repeat<KeyPairSet>(null, 64).ToList();
 
         static KeyPairRepository()
         {
@@ -42,7 +42,7 @@ namespace Sorting.KeyPairs
 
         public static KeyPairSet KeyPairSet(int keyCount)
         {
-            return _keyPairSets[keyCount] ?? (_keyPairSets[keyCount] = new KeyPairSet(keyCount));
+            return KeyPairSets[keyCount] ?? (KeyPairSets[keyCount] = new KeyPairSet(keyCount));
         }
 
         public static int KeyPairSetSizeForKeyCount(int keyCount)

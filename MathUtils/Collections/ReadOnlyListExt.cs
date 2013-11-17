@@ -120,13 +120,13 @@ namespace MathUtils.Collections
             return retArray;
         }
 
-        public static T[] FisherYatesPartialShuffle<T>(this IReadOnlyList<T> origList, IRando rando, double mixingFrequency)
+        public static T[] FisherYatesPartialShuffle<T>(this IReadOnlyList<T> origList, IRando rando, double mixingRate)
         {
             var arrayLength = origList.Count;
             var retArray = origList.ToArray();
             for (var i = arrayLength - 1; i > 0; i--)
             {
-                if(rando.NextDouble() > mixingFrequency) continue;
+                if(rando.NextDouble() > mixingRate) continue;
                 var j = rando.NextInt(i + 1);
                 var temp = retArray[i];
                 retArray[i] = retArray[j];

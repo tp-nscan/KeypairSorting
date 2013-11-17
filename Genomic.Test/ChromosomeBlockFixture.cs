@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Genomic.Genes;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,9 +14,9 @@ namespace Genomic.Test
             const int maxBits = 60;
             foreach (var value in Rando.Fast(123).ToUlongEnumerator(((ulong)1) << (maxBits - 1)).Take(50))
             {
-                var longBlock = new GeneUlongModN(value, maxBits);
+                var longBlock = GeneUlongModN.Make(value, maxBits);
                 var serialized = longBlock.AsSerialized.ToArray();
-                var longBack = new GeneUlongModN(serialized, maxBits);
+                var longBack = GeneUlongModN.Make(serialized, maxBits);
                 Assert.AreEqual(longBack.Val, value);
             }
         }

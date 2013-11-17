@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Genomic.Chromosomes;
+using Genomic.Genes;
 using MathUtils.Rand;
 
-namespace Genomic
+namespace Genomic.Genomes
 {
     public interface IParentGuid
     {

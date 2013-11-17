@@ -22,7 +22,7 @@ namespace Sorting.Switchables
     {
         public static IEnumerable<ISwitchable<T>> MakeSwitchables<T>(this IRando random, int keyCount)
         {
-            if (typeof (T) == typeof (uint))
+            if (typeof (T) == typeof(uint))
             {
                 return (IEnumerable<ISwitchable<T>>)random.ToUintEnumerator(((uint)1) << (keyCount -1)).ToUintSwitchable(keyCount);
             }
@@ -41,15 +41,25 @@ namespace Sorting.Switchables
             throw new Exception("unhandled switchable type");
         }
 
-        public static ISwitchable<int[]> ToSwitchableIntArray(this int[] ints)
+        public static ISwitchable<uint> ToSwitchableUint(this uint value, int keyCount)
         {
-            return new SwitchableIntArrayImpl(ints);
+            return new SwitchableUintImpl(value, keyCount);
         }
 
-        public static ISwitchable<int[]> ToSwitchableIntArray(this IRando random, int keyCount)
+        public static ISwitchable<ulong> ToSwitchableUlong(this ulong value, int keyCount)
         {
-            return
-                Enumerable.Range(0, keyCount)
+            return new SwitchableUlongImpl(value, keyCount);
+        }
+
+        public static ISwitchable<uint[]> ToSwitchableIntArray(this IReadOnlyList<uint> ints)
+        {
+            return new SwitchableIntArrayImpl(ints.ToArray());
+        }
+
+        public static ISwitchable<uint[]> ToSwitchableIntArray(this IRando random, int keyCount)
+        {
+            return  Enumerable.Range(0, keyCount)
+                    .Cast<uint>()
                     .ToArray()
                     .FisherYatesShuffle(random)
                     .ToSwitchableIntArray();
@@ -139,12 +149,12 @@ namespace Sorting.Switchables
         }
     }
 
-    class SwitchableIntArrayImpl : SwitchableImpl<int[]>
+    class SwitchableIntArrayImpl : SwitchableImpl<uint[]>
     {
-        public SwitchableIntArrayImpl(int[] ints)
+        public SwitchableIntArrayImpl(uint[] ints)
             : base(ints, ints.Length)
         {
-            _hash = ints.ToHash(t=>t);
+            _hash = ints.ToHash(t=>(int) t);
         }
 
         private readonly int _hash;

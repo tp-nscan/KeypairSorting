@@ -8,29 +8,6 @@ namespace MathUtils.Tests.Rand
     [TestClass]
     public class RandoFixture
     {
-        //[TestMethod]
-        //public void TestUints()
-        //{
-        //    var rando = Rando.Fast(33);
-        //    for (var i = 0; i < 550; i++)
-        //    {
-        //        var res = rando.ToUintEnumerator();
-        //        if (res > 2132955153)
-        //            System.Diagnostics.Debug.WriteLine(res);
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void TestRandomFlags()
-        //{
-        //    var randomFlags = Rando.Fast(33).ToUlongEnumeratorByBits(50).Take(5000).OrderByDescending(T => T).ToList();
-
-        //    foreach (var randomFlag in randomFlags)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine(randomFlag);
-        //    }
-        //}
-
         [TestMethod]
         public void TestMutator()
         {

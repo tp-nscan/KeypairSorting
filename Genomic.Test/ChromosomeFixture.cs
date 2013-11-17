@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Genomic.Chromosomes;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +16,9 @@ namespace Genomic.Test
             var guid = Guid.NewGuid();
             const uint symbolCount = 32;
             const int sequenceLength = 1000;
-            var chromo = Rando.Fast(123).ToUniformChromosome(guid, symbolCount, sequenceLength);
+            var chromo = Rando.Fast(123).ToUintEnumerator(symbolCount)
+                .ToChromosomeUintN(guid, symbolCount);
+
             Assert.AreEqual(chromo.Guid, guid);
             Assert.AreEqual(chromo.Sequence.Count, sequenceLength);
         }
@@ -26,8 +29,9 @@ namespace Genomic.Test
             var guid = Guid.NewGuid();
             const uint symbolCount = 32;
             const int sequenceLength = 10000;
-            var chromo = Rando.Fast(123).ToUniformChromosome(guid, symbolCount, sequenceLength);
-
+            var chromo = Rando.Fast(123).ToUintEnumerator(symbolCount)
+                .ToChromosomeUintN(guid, symbolCount);
+                
             var newGuid = Guid.NewGuid();
             const int seed = 1234;
             const double mutationRate = 0.1;
