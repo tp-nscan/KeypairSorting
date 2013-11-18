@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\Chromosome.cs" />
+    <Compile Include="Chromosomes\ChromosomeBits.cs" />
     <Compile Include="Chromosomes\ChromosomePermutation.cs" />
     <Compile Include="Genes\Gene.cs" />
     <Compile Include="Chromosomes\ChromosomeRepository.cs" />

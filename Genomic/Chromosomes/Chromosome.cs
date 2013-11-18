@@ -60,6 +60,21 @@ namespace Genomic.Chromosomes
                 );
         }
 
+        public static IChromosome ToChromosomeBits
+        (
+                this IEnumerable<uint> sequence,
+                Guid guid,
+                int bitCount
+        )
+        {
+            return new ChromosomeBits
+                (
+                    guid: guid,
+                    sequence: sequence.ToList(),
+                    bitCount: bitCount
+                );
+        }
+
         public static IChromosome<T> Copy<T>
             (
                 this IChromosome<T> chromosome,

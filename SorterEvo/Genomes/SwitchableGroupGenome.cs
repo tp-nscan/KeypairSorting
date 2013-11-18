@@ -52,20 +52,13 @@ namespace SorterEvo.Genomes
                         (
                             guid: rando.NextGuid(),
                             keyCount: keyCount,
-                            chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
-                                                .Take(groupSize)
-                                                .ToUints()
-                                                .ToChromosomePermutation(rando.NextGuid(), keyCount, 0.2),
+                            chromosome: rando.ToUintEnumerator(2)
+                                                .Take(groupSize * keyCount)
+                                                .ToChromosomeBits(rando.NextGuid(), keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray
                         );
 
                 case SwitchableGroupGenomeType.IntArray:
-
-                    var nummys =
-                        Enumerable.Range(0, groupSize)
-                            .SelectMany(i => Enumerable.Range(0, keyCount).ToList().FisherYatesShuffle(rando))
-                                .ToList();
-
 
                     return new SwitchableGroupGenomeImpl
                         (
@@ -91,7 +84,7 @@ namespace SorterEvo.Genomes
         {
             if (switchableGroup.SwitchableDataType == typeof(uint))
             {
-                var symbolCount = (uint)(2 ^ switchableGroup.KeyCount);
+                var symbolCount = 2 ^ (uint)switchableGroup.KeyCount;
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
@@ -105,37 +98,43 @@ namespace SorterEvo.Genomes
 
             if (switchableGroup.SwitchableDataType == typeof(ulong))
             {
+                var symbolCount = 2 ^ (ulong) switchableGroup.KeyCount;
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
                         keyCount: switchableGroup.KeyCount,
-                        chromosome: null,
+                        chromosome: ((ISwitchableGroup<uint>)switchableGroup).Switchables
+                                            .Select(t => t.Item)
+                                            .ToChromosomeUlongN(Guid.NewGuid(), symbolCount),
                         switchableGroupGenomeType: SwitchableGroupGenomeType.ULong
                     );
             }
 
             if (switchableGroup.SwitchableDataType == typeof(int[]))
             {
-                var symbolCount = (uint)switchableGroup.KeyCount;
-                //return new SwitchableGroupGenomeImpl
-                //    (
-                //        guid: switchableGroup.Guid,
-                //        keyCount: switchableGroup.KeyCount,
-                //        chromosome: ((ISwitchableGroup<int[]>)switchableGroup).Switchables
-                //                            .SelectMany(t => t.Item.Cast<uint>())
-                //                            .ToChromosomeUintN(Guid.NewGuid(), symbolCount),
-                //        switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
-                //    );
-            }
-
-            if (switchableGroup.SwitchableDataType == typeof(bool[]))
-            {
-                var symbolCount = (uint)switchableGroup.KeyCount;
+                var symbolCount = switchableGroup.KeyCount;
+                var mixingRate = 0.3;
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
                         keyCount: switchableGroup.KeyCount,
-                        chromosome: null,
+                        chromosome: ((ISwitchableGroup<int[]>)switchableGroup).Switchables
+                                            .SelectMany(t => t.Item.Cast<uint>())
+                                            .ToChromosomePermutation(Guid.NewGuid(), symbolCount, mixingRate),
+                        switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
+                    );
+            }
+
+            if (switchableGroup.SwitchableDataType == typeof(bool[]))
+            {
+                const int symbolCount = 2;
+                return new SwitchableGroupGenomeImpl
+                    (
+                        guid: switchableGroup.Guid,
+                        keyCount: switchableGroup.KeyCount,
+                        chromosome: ((ISwitchableGroup<bool[]>)switchableGroup).Switchables
+                                            .SelectMany(t => t.Item.Cast<uint>())
+                                            .ToChromosomeBits(Guid.NewGuid(), symbolCount),
                         switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray
                     );
             }

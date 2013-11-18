@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MathUtils.Rand;
 
@@ -12,13 +11,30 @@ namespace Genomic.Genes
 
     public static class GeneBits
     {
+        public static IGeneBits ToGeneBits(this IEnumerable<bool> bits)
+        {
+            return new GeneBitsImpl(bits);
+        }
 
+        public static IGeneBits ToGeneBits(this IEnumerable<uint> data)
+        {
+            return new GeneBitsImpl(data);
+        }
     }
 
     class GeneBitsImpl : IGeneBits
     {
-        private IEnumerable<uint> _asSerialized;
+        public GeneBitsImpl(IEnumerable<bool> bits)
+        {
+            _bits = bits.ToList();
+        }
 
+        public GeneBitsImpl(IEnumerable<uint> data)
+        {
+            _bits = data.Select(t=> (t==1)).ToList();
+        }
+
+        private IEnumerable<uint> _asSerialized;
         public IEnumerable<uint> AsSerialized
         {
             get 
@@ -32,10 +48,11 @@ namespace Genomic.Genes
 
         public IGene Mutate(IRando rando)
         {
-            throw new NotImplementedException();
+            return rando.ToBoolEnumerator(0.5).Take(Bits.Count)
+                .ToGeneBits();
         }
 
-        private IReadOnlyList<bool> _bits;
+        private readonly IReadOnlyList<bool> _bits;
         public IReadOnlyList<bool> Bits
         {
             get { return _bits; }
