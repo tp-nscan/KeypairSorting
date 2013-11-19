@@ -11,24 +11,24 @@ namespace SorterEvo.Layers
     {
         public static ILayer<ISwitchableGroupGenome> Create
             (
-            int seed,
-            SwitchableGroupGenomeType switchableGroupGenomeType,
-            int genomeCount,
-            int keyCount,
-            int keyPairCount
+                int seed,
+                SwitchableGroupGenomeType switchableGroupGenomeType,
+                int genomeCount,
+                int keyCount,
+                int groupSize
             )
         {
             return Layer.Create
                 (
                     seed: seed,
-                    createFunc: CreateFunc(switchableGroupGenomeType, keyCount, keyPairCount),
+                    createFunc: CreateFunc(switchableGroupGenomeType, keyCount, groupSize),
                     genomeCount: genomeCount
                 );
         }
 
         public static ILayer<ISwitchableGroupGenome> Update
         (
-            this ILayer<ISwitchableGroupGenome> switchableGroupGenome,
+            this ILayer<ISwitchableGroupGenome> switchableGroupGenomeLayer,
             IReadOnlyList<Tuple<Guid, double>> scores,
             int selectionRatio,
             double mutationRate,
@@ -37,7 +37,7 @@ namespace SorterEvo.Layers
         )
         {
             return Layer.Update(
-                    switchableGroupGenome,
+                    switchableGroupGenomeLayer,
                     scores,
                     selectionRatio,
                     UpdateFunc
@@ -54,14 +54,14 @@ namespace SorterEvo.Layers
         (
             SwitchableGroupGenomeType switchableGroupGenomeType,
             int keyCount, 
-            int keyPairCount
+            int groupSize
         )
         {
             return i => Rando.Fast(i).ToSwitchableGroupGenome
                 (
                     switchableGroupGenomeType: switchableGroupGenomeType,
                     keyCount: keyCount,
-                    groupSize: keyPairCount
+                    groupSize: groupSize
                 );
         }
 
