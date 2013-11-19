@@ -26,8 +26,8 @@ namespace SorterEvo.Genomes
 
                 case SwitchableGroupGenomeType.BitArray:
 
-                    return ((IChromosome<IGeneUintModN>)genome.Chromosome)
-                            .Blocks.Select(b => b.Val.ToSwitchableUint(genome.KeyCount))
+                    return ((IChromosome<IGeneBits>)genome.Chromosome)
+                            .Blocks.Select(b => b.Bits.ToSwitchableBitArray())
                             .ToSwitchableGroup(genome.Guid, genome.KeyCount);
 
                 case SwitchableGroupGenomeType.IntArray:

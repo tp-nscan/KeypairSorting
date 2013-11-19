@@ -65,9 +65,9 @@ namespace Sorting.Switchables
                     .ToSwitchableIntArray();
         }
 
-        public static ISwitchable<bool[]> ToSwitchableBitArray(this bool[] bits)
+        public static ISwitchable<bool[]> ToSwitchableBitArray(this IReadOnlyList<bool> bits)
         {
-            return new SwitchableBitArrayImpl(bits);
+            return new SwitchableBitArrayImpl(bits.ToArray());
         }
 
         public static IEnumerable<ISwitchable<uint>> AllSwitchablesForKeyCount(int keyCount)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Genomic.Chromosomes;
+using Genomic.Genes;
 using Genomic.Genomes;
 using MathUtils.Collections;
 using MathUtils.Rand;
@@ -10,6 +11,7 @@ namespace SorterEvo.Genomes
 {
     public interface ISwitchableGroupGenome : ISimpleGenome<IChromosome>
     {
+        int GroupCount { get; }
         int KeyCount { get; }
         SwitchableGroupGenomeType SwitchableGroupGenomeType { get; }
     }
@@ -20,7 +22,8 @@ namespace SorterEvo.Genomes
             this IRando rando, 
             SwitchableGroupGenomeType switchableGroupGenomeType,
             int keyCount,
-            int groupSize)
+            int groupSize
+            )
         {
             switch (switchableGroupGenomeType)
             {
@@ -28,34 +31,40 @@ namespace SorterEvo.Genomes
                     return new SwitchableGroupGenomeImpl
                         (
                             guid: rando.NextGuid(),
+                            parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: rando.ToUintEnumerator(((uint)1) << (keyCount - 1))
                                              .Take(groupSize)
                                              .ToChromosomeUintN(rando.NextGuid(), ((uint)1) << keyCount),
-                            switchableGroupGenomeType: SwitchableGroupGenomeType.UInt
+                            switchableGroupGenomeType: SwitchableGroupGenomeType.UInt,
+                            groupCount: groupSize
                         );
 
                 case SwitchableGroupGenomeType.ULong:
                     return new SwitchableGroupGenomeImpl
                         (
                             guid: rando.NextGuid(),
+                            parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
                                                 .Take(groupSize)
                                                 .ToUints()
                                                 .ToChromosomeUlongN(rando.NextGuid(), ((ulong)1) << keyCount),
-                            switchableGroupGenomeType: SwitchableGroupGenomeType.ULong
+                            switchableGroupGenomeType: SwitchableGroupGenomeType.ULong,
+                            groupCount: groupSize
                         );
 
                 case SwitchableGroupGenomeType.BitArray:
                     return new SwitchableGroupGenomeImpl
                         (
                             guid: rando.NextGuid(),
+                            parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: rando.ToUintEnumerator(2)
                                                 .Take(groupSize * keyCount)
                                                 .ToChromosomeBits(rando.NextGuid(), keyCount),
-                            switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray
+                            switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray,
+                            groupCount: groupSize
                         );
 
                 case SwitchableGroupGenomeType.IntArray:
@@ -63,6 +72,7 @@ namespace SorterEvo.Genomes
                     return new SwitchableGroupGenomeImpl
                         (
                             guid: rando.NextGuid(),
+                            parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: Enumerable.Range(0, groupSize)
                             .SelectMany(i => Enumerable.Range(0, keyCount)
@@ -72,7 +82,8 @@ namespace SorterEvo.Genomes
                                         )
                                          .ToChromosomePermutation(rando.NextGuid(), keyCount, 0.2),
 
-                            switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
+                            switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray,
+                            groupCount: groupSize
                         );
 
                 default:
@@ -88,11 +99,13 @@ namespace SorterEvo.Genomes
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
+                        parentGuid: Guid.Empty,
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<uint>)switchableGroup).Switchables
                                             .Select(t => t.Item)
                                             .ToChromosomeUintN(Guid.NewGuid(), symbolCount),
-                        switchableGroupGenomeType: SwitchableGroupGenomeType.UInt
+                        switchableGroupGenomeType: SwitchableGroupGenomeType.UInt,
+                        groupCount: switchableGroup.SwitchableCount
                     );
             }
 
@@ -102,11 +115,13 @@ namespace SorterEvo.Genomes
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
+                        parentGuid: Guid.Empty,
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<uint>)switchableGroup).Switchables
                                             .Select(t => t.Item)
                                             .ToChromosomeUlongN(Guid.NewGuid(), symbolCount),
-                        switchableGroupGenomeType: SwitchableGroupGenomeType.ULong
+                        switchableGroupGenomeType: SwitchableGroupGenomeType.ULong,
+                        groupCount: switchableGroup.SwitchableCount
                     );
             }
 
@@ -117,11 +132,13 @@ namespace SorterEvo.Genomes
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
+                        parentGuid: Guid.Empty,
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<int[]>)switchableGroup).Switchables
                                             .SelectMany(t => t.Item.Cast<uint>())
                                             .ToChromosomePermutation(Guid.NewGuid(), symbolCount, mixingRate),
-                        switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray
+                        switchableGroupGenomeType: SwitchableGroupGenomeType.IntArray,
+                        groupCount: switchableGroup.SwitchableCount
                     );
             }
 
@@ -131,15 +148,66 @@ namespace SorterEvo.Genomes
                 return new SwitchableGroupGenomeImpl
                     (
                         guid: switchableGroup.Guid,
+                        parentGuid: Guid.Empty,
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<bool[]>)switchableGroup).Switchables
                                             .SelectMany(t => t.Item.Cast<uint>())
                                             .ToChromosomeBits(Guid.NewGuid(), symbolCount),
-                        switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray
+                        switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray,
+                        groupCount: switchableGroup.SwitchableCount
                     );
             }
 
             throw new Exception(string.Format("data type {0} not  handled", switchableGroup.SwitchableDataType.Name));
+        }
+
+        public static ISwitchableGroupGenome Make
+            (
+                Guid guid,
+                Guid parentGuid,
+                int keyCount,
+                IChromosome chromosome,
+                SwitchableGroupGenomeType switchableGroupGenomeType,
+                int groupCount
+            )
+        {
+            return new SwitchableGroupGenomeImpl
+                (
+                    guid: guid,
+                    parentGuid: parentGuid,
+                    keyCount: keyCount,
+                    chromosome: chromosome,
+                    switchableGroupGenomeType: switchableGroupGenomeType,
+                    groupCount: groupCount
+                );
+        }
+
+        public static IChromosome CopyChromosome
+            (
+                this ISwitchableGroupGenome switchableGroupGenome,
+                IRando randy,
+                double mutationRate,
+                double insertionRate,
+                double deletionRate
+            )
+        {
+            switch (switchableGroupGenome.SwitchableGroupGenomeType)
+            {
+                case SwitchableGroupGenomeType.UInt:
+                    var chrom = (IChromosome<IGeneUintModN>)switchableGroupGenome.Chromosome;
+                    return chrom.Copy(randy, mutationRate, insertionRate, deletionRate);
+                case SwitchableGroupGenomeType.ULong:
+                    var chrom2 = (IChromosome<IGeneUlongModN>)switchableGroupGenome.Chromosome;
+                    return chrom2.Copy(randy, mutationRate, insertionRate, deletionRate);
+                case SwitchableGroupGenomeType.BitArray:
+                    var chrom3 = (IChromosome<IGeneBits>)switchableGroupGenome.Chromosome;
+                    return chrom3.Copy(randy, mutationRate, insertionRate, deletionRate);
+                case SwitchableGroupGenomeType.IntArray:
+                    var chrom4 = (IChromosome<IGenePermutation>)switchableGroupGenome.Chromosome;
+                    return chrom4.Copy(randy, mutationRate, insertionRate, deletionRate);
+                default:
+                    throw new Exception("SwitchableGroupGenomeType not handled");
+            }
         }
     }
 
@@ -148,21 +216,29 @@ namespace SorterEvo.Genomes
         public SwitchableGroupGenomeImpl
             (
                 Guid guid,
+                Guid parentGuid,
                 int keyCount,
                 IChromosome chromosome,
-                SwitchableGroupGenomeType switchableGroupGenomeType
+                SwitchableGroupGenomeType switchableGroupGenomeType, 
+                int groupCount
             )
             : base
             (
                 guid: guid,
                 chromosome: chromosome,
-                parentGuid: Guid.Empty
+                parentGuid: parentGuid
             )
         {
             _keyCount = keyCount;
             _switchableGroupGenomeType = switchableGroupGenomeType;
+            _groupCount = groupCount;
         }
 
+        private readonly int _groupCount;
+        public int GroupCount
+        {
+            get { return _groupCount; }
+        }
 
         private readonly int _keyCount;
         public int KeyCount

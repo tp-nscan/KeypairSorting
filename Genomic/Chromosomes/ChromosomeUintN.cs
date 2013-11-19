@@ -6,7 +6,30 @@ using MathUtils.Rand;
 
 namespace Genomic.Chromosomes
 {
-    internal class ChromosomeUintN : ChromosomeImpl<IGeneUintModN>
+    public interface IChromosomeUintN : IChromosome<IGeneUintModN>
+    {
+        uint MaxVal { get; }
+    }
+
+    public static class ChromosomeUint
+    {
+        public static IChromosomeUintN Make
+            (
+                Guid guid,
+                IReadOnlyList<uint> sequence,
+                uint maxVal
+            )
+        {
+            return new ChromosomeUintN
+                (
+                    guid: guid,
+                    sequence: sequence,
+                    maxVal: maxVal
+                );
+        }
+    }
+
+    internal class ChromosomeUintN : ChromosomeImpl<IGeneUintModN>, IChromosomeUintN
     {
         public ChromosomeUintN
             (

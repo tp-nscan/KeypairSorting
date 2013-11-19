@@ -5,10 +5,10 @@ using SorterEvo.Genomes;
 namespace SorterEvo.Test.Genomes
 {
     [TestClass]
-    public class SorterGenomeFixture
+    public class GenomeToSorterFixture
     {
         [TestMethod]
-        public void TestRandomSorterGenome()
+        public void TestSorterGenomeToSorter()
         {
             const int keyCount = 16;
             const int keyPairCount = 300;
@@ -16,8 +16,10 @@ namespace SorterEvo.Test.Genomes
 
             var sorterGenome = Rando.Fast(seed).ToSorterGenome(keyCount, keyPairCount);
 
-            Assert.IsTrue(sorterGenome.Chromosome.Sequence.Count == keyPairCount);
-        }
+            var sorter = sorterGenome.ToSorter();
 
+            Assert.IsTrue(sorter.KeyCount == keyCount);
+            Assert.IsTrue(sorter.KeyPairs.Count == keyPairCount);
+        }
     }
 }

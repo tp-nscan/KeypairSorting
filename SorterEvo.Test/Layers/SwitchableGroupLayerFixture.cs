@@ -7,7 +7,7 @@ using SorterEvo.Layers;
 namespace SorterEvo.Test.Layers
 {
     [TestClass]
-    public class SorterLayerFixture
+    public class SwitchableGroupLayerFixture
     {
         [TestMethod]
         public void TestCreate()
@@ -30,7 +30,6 @@ namespace SorterEvo.Test.Layers
             Assert.AreEqual(layer.Genomes.First().KeyPairCount, cKeyPairs);
         }
 
-
         [TestMethod]
         public void TestUpdate()
         {
@@ -47,7 +46,7 @@ namespace SorterEvo.Test.Layers
                 );
 
             var randy = Rando.Fast(1233);
-            
+
             var newLayer = layer.Update
                 (
                     scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
@@ -61,7 +60,6 @@ namespace SorterEvo.Test.Layers
             Assert.AreEqual(newLayer.Genomes.Count, cGenomes);
             Assert.AreEqual(newLayer.Genomes.First().KeyCount, cKeys);
             Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, cKeyPairs);
-
         }
     }
 }

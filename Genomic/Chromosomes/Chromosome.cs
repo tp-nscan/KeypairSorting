@@ -40,7 +40,7 @@ namespace Genomic.Chromosomes
                 ulong maxVal
             )
         {
-            return new ChromosomeUlongN(guid, sequence.ToList(), maxVal);
+            return new ChromosomeUlongNImpl(guid, sequence.ToList(), maxVal);
         }
 
         public static IChromosome ToChromosomePermutation
@@ -51,7 +51,7 @@ namespace Genomic.Chromosomes
                 double mixingRate
             )
         {
-            return new ChromosomePermutation
+            return ChromosomePermutation.Make
                 (
                     guid:   guid,
                     sequence:   sequence.ToList(),
@@ -67,7 +67,7 @@ namespace Genomic.Chromosomes
                 int bitCount
         )
         {
-            return new ChromosomeBits
+            return new ChromosomeBitsImpl
                 (
                     guid: guid,
                     sequence: sequence.ToList(),

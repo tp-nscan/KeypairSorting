@@ -5,7 +5,6 @@ using Genomic.Genes;
 using Genomic.Genomes;
 using MathUtils.Rand;
 using Sorting.KeyPairs;
-using Sorting.Sorters;
 
 namespace SorterEvo.Genomes
 {
@@ -17,28 +16,26 @@ namespace SorterEvo.Genomes
 
     public static class SorterGenome
     {
-        public static ISorter ToSorter(this ISorterGenome sorterGenome)
-        {
-            return KeyPairRepository.KeyPairSet(sorterGenome.KeyCount)
-                .KeyPairs.ToSorter
-                (
-                    keyPairChoices: sorterGenome.Chromosome.Sequence,
-                    keyCount: sorterGenome.KeyCount,
-                    guid: sorterGenome.Guid
-                );
-        }
-
         public static ISorterGenome ToSorterGenome(
             this IRando randy, 
             int keyCount, 
             int keyPairCount)
         {
+            var keyPairSetSize = (uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount);
             return new SorterGenomeImpl
-                (
-                    randy: randy, 
-                    keyCount: keyCount, 
-                    keyPairCount: keyPairCount
-                );
+            (
+                guid: randy.NextGuid(),
+                parentGuid: Guid.Empty,
+                chromosome: randy.ToUintEnumerator(keyPairSetSize)
+                                 .Take(keyPairCount)
+                                 .ToChromosomeUintN
+                                   (
+                                        guid: randy.NextGuid(),
+                                        maxVal: keyPairSetSize
+                                   ),
+                keyCount: keyCount,
+                keyPairCount: keyPairCount
+           );
         }
 
         public static ISorterGenome Make(
@@ -61,24 +58,6 @@ namespace SorterEvo.Genomes
 
     class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<IGeneUintModN>>, ISorterGenome
     {
-        public SorterGenomeImpl(IRando randy, int keyCount, int keyPairCount) 
-            : base
-            (
-                guid: randy.NextGuid(),
-                chromosome: randy.ToUintEnumerator((uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount))
-                                 .Take(keyPairCount)
-                                 .ToChromosomeUintN
-                                   (
-                                    guid: randy.NextGuid(), 
-                                    maxVal: (uint) KeyPairRepository.KeyPairSetSizeForKeyCount(keyCount)
-                                   ),
-                parentGuid: Guid.Empty
-            )
-        {
-            _keyCount = keyCount;
-            _keyPairCount = keyPairCount;
-        }
-
         public SorterGenomeImpl(
                 Guid guid, 
                 Guid parentGuid, 

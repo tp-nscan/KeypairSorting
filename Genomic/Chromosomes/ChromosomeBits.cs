@@ -7,9 +7,32 @@ using MathUtils.Rand;
 
 namespace Genomic.Chromosomes
 {
-    class ChromosomeBits : ChromosomeImpl<IGeneBits>
+    public interface IChromosomeBits : IChromosome<IGeneBits>
     {
-        public ChromosomeBits
+        int BitCount { get; }
+    }
+
+    public static class ChromosomeBits
+    {
+        public static IChromosomeBits Make
+            (
+                Guid guid,
+                IReadOnlyList<uint> sequence,
+                int bitCount
+            )
+        {
+            return new ChromosomeBitsImpl
+                (
+                    guid: guid,
+                    sequence: sequence,
+                    bitCount: bitCount
+                );
+        }
+    }
+
+    class ChromosomeBitsImpl : ChromosomeImpl<IGeneBits>, IChromosomeBits
+    {
+        public ChromosomeBitsImpl
             (
                 Guid guid,
                 IReadOnlyList<uint> sequence, 
@@ -25,9 +48,13 @@ namespace Genomic.Chromosomes
             get { return _bitCount; }
         }
 
-        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
+        public override IChromosome ReplaceDataWith
+            (
+                IEnumerable<uint> data, 
+                Guid newGuid
+            )
         {
-             return new ChromosomeBits
+             return ChromosomeBits.Make
                  (
                     guid: newGuid,
                     sequence: data.ToList(),
@@ -44,7 +71,7 @@ namespace Genomic.Chromosomes
                        (
                            _blockList = Sequence.Chunk(BitCount)
                                .Select(ul => ul.ToGeneBits())
-                                .ToList()
+                               .ToList()
                        );
             }
         }

@@ -7,9 +7,32 @@ using MathUtils.Rand;
 
 namespace Genomic.Chromosomes
 {
-    internal class ChromosomeUlongN : ChromosomeImpl<IGeneUlongModN>
+    public interface IChromosomeUlongN : IChromosome<IGeneUlongModN>
     {
-        public ChromosomeUlongN(
+        ulong MaxVal { get; }
+    }
+
+    public static class ChromosomeUlongN
+    {
+        public static IChromosomeUlongN Make
+            (
+                Guid guid,
+                IReadOnlyList<uint> sequence,
+                ulong maxVal
+            )
+        {
+            return new ChromosomeUlongNImpl
+                (
+                    guid: guid,
+                    sequence: sequence,
+                    maxVal: maxVal
+                );
+        }
+    }
+
+    internal class ChromosomeUlongNImpl : ChromosomeImpl<IGeneUlongModN>, IChromosomeUlongN
+    {
+        public ChromosomeUlongNImpl(
             Guid guid, 
             IReadOnlyList<uint> sequence,
             ulong maxVal
@@ -27,10 +50,9 @@ namespace Genomic.Chromosomes
         private IReadOnlyList<IGeneUlongModN> _blockList;
         public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
         {
-            return new ChromosomeUlongN
+            return data.ToChromosomeUlongN
                 (
                     guid: newGuid,
-                    sequence: data.ToList(),
                     maxVal: _maxVal
                 );
         }

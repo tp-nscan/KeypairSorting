@@ -74,27 +74,27 @@ namespace SorterEvo.Test.Genomes
             Assert.AreEqual(switchableGroup.SwitchableDataType, cSwitchableGroupGenomeType.ToSwitchableGroupDataType());
         }
 
-        //[TestMethod]
-        //public void TestToSwitchableGroupBitArray()
-        //{
-        //    const int cSeed = 1234;
-        //    const int cGroupSize = 100;
-        //    const int cKeyCount = 60;
-        //    const SwitchableGroupGenomeType cSwitchableGroupGenomeType = SwitchableGroupGenomeType.ULong;
+        [TestMethod]
+        public void TestToSwitchableGroupBitArray()
+        {
+            const int cSeed = 1234;
+            const int cGroupSize = 100;
+            const int cKeyCount = 60;
+            const SwitchableGroupGenomeType cSwitchableGroupGenomeType = SwitchableGroupGenomeType.BitArray;
 
-        //    var switchableGroupGenome = Rando.Fast(cSeed).ToSwitchableGroupGenome
-        //        (
-        //            switchableGroupGenomeType: cSwitchableGroupGenomeType,
-        //            keyCount: cKeyCount,
-        //            groupSize: cGroupSize
-        //        );
+            var switchableGroupGenome = Rando.Fast(cSeed).ToSwitchableGroupGenome
+                (
+                    switchableGroupGenomeType: cSwitchableGroupGenomeType,
+                    keyCount: cKeyCount,
+                    groupSize: cGroupSize
+                );
 
-        //    var switchableGroup = switchableGroupGenome.ToSwitchableGroup();
+            var switchableGroup = switchableGroupGenome.ToSwitchableGroup();
 
-        //    Assert.AreEqual(switchableGroup.KeyCount, cKeyCount);
-        //    Assert.AreEqual(switchableGroup.SwitchableCount, cGroupSize);
-        //    Assert.AreEqual(switchableGroup.SwitchableDataType, cSwitchableGroupGenomeType.ToSwitchableGroupDataType());
-        //}
+            Assert.AreEqual(switchableGroup.KeyCount, cKeyCount);
+            Assert.AreEqual(switchableGroup.SwitchableCount, cGroupSize);
+            Assert.AreEqual(switchableGroup.SwitchableDataType, cSwitchableGroupGenomeType.ToSwitchableGroupDataType());
+        }
 
 
 

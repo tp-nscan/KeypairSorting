@@ -7,9 +7,35 @@ using MathUtils.Rand;
 
 namespace Genomic.Chromosomes
 {
-    internal class ChromosomePermutation : ChromosomeImpl<IGenePermutation>
+    public interface IChromosomePermutation : IChromosome<IGenePermutation>
     {
-        public ChromosomePermutation(
+        double MixingRate { get; }
+        int PermutationItemCount { get; }
+    }
+
+    public static class ChromosomePermutation
+    {
+        public static IChromosomePermutation Make
+            (
+                Guid guid, 
+                IReadOnlyList<uint> sequence, 
+                int permutationItemCount, 
+                double mixingRate
+            )
+        {
+            return new ChromosomePermutationImpl(
+                    guid: guid, 
+                    sequence: sequence, 
+                    permutationItemCount: permutationItemCount, 
+                    mixingRate: mixingRate
+                );
+        }
+    }
+
+    internal class ChromosomePermutationImpl : ChromosomeImpl<IGenePermutation>, 
+        IChromosomePermutation
+    {
+        public ChromosomePermutationImpl(
             Guid guid, 
             IReadOnlyList<uint> sequence, 
             int permutationItemCount, 
@@ -23,7 +49,7 @@ namespace Genomic.Chromosomes
 
         public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
         {
-            return new ChromosomePermutation
+            return ChromosomePermutation.Make
                 (
                     guid: newGuid,
                     sequence: data.ToList(),
