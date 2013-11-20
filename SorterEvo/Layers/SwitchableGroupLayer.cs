@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Genomic.Chromosomes;
 using Genomic.Layers;
 using MathUtils.Rand;
 using SorterEvo.Genomes;
@@ -37,10 +36,10 @@ namespace SorterEvo.Layers
         )
         {
             return Layer.Update(
-                    switchableGroupGenomeLayer,
-                    scores,
-                    selectionRatio,
-                    UpdateFunc
+                layer: switchableGroupGenomeLayer,
+                scores: scores,
+                selectionRatio: selectionRatio,
+                genomeCopyFunc: CopyFunc
                         (
                             mutationRate: mutationRate,
                             insertionRate: insertionRate,
@@ -50,7 +49,7 @@ namespace SorterEvo.Layers
         }
 
 
-        public static Func<int, ISwitchableGroupGenome> CreateFunc
+        static Func<int, ISwitchableGroupGenome> CreateFunc
         (
             SwitchableGroupGenomeType switchableGroupGenomeType,
             int keyCount, 
@@ -65,7 +64,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static Func<ISwitchableGroupGenome, int, ISwitchableGroupGenome> UpdateFunc
+        static Func<ISwitchableGroupGenome, int, ISwitchableGroupGenome> CopyFunc
             (
                 double mutationRate,
                 double insertionRate,
@@ -82,7 +81,7 @@ namespace SorterEvo.Layers
                         keyCount: sg.KeyCount,
                         chromosome: sg.CopyChromosome
                                         (
-                                            randy:randy,
+                                            randy: randy,
                                             mutationRate: mutationRate,
                                             insertionRate: insertionRate,
                                             deletionRate: deletionRate

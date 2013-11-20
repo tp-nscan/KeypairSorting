@@ -42,7 +42,7 @@ namespace Genomic.Layers
                 Func<TG, int, TG> genomeCopyFunc 
             ) where TG : IGenome
         {
-            var newSeed = Rando.Fast(layer.Seed ^ layer.Seed).NextInt();
+            var newSeed = Rando.Fast(layer.Seed *397).NextInt();
             var randy = Rando.Fast(newSeed);
 
             var winners = scores.OrderByDescending(t => t.Item2)
@@ -106,7 +106,7 @@ namespace Genomic.Layers
 
         public TG GetGenome(Guid genomeId)
         {
-            return _genomes[genomeId];
+            return _genomes.ContainsKey(genomeId) ? _genomes[genomeId] : default(TG);
         }
 
         public int Seed
