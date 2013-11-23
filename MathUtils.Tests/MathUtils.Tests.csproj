@@ -70,6 +70,7 @@
     <Compile Include="Collections\RepoBaseFixture.cs" />
     <Compile Include="Collections\EnumerableExtFixture.cs" />
     <Compile Include="Collections\TorusPointFixture.cs" />
+    <Compile Include="Collections\GuidFixture.cs" />
     <Compile Include="Expando\ExpandoJsonConverterFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interval\RealIntervalFixture.cs" />

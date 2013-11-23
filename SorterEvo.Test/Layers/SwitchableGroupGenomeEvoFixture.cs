@@ -37,7 +37,7 @@ namespace SorterEvo.Test.Layers
 
             var genomePoolEvo = GenomePoolEvo.Make<ISwitchableGroupGenome>();
 
-            genomePoolEvo.AddGenomeEvos(layer.Genomes.Select(g => GenomeEvo.Make(g, 0.0)));
+            genomePoolEvo.AddGenomeEvos(layer.Genomes.Select(g => GenomeEvo.Make(genome: g, referenceScore: 0.0)));
 
             var genomeLayerResults =
                 layer.Genomes.Select(g => GenomeLayerResult.Make(g, 0, randy.NextDouble())).ToList();

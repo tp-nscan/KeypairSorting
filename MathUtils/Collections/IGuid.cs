@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MathUtils.Collections
 {
@@ -19,6 +16,16 @@ namespace MathUtils.Collections
             {
                 yield return Guid.NewGuid();
             }
+        }
+
+        public static int ToHash(this Guid guid)
+        {
+            var aw = guid.ToByteArray();
+            var hashRet = BitConverter.ToInt32(aw, 0);
+            hashRet += 23 * BitConverter.ToInt32(aw, 4);
+            hashRet += 23 * BitConverter.ToInt32(aw, 8);
+            hashRet += 23 * BitConverter.ToInt32(aw, 12);
+            return hashRet;
         }
     }
 }

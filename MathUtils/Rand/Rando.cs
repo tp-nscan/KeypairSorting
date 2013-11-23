@@ -40,6 +40,8 @@ namespace MathUtils.Rand
             }
         }
 
+        #region int
+
         public static IEnumerable<int> ToIntEnumerator(this IRando rando, int maxValue)
         {
             while (true)
@@ -47,6 +49,16 @@ namespace MathUtils.Rand
                 yield return rando.NextInt(maxValue);
             }
         }
+
+        public static IEnumerable<int> ToIntEnumerator(this IRando rando)
+        {
+            while (true)
+            {
+                yield return rando.NextInt();
+            }
+        }
+
+        #endregion
 
         #region uint
 
