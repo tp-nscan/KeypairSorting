@@ -47,9 +47,9 @@ namespace SorterEvo.Genomes
                             parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: rando.ToUlongEnumerator(((ulong)1) << (keyCount - 1))
-                                                .Take(groupSize)
-                                                .ToUints()
-                                                .ToChromosomeUlongN(rando.NextGuid(), ((ulong)1) << keyCount),
+                                             .Take(groupSize)
+                                             .ToUints()
+                                             .ToChromosomeUlongN(rando.NextGuid(), ((ulong)1) << keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.ULong,
                             groupCount: groupSize
                         );
@@ -61,8 +61,8 @@ namespace SorterEvo.Genomes
                             parentGuid: Guid.Empty,
                             keyCount: keyCount,
                             chromosome: rando.ToUintEnumerator(2)
-                                                .Take(groupSize * keyCount)
-                                                .ToChromosomeBits(rando.NextGuid(), keyCount),
+                                             .Take(groupSize * keyCount)
+                                             .ToChromosomeBits(rando.NextGuid(), keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.BitArray,
                             groupCount: groupSize
                         );

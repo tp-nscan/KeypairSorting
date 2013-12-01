@@ -3,11 +3,21 @@ using System.Collections.Generic;
 
 namespace Evo
 {
-    public interface IRepositoryFunction<TS, out T>
-        where T : class 
+    public interface ISimpleGenomeEntity
     {
-        string Key { get; }
-        Func<TS, T> Function { get; }
+        
+    }
+
+    public class SimpleGenomeRandGenParams
+    {
+        public int Seed { get; set; }
+
+    }
+
+    public class ChromosomeRandGenParams
+    {
+        public int Seed { get; set; }
+
     }
 
     public interface IEntity
@@ -21,7 +31,7 @@ namespace Evo
         where T : class 
     {
         TS Input { get; }
-        IRepositoryFunction<TS, T> RepositoryFunction { get; }
+        IEntityFunction<TS, T> EntityFunction { get; }
         T Value { get; }
     }
 
@@ -32,18 +42,17 @@ namespace Evo
 
     abstract class EntityImpl<TS,T> : IEntity<TS,T> where T : class 
     {
-        protected EntityImpl(Guid guid,
-                          string entityType,
-                          IReadOnlyDictionary<string, IEntity> inputEntities,
-                          IRepositoryFunction<TS,T> repositoryFunction, 
-                          T value)
+        protected EntityImpl( Guid guid,
+                              string entityType,
+                              IReadOnlyDictionary<string, IEntity> inputEntities,
+                              IEntityFunction<TS,T> entityFunction, 
+                              T value)
         {
             _guid = guid;
             _entityType = entityType;
-            _repositoryFunction = repositoryFunction;
+            _entityFunction = entityFunction;
             _value = value;
             _inputEntities = inputEntities;
-            
         }
 
         private readonly IReadOnlyDictionary<string, IEntity> _inputEntities;
@@ -69,16 +78,16 @@ namespace Evo
             get;
         }
 
-        private readonly IRepositoryFunction<TS, T> _repositoryFunction;
-        public IRepositoryFunction<TS, T> RepositoryFunction
+        private readonly IEntityFunction<TS, T> _entityFunction;
+        public IEntityFunction<TS, T> EntityFunction
         {
-            get { return _repositoryFunction; }
+            get { return _entityFunction; }
         }
 
         private T _value;
         public T Value
         {
-            get { return _value ?? (_value = RepositoryFunction.Function(Input)); }
+            get { return _value ?? (_value = EntityFunction.Function(Input)); }
         }
     }
 }

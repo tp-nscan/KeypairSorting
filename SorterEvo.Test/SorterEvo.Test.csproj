@@ -50,6 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="StateMonad\State.cs" />
+    <Compile Include="StateMonad\LcgRandom.cs" />
     <Compile Include="Genomes\SorterGenomeFixture.cs" />
     <Compile Include="Genomes\GenomeToSwitchableGroupFixture.cs" />
     <Compile Include="Genomes\GenomeToSorterFixture.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Genomes\SwitchableGroupGenomeFixture.cs" />
     <Compile Include="Layers\SorterLayerFixture.cs" />
+    <Compile Include="StateMonad\LcgRandomFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Genomic\Genomic.csproj">

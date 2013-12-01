@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Evo.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class WorkflowFixture
     {
         [TestMethod]
         public void TestMethod1()

@@ -4,7 +4,7 @@ using System.Linq;
 using Genomic.Genomes;
 using MathUtils.Rand;
 
-namespace Evo
+namespace SorterEvo.Workflows
 {
     public interface IGenomeGroup<TG> where TG : IGenome
     {
