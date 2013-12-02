@@ -64,7 +64,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        static Func<ISwitchableGroupGenome, int, ISwitchableGroupGenome> CopyFunc
+        public static Func<ISwitchableGroupGenome, int, ISwitchableGroupGenome> CopyFunc
             (
                 double mutationRate,
                 double insertionRate,

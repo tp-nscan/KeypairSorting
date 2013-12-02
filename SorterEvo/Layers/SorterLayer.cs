@@ -7,17 +7,22 @@ using SorterEvo.Genomes;
 
 namespace SorterEvo.Layers
 {
+    public interface ISorterLayer : ILayer<ISorterGenome>
+    {
+        
+    }
+
     public static class SorterLayer
     {
-        public static ILayer<ISorterGenome> Create
+        public static ISorterLayer Create
             (
-            int seed,
-            int genomeCount,
-            int keyCount,
-            int keyPairCount
+                int seed,
+                int genomeCount,
+                int keyCount,
+                int keyPairCount
             )
         {
-            return Layer.Create
+            return (ISorterLayer) Layer.Create
                 (
                     seed: seed,
                     createFunc: CreateFunc(keyCount, keyPairCount),
@@ -40,7 +45,7 @@ namespace SorterEvo.Layers
                         sorterLayer,
                         scores,
                         selectionRatio,
-                        UpdateFunc
+                        CopyFunc
                             (
                                 mutationRate: mutationRate, 
                                 insertionRate: insertionRate, 
@@ -55,7 +60,7 @@ namespace SorterEvo.Layers
             return i => Rando.Fast(i).ToSorterGenome(keyCount, keyPairCount);
         }
 
-        public static Func<ISorterGenome, int, ISorterGenome> UpdateFunc
+        public static Func<ISorterGenome, int, ISorterGenome> CopyFunc
             (
                 double mutationRate,
                 double insertionRate,
@@ -76,4 +81,17 @@ namespace SorterEvo.Layers
             };
         }
     }
+
+    class SorterLayerImpl : LayerImpl<ISorterGenome>, ISorterLayer
+    {
+        public SorterLayerImpl(
+            int generation, 
+            int seed, 
+            IEnumerable<ISorterGenome> genomes) 
+            : base(generation, seed, genomes)
+        {
+        }
+    }
+
+
 }

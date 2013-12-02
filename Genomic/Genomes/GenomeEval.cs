@@ -1,20 +1,18 @@
-﻿using Genomic.Genomes;
-
-namespace Genomic.Layers
+﻿namespace Genomic.Genomes
 {
-    public interface IGenomeLayerResult<TG> where TG : IGenome
+    public interface IGenomeEval<TG> where TG : IGenome
     {
         TG Genome { get; }
         int Generation { get; }
         double Score { get; }
     }
 
-    public static class GenomeLayerResult
+    public static class GenomeEval
     {
-        public static IGenomeLayerResult<TG> Make<TG>(
+        public static IGenomeEval<TG> Make<TG>(
             TG genome, int generation, double score) where TG : IGenome
         {
-            return new GenomeLayerResultImpl<TG>
+            return new GenomeEvalImpl<TG>
                 (
                     genome: genome, 
                     generation: generation, 
@@ -23,13 +21,13 @@ namespace Genomic.Layers
         }
     }
 
-    class GenomeLayerResultImpl<TG> : IGenomeLayerResult<TG> where TG : IGenome
+    class GenomeEvalImpl<TG> : IGenomeEval<TG> where TG : IGenome
     {
         private readonly TG _genome;
         private readonly int _generation;
         private readonly double _score;
 
-        public GenomeLayerResultImpl(TG genome, int generation, double score)
+        public GenomeEvalImpl(TG genome, int generation, double score)
         {
             _genome = genome;
             _generation = generation;

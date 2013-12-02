@@ -42,20 +42,39 @@ namespace Genomic.Layers
                 Func<TG, int, TG> genomeCopyFunc 
             ) where TG : IGenome
         {
-            var newSeed = Rando.Fast(layer.Seed *397).NextInt();
-            var randy = Rando.Fast(newSeed);
-
-            var winners = scores.OrderByDescending(t => t.Item2)
+            var genomes = (IReadOnlyList<TG>)scores.OrderByDescending(t => t.Item2)
                 .Take(scores.Count / selectionRatio)
                 .Select(p => layer.GetGenome(p.Item1))
                 .ToList();
 
+            return Update
+                (
+                    genomes: genomes,
+                    generation: layer.Generation + 1,
+                    seed: layer.Seed,
+                    newGenomeCount: layer.Genomes.Count,
+                    genomeCopyFunc: genomeCopyFunc
+                );
+        }
+
+        public static ILayer<TG> Update<TG>
+        (
+            IReadOnlyList<TG> genomes,
+            int generation,
+            int seed,
+            int newGenomeCount,
+            Func<TG, int, TG> genomeCopyFunc
+        ) where TG : IGenome
+        {
+            var newSeed = Rando.Fast(seed * 397).NextInt();
+            var randy = Rando.Fast(newSeed);
+
             return Make
                 (
-                    generation: layer.Generation + 1,
-                    genomes: winners.Concat
+                    generation: generation,
+                    genomes: genomes.Concat
                     (
-                        winners.Repeat().Take(layer.Genomes.Count - winners.Count)
+                        genomes.Repeat().Take(newGenomeCount - genomes.Count)
                                 .Select(g => genomeCopyFunc(g, randy.NextInt()))
                     ),
                     seed: newSeed
@@ -68,6 +87,7 @@ namespace Genomic.Layers
             IEnumerable<TG> genomes,
             int seed
         )
+
         where TG : IGenome
         {
             return new LayerImpl<TG>
@@ -80,7 +100,7 @@ namespace Genomic.Layers
 
     }
 
-    class LayerImpl<TG> : ILayer<TG> where TG : IGenome
+    public class LayerImpl<TG> : ILayer<TG> where TG : IGenome
     {
         private readonly int _generation;
         private readonly IReadOnlyDictionary<Guid, TG> _genomes;

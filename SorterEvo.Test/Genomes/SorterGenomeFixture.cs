@@ -18,10 +18,5 @@ namespace SorterEvo.Test.Genomes
 
             Assert.IsTrue(sorterGenome.Chromosome.Sequence.Count == keyPairCount);
         }
-
-
     }
-
-
-
 }

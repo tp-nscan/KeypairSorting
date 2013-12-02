@@ -52,13 +52,15 @@
     <Compile Include="Genes\GeneUintModN.cs" />
     <Compile Include="Genes\GeneUlongModN.cs" />
     <Compile Include="Genomes\Genome.cs" />
-    <Compile Include="Layers\GenomeLayerResult.cs" />
-    <Compile Include="Layers\GenomeEvo.cs" />
+    <Compile Include="Genomes\GenomeEval.cs" />
+    <Compile Include="Layers\LayerEval.cs" />
+    <Compile Include="Trackers\GenomeTracker.cs" />
     <Compile Include="Layers\Layer.cs" />
     <Compile Include="Chromosomes\ChromosomeUintN.cs" />
     <Compile Include="Chromosomes\ChromosomeUlongN.cs" />
-    <Compile Include="Layers\GenomePoolEvo.cs" />
+    <Compile Include="Trackers\GenomePoolHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trackers\Tracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathUtils\MathUtils.csproj">

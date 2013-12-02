@@ -12,7 +12,8 @@ namespace Sorting.Sorters
 
     public static class SortingResult
     {
-        public static ISortingResult<T> ToSwitchableSortingRun<T>(this ISwitchable<T> switchable, T result, bool success)
+        public static ISortingResult<T> ToSortingResult<T>(
+            this ISwitchable<T> switchable, T result, bool success)
         {
             return new SortingResultImpl<T>(switchable: switchable, result: result, success: success);
         }

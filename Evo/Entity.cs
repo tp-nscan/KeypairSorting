@@ -28,9 +28,9 @@ namespace Evo
     }
 
     public interface IEntity<TS, out T> : IEntity
-        where T : class 
+        where T : class
     {
-        TS Input { get; }
+        TS FuncParams { get; }
         IEntityFunction<TS, T> EntityFunction { get; }
         T Value { get; }
     }
@@ -73,7 +73,7 @@ namespace Evo
             get { return _guid; }
         }
 
-        public abstract TS Input
+        public abstract TS FuncParams
         {
             get;
         }
@@ -87,7 +87,7 @@ namespace Evo
         private T _value;
         public T Value
         {
-            get { return _value ?? (_value = EntityFunction.Function(Input)); }
+            get { return _value ?? (_value = EntityFunction.Function(FuncParams)); }
         }
     }
 }

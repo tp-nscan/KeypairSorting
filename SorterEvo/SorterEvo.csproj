@@ -51,8 +51,10 @@
     <Compile Include="Genomes\SwitchableGroupGenomeType.cs" />
     <Compile Include="Layers\SwitchableGroupLayer.cs" />
     <Compile Include="Workflows\GenomeGroup.cs" />
-    <Compile Include="Workflows\SorterPoolCompStep.cs" />
+    <Compile Include="Workflows\SorterPoolCompParams.cs" />
+    <Compile Include="Workflows\SorterPoolCompState.cs" />
     <Compile Include="Workflows\SorterPoolCompWorkflow.cs" />
+    <Compile Include="Workflows\SorterPoolCompWorkflowTracker.cs" />
     <Compile Include="Workflows\Step.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Trackers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
