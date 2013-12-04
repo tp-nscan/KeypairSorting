@@ -3,6 +3,7 @@ using System.Linq;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SorterEvo.Layers;
+using SorterEvo.TestData;
 
 namespace SorterEvo.Test.Layers
 {
@@ -12,56 +13,55 @@ namespace SorterEvo.Test.Layers
         [TestMethod]
         public void TestCreate()
         {
-            const int cSeed = 1234;
-            const int cGenomes = 100;
-            const int cKeys = 16;
-            const int cKeyPairs = 1000;
-
-            var layer = SorterLayer.Create(
-                seed: cSeed,
-                genomeCount: cGenomes,
-                keyCount: cKeys,
-                keyPairCount: cKeyPairs
-                );
+            var layer = TestSorterEvo.SorterLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, cGenomes);
-            Assert.AreEqual(layer.Genomes.First().KeyCount, cKeys);
-            Assert.AreEqual(layer.Genomes.First().KeyPairCount, cKeyPairs);
+            Assert.AreEqual(layer.Genomes.Count, TestSorterEvo.GenomeCount);
+            Assert.AreEqual(layer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
+            Assert.AreEqual(layer.Genomes.First().KeyPairCount, TestSorterEvo.KeyPairCount);
         }
 
 
         [TestMethod]
-        public void TestUpdate()
+        public void TestMultiply()
         {
-            const int cSeed = 1234;
-            const int cGenomes = 100;
-            const int cKeys = 16;
-            const int cKeyPairs = 1000;
-
-            var layer = SorterLayer.Create(
-                seed: cSeed,
-                genomeCount: cGenomes,
-                keyCount: cKeys,
-                keyPairCount: cKeyPairs
-                );
+            var layer = TestSorterEvo.SorterLayer();
 
             var randy = Rando.Fast(1233);
             
-            var newLayer = layer.Update
+            var newLayer = layer.Multiply
                 (
-                    scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
-                    selectionRatio: 4,
-                    mutationRate: 0.1,
-                    insertionRate: 0.1,
-                    deletionRate: 0.1
+                    seed:TestSorterEvo.Seeds.First(),
+                    newGenomeCount: TestSorterEvo.SorterLayerExpandedGenomeCount,
+                    mutationRate: TestSorterEvo.SorterMutationRate,
+                    insertionRate: TestSorterEvo.SorterInsertionRate,
+                    deletionRate: TestSorterEvo.SorterDeletionRate
                 );
 
             Assert.AreEqual(newLayer.Generation, 1);
-            Assert.AreEqual(newLayer.Genomes.Count, cGenomes);
-            Assert.AreEqual(newLayer.Genomes.First().KeyCount, cKeys);
-            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, cKeyPairs);
+            Assert.AreEqual(newLayer.Genomes.Count, TestSorterEvo.SorterLayerExpandedGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestSorterEvo.KeyPairCount);
+        }
 
+        [TestMethod]
+        public void TestNextGen()
+        {
+            var layer = TestSorterEvo.SorterLayer();
+
+            var randy = Rando.Fast(1233);
+
+            var newLayer = layer.NextGen
+                (
+                    scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
+                    seed: TestSorterEvo.Seeds.First(),
+                    newGenomeCount: TestSorterEvo.SorterLayerExpandedGenomeCount
+                );
+
+            Assert.AreEqual(newLayer.Generation, 1);
+            Assert.AreEqual(newLayer.Genomes.Count, TestSorterEvo.SorterLayerExpandedGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestSorterEvo.KeyPairCount);
         }
     }
 }

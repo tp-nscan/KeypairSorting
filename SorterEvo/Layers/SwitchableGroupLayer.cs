@@ -25,29 +25,44 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static ILayer<ISwitchableGroupGenome> Update
-        (
-            this ILayer<ISwitchableGroupGenome> switchableGroupGenomeLayer,
-            IReadOnlyList<Tuple<Guid, double>> scores,
-            int selectionRatio,
-            double mutationRate,
-            double insertionRate,
-            double deletionRate
-        )
+        public static ILayer<ISwitchableGroupGenome> Multiply
+            (
+                this ILayer<ISwitchableGroupGenome> switchableGroupGenomeLayer,
+                int seed,
+                int newGenomeCount,
+                double mutationRate,
+                double insertionRate,
+                double deletionRate
+            )
         {
-            return Layer.Update(
-                layer: switchableGroupGenomeLayer,
-                scores: scores,
-                selectionRatio: selectionRatio,
-                genomeCopyFunc: CopyFunc
+            return switchableGroupGenomeLayer.Multiply
+                (
+                    genomeCopyFunc: CopyFunc
                         (
                             mutationRate: mutationRate,
                             insertionRate: insertionRate,
                             deletionRate: deletionRate
-                        )
+                        ),
+                    newGenomeCount: newGenomeCount,
+                    seed: seed
                 );
         }
 
+        public static ILayer<ISwitchableGroupGenome> NextGen
+        (
+            this ILayer<ISwitchableGroupGenome> layer,
+            int seed,
+            IReadOnlyList<Tuple<Guid, double>> scores,
+            int newGenomeCount
+        )
+        {
+            return layer.NextGen
+                (
+                    seed : seed,
+                    scores : scores,
+                    newGenomeCount: newGenomeCount
+                );
+        }
 
         static Func<int, ISwitchableGroupGenome> CreateFunc
         (

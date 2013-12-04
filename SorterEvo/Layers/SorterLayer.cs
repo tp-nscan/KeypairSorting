@@ -7,53 +7,63 @@ using SorterEvo.Genomes;
 
 namespace SorterEvo.Layers
 {
-    public interface ISorterLayer : ILayer<ISorterGenome>
-    {
-        
-    }
-
     public static class SorterLayer
     {
-        public static ISorterLayer Create
-            (
+        public static ILayer<ISorterGenome> Create
+        (
                 int seed,
                 int genomeCount,
                 int keyCount,
                 int keyPairCount
-            )
+        )
         {
-            return (ISorterLayer) Layer.Create
+            return Layer.Create
                 (
                     seed: seed,
-                    createFunc: CreateFunc(keyCount, keyPairCount),
+                    createFunc: CreateFunc(keyCount: keyCount, keyPairCount: keyPairCount),
                     genomeCount: genomeCount
                 );
         }
 
-        public static ILayer<ISorterGenome> Update
-        (
-            this ILayer<ISorterGenome> sorterLayer,
-            IReadOnlyList<Tuple<Guid, double>> scores,
-            int selectionRatio,
-            double mutationRate,
-            double insertionRate,
-            double deletionRate
-        )
-            {
-                return Layer.Update
-                    (
-                        sorterLayer,
-                        scores,
-                        selectionRatio,
-                        CopyFunc
-                            (
-                                mutationRate: mutationRate, 
-                                insertionRate: insertionRate, 
-                                deletionRate: deletionRate
-                            ) 
-                    );
-            }
+        public static ILayer<ISorterGenome> Multiply
+            (
+                this ILayer<ISorterGenome> sorterGenomeLayer,
+                int seed,
+                int newGenomeCount,
+                double mutationRate,
+                double insertionRate,
+                double deletionRate
+            )
+        {
+            return sorterGenomeLayer.Multiply
+                (
+                    genomeCopyFunc: CopyFunc
+                        (
+                            mutationRate: mutationRate,
+                            insertionRate: insertionRate,
+                            deletionRate: deletionRate
+                        ),
+                    newGenomeCount: newGenomeCount,
+                    seed: seed
+                );
+        }
 
+        public static ILayer<ISorterGenome> NextGen
+        (
+            this ILayer<ISorterGenome> layer,
+            int seed,
+            IReadOnlyList<Tuple<Guid, double>> scores,
+            int newGenomeCount
+        )
+        {
+            return Layer.NextGen
+                (
+                    layer: layer,
+                    seed: seed,
+                    scores: scores,
+                    newGenomeCount: newGenomeCount
+                );
+        }
 
         public static Func<int, ISorterGenome> CreateFunc(int keyCount, int keyPairCount)
         {
@@ -81,17 +91,5 @@ namespace SorterEvo.Layers
             };
         }
     }
-
-    class SorterLayerImpl : LayerImpl<ISorterGenome>, ISorterLayer
-    {
-        public SorterLayerImpl(
-            int generation, 
-            int seed, 
-            IEnumerable<ISorterGenome> genomes) 
-            : base(generation, seed, genomes)
-        {
-        }
-    }
-
 
 }
