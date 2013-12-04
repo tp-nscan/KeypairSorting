@@ -82,7 +82,7 @@
 //            }
 
 //            Assert.AreEqual(newLayer.Generation, 1);
-//            Assert.AreEqual(newLayer.Genomes.Count, TestSorterEvo.GenomeCount);
+//            Assert.AreEqual(newLayer.Genomes.Count, TestSorterEvo.SwitchableGroupGenomeCount);
 //            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
 //            Assert.AreEqual(newLayer.Genomes.First().GroupCount, TestSorterEvo.SwitchableGroupSize);
 //        }

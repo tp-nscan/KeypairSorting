@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Genomic.Genomes;
 using Genomic.Layers;
 using Genomic.Trackers;
@@ -6,6 +7,7 @@ using MathUtils.Rand;
 using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using Sorting.CompetePool;
+using Sorting.Switchables;
 
 namespace SorterEvo.Workflows
 {
@@ -250,7 +252,31 @@ namespace SorterEvo.Workflows
 
         private ISorterPoolCompWorkflow RunCompetitionStep(int seed)
         {
-            ICompPool compPool = null;
+            var sorters = SorterLayer.Genomes.Select(t=>t.ToSorter());
+            ICompPool compPool;
+
+            switch (SwitchableGroupLayer.Genomes[0].SwitchableGroupGenomeType)
+            {
+                case SwitchableGroupGenomeType.UInt:
+                    var switchableGroupsUint = SwitchableGroupLayer.Genomes.Select(t => (ISwitchableGroup<uint>)t.ToSwitchableGroup());
+                    compPool = sorters.ToCompPoolParallel(switchableGroupsUint);
+                break;
+                case SwitchableGroupGenomeType.ULong:
+                    var switchableGroupsULong = SwitchableGroupLayer.Genomes.Select(t => (ISwitchableGroup<ulong>)t.ToSwitchableGroup());
+                    compPool = sorters.ToCompPoolParallel(switchableGroupsULong);
+                break;
+                case SwitchableGroupGenomeType.BitArray:
+                    var switchableGroupsBitArray = SwitchableGroupLayer.Genomes.Select(t => (ISwitchableGroup<bool[]>)t.ToSwitchableGroup());
+                    compPool = sorters.ToCompPoolParallel(switchableGroupsBitArray);
+                break;
+                case SwitchableGroupGenomeType.IntArray:
+                    var switchableGroupsIntArray = SwitchableGroupLayer.Genomes.Select(t => (ISwitchableGroup<int[]>)t.ToSwitchableGroup());
+                    compPool = sorters.ToCompPoolParallel(switchableGroupsIntArray);
+                break;
+                default:
+                throw new Exception(String.Format("{0} is not handled in RunCompetitionStep", SwitchableGroupLayer.Genomes[0].SwitchableGroupGenomeType));
+            }
+
             return new SorterPoolCompWorkflowImpl
                 (
                     tracker: Tracker,

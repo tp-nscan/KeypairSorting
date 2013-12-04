@@ -2,10 +2,8 @@
 using System.Linq;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using SorterEvo.TestData;
-using SorterEvo.Workflows;
 
 namespace SorterEvo.Test.Layers
 {
@@ -18,7 +16,7 @@ namespace SorterEvo.Test.Layers
             var layer = TestSorterEvo.SwitchableGroupLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, TestSorterEvo.GenomeCount);
+            Assert.AreEqual(layer.Genomes.Count, TestSorterEvo.SwitchableGroupGenomeCount);
             Assert.AreEqual(layer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
             Assert.AreEqual(layer.Genomes.First().GroupCount, TestSorterEvo.SwitchableGroupSize);
         }

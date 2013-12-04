@@ -18,6 +18,153 @@ namespace Sorting.CompetePool
 
     public static class CompPool
     {
+    //    public static ICompPool ToCompPool
+    //(
+    //    this IEnumerable<ISorter> sorters,
+    //    IEnumerable<ISwitchableGroup<uint>> switchableGroups
+    //)
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        var sorterEvals = sorters.Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPoolParallel
+    //    (
+    //        this IEnumerable<ISorter> sorters,
+    //        IEnumerable<ISwitchableGroup<uint>> switchableGroups
+    //    )
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        KeyPairSwitchSet.Make<uint>(switchableGroupList.First().KeyCount);
+    //        var sorterEvals = sorters.AsParallel().Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPool
+    //        (
+    //            this IEnumerable<ISorter> sorters,
+    //            IEnumerable<ISwitchableGroup<ulong>> switchableGroups
+    //        )
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        var sorterEvals = sorters.Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPoolParallel
+    //        (
+    //            this IEnumerable<ISorter> sorters,
+    //            IEnumerable<ISwitchableGroup<ulong>> switchableGroups
+    //        )
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        KeyPairSwitchSet.Make<uint>(switchableGroupList.First().KeyCount);
+    //        var sorterEvals = sorters.AsParallel().Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPool
+    //(
+    //    this IEnumerable<ISorter> sorters,
+    //    IEnumerable<ISwitchableGroup<bool[]>> switchableGroups
+    //)
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        var sorterEvals = sorters.Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPoolParallel
+    //        (
+    //            this IEnumerable<ISorter> sorters,
+    //            IEnumerable<ISwitchableGroup<bool[]>> switchableGroups
+    //        )
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        KeyPairSwitchSet.Make<uint>(switchableGroupList.First().KeyCount);
+    //        var sorterEvals = sorters.AsParallel().Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPool
+    //(
+    //    this IEnumerable<ISorter> sorters,
+    //    IEnumerable<ISwitchableGroup<int[]>> switchableGroups
+    //)
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        var sorterEvals = sorters.Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
+
+    //    public static ICompPool ToCompPoolParallel
+    //        (
+    //            this IEnumerable<ISorter> sorters,
+    //            IEnumerable<ISwitchableGroup<int[]>> switchableGroups
+    //        )
+    //    {
+    //        var switchableGroupList = switchableGroups.ToList();
+    //        KeyPairSwitchSet.Make<uint>(switchableGroupList.First().KeyCount);
+    //        var sorterEvals = sorters.AsParallel().Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
+    //                           .ToList();
+
+    //        //var switchableGroupEvals = switchableGroupList
+    //        //    .Select(t => t.ToLocalSwitchableGroupEval(sorterEvals.Select(s=>s.SorterOnSwitchableGroup(t))));
+    //        var switchableGroupEvals = switchableGroupList
+    //                .Select(t => t.ToGlobalSwitchableGroupEval(sorterEvals));
+
+    //        return new CompPoolImpl(switchableGroupEvals, sorterEvals);
+    //    }
         public static ICompPool ToCompPool<T>
             (
                 this IEnumerable<ISorter> sorters,
@@ -25,7 +172,7 @@ namespace Sorting.CompetePool
             )
         {
             var switchableGroupList = switchableGroups.ToList();
-            var sorterEvals = sorters.Select(t=>t.MakeSorterTestOnCompPool(switchableGroupList))
+            var sorterEvals = sorters.Select(t => t.MakeSorterTestOnCompPool(switchableGroupList))
                                .ToList();
 
             //var switchableGroupEvals = switchableGroupList
@@ -58,7 +205,7 @@ namespace Sorting.CompetePool
         public static ICompPool SelectAndMutate<T>(this ICompPool originalPool, IRando rando)
         {
             const int selectionRatio = 4;
-            const double sorterMutationRate = 0.02; 
+            const double sorterMutationRate = 0.02;
             const double switchableMutationRate = 0.25;
             const double insertionRate = 0.02;
             const double deletionRate = 0.02;
@@ -66,9 +213,9 @@ namespace Sorting.CompetePool
             var bestSorters = originalPool.SorterEvals.GetBestSorters(selectionRatio).ToList();
             var bestSwitchables = originalPool.SwitchableGroupEval.GetBestSwitchableGroups<T>(selectionRatio).ToList();
 
-            var newSorters = 
+            var newSorters =
                 bestSorters.Select(s => s.ToEnumerable().Concat(s.Mutate(rando, sorterMutationRate).Take(selectionRatio - 1)))
-                .SelectMany(t=>t);
+                .SelectMany(t => t);
 
             var newSwitchables =
                 bestSwitchables.Select(
@@ -79,7 +226,7 @@ namespace Sorting.CompetePool
             //return newSorters.ToCompPool(originalPool.SwitchableGroupEval.Select(t=>t.SwitchableGroupImpl).Cast<ISwitchableGroup<T>>());
         }
 
-        public static string ToReport(this ICompPool compPool, int numRecords, string label_1, string label_2)
+        public static string ToReport(this ICompPool compPool, int numRecords, string label1, string label2)
         {
             var bestSorters = compPool.SorterEvals.OrderBy(t => t.SwitchesUsed).Take(numRecords).ToList();
             var bestSwitches = compPool.SwitchableGroupEval.OrderByDescending(t => t.Fitness).Take(numRecords).ToList();
@@ -98,7 +245,7 @@ namespace Sorting.CompetePool
                             bestSorters[i].SwitchesUsed, 
                             bestSwitches[i].Fitness.ToString("0.0"),
                             bestSwitches[i].SwitchableGroup.Guid,
-                            label_1, i, label_2
+                            label1, i, label2
                         )
                     );
             }

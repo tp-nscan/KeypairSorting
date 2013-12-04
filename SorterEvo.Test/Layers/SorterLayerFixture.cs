@@ -16,7 +16,7 @@ namespace SorterEvo.Test.Layers
             var layer = TestSorterEvo.SorterLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, TestSorterEvo.GenomeCount);
+            Assert.AreEqual(layer.Genomes.Count, TestSorterEvo.SorterGenomeCount);
             Assert.AreEqual(layer.Genomes.First().KeyCount, TestSorterEvo.KeyCount);
             Assert.AreEqual(layer.Genomes.First().KeyPairCount, TestSorterEvo.KeyPairCount);
         }

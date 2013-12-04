@@ -9,22 +9,23 @@ namespace SorterEvo.TestData
     public static class TestSorterEvo
     {
         public static int Seed = 1234;
-        public static int GenomeCount = 100;
         public static int KeyCount = 16;
         public static int KeyPairCount = 500;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
-        public static int SorterGroupGenomeCount = 250;
-        public static int SwitchableGroupSize = 250;
 
-        public static int SorterLayerExpandedGenomeCount = 500;
+        public static int SorterGenomeCount = 10;
+        public static int SorterLayerExpandedGenomeCount = 20;
         public static double SorterMutationRate = 0.3;
         public static double SorterInsertionRate = 0.3;
         public static double SorterDeletionRate = 0.3;
-        
-        public static int SwitchableGroupExpandedGenomeCount = 500;
+
+        public static int SwitchableGroupGenomeCount = 10;
+        public static int SwitchableGroupExpandedGenomeCount = 20;
         public static double SwitchableMutationRate = 0.3;
         public static double SwitchableInsertionRate = 0.3;
         public static double SwitchableDeletionRate = 0.3;
+
+        public static int SwitchableGroupSize = 250;
 
         public static IEnumerable<int> Seeds
         {
@@ -38,7 +39,7 @@ namespace SorterEvo.TestData
         {
             return Layers.SorterLayer.Create(
                     seed: Seed,
-                    genomeCount: GenomeCount,
+                    genomeCount: SorterGenomeCount,
                     keyCount: KeyCount,
                     keyPairCount: KeyPairCount
                 );
@@ -49,7 +50,7 @@ namespace SorterEvo.TestData
             return Layers.SwitchableGroupLayer.Create(
                     seed: Seed,
                     switchableGroupGenomeType: SwitchableGroupGenomeType,
-                    genomeCount: GenomeCount,
+                    genomeCount: SwitchableGroupGenomeCount,
                     keyCount: KeyCount,
                     groupSize: SwitchableGroupSize
                 );
@@ -58,12 +59,12 @@ namespace SorterEvo.TestData
         public static SorterPoolCompParams SorterPoolCompParams()
         {
             return new SorterPoolCompParams(
-                     sorterLayerStartingGenomeCount: SorterGroupGenomeCount,
+                     sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
                      sorterDeletionRate: SorterDeletionRate,
-                     switchableLayerStartingGenomeCount: SwitchableGroupSize,
+                     switchableLayerStartingGenomeCount: SwitchableGroupGenomeCount,
                      switchableLayerExpandedGenomeCount: SwitchableGroupExpandedGenomeCount,
                      switchableGroupMutationRate: SwitchableMutationRate,
                      switchableGroupInsertionRate: SwitchableInsertionRate,

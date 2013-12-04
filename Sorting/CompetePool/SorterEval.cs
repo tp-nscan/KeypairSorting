@@ -22,16 +22,17 @@ namespace Sorting.CompetePool
 
     public static class SorterEval
     {
+
         public static ISorterEvalOnCompPool MakeSorterTestOnCompPool<T>
         (
-            this ISorter sorter, 
+            this ISorter sorter,
             IEnumerable<ISwitchableGroup<T>> switchableGroups
         )
         {
             return new SorterEvalOnCompPoolImpl
                 (
                     sorter: sorter,
-                    sorterTestOnSwitchableGroups: switchableGroups.Select(sorter.Sort)
+                    sorterOnSwitchableGroups: switchableGroups.Select(sorter.Sort)
                 );
         }
 
@@ -54,11 +55,11 @@ namespace Sorting.CompetePool
         public SorterEvalOnCompPoolImpl
         (
             ISorter sorter, 
-            IEnumerable<SorterOnSwitchableGroup> sorterTestOnSwitchableGroups
+            IEnumerable<SorterOnSwitchableGroup> sorterOnSwitchableGroups
         )
         {
             _sorter = sorter;
-            _sorterTestOnSwitchableGroups = sorterTestOnSwitchableGroups.ToDictionary(t => t.SwitchableGroup.Guid);
+            _sorterTestOnSwitchableGroups = sorterOnSwitchableGroups.ToDictionary(t => t.SwitchableGroup.Guid);
             _switchUseList = _sorterTestOnSwitchableGroups.Values.Select(T => T.SwitchUseList).VectorSumDouble();
             _switchesUsed = SwitchUseList.Count(T => T > 0);
         }
