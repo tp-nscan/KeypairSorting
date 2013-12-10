@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace MathUtils.Collections
 {
@@ -26,6 +28,20 @@ namespace MathUtils.Collections
             hashRet += 23 * BitConverter.ToInt32(aw, 8);
             hashRet += 23 * BitConverter.ToInt32(aw, 12);
             return hashRet;
+        }
+
+        public static Guid Add(this Guid lhs, Guid rhs)
+        {
+            var leftArray = lhs.ToByteArray();
+            var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4));
+
+            var rightArray = lhs.ToByteArray();
+            var rightInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(rightArray, d * 4));
+
+            return new Guid (
+                    leftInts.Zip(rightInts, (x, y) => x + y).SelectMany(BitConverter.GetBytes).ToArray()
+                );
+
         }
     }
 }

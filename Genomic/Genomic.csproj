@@ -51,6 +51,7 @@
     <Compile Include="Genes\GenePermutation.cs" />
     <Compile Include="Genes\GeneUintModN.cs" />
     <Compile Include="Genes\GeneUlongModN.cs" />
+    <Compile Include="GenomePool\GenomePoolParams.cs" />
     <Compile Include="Genomes\Genome.cs" />
     <Compile Include="Genomes\GenomeEval.cs" />
     <Compile Include="Layers\LayerEval.cs" />

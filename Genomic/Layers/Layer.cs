@@ -62,9 +62,9 @@ namespace Genomic.Layers
             return Make(
                     generation: layer.Generation + 1,
                     genomes: scores.OrderByDescending(t => t.Item2)
-                                .Take(newGenomeCount)
-                                .Select(p => layer.GetGenome(p.Item1))
-                                .ToList()
+                                   .Take(newGenomeCount)
+                                   .Select(p => layer.GetGenome(p.Item1))
+                                   .ToList()
                 );
         }
 

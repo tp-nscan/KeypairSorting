@@ -9,8 +9,12 @@
 
     public static class GenomeEval
     {
-        public static IGenomeEval<TG> Make<TG>(
-            TG genome, int generation, double score) where TG : IGenome
+        public static IGenomeEval<TG> Make<TG>
+            (
+                TG genome, 
+                int generation, 
+                double score
+            ) where TG : IGenome
         {
             return new GenomeEvalImpl<TG>
                 (

@@ -219,7 +219,7 @@ namespace SorterEvo.Workflows
             var sorterLayer = Layers.SorterLayer.Multiply
             (
                 sorterGenomeLayer:SorterLayer,
-                seed: seed,
+                seed: randy.NextInt(),
                 newGenomeCount: SorterPoolCompParams.SorterLayerExpandedGenomeCount,
                 mutationRate: SorterPoolCompParams.SorterMutationRate,
                 insertionRate: SorterPoolCompParams.SorterMutationRate,

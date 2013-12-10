@@ -42,5 +42,15 @@ namespace MathUtils.Tests.Collections
                 curGuid = randy.NextGuid();
             }
         }
+
+        [TestMethod]
+        public void TestGuidAdd()
+        {
+            var lhs = Guid.NewGuid();
+            var rhs = Guid.NewGuid();
+            var result = lhs.Add(rhs);
+
+            Assert.IsNotNull(result);
+        }
     }
 }
