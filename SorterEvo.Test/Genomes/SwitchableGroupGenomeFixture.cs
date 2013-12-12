@@ -65,7 +65,7 @@ namespace SorterEvo.Test.Genomes
                 );
 
             Assert.AreEqual(switchableGroupGenome.KeyCount, cKeyCount);
-            Assert.AreEqual(switchableGroupGenome.Chromosome.Sequence.Count, cGroupSize);
+            Assert.AreEqual(switchableGroupGenome.Chromosome.Sequence.Count, cGroupSize * cKeyCount);
             Assert.AreEqual(switchableGroupGenome.SwitchableGroupGenomeType, cSwitchableGroupGenomeType);
 
         }

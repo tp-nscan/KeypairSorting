@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Entities
 {
     public interface IEntity
     {
         Guid Guid { get; }
-        string EntityType { get; }
+        Type EntityType { get; }
         object Value { get; }
     }
 
@@ -17,29 +18,33 @@ namespace Entities
 
     public static class Entity
     {
-        public static IEntity<T> FromBuilder<T>(this IEntityBuilder<T> entityBuilder, IEntityRepository repository)
+        public static IReadOnlyDictionary<string, IEntity> ToLocalNames<T>(this IEntityRepository repository,
+                                                     IReadOnlyDictionary<string, Guid> entityKeys)
         {
-            return new EntityImpl<T>
-                (
-                   guid: entityBuilder.Guid, 
-                   entityType: entityBuilder.OutType,
-                   value: entityBuilder.MakeValue(repository)
-                );
+            var entityDictionary = new Dictionary<string, IEntity>();
+            foreach (var keyValuePair in entityKeys)
+            {
+                if (! repository.ContainsEntity(keyValuePair.Value))
+                {
+                    throw new Exception(String.Format("Entity with guid {0} and local name {1} not found in repository", keyValuePair.Value, keyValuePair.Key));
+                }
+                entityDictionary[keyValuePair.Key] = repository.GetEntity(keyValuePair.Value);
+            }
+            return new ReadOnlyDictionary<string, IEntity>(entityDictionary);
         }
 
-        public static IEntity<int> NumberEntity(Guid guid, int val, Guid entityBuilderGuid)
+        public static IEntity<T> Make<T>(Guid guid, T val)
         {
-            return new NumberEntity(guid, val);
+            return new EntityImpl<T>(guid, val);
         }
     }
 
     internal class EntityImpl<T> : IEntity<T>
     {
-        public EntityImpl(Guid guid, string entityType, T value)
+        public EntityImpl(Guid guid, T value)
         {
             _guid = guid;
             _value = value;
-            _entityType = entityType;
         }
 
         private readonly Guid _guid;
@@ -48,10 +53,9 @@ namespace Entities
             get { return _guid; }
         }
 
-        private readonly string _entityType;
-        public string EntityType
+        public Type EntityType
         {
-            get { return _entityType; }
+            get { return typeof(T); }
         }
 
         object IEntity.Value
@@ -65,36 +69,4 @@ namespace Entities
             get { return _value; }
         }
     }
-
-    internal class NumberEntity : EntityImpl<int>
-    {
-        public NumberEntity(Guid guid, int value)
-            : base(
-                guid: guid, 
-                entityType:"NumberEntity", 
-                value: value
-            )
-        {
-        }
-    }
-
-    internal class NumberListEntity : EntityImpl<IEntity<IReadOnlyList<int>>>
-    {
-        public NumberListEntity(Guid guid, Guid sourceGuid)
-            : base
-            (
-                guid: guid, 
-                entityType: "NumberListEntity",
-                value: FromGuid(guid, sourceGuid)
-            )
-        {
-        }
-
-        public static IEntity<IReadOnlyList<int>> FromGuid(Guid guid, Guid sourceGuid)
-        {
-            return null;
-        }
-    }
-
-
 }

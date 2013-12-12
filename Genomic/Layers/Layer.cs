@@ -51,13 +51,12 @@ namespace Genomic.Layers
                 );
         }
 
-        public static ILayer<TG> NextGen<TG>
-            (
-                this ILayer<TG> layer,
-                int seed,
-                IReadOnlyList<Tuple<Guid, double>> scores,
-                int newGenomeCount
-            ) where TG : IGenome
+        public static ILayer<TG> NextGen<TG>(
+                                              this ILayer<TG> layer,
+                                              int seed,
+                                              IReadOnlyList<Tuple<Guid, double>> scores,
+                                              int newGenomeCount
+                                            ) where TG : IGenome
         {
             return Make(
                     generation: layer.Generation + 1,
@@ -68,12 +67,10 @@ namespace Genomic.Layers
                 );
         }
 
-        public static ILayer<TG> Make<TG>
-            (
-                int generation,
-                IEnumerable<TG> genomes
-            )
-        where TG : IGenome
+        public static ILayer<TG> Make<TG>(
+                                           int generation,
+                                           IEnumerable<TG> genomes
+                                         ) where TG : IGenome
         {
             return new LayerImpl<TG>
                 (

@@ -56,8 +56,9 @@ namespace SorterEvo.Layers
             int newGenomeCount
         )
         {
-            return layer.NextGen
+            return Layer.NextGen
                 (
+                    layer: layer,
                     seed : seed,
                     scores : scores,
                     newGenomeCount: newGenomeCount

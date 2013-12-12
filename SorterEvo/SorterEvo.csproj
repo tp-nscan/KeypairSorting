@@ -50,7 +50,8 @@
     <Compile Include="Genomes\SwitchableGroupGenome.cs" />
     <Compile Include="Genomes\SwitchableGroupGenomeType.cs" />
     <Compile Include="Layers\SwitchableGroupLayer.cs" />
-    <Compile Include="TestData\TestSorterEvo.cs" />
+    <Compile Include="TestData\TestRepository.cs" />
+    <Compile Include="TestData\SorterEvoTestData.cs" />
     <Compile Include="Workflows\SorterCompPoolParams.cs" />
     <Compile Include="Workflows\SorterCompState.cs" />
     <Compile Include="Workflows\SorterCompWorkflow.cs" />

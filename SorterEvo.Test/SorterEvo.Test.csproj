@@ -63,8 +63,13 @@
     <Compile Include="StateMonad\LcgRandomFixture.cs" />
     <Compile Include="Workflows\SorterPoolCompWorkflowFixture.cs" />
     <Compile Include="Workflows\SorterPoolCompWorkflowTrackerFixture.cs" />
+    <Compile Include="Workflows\SorterCompWorkflowBuilderFixture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{3481A3C5-8A66-40D6-AF05-F459F63FDB2C}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Genomic\Genomic.csproj">
       <Project>{d2f5b40c-8c15-42d6-8549-2f8695ae91a9}</Project>
       <Name>Genomic</Name>

@@ -58,9 +58,9 @@ namespace MathUtils.Collections
         public static Guid Add(this Guid lhs, int rhs)
         {
             var leftArray = lhs.ToByteArray();
-            var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4));
+            var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4)).ToArray();
 
-            var rightInts = Enumerable.Range(0, 4).Select(d => (uint)(rhs * (d + 1)));
+            var rightInts = Enumerable.Range(0, 4).Select(d => (uint)(rhs * leftInts[d]));
 
             return new Guid(
                     leftInts.Zip(rightInts, (x, y) => x + y).SelectMany(BitConverter.GetBytes).ToArray()

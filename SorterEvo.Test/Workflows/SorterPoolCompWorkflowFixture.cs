@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SorterEvo.Layers;
 using SorterEvo.TestData;
 using SorterEvo.Workflows;
 
@@ -13,9 +16,9 @@ namespace SorterEvo.Test.Workflows
         {
             var workflow = SorterCompWorkflow.Make(
                 //tracker: null,
-                sorterLayer: TestSorterEvo.SorterLayer(),
-                switchableGroupLayer: TestSorterEvo.SwitchableGroupLayer(),
-                sorterCompPoolParams: TestSorterEvo.SorterPoolCompParams()
+                sorterLayer: SorterEvoTestData.SorterLayer(),
+                switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
+                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams()
                 );
             Assert.IsNotNull(workflow);
         }
@@ -25,12 +28,12 @@ namespace SorterEvo.Test.Workflows
         {
             var workflow = SorterCompWorkflow.Make(
                 //tracker: SorterCompTracker.Make(),
-                sorterLayer: TestSorterEvo.SorterLayer(),
-                switchableGroupLayer: TestSorterEvo.SwitchableGroupLayer(),
-                sorterCompPoolParams: TestSorterEvo.SorterPoolCompParams()
+                sorterLayer: SorterEvoTestData.SorterLayer(),
+                switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
+                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams()
                 );
 
-            var seedList = TestSorterEvo.Seeds.Take(5).ToList();
+            var seedList = SorterEvoTestData.Seeds.Take(5).ToList();
             var newWorkflow = workflow.Step(seedList[0]);
             Assert.AreEqual(newWorkflow.SorterPoolCompState, SorterCompState.RunCompetition);
             newWorkflow = newWorkflow.Step(seedList[1]);

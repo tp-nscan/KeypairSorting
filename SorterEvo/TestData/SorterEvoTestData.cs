@@ -6,7 +6,7 @@ using SorterEvo.Workflows;
 
 namespace SorterEvo.TestData
 {
-    public static class TestSorterEvo
+    public static class SorterEvoTestData
     {
         public static int Seed = 1234;
         public static int KeyCount = 16;
@@ -14,7 +14,7 @@ namespace SorterEvo.TestData
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
         public static int SorterGenomeCount = 10;
-        public static int SorterLayerExpandedGenomeCount = 20;
+        public static int SorterExpandedGenomeCount = 20;
         public static double SorterMutationRate = 0.3;
         public static double SorterInsertionRate = 0.3;
         public static double SorterDeletionRate = 0.3;
@@ -45,6 +45,16 @@ namespace SorterEvo.TestData
                 );
         }
 
+        public static ILayer<ISorterGenome> SorterExpandedLayer()
+        {
+            return Layers.SorterLayer.Create(
+                    seed: Seed,
+                    genomeCount: SorterExpandedGenomeCount,
+                    keyCount: KeyCount,
+                    keyPairCount: KeyPairCount
+                );
+        }
+
         public static ILayer<ISwitchableGroupGenome> SwitchableGroupLayer()
         {
             return Layers.SwitchableGroupLayer.Create(
@@ -56,11 +66,22 @@ namespace SorterEvo.TestData
                 );
         }
 
+        public static ILayer<ISwitchableGroupGenome> SwitchableGroupExpandedLayer()
+        {
+            return Layers.SwitchableGroupLayer.Create(
+                    seed: Seed,
+                    switchableGroupGenomeType: SwitchableGroupGenomeType,
+                    genomeCount: SwitchableGroupExpandedGenomeCount,
+                    keyCount: KeyCount,
+                    groupSize: SwitchableGroupSize
+                );
+        }
+
         public static SorterCompPoolParams SorterPoolCompParams()
         {
             return new SorterCompPoolParams(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
-                     sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount,
+                     sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
                      sorterDeletionRate: SorterDeletionRate,

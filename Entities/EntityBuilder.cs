@@ -6,17 +6,15 @@ namespace Entities
     public interface IEntityBuilder<T>
     {
         Guid Guid { get; }
-        string EntityBuilderType { get; }
-        IReadOnlyDictionary<string, Guid> InputEntities { get; }
-        T MakeValue(IEntityRepository repository);
-        string OutType { get; }
+        IReadOnlyDictionary<string, IEntity> InputEntities { get; }
+        IEntity<T> Entity { get; }
     }
 
     public abstract class EntityBuilder<T> : IEntityBuilder<T>
     {
         protected EntityBuilder(
             Guid guid,
-            IReadOnlyDictionary<string, Guid> inputEntities
+            IReadOnlyDictionary<string, IEntity> inputEntities
         )
         {
             _inputEntities = inputEntities;
@@ -29,22 +27,12 @@ namespace Entities
             get { return _guid; }
         }
 
-        public abstract string EntityBuilderType
-        {
-            get;
-        }
-
-        private readonly IReadOnlyDictionary<string, Guid> _inputEntities;
-        public IReadOnlyDictionary<string, Guid> InputEntities
+        private readonly IReadOnlyDictionary<string, IEntity> _inputEntities;
+        public IReadOnlyDictionary<string, IEntity> InputEntities
         {
             get { return _inputEntities; }
         }
 
-        public abstract T MakeValue(IEntityRepository repository);
-
-        public abstract string OutType
-        {
-            get;
-        }
+        public abstract IEntity<T> Entity { get; }
     }
 }
