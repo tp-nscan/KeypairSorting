@@ -9,24 +9,18 @@ namespace Entities
         string EntityBuilderType { get; }
         IReadOnlyDictionary<string, Guid> InputEntities { get; }
         T MakeValue(IEntityRepository repository);
-        Guid OutGuid { get; }
         string OutType { get; }
     }
 
     public abstract class EntityBuilder<T> : IEntityBuilder<T>
     {
         protected EntityBuilder(
-            Guid guid, 
-            string entityBuilderType, 
-            Guid outGuid, 
-            IReadOnlyDictionary<string, Guid> inputEntities, 
-            string outType)
+            Guid guid,
+            IReadOnlyDictionary<string, Guid> inputEntities
+        )
         {
-            _outGuid = outGuid;
             _inputEntities = inputEntities;
-            _outType = outType;
             _guid = guid;
-            _entityBuilderType = entityBuilderType;
         }
 
         private readonly Guid _guid;
@@ -35,10 +29,9 @@ namespace Entities
             get { return _guid; }
         }
 
-        private readonly string _entityBuilderType;
-        public string EntityBuilderType
+        public abstract string EntityBuilderType
         {
-            get { return _entityBuilderType; }
+            get;
         }
 
         private readonly IReadOnlyDictionary<string, Guid> _inputEntities;
@@ -49,16 +42,9 @@ namespace Entities
 
         public abstract T MakeValue(IEntityRepository repository);
 
-        private readonly Guid _outGuid;
-        public Guid OutGuid
+        public abstract string OutType
         {
-            get { return _outGuid; }
-        }
-
-        private readonly string _outType;
-        public string OutType
-        {
-            get { return _outType; }
+            get;
         }
     }
 }

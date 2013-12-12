@@ -56,9 +56,9 @@ namespace SorterEvo.TestData
                 );
         }
 
-        public static SorterPoolCompParams SorterPoolCompParams()
+        public static SorterCompPoolParams SorterPoolCompParams()
         {
-            return new SorterPoolCompParams(
+            return new SorterCompPoolParams(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,

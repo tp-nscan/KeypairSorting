@@ -51,14 +51,18 @@
     <Compile Include="Genomes\SwitchableGroupGenomeType.cs" />
     <Compile Include="Layers\SwitchableGroupLayer.cs" />
     <Compile Include="TestData\TestSorterEvo.cs" />
-    <Compile Include="Workflows\GenomeGroup.cs" />
-    <Compile Include="Workflows\SorterPoolCompParams.cs" />
-    <Compile Include="Workflows\SorterPoolCompState.cs" />
-    <Compile Include="Workflows\SorterPoolCompWorkflow.cs" />
-    <Compile Include="Trackers\SorterPoolCompWorkflowTracker.cs" />
+    <Compile Include="Workflows\SorterCompPoolParams.cs" />
+    <Compile Include="Workflows\SorterCompState.cs" />
+    <Compile Include="Workflows\SorterCompWorkflow.cs" />
+    <Compile Include="Trackers\SorterCompTracker.cs" />
+    <Compile Include="Workflows\SorterCompWorkflowBuilder.cs" />
     <Compile Include="Workflows\Step.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{3481a3c5-8a66-40d6-af05-f459f63fdb2c}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Genomic\Genomic.csproj">
       <Project>{d2f5b40c-8c15-42d6-8549-2f8695ae91a9}</Project>
       <Name>Genomic</Name>

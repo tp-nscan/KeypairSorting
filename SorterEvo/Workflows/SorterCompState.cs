@@ -1,6 +1,6 @@
 namespace SorterEvo.Workflows
 {
-    public enum SorterPoolCompState
+    public enum SorterCompState
     {
         ReproGenomes,
         RunCompetition,

@@ -1,8 +1,8 @@
 namespace SorterEvo.Workflows
 {
-    public class SorterPoolCompParams
+    public class SorterCompPoolParams
     {
-        public SorterPoolCompParams(
+        public SorterCompPoolParams(
                 int sorterLayerStartingGenomeCount, 
                 int sorterLayerExpandedGenomeCount,
                 double sorterMutationRate,

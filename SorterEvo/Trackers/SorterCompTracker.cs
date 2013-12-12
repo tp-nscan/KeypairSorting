@@ -3,11 +3,11 @@ using SorterEvo.Workflows;
 
 namespace SorterEvo.Trackers
 {
-    public interface ISorterPoolCompWorkflowTracker : ITracker<ISorterPoolCompWorkflow>
+    public interface ISorterPoolCompWorkflowTracker : ITracker<ISorterCompWorkflow>
     {
     }
 
-    public static class SorterPoolCompWorkflowTracker
+    public static class SorterCompTracker
     {
         public static ISorterPoolCompWorkflowTracker Make()
         {
@@ -17,7 +17,7 @@ namespace SorterEvo.Trackers
 
     class SorterPoolCompWorkflowTrackerImpl : ISorterPoolCompWorkflowTracker
     {
-        public ITracker<ISorterPoolCompWorkflow> TrackItem(ISorterPoolCompWorkflow itemToTrack)
+        public ITracker<ISorterCompWorkflow> TrackItem(ISorterCompWorkflow itemToTrack)
         {
             System.Diagnostics.Debug.WriteLine("In TrackItem");
             return this;

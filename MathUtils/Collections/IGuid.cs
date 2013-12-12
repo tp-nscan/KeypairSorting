@@ -35,13 +35,41 @@ namespace MathUtils.Collections
             var leftArray = lhs.ToByteArray();
             var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4));
 
-            var rightArray = lhs.ToByteArray();
+            var rightArray = rhs.ToByteArray();
             var rightInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(rightArray, d * 4));
 
             return new Guid (
                     leftInts.Zip(rightInts, (x, y) => x + y).SelectMany(BitConverter.GetBytes).ToArray()
                 );
+        }
 
+        public static Guid Add(this Guid lhs, uint rhs)
+        {
+            var leftArray = lhs.ToByteArray();
+            var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4));
+
+            var rightInts = Enumerable.Range(0, 4).Select(d => (uint)(rhs * (d + 1)));
+
+            return new Guid(
+                    leftInts.Zip(rightInts, (x, y) => x + y).SelectMany(BitConverter.GetBytes).ToArray()
+                );
+        }
+
+        public static Guid Add(this Guid lhs, int rhs)
+        {
+            var leftArray = lhs.ToByteArray();
+            var leftInts = Enumerable.Range(0, 4).Select(d => BitConverter.ToUInt32(leftArray, d * 4));
+
+            var rightInts = Enumerable.Range(0, 4).Select(d => (uint)(rhs * (d + 1)));
+
+            return new Guid(
+                    leftInts.Zip(rightInts, (x, y) => x + y).SelectMany(BitConverter.GetBytes).ToArray()
+                );
+        }
+
+        public static Guid Add(this Guid lhs, IEnumerable<int> rhs)
+        {
+            return rhs.Aggregate(lhs, (current, rh) => current.Add(rh));
         }
     }
 }

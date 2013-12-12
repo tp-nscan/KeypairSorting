@@ -5,7 +5,6 @@ namespace Entities
 {
     public interface IEntity
     {
-        Guid EntityBuilderGuid { get; }
         Guid Guid { get; }
         string EntityType { get; }
         object Value { get; }
@@ -22,13 +21,13 @@ namespace Entities
         {
             return new EntityImpl<T>
                 (
-                   guid: entityBuilder.OutGuid, 
+                   guid: entityBuilder.Guid, 
                    entityType: entityBuilder.OutType,
                    value: entityBuilder.MakeValue(repository)
                 );
         }
 
-        public static IEntity<int> NumberEntity(Guid guid, int val)
+        public static IEntity<int> NumberEntity(Guid guid, int val, Guid entityBuilderGuid)
         {
             return new NumberEntity(guid, val);
         }
@@ -36,19 +35,11 @@ namespace Entities
 
     internal class EntityImpl<T> : IEntity<T>
     {
-        public EntityImpl(Guid guid, string entityType, T value, Guid entityBuilderGuid)
+        public EntityImpl(Guid guid, string entityType, T value)
         {
             _guid = guid;
             _value = value;
-            _entityBuilderGuid = entityBuilderGuid;
             _entityType = entityType;
-        }
-
-
-        private readonly Guid _entityBuilderGuid;
-        public Guid EntityBuilderGuid
-        {
-            get { return _entityBuilderGuid; }
         }
 
         private readonly Guid _guid;
@@ -77,12 +68,11 @@ namespace Entities
 
     internal class NumberEntity : EntityImpl<int>
     {
-        public NumberEntity(Guid guid, int value, Guid entityBuilderGuid)
+        public NumberEntity(Guid guid, int value)
             : base(
                 guid: guid, 
                 entityType:"NumberEntity", 
-                value: value, 
-                entityBuilderGuid: entityBuilderGuid
+                value: value
             )
         {
         }
@@ -90,18 +80,17 @@ namespace Entities
 
     internal class NumberListEntity : EntityImpl<IEntity<IReadOnlyList<int>>>
     {
-        public NumberListEntity(Guid guid, Guid sourceGuid, Guid entityBuilderGuid)
+        public NumberListEntity(Guid guid, Guid sourceGuid)
             : base
             (
                 guid: guid, 
                 entityType: "NumberListEntity",
-                value: FromGuid(guid, sourceGuid, entityBuilderGuid),
-                entityBuilderGuid: entityBuilderGuid
+                value: FromGuid(guid, sourceGuid)
             )
         {
         }
 
-        public static IEntity<IReadOnlyList<int>> FromGuid(Guid guid, Guid sourceGuid, Guid entityBuilderGuid)
+        public static IEntity<IReadOnlyList<int>> FromGuid(Guid guid, Guid sourceGuid)
         {
             return null;
         }

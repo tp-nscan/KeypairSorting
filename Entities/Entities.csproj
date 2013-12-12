@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MathUtils\MathUtils.csproj">
+    <ProjectReference Include="..\MathUtils\MathUtils.csproj">
       <Project>{45d0ac20-8adf-4830-8ce9-37749385834f}</Project>
       <Name>MathUtils</Name>
     </ProjectReference>

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Genomic.Genomes;
 using Genomic.Layers;
-using Genomic.Trackers;
 using MathUtils.Rand;
 using SorterEvo.Genomes;
 using SorterEvo.Layers;
@@ -11,40 +10,40 @@ using Sorting.Switchables;
 
 namespace SorterEvo.Workflows
 {
-    public interface ISorterPoolCompWorkflow
+    public interface ISorterCompWorkflow
     {
         ICompPool CompPool { get; }
-        ITracker<ISorterPoolCompWorkflow> Tracker { get; }
-        SorterPoolCompParams SorterPoolCompParams { get; }
+        //ITracker<ISorterCompWorkflow> Tracker { get; }
+        SorterCompPoolParams SorterPoolCompParams { get; }
         ILayer<ISorterGenome> SorterLayer { get; }
-        SorterPoolCompState SorterPoolCompState { get; }
-        ISorterPoolCompWorkflow Step(int seed);
+        SorterCompState SorterPoolCompState { get; }
+        ISorterCompWorkflow Step(int seed);
         ILayer<ISwitchableGroupGenome> SwitchableGroupLayer { get; }
         ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> SorterLayerEval { get; }
         ILayerEval<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>> SwitchableGroupLayerEval { get; }
     }
 
-    public static class SorterPoolCompWorkflow
+    public static class SorterCompWorkflow
     {
-        public static ISorterPoolCompWorkflow Make(
-                ITracker<ISorterPoolCompWorkflow> tracker,
+        public static ISorterCompWorkflow Make(
+                //ITracker<ISorterCompWorkflow> tracker,
                 int seed,
                 SwitchableGroupGenomeType switchableGroupGenomeType,
                 int keyCount,
                 int keyPairCount,
                 int switchableGroupSize,
-                SorterPoolCompParams sorterPoolCompParams
+                SorterCompPoolParams sorterCompPoolParams
             )
         {
             var randy = Rando.Fast(seed);
 
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: tracker,
+                    //tracker: tracker,
                     sorterLayer: SorterLayer.Create
                                 (
                                       seed: randy.NextInt(),
-                                      genomeCount: sorterPoolCompParams.SorterLayerStartingGenomeCount,
+                                      genomeCount: sorterCompPoolParams.SorterLayerStartingGenomeCount,
                                       keyCount: keyCount,
                                       keyPairCount: keyPairCount
                                 ),
@@ -52,79 +51,79 @@ namespace SorterEvo.Workflows
                                 (
                                       seed: randy.NextInt(),
                                       switchableGroupGenomeType: switchableGroupGenomeType,
-                                      genomeCount: sorterPoolCompParams.SorterLayerStartingGenomeCount,
+                                      genomeCount: sorterCompPoolParams.SorterLayerStartingGenomeCount,
                                       keyCount: keyCount,
                                       groupSize: switchableGroupSize
                                 ),
-                    sorterPoolCompParams: sorterPoolCompParams
+                    sorterCompPoolParams: sorterCompPoolParams
                 );
         }
 
-        public static ISorterPoolCompWorkflow Make(
-                ITracker<ISorterPoolCompWorkflow> tracker,
+        public static ISorterCompWorkflow Make(
+                //ITracker<ISorterCompWorkflow> tracker,
                 ILayer<ISorterGenome> sorterLayer,
                 ILayer<ISwitchableGroupGenome> switchableGroupLayer,
-                SorterPoolCompParams sorterPoolCompParams
+                SorterCompPoolParams sorterCompPoolParams
             )
         {
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: tracker,
+                    //tracker: tracker,
                     sorterLayer: sorterLayer,
                     switchableGroupLayer: switchableGroupLayer,
-                    sorterPoolCompParams: sorterPoolCompParams
+                    sorterCompPoolParams: sorterCompPoolParams
                 );
         }
     }
 
-    class SorterPoolCompWorkflowImpl : ISorterPoolCompWorkflow
+    class SorterCompWorkflowImpl : ISorterCompWorkflow
     {
-        public SorterPoolCompWorkflowImpl
+        public SorterCompWorkflowImpl
             (
-                ITracker<ISorterPoolCompWorkflow> tracker,
+                //ITracker<ISorterCompWorkflow> tracker,
                 ILayer<ISorterGenome> sorterLayer,
                 ILayer<ISwitchableGroupGenome> switchableGroupLayer,
-                SorterPoolCompParams sorterPoolCompParams
+                SorterCompPoolParams sorterCompPoolParams
             )
         {
-            _tracker = tracker;
-            _sorterPoolCompState = SorterPoolCompState.ReproGenomes;
+            //_tracker = tracker;
+            _sorterPoolCompState = SorterCompState.ReproGenomes;
             _sorterLayer = sorterLayer;
             _switchableGroupLayer = switchableGroupLayer;
             _compPool = null;
-            _sorterPoolCompParams = sorterPoolCompParams;
+            _sorterPoolCompParams = sorterCompPoolParams;
             _sorterLayerEval = null;
             _switchableGroupLayerEval = null;
         }
 
-        private SorterPoolCompWorkflowImpl
+        private SorterCompWorkflowImpl
             (
-                ITracker<ISorterPoolCompWorkflow> tracker, 
-                ISorterPoolCompWorkflow sorterPoolCompWorkflow
+                //ITracker<ISorterCompWorkflow> tracker, 
+                ISorterCompWorkflow sorterCompWorkflow
             )
         {
-            _tracker = tracker;
-            _sorterPoolCompParams = sorterPoolCompWorkflow.SorterPoolCompParams;
-            _sorterPoolCompState = sorterPoolCompWorkflow.SorterPoolCompState;
-            _sorterLayer = sorterPoolCompWorkflow.SorterLayer;
-            _switchableGroupLayer = sorterPoolCompWorkflow.SwitchableGroupLayer;
-            _sorterLayerEval = sorterPoolCompWorkflow.SorterLayerEval;
-            _switchableGroupLayerEval = sorterPoolCompWorkflow.SwitchableGroupLayerEval;
-            _compPool = sorterPoolCompWorkflow.CompPool;
+            //_tracker = tracker;
+            _sorterPoolCompParams = sorterCompWorkflow.SorterPoolCompParams;
+            _sorterPoolCompState = sorterCompWorkflow.SorterPoolCompState;
+            _sorterLayer = sorterCompWorkflow.SorterLayer;
+            _switchableGroupLayer = sorterCompWorkflow.SwitchableGroupLayer;
+            _sorterLayerEval = sorterCompWorkflow.SorterLayerEval;
+            _switchableGroupLayerEval = sorterCompWorkflow.SwitchableGroupLayerEval;
+            _compPool = sorterCompWorkflow.CompPool;
         }
 
-        private SorterPoolCompWorkflowImpl
+        private SorterCompWorkflowImpl
             (
-                ITracker<ISorterPoolCompWorkflow> tracker,
-                SorterPoolCompState sorterPoolCompState,
+                //ITracker<ISorterCompWorkflow> tracker,
+                SorterCompState sorterPoolCompState,
                 ILayer<ISorterGenome> sorterLayer,
                 ILayer<ISwitchableGroupGenome> switchableGroupLayer,
                 ICompPool compPool,
                 ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> sorterLayerEval,
                 ILayerEval<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>> switchableGroupLayerEval, 
-                SorterPoolCompParams sorterPoolCompParams)
+                SorterCompPoolParams sorterPoolCompParams)
         {
-            _tracker = tracker;
+            //_tracker = tracker;
             _sorterPoolCompState = sorterPoolCompState;
             _sorterLayer = sorterLayer;
             _switchableGroupLayer = switchableGroupLayer;
@@ -140,14 +139,14 @@ namespace SorterEvo.Workflows
             get { return _compPool; }
         }
 
-        private readonly ITracker<ISorterPoolCompWorkflow> _tracker;
-        public ITracker<ISorterPoolCompWorkflow> Tracker
-        {
-            get { return _tracker; }
-        }
+        //private readonly ITracker<ISorterCompWorkflow> _tracker;
+        //public ITracker<ISorterCompWorkflow> Tracker
+        //{
+        //    get { return _tracker; }
+        //}
 
-        private readonly SorterPoolCompParams _sorterPoolCompParams;
-        public SorterPoolCompParams SorterPoolCompParams
+        private readonly SorterCompPoolParams _sorterPoolCompParams;
+        public SorterCompPoolParams SorterPoolCompParams
         {
             get { return _sorterPoolCompParams; }
         }
@@ -159,37 +158,37 @@ namespace SorterEvo.Workflows
         }
 
 
-        private readonly SorterPoolCompState _sorterPoolCompState;
-        public SorterPoolCompState SorterPoolCompState
+        private readonly SorterCompState _sorterPoolCompState;
+        public SorterCompState SorterPoolCompState
         {
             get { return _sorterPoolCompState; }
         }
 
-        public ISorterPoolCompWorkflow Step(int seed)
+        public ISorterCompWorkflow Step(int seed)
         {
-            ISorterPoolCompWorkflow sorterPoolCompWorkflow;
+            ISorterCompWorkflow sorterCompWorkflow;
             switch (SorterPoolCompState)
             {
-                case SorterPoolCompState.ReproGenomes:
-                    sorterPoolCompWorkflow = ReproStep(seed);
+                case SorterCompState.ReproGenomes:
+                    sorterCompWorkflow = ReproStep(seed);
                     break;
-                case SorterPoolCompState.RunCompetition:
-                    sorterPoolCompWorkflow = RunCompetitionStep(seed);
+                case SorterCompState.RunCompetition:
+                    sorterCompWorkflow = RunCompetitionStep(seed);
                     break;
-                case SorterPoolCompState.EvaluateResults:
-                    sorterPoolCompWorkflow = EvaluateResultsStep(seed);
+                case SorterCompState.EvaluateResults:
+                    sorterCompWorkflow = EvaluateResultsStep(seed);
                     break;
-                case SorterPoolCompState.UpdateGenomes:
-                    sorterPoolCompWorkflow = UpdateGenomesStep(seed);
+                case SorterCompState.UpdateGenomes:
+                    sorterCompWorkflow = UpdateGenomesStep(seed);
                     break;
                 default:
-                    throw new Exception(String.Format("SorterPoolCompState {0} not handled in SorterPoolCompWorkflowImpl.Step", SorterPoolCompState));
+                    throw new Exception(String.Format("SorterPoolCompState {0} not handled in SorterCompWorkflowImpl.Step", SorterPoolCompState));
             }
 
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
             (
-                sorterPoolCompWorkflow: sorterPoolCompWorkflow, 
-                tracker:  Tracker.TrackItem(sorterPoolCompWorkflow)
+                sorterCompWorkflow: sorterCompWorkflow
+                //tracker:  Tracker.TrackItem(sorterCompWorkflow)
             );
         }
 
@@ -212,7 +211,7 @@ namespace SorterEvo.Workflows
             get { return _switchableGroupLayerEval; }
         }
 
-        private ISorterPoolCompWorkflow ReproStep(int seed)
+        private ISorterCompWorkflow ReproStep(int seed)
         {
             var randy = Rando.Fast(seed);
 
@@ -236,10 +235,10 @@ namespace SorterEvo.Workflows
                     deletionRate: SorterPoolCompParams.SwitchableGroupDeletionRate
                 );
 
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: Tracker,
-                    sorterPoolCompState: SorterPoolCompState.RunCompetition,
+                    //tracker: Tracker,
+                    sorterPoolCompState: SorterCompState.RunCompetition,
                     sorterLayer: sorterLayer,
                     switchableGroupLayer: switchableGroupLayer,
                     compPool: null,
@@ -250,7 +249,7 @@ namespace SorterEvo.Workflows
             
         }
 
-        private ISorterPoolCompWorkflow RunCompetitionStep(int seed)
+        private ISorterCompWorkflow RunCompetitionStep(int seed)
         {
             var sorters = SorterLayer.Genomes.Select(t=>t.ToSorter());
             ICompPool compPool;
@@ -277,10 +276,10 @@ namespace SorterEvo.Workflows
                 throw new Exception(String.Format("{0} is not handled in RunCompetitionStep", SwitchableGroupLayer.Genomes[0].SwitchableGroupGenomeType));
             }
 
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: Tracker,
-                    sorterPoolCompState: SorterPoolCompState.EvaluateResults,
+                    //tracker: Tracker,
+                    sorterPoolCompState: SorterCompState.EvaluateResults,
                     sorterLayer: SorterLayer,
                     switchableGroupLayer: SwitchableGroupLayer,
                     compPool: compPool,
@@ -290,14 +289,14 @@ namespace SorterEvo.Workflows
                 );
         }
 
-        private ISorterPoolCompWorkflow EvaluateResultsStep(int seed)
+        private ISorterCompWorkflow EvaluateResultsStep(int seed)
         {
             ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> sorterLayerEval = null;
             ILayerEval<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>> switchableGroupLayerEval = null;
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: Tracker,
-                    sorterPoolCompState: SorterPoolCompState.UpdateGenomes,
+                    //tracker: Tracker,
+                    sorterPoolCompState: SorterCompState.UpdateGenomes,
                     sorterLayer: SorterLayer,
                     switchableGroupLayer: SwitchableGroupLayer,
                     compPool: CompPool,
@@ -307,14 +306,14 @@ namespace SorterEvo.Workflows
                 );
         }
 
-        private ISorterPoolCompWorkflow UpdateGenomesStep(int seed)
+        private ISorterCompWorkflow UpdateGenomesStep(int seed)
         {
             ILayer<ISorterGenome> sorterLayer = null;
             ILayer<ISwitchableGroupGenome> switchableGroupLayer = null;
-            return new SorterPoolCompWorkflowImpl
+            return new SorterCompWorkflowImpl
                 (
-                    tracker: Tracker,
-                    sorterPoolCompState: SorterPoolCompState.ReproGenomes,
+                    //tracker: Tracker,
+                    sorterPoolCompState: SorterCompState.ReproGenomes,
                     sorterLayer: sorterLayer,
                     switchableGroupLayer: switchableGroupLayer,
                     compPool: null,

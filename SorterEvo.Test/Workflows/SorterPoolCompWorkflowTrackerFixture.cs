@@ -9,7 +9,7 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestMake()
         {
-            Assert.IsNotNull(SorterPoolCompWorkflowTracker.Make());
+            Assert.IsNotNull(SorterCompTracker.Make());
         }
     }
 }

@@ -44,10 +44,21 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
-        public void TestGuidAdd()
+        public void TestGuidAddGuid()
         {
             var lhs = Guid.NewGuid();
             var rhs = Guid.NewGuid();
+            var result = lhs.Add(rhs);
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestGuidAddUint()
+        {
+            var lhs = Guid.NewGuid();
+            const uint rhs = 1234567;
+
             var result = lhs.Add(rhs);
 
             Assert.IsNotNull(result);
