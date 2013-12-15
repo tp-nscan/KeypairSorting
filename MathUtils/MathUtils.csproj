@@ -61,6 +61,7 @@
     <Compile Include="Interval\RectangularRangeLinearMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rand\Rando.cs" />
+    <Compile Include="Rand\RandSort.cs" />
     <Compile Include="Rand\Randy.cs" />
     <Compile Include="Vector\VectorExt.cs" />
   </ItemGroup>

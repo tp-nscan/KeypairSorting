@@ -76,6 +76,7 @@
     <Compile Include="Interval\RealIntervalFixture.cs" />
     <Compile Include="Rand\RandoFixture.cs" />
     <Compile Include="Rand\RandyFixture.cs" />
+    <Compile Include="Rand\RandSortFixture.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

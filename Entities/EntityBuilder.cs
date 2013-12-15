@@ -12,13 +12,16 @@ namespace Entities
 
     public abstract class EntityBuilder<T> : IEntityBuilder<T>
     {
-        protected EntityBuilder(
-            Guid guid,
-            IReadOnlyDictionary<string, IEntity> inputEntities
-        )
+        protected EntityBuilder
+            (
+                Guid guid,
+                IReadOnlyDictionary<string, IEntity> inputEntities, 
+                IEntity<T> entity
+            )
         {
             _inputEntities = inputEntities;
             _guid = guid;
+            _entity = entity;
         }
 
         private readonly Guid _guid;
@@ -33,6 +36,10 @@ namespace Entities
             get { return _inputEntities; }
         }
 
-        public abstract IEntity<T> Entity { get; }
+        private readonly IEntity<T> _entity;
+        public IEntity<T> Entity
+        {
+            get { return _entity; }
+        }
     }
 }

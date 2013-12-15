@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Sorting.CompetePool;
 using Sorting.Switchables;
@@ -9,7 +8,7 @@ namespace Sorting.Sorters
 {
     public static class SortingFunctions
     {
-        public static SorterOnSwitchableGroup Sort<T>
+        public static ISorterOnSwitchableGroup Sort<T>
             (
                 this ISorter sorter,
                 ISwitchableGroup<T> switchableGroup
@@ -42,10 +41,10 @@ namespace Sorting.Sorters
                 totalSuccess &= sortSuccess;
             }
 
-            return new SorterOnSwitchableGroup(sorter, switchableGroup, switchUseList, totalSuccess);
+            return SorterOnSwitchableGroup.Make(sorter, switchableGroup, switchUseList, totalSuccess);
         }
 
-        public static SorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)
+        public static ISorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)
         {
             return sorter.Sort (
                             Switchable.AllSwitchablesForKeyCount(keyCount)
@@ -53,39 +52,5 @@ namespace Sorting.Sorters
                     );
         }
 
-        public static SorterOnSwitchableGroup SortDetailed<T>
-            (
-                this ISorter sorter,
-                IKeyPairSwitchSet<T> switchSet,
-                ISwitchableGroup<T> switchableGroup
-            )
-        {
-            var switchUseList = Enumerable.Repeat(0.0, sorter.KeyPairCount).ToList();
-            var sortingResults = new List<ISortingResult<T>>();
-
-            foreach (var switchable in switchableGroup.Switchables)
-            {
-                var current = switchable.Item;
-                var sortSuccess = false;
-                for (var i = 0; i < sorter.KeyPairCount; i++)
-                {
-                    var res = switchSet.SwitchFunction(sorter.KeyPair(i))(current);
-                    current = res.Item1;
-                    if (res.Item2)
-                    {
-                        switchUseList[i]++;
-                        if (switchSet.IsSorted(current))
-                        {
-                            sortSuccess = true;
-                            break;
-                        }
-                    }
-                }
-
-                sortingResults.Add(new SortingResultImpl<T>(switchable, current, sortSuccess));
-            }
-            //to do: fix last arg
-            return new SorterOnSwitchableGroup(sorter, switchableGroup, switchUseList, true);
-        }
     }
 }

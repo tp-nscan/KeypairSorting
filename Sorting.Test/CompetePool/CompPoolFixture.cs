@@ -10,7 +10,7 @@ using Sorting.Switchables;
 namespace Sorting.Test.CompetePool
 {
     [TestClass]
-    public class CompetePoolFixture
+    public class CompPoolFixture
     {
         [TestMethod]
         public void TestCompPool()
@@ -72,7 +72,7 @@ namespace Sorting.Test.CompetePool
         //    {
         //        compPool = compPool.SelectAndMutate<uint>(rando);
         //        Debug.WriteLine(compPool.ToReport(sorterCount, i.ToString(), "new"));
-        //        var compPool2 = compPool.SorterEvals.Select(t => t.Sorter).ToCompPool(switchableGroups);
+        //        var compPool2 = compPool.SorterOnSwitchableGroupSets.Select(t => t.Sorter).ToCompPool(switchableGroups);
         //        Debug.WriteLine(compPool2.ToReport(sorterCount, i.ToString(), "orig"));
         //    }
 

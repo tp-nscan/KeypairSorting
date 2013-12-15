@@ -5,11 +5,44 @@ using Sorting.Switchables;
 
 namespace Sorting.CompetePool
 {
-    public class SorterOnSwitchableGroup
+    public interface ISorterEval
+    {
+        ISorter Sorter { get; }
+        IReadOnlyList<double> SwitchUseList { get; }
+        int SwitchesUsed { get; }
+    }
+
+
+    public interface ISorterOnSwitchableGroup : ISorterEval
+    {
+        ISwitchableGroup SwitchableGroup { get; }
+        bool Success { get; }
+    }
+
+    public static class SorterOnSwitchableGroup
+    {
+        public static ISorterOnSwitchableGroup Make
+            (
+                ISorter sorter,
+                ISwitchableGroup switchableGroup,
+                IReadOnlyList<double> switchUseList, 
+                bool success
+            )
+        {
+            return new SorterOnSwitchableGroupImpl(
+                    sorter: sorter,
+                    switchableGroup: switchableGroup,
+                    switchUseList: switchUseList, 
+                    success: success
+                );    
+        }
+    }
+
+    public class SorterOnSwitchableGroupImpl : ISorterOnSwitchableGroup
     {
         private readonly ISorter _sorter;
 
-        public SorterOnSwitchableGroup
+        public SorterOnSwitchableGroupImpl
         (
             ISorter sorter,
             ISwitchableGroup switchableGroup,

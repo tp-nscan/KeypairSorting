@@ -8,51 +8,40 @@ namespace Genomic.Layers
     public interface ILayerEval<TG, TE> where TE : IGenomeEval<TG> 
                                         where TG : IGenome
     {
-        int Generation { get; }
         IReadOnlyList<TE> GenomeEvals { get; }
         TE GetGenomeEval(Guid genomeId);
-        int Seed { get; }
     }
 
     public static class LayerEval
     {
-
+        public static ILayerEval<TG, TE> Make<TG, TE>(this IEnumerable<TE> genomeEvals)
+            where TE : IGenomeEval<TG>
+            where TG : IGenome
+        {
+            return new LayerEvalImpl<TG, TE>(genomeEvals: genomeEvals);
+        }
     }
 
     class LayerEvalImpl<TG, TE> : ILayerEval<TG, TE>
                                 where TE : IGenomeEval<TG>
                                 where TG : IGenome
     {
-        private readonly int _generation;
-        private readonly IReadOnlyDictionary<Guid, TE> _genomes;
-        private readonly int _seed;
+        private readonly IReadOnlyDictionary<Guid, TE> _genomeEvals;
 
-        public LayerEvalImpl(int generation, int seed, IEnumerable<TE> genomes)
+        public LayerEvalImpl(IEnumerable<TE> genomeEvals)
         {
-            _generation = generation;
-            _seed = seed;
-            _genomes = genomes.ToDictionary(t => t.Genome.Guid);
-        }
-
-        public int Generation
-        {
-            get { return _generation; }
+            _genomeEvals = genomeEvals.ToDictionary(t => t.Genome.Guid);
         }
 
         private List<TE> _genomeEvalsList;
         public IReadOnlyList<TE> GenomeEvals
         {
-            get { return _genomeEvalsList ?? (_genomeEvalsList = new List<TE>(_genomes.Values)); }
+            get { return _genomeEvalsList ?? (_genomeEvalsList = new List<TE>(_genomeEvals.Values)); }
         }
 
         public TE GetGenomeEval(Guid genomeId)
         {
-            return _genomes.ContainsKey(genomeId) ? _genomes[genomeId] : default(TE);
-        }
-
-        public int Seed
-        {
-            get { return _seed; }
+            return _genomeEvals.ContainsKey(genomeId) ? _genomeEvals[genomeId] : default(TE);
         }
     }
 }

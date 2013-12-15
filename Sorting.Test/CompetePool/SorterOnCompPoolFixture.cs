@@ -4,6 +4,7 @@ using System.Linq;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sorting.CompetePool;
+using Sorting.CompetePool.old;
 using Sorting.Sorters;
 using Sorting.Switchables;
 
@@ -29,7 +30,7 @@ namespace Sorting.Test.CompetePool
 
             stopwatch.Start();
 
-            var sorterTestOnCompPool = sorter.MakeSorterTestOnCompPool(switchableGroups);
+            var sorterTestOnCompPool = sorter.MakeSorterOnSwitchableGroups(switchableGroups);
 
             stopwatch.Stop();
 
