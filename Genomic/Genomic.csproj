@@ -55,11 +55,12 @@
     <Compile Include="Genomes\Genome.cs" />
     <Compile Include="Genomes\GenomeEval.cs" />
     <Compile Include="Layers\LayerEval.cs" />
-    <Compile Include="Trackers\GenomeTracker.cs" />
+    <Compile Include="Table\GenomeTable.cs" />
+    <Compile Include="Trackers\GenomeStats.cs" />
     <Compile Include="Layers\Layer.cs" />
     <Compile Include="Chromosomes\ChromosomeUintN.cs" />
     <Compile Include="Chromosomes\ChromosomeUlongN.cs" />
-    <Compile Include="Trackers\GenomePoolHistory.cs" />
+    <Compile Include="Trackers\GenomePoolStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trackers\Tracker.cs" />
   </ItemGroup>

@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompetePool\CompPool.cs" />
-    <Compile Include="CompetePool\old\CompPoolOld.cs" />
     <Compile Include="CompetePool\SorterOnSwitchableGroupSet.cs" />
     <Compile Include="CompetePool\old\SwitchableGroupEval.cs" />
     <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />

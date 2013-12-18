@@ -1,7 +1,12 @@
-﻿namespace Genomic.Genomes
+﻿using System;
+using MathUtils.Collections;
+
+namespace Genomic.Genomes
 {
-    public interface IGenomeEval<TG> where TG : IGenome
+    public interface IGenomeEval<TG> : IGuid
+                                       where TG : IGenome
     {
+        int Generation { get; }
         TG Genome { get; }
         /// <summary>
         /// Low scores are better
@@ -12,15 +17,17 @@
     public static class GenomeEval
     {
         public static IGenomeEval<TG> Make<TG>
-            (
-                TG genome,
-                double score
-            ) where TG : IGenome
+        (
+            TG genome,
+            double score, 
+            int generation
+        ) where TG : IGenome
         {
             return new GenomeEvalImpl<TG>
                 (
                     genome: genome,
-                    score:score
+                    score: score,
+                    generation: generation
                 );
         }
     }
@@ -30,10 +37,17 @@
         private readonly TG _genome;
         private readonly double _score;
 
-        public GenomeEvalImpl(TG genome, double score)
+        public GenomeEvalImpl(TG genome, double score, int generation)
         {
             _genome = genome;
             _score = score;
+            _generation = generation;
+        }
+
+        private readonly int _generation;
+        public int Generation
+        {
+            get { return _generation; }
         }
 
         public TG Genome
@@ -44,6 +58,11 @@
         public double Score
         {
             get { return _score; }
+        }
+
+        public Guid Guid
+        {
+            get { return _genome.Guid; }
         }
     }
 }

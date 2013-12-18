@@ -63,6 +63,7 @@
     <Compile Include="Rand\Rando.cs" />
     <Compile Include="Rand\RandSort.cs" />
     <Compile Include="Rand\Randy.cs" />
+    <Compile Include="Types.cs" />
     <Compile Include="Vector\VectorExt.cs" />
   </ItemGroup>
   <ItemGroup />

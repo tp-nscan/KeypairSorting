@@ -5,6 +5,7 @@ using Entities;
 using Genomic.Layers;
 using MathUtils.Collections;
 using SorterEvo.Genomes;
+using SorterEvo.Trackers;
 
 namespace SorterEvo.Workflows
 {
@@ -45,14 +46,15 @@ namespace SorterEvo.Workflows
             dict[SorterCompWorkflowParts.SorterCompPoolParams.ToString()] = repository.GetEntity(sorterPoolCompParamsGuid);
 
 
-            var entity = Entities.Entity.Make
+            var entity = Entity.Make
             (
                 guid: workFlowGuid,
                 val: SorterCompWorkflow.Make
                 (
                     sorterLayer: dict.ToSorterGenome(),
                     switchableGroupLayer: dict.ToSwitchableGroupLayer(),
-                    sorterCompPoolParams: dict.ToSorterCompPoolParams()
+                    sorterCompPoolParams: dict.ToSorterCompPoolParams(),
+                    generation: 0
                 )
             );
 
@@ -75,17 +77,70 @@ namespace SorterEvo.Workflows
                return new SorterCompWorkflowBuilderImpl(
                     guid: builder.Guid.Add(seeds),
                     inputEntities : InputEntityOptions(builder, mergeWithPrev),
-                    entity: seeds.Aggregate(
-                                        builder.Entity, 
-                                        (current, seed) => Entity.Make(
-                                                            guid: builder.Guid.Add(seed), 
-                                                            val: current.Value.Step(seed)
-                                                            )
-                                        ),
+                    entity: seeds.Aggregate
+                                  (
+                                    builder.Entity,
+                                      (current, seed) =>
+                                      {
+                                          var newWorkflow = Entity.Make(
+                                                  guid: builder.Guid.Add(seed),
+                                                  val: current.Value.Step(seed)
+                                                  );
+                                          return newWorkflow;
+                                      }
+                        ),
                     seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
                 );
         }
 
+        public static ISorterCompWorkflowBuilder UpdateAndTrack
+        (
+            ISorterCompWorkflowBuilder builder,
+            IReadOnlyList<int> seeds,
+            bool mergeWithPrev,
+            ISorterPoolCompWorkflowTracker tracker
+        )
+        {
+            IEntity<ISorterCompWorkflow> curWorkflowEntity = builder.Entity;
+            foreach (var seed in seeds)
+            {
+                tracker.TrackItem(curWorkflowEntity.Value);
+                curWorkflowEntity = Entity.Make
+                    (
+                        guid: curWorkflowEntity.Guid.Add(seed),
+                        val: curWorkflowEntity.Value.Step(seed)
+                    );
+            }
+
+            return new SorterCompWorkflowBuilderImpl(
+                 guid: builder.Guid.Add(seeds),
+                 inputEntities: InputEntityOptions(builder, mergeWithPrev),
+                 entity: curWorkflowEntity,
+                 seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
+            );
+
+
+
+            //return new SorterCompWorkflowBuilderImpl(
+            //     guid: builder.Guid.Add(seeds),
+            //     inputEntities: InputEntityOptions(builder, mergeWithPrev),
+            //     entity: seeds.Aggregate
+            //                   (
+            //                     builder.Entity,
+            //                       (current, seed) =>
+            //                       {
+            //                           tracker.TrackItem(current.Value);
+            //                           var newWorkflow = Entity.Make(
+            //                                   guid: builder.Guid.Add(seed),
+            //                                   val: current.Value.Step(seed)
+            //                                   );
+
+            //                           return newWorkflow;
+            //                       }
+            //         ),
+            //     seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
+            // );
+        }
 
         public static ILayer<ISorterGenome> ToSorterGenome(this IReadOnlyDictionary<string, IEntity> dict)
         {

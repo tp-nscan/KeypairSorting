@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using MathUtils.Rand;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SorterEvo.Layers;
 using SorterEvo.TestData;
 using SorterEvo.Workflows;
 
@@ -15,10 +12,10 @@ namespace SorterEvo.Test.Workflows
         public void TestMake()
         {
             var workflow = SorterCompWorkflow.Make(
-                //tracker: null,
                 sorterLayer: SorterEvoTestData.SorterLayer(),
                 switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams()
+                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams(),
+                generation:0
                 );
             Assert.IsNotNull(workflow);
         }
@@ -27,10 +24,10 @@ namespace SorterEvo.Test.Workflows
         public void TestSteps()
         {
             var workflow = SorterCompWorkflow.Make(
-                //tracker: SorterCompTracker.Make(),
                 sorterLayer: SorterEvoTestData.SorterLayer(),
                 switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams()
+                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams(),
+                generation:0
                 );
 
             var seedList = SorterEvoTestData.Seeds.Take(5).ToList();

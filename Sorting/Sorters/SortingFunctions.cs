@@ -25,6 +25,12 @@ namespace Sorting.Sorters
 
                 for (var i = 0; i < sorter.KeyPairCount; i++)
                 {
+                    if (switchSet.IsSorted(current))
+                    {
+                        sortSuccess = true;
+                        break;
+                    }
+
                     var res = switchSet.SwitchFunction(sorter.KeyPair(i))(current);
                     current = res.Item1;
                     if (res.Item2)

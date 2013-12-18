@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Genomic.Layers;
+using MathUtils;
 using MathUtils.Rand;
 using SorterEvo.Genomes;
 using SorterEvo.Workflows;
+using Sorting.CompetePool;
+using Sorting.Switchables;
 
 namespace SorterEvo.TestData
 {
@@ -10,22 +14,22 @@ namespace SorterEvo.TestData
     {
         public static int Seed = 1234;
         public static int KeyCount = 16;
-        public static int KeyPairCount = 500;
+        public static int KeyPairCount = 800;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
         public static int SorterGenomeCount = 10;
         public static int SorterExpandedGenomeCount = 20;
-        public static double SorterMutationRate = 0.3;
-        public static double SorterInsertionRate = 0.3;
-        public static double SorterDeletionRate = 0.3;
+        public static double SorterMutationRate = 0.02;
+        public static double SorterInsertionRate = 0.02;
+        public static double SorterDeletionRate = 0.02;
 
-        public static int SwitchableGroupGenomeCount = 10;
-        public static int SwitchableGroupExpandedGenomeCount = 20;
-        public static double SwitchableMutationRate = 0.3;
-        public static double SwitchableInsertionRate = 0.3;
-        public static double SwitchableDeletionRate = 0.3;
+        public static int SwitchableGroupGenomeCount = 3;
+        public static int SwitchableGroupExpandedGenomeCount = 6;
+        public static double SwitchableMutationRate = 0.02;
+        public static double SwitchableInsertionRate = 0.02;
+        public static double SwitchableDeletionRate = 0.02;
 
-        public static int SwitchableGroupSize = 250;
+        public static int SwitchableGroupSize = 200;
 
         public static IEnumerable<int> Seeds
         {
@@ -91,6 +95,21 @@ namespace SorterEvo.TestData
                      switchableGroupInsertionRate: SwitchableInsertionRate,
                      switchableGroupDeletionRate: SwitchableDeletionRate
                 );
+        }
+
+        static ICompPool _compPool;
+        public static ICompPool CompPool
+        {
+            get
+            {
+                return _compPool ?? 
+                    (
+                        _compPool = SorterLayer().Genomes.Select(g=>g.ToSorter())
+                                                 .ToCompPoolParallel(SwitchableGroupLayer()
+                                                 .Genomes.Select(g=>g.ToSwitchableGroup()
+                                                 .Cast<ISwitchableGroup<uint>>()))
+                    );
+            }
         }
 
     }

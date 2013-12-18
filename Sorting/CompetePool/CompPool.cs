@@ -9,6 +9,8 @@ namespace Sorting.CompetePool
 {
     public interface ICompPool
     {
+        IReadOnlyList<ISorter> Sorters { get; }
+        IReadOnlyList<ISwitchableGroup> SwitchableGroups { get; }
         IEnumerable<ISorterOnSwitchableGroup> SorterOnSwitchableGroups { get; }
         ISorterOnSwitchableGroupSet SorterOnSwitchableGroupSet(Guid sorterId);
         IEnumerable<ISorterOnSwitchableGroupSet> SorterOnSwitchableGroupSets { get; }
@@ -23,16 +25,40 @@ namespace Sorting.CompetePool
         )
         {
             var switchableGroupList = switchableGroups.ToList();
+            var sortersList = sorters.ToList();
             KeyPairSwitchSet.Make<T>(switchableGroupList.First().KeyCount);
-            return new CompPoolImpl(sorters.AsParallel().Select(t => t.MakeSorterOnSwitchableGroups(switchableGroupList)));
+            return new CompPoolImpl(
+                sortersList,
+                switchableGroupList,
+                sortersList.AsParallel().Select(t => t.MakeSorterOnSwitchableGroups(switchableGroupList)));
         }
     }
 
     class CompPoolImpl : ICompPool
     {
-        public CompPoolImpl(IEnumerable<ISorterOnSwitchableGroupSet> sorterOnSwitchableGroupSets)
+        public CompPoolImpl
+            (
+            
+                IEnumerable<ISorter> sorters,
+                IEnumerable<ISwitchableGroup> switchableGroups,
+                IEnumerable<ISorterOnSwitchableGroupSet> sorterOnSwitchableGroupSets
+            )
         {
+            _sorters = sorters.ToList();
+            _switchableGroups = switchableGroups.ToList();
             _sorterOnSwitchableGroupSets = sorterOnSwitchableGroupSets.ToDictionary(t => t.Sorter.Guid);
+        }
+
+        private readonly IReadOnlyList<ISorter> _sorters;
+        public IReadOnlyList<ISorter> Sorters
+        {
+            get { return _sorters; }
+        }
+
+        private readonly IReadOnlyList<ISwitchableGroup> _switchableGroups;
+        public IReadOnlyList<ISwitchableGroup> SwitchableGroups
+        {
+            get { return _switchableGroups; }
         }
 
         public IEnumerable<ISorterOnSwitchableGroup> SorterOnSwitchableGroups

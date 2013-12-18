@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Genomic.Chromosomes;
 using Genomic.Genes;
+using MathUtils.Collections;
 using MathUtils.Rand;
 
 namespace Genomic.Genomes
@@ -23,9 +24,8 @@ namespace Genomic.Genomes
         IReadOnlyList<TC> Chromosomes { get; } 
     }
 
-    public interface IGenome
+    public interface IGenome : IGuid
     {
-        Guid Guid { get; }
     }
 
     public interface ISimpleGenome<out TC> : IGenome, ISingleChromosome<TC>, IParentGuid
