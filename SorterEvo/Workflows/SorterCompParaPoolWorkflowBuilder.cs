@@ -9,56 +9,50 @@ using SorterEvo.Trackers;
 
 namespace SorterEvo.Workflows
 {
-    public enum EntityBuilderType
-    {
-        New,
-        Update
-    }
-
-    public enum SorterCompWorkflowParts
+    public enum SorterCompParaPoolWorkflowParts
     {
         SorterLayer,
         SwitchableLayer,
-        SorterCompPoolParams,
+        SorterCompParaPoolParams,
         AllParts
     }
 
-    public interface ISorterCompWorkflowBuilder : IEntityBuilder<ISorterCompWorkflow>
+    public interface ISorterCompParaPoolWorkflowBuilder : IEntityBuilder<ISorterCompParaPoolWorkflow>
     {
         IEnumerable<int> Seeds { get;}
     }
 
-    public static class SorterCompWorkflowBuilder
+    public static class SorterCompParaPoolWorkflowBuilder
     {
 
-        public static ISorterCompWorkflowBuilder Make
+        public static ISorterCompParaPoolWorkflowBuilder Make
             (
                 Guid workFlowGuid,
                 IEntityRepository repository,
                 Guid switchableGroupGuid,
                 Guid sorterGroupGuid,
-                Guid sorterPoolCompParamsGuid
+                Guid sorterCompPoolParamsGuid
             )
         {
             var dict = new Dictionary<string, IEntity>();
-            dict[SorterCompWorkflowParts.SwitchableLayer.ToString()] = repository.GetEntity(switchableGroupGuid);
-            dict[SorterCompWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
-            dict[SorterCompWorkflowParts.SorterCompPoolParams.ToString()] = repository.GetEntity(sorterPoolCompParamsGuid);
+            dict[SorterCompParaPoolWorkflowParts.SwitchableLayer.ToString()] = repository.GetEntity(switchableGroupGuid);
+            dict[SorterCompParaPoolWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
+            dict[SorterCompParaPoolWorkflowParts.SorterCompParaPoolParams.ToString()] = repository.GetEntity(sorterCompPoolParamsGuid);
 
 
             var entity = Entity.Make
             (
                 guid: workFlowGuid,
-                val: SorterCompWorkflow.Make
+                val: SorterCompParaPoolWorkflow.Make
                 (
                     sorterLayer: dict.ToSorterGenome(),
                     switchableGroupLayer: dict.ToSwitchableGroupLayer(),
-                    sorterCompPoolParams: dict.ToSorterCompPoolParams(),
+                    sorterCompParaPoolParams: dict.ToSorterCompParaPoolParams(),
                     generation: 0
                 )
             );
 
-            return new SorterCompWorkflowBuilderImpl(
+            return new SorterCompParaPoolWorkflowBuilderImpl(
                     guid: workFlowGuid,
                     inputEntities : dict,
                     entity: entity,
@@ -67,14 +61,14 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static ISorterCompWorkflowBuilder Update
+        public static ISorterCompParaPoolWorkflowBuilder Update
             (
-                ISorterCompWorkflowBuilder builder,
+                ISorterCompParaPoolWorkflowBuilder builder,
                 IReadOnlyList<int> seeds,
                 bool mergeWithPrev
             )
         {
-               return new SorterCompWorkflowBuilderImpl(
+               return new SorterCompParaPoolWorkflowBuilderImpl(
                     guid: builder.Guid.Add(seeds),
                     inputEntities : InputEntityOptions(builder, mergeWithPrev),
                     entity: seeds.Aggregate
@@ -93,15 +87,15 @@ namespace SorterEvo.Workflows
                 );
         }
 
-        public static ISorterCompWorkflowBuilder UpdateAndTrack
+        public static ISorterCompParaPoolWorkflowBuilder UpdateAndTrack
         (
-            ISorterCompWorkflowBuilder builder,
+            ISorterCompParaPoolWorkflowBuilder builder,
             IReadOnlyList<int> seeds,
             bool mergeWithPrev,
-            ISorterPoolCompWorkflowTracker tracker
+            ISorterCompParaPoolWorkflowTracker tracker
         )
         {
-            IEntity<ISorterCompWorkflow> curWorkflowEntity = builder.Entity;
+            IEntity<ISorterCompParaPoolWorkflow> curWorkflowEntity = builder.Entity;
             foreach (var seed in seeds)
             {
                 tracker.TrackItem(curWorkflowEntity.Value);
@@ -112,61 +106,39 @@ namespace SorterEvo.Workflows
                     );
             }
 
-            return new SorterCompWorkflowBuilderImpl(
+            return new SorterCompParaPoolWorkflowBuilderImpl(
                  guid: builder.Guid.Add(seeds),
                  inputEntities: InputEntityOptions(builder, mergeWithPrev),
                  entity: curWorkflowEntity,
                  seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
             );
-
-
-
-            //return new SorterCompWorkflowBuilderImpl(
-            //     guid: builder.Guid.Add(seeds),
-            //     inputEntities: InputEntityOptions(builder, mergeWithPrev),
-            //     entity: seeds.Aggregate
-            //                   (
-            //                     builder.Entity,
-            //                       (current, seed) =>
-            //                       {
-            //                           tracker.TrackItem(current.Value);
-            //                           var newWorkflow = Entity.Make(
-            //                                   guid: builder.Guid.Add(seed),
-            //                                   val: current.Value.Step(seed)
-            //                                   );
-
-            //                           return newWorkflow;
-            //                       }
-            //         ),
-            //     seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
-            // );
         }
 
         public static ILayer<ISorterGenome> ToSorterGenome(this IReadOnlyDictionary<string, IEntity> dict)
         {
-            return (ILayer<ISorterGenome>)dict[SorterCompWorkflowParts.SorterLayer.ToString()].Value;
+            return (ILayer<ISorterGenome>)dict[SorterCompParaPoolWorkflowParts.SorterLayer.ToString()].Value;
         }
 
         public static ILayer<ISwitchableGroupGenome> ToSwitchableGroupLayer(this IReadOnlyDictionary<string, IEntity> dict)
         {
-            return (ILayer<ISwitchableGroupGenome>)dict[SorterCompWorkflowParts.SwitchableLayer.ToString()].Value;
+            return (ILayer<ISwitchableGroupGenome>)dict[SorterCompParaPoolWorkflowParts.SwitchableLayer.ToString()].Value;
         }
 
-        public static SorterCompPoolParams ToSorterCompPoolParams(this IReadOnlyDictionary<string, IEntity> dict)
+        public static SorterCompParaPoolParams ToSorterCompParaPoolParams(this IReadOnlyDictionary<string, IEntity> dict)
         {
-            return (SorterCompPoolParams)dict[SorterCompWorkflowParts.SorterCompPoolParams.ToString()].Value;
+            return (SorterCompParaPoolParams)dict[SorterCompParaPoolWorkflowParts.SorterCompParaPoolParams.ToString()].Value;
         }
 
 
-        public static IReadOnlyDictionary<string, IEntity> ToEntityDictionary(this ISorterCompWorkflowBuilder sorterCompWorkflowBuilder)
+        public static IReadOnlyDictionary<string, IEntity> ToEntityDictionary(this ISorterCompParaPoolWorkflowBuilder sorterCompParaPoolWorkflowBuilder)
         {
             var dict = new Dictionary<string, IEntity>();
-            dict[SorterCompWorkflowParts.AllParts.ToString()] = sorterCompWorkflowBuilder.Entity;
+            dict[SorterCompParaPoolWorkflowParts.AllParts.ToString()] = sorterCompParaPoolWorkflowBuilder.Entity;
             return dict;
         }
 
 
-        public static IReadOnlyDictionary<string, IEntity> InputEntityOptions(ISorterCompWorkflowBuilder builder,
+        public static IReadOnlyDictionary<string, IEntity> InputEntityOptions(ISorterCompParaPoolWorkflowBuilder builder,
             bool mergeWithPrev)
         {
             return mergeWithPrev
@@ -175,12 +147,12 @@ namespace SorterEvo.Workflows
         }
     }
 
-        public class SorterCompWorkflowBuilderImpl : EntityBuilder<ISorterCompWorkflow>, ISorterCompWorkflowBuilder
+    public class SorterCompParaPoolWorkflowBuilderImpl : EntityBuilder<ISorterCompParaPoolWorkflow>, ISorterCompParaPoolWorkflowBuilder
     {
-        public SorterCompWorkflowBuilderImpl(
+        public SorterCompParaPoolWorkflowBuilderImpl(
                 Guid guid,
                 IReadOnlyDictionary<string, IEntity> inputEntities,
-                IEntity<ISorterCompWorkflow> entity,
+                IEntity<ISorterCompParaPoolWorkflow> entity,
                 IReadOnlyList<int> seeds
             )
             : base

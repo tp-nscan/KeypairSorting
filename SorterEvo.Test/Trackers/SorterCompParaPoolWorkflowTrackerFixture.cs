@@ -6,34 +6,34 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SorterEvo.TestData;
 using SorterEvo.Trackers;
 using SorterEvo.Workflows;
-using Sorting.CompetePool;
+using Sorting.CompetePools;
 
 namespace SorterEvo.Test.Trackers
 {
     [TestClass]
-    public class SorterPoolCompWorkflowTrackerFixture
+    public class SorterCompParaPoolWorkflowTrackerFixture
     {
         [TestMethod]
         public void TestMake()
         {
-            Assert.IsNotNull(SorterCompTracker.Make());
+            Assert.IsNotNull(SorterCompParaPoolWorkflowTracker.Make());
         }
 
         [TestMethod]
         public void TestUpdateWithMergeAndTrack()
         {
-            var tracker = SorterCompTracker.Make();
-            var builder = SorterCompWorkflowBuilder.Make
+            var tracker = SorterCompParaPoolWorkflowTracker.Make();
+            var builder = SorterCompParaPoolWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterPoolCompParamsGuid: TestRepository.SorterPoolCompParamsGuid
+                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
-            var updatedBuilder = SorterCompWorkflowBuilder.UpdateAndTrack(
+            var updatedBuilder = SorterCompParaPoolWorkflowBuilder.UpdateAndTrack(
                     builder: builder,
                     seeds: new[] {123, 12345},
                     mergeWithPrev: true,
@@ -42,7 +42,7 @@ namespace SorterEvo.Test.Trackers
 
 
 
-            updatedBuilder = SorterCompWorkflowBuilder.UpdateAndTrack(
+            updatedBuilder = SorterCompParaPoolWorkflowBuilder.UpdateAndTrack(
                     builder: updatedBuilder,
                     seeds: new[] { 23, 2345, 444, 777, 234, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 259, 360, 361, 362 },
                     mergeWithPrev: true,
@@ -57,25 +57,25 @@ namespace SorterEvo.Test.Trackers
         [TestMethod]
         public void TestUpdateWithMergeAndTrack2()
         {
-            ISorterPoolCompWorkflowTracker tracker = SorterCompTracker.Make();
+            ISorterCompParaPoolWorkflowTracker tracker = SorterCompParaPoolWorkflowTracker.Make();
 
-            var builder = SorterCompWorkflowBuilder.Make
+            var builder = SorterCompParaPoolWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterPoolCompParamsGuid: TestRepository.SorterPoolCompParamsGuid
+                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
-            ISorterCompWorkflowBuilder updatedBuilder = builder;
+            ISorterCompParaPoolWorkflowBuilder updatedBuilder = builder;
 
             for (var i = 0; i < 1000; i++)
             {
                 var seeds = Rando.Fast(i*17).ToIntEnumerator().Take(5).ToList();
 
-                updatedBuilder = SorterCompWorkflowBuilder.UpdateAndTrack(
+                updatedBuilder = SorterCompParaPoolWorkflowBuilder.UpdateAndTrack(
                         builder: updatedBuilder,
                         seeds: seeds,
                         mergeWithPrev: true,

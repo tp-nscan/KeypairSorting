@@ -61,9 +61,11 @@
     <Compile Include="Layers\SorterLayerFixture.cs" />
     <Compile Include="StateMonad\LcgRandomFixture.cs" />
     <Compile Include="Table\GenomeTableFixture.cs" />
-    <Compile Include="Workflows\SorterPoolCompWorkflowFixture.cs" />
-    <Compile Include="Trackers\SorterPoolCompWorkflowTrackerFixture.cs" />
-    <Compile Include="Workflows\SorterCompWorkflowBuilderFixture.cs" />
+    <Compile Include="Trackers\SorterCompPoolWorkflowTrackerFixture.cs" />
+    <Compile Include="Workflows\SorterCompPoolWorkflowFixture.cs" />
+    <Compile Include="Trackers\SorterCompParaPoolWorkflowTrackerFixture.cs" />
+    <Compile Include="Workflows\SorterCompParaPoolWorkflowBuilderFixture.cs" />
+    <Compile Include="Workflows\SorterCompPoolWorkflowBuilderFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

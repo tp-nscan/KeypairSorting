@@ -7,18 +7,18 @@ using SorterEvo.Workflows;
 namespace SorterEvo.Test.Workflows
 {
     [TestClass]
-    public class SorterCompWorkflowBuilderFixture
+    public class SorterCompParaPoolWorkflowBuilderFixture
     {
         [TestMethod]
         public void TestMake()
         {
-            var builder = SorterCompWorkflowBuilder.Make
+            var builder = SorterCompParaPoolWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterPoolCompParamsGuid: TestRepository.SorterPoolCompParamsGuid
+                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
             Assert.AreEqual(builder.InputEntities.Count, 3);
@@ -28,23 +28,23 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestUpdateWithMerge()
         {
-            var builder = SorterCompWorkflowBuilder.Make
+            var builder = SorterCompParaPoolWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterPoolCompParamsGuid: TestRepository.SorterPoolCompParamsGuid
+                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
-            var updatedBuilder = SorterCompWorkflowBuilder.Update(
+            var updatedBuilder = SorterCompParaPoolWorkflowBuilder.Update(
                     builder: builder,
                     seeds: new[] {123, 12345},
                     mergeWithPrev: true
                 );
 
-            updatedBuilder = SorterCompWorkflowBuilder.Update(
+            updatedBuilder = SorterCompParaPoolWorkflowBuilder.Update(
                     builder: updatedBuilder,
                     seeds: new[] { 23, 2345, 444, 777 },
                     mergeWithPrev: true
@@ -58,23 +58,23 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestUpdateWithoutMerge()
         {
-            var builder = SorterCompWorkflowBuilder.Make
+            var builder = SorterCompParaPoolWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterPoolCompParamsGuid: TestRepository.SorterPoolCompParamsGuid
+                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
-            var updatedBuilder = SorterCompWorkflowBuilder.Update(
+            var updatedBuilder = SorterCompParaPoolWorkflowBuilder.Update(
                     builder: builder,
                     seeds: new[] { 123, 12345 },
                     mergeWithPrev: false
                 );
 
-            updatedBuilder = SorterCompWorkflowBuilder.Update(
+            updatedBuilder = SorterCompParaPoolWorkflowBuilder.Update(
                 builder: updatedBuilder,
                 seeds: new[] { 23, 2345 },
                 mergeWithPrev: false

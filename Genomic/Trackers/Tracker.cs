@@ -2,6 +2,6 @@
 {
     public interface ITracker<T>
     {
-        void TrackItem(T sorterCompWorkflow);
+        void TrackItem(T sorterCompParaPoolWorkflow);
     }
 }

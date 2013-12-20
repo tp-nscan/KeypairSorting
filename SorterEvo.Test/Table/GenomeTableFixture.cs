@@ -10,17 +10,17 @@ namespace SorterEvo.Test.Table
     public class GenomeTableFixture
     {
         [TestMethod]
-        public void TestCompPoolTable()
+        public void TestCompParaPoolTable()
         {
-            var compPool = TestData.SorterEvoTestData.CompPool;
+            var compParaPool = TestData.SorterEvoTestData.CompParaPool;
             
-            var compPoolScores =
-                compPool.SorterOnSwitchableGroups.Select(
+            var compParaPoolScores =
+                compParaPool.SorterOnSwitchableGroups.Select(
                     s =>
                         new Tuple<Guid, Guid, Tuple<bool, int>>(s.Sorter.Guid, s.SwitchableGroup.Guid,
                             new Tuple<bool, int>(s.Success, s.SwitchesUsed)));
 
-            var compPoolResults = compPoolScores.Select (
+            var compParaPoolResults = compParaPoolScores.Select (
                 s => new Tuple<ISorterGenome, ISwitchableGroupGenome, Tuple<bool, int>>
                 (
                     TestData.SorterEvoTestData.SorterLayer().GetGenome(s.Item1),
@@ -28,7 +28,7 @@ namespace SorterEvo.Test.Table
                     s.Item3
                 ));
 
-            var genomeTable = GenomeTable.Make(compPoolResults);
+            var genomeTable = GenomeTable.Make(compParaPoolResults);
 
             System.Diagnostics.Debug.WriteLine(genomeTable.Print
                 (

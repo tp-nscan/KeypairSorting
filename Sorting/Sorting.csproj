@@ -63,12 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompetePool\CompPool.cs" />
-    <Compile Include="CompetePool\SorterOnSwitchableGroupSet.cs" />
-    <Compile Include="CompetePool\old\SwitchableGroupEval.cs" />
+    <Compile Include="CompetePools\CompParaPool.cs" />
+    <Compile Include="CompetePools\CompPool.cs" />
+    <Compile Include="CompetePools\SorterOnSwitchableGroupSet.cs" />
     <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />
     <Compile Include="KeyPairs\KeyPairSet.cs" />
-    <Compile Include="CompetePool\SorterOnSwitchableGroup.cs" />
+    <Compile Include="CompetePools\SorterOnSwitchableGroup.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
     <Compile Include="Switchables\Switchable.cs" />
     <Compile Include="Switchables\SwitchableGroup.cs" />

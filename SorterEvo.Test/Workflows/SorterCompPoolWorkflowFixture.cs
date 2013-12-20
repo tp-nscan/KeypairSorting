@@ -6,15 +6,15 @@ using SorterEvo.Workflows;
 namespace SorterEvo.Test.Workflows
 {
     [TestClass]
-    public class SorterPoolCompWorkflowFixture
+    public class SorterCompPoolWorkflowFixture
     {
         [TestMethod]
         public void TestMake()
         {
-            var workflow = SorterCompWorkflow.Make(
+            var workflow = SorterCompParaPoolWorkflow.Make(
                 sorterLayer: SorterEvoTestData.SorterLayer(),
                 switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams(),
+                sorterCompParaPoolParams: SorterEvoTestData.SorterCompParaPoolParams(),
                 generation:0
                 );
             Assert.IsNotNull(workflow);
@@ -23,18 +23,18 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestSteps()
         {
-            var workflow = SorterCompWorkflow.Make(
+            var workflow = SorterCompParaPoolWorkflow.Make(
                 sorterLayer: SorterEvoTestData.SorterLayer(),
                 switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompPoolParams: SorterEvoTestData.SorterPoolCompParams(),
+                sorterCompParaPoolParams: SorterEvoTestData.SorterCompParaPoolParams(),
                 generation:0
                 );
 
             var seedList = SorterEvoTestData.Seeds.Take(5).ToList();
             var newWorkflow = workflow.Step(seedList[0]);
-            Assert.AreEqual(newWorkflow.SorterPoolCompState, SorterCompState.RunCompetition);
+            Assert.AreEqual(newWorkflow.CompWorkflowState, CompWorkflowState.RunCompetition);
             newWorkflow = newWorkflow.Step(seedList[1]);
-            Assert.AreEqual(newWorkflow.SorterPoolCompState, SorterCompState.EvaluateResults);
+            Assert.AreEqual(newWorkflow.CompWorkflowState, CompWorkflowState.EvaluateResults);
         }
 
     }

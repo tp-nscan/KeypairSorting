@@ -3,7 +3,7 @@ using System.Linq;
 using Sorting.Sorters;
 using Sorting.Switchables;
 
-namespace Sorting.CompetePool
+namespace Sorting.CompetePools
 {
     public interface ISorterEval
     {

@@ -52,12 +52,15 @@
     <Compile Include="Layers\SwitchableGroupLayer.cs" />
     <Compile Include="TestData\TestRepository.cs" />
     <Compile Include="TestData\SorterEvoTestData.cs" />
+    <Compile Include="Trackers\SorterCompPoolWorkflowTracker.cs" />
+    <Compile Include="Workflows\SorterCompParaPoolParams.cs" />
+    <Compile Include="Workflows\CompWorkflowState.cs" />
+    <Compile Include="Workflows\SorterCompParaPoolWorkflow.cs" />
+    <Compile Include="Trackers\SorterCompParaPoolWorkflowTracker.cs" />
+    <Compile Include="Workflows\SorterCompParaPoolWorkflowBuilder.cs" />
     <Compile Include="Workflows\SorterCompPoolParams.cs" />
-    <Compile Include="Workflows\SorterCompState.cs" />
-    <Compile Include="Workflows\SorterCompWorkflow.cs" />
-    <Compile Include="Trackers\SorterCompTracker.cs" />
-    <Compile Include="Workflows\SorterCompWorkflowBuilder.cs" />
-    <Compile Include="Workflows\Step.cs" />
+    <Compile Include="Workflows\SorterCompPoolWorkflow.cs" />
+    <Compile Include="Workflows\SorterCompPoolWorkflowBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

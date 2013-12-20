@@ -5,9 +5,9 @@ using Sorting.Sorters;
 using Sorting.Switchables;
 using Sorting.SwitchFunctionSets;
 
-namespace Sorting.CompetePool
+namespace Sorting.CompetePools
 {
-    public interface ICompPool
+    public interface ICompParaPool
     {
         IReadOnlyList<ISorter> Sorters { get; }
         IReadOnlyList<ISwitchableGroup> SwitchableGroups { get; }
@@ -16,9 +16,9 @@ namespace Sorting.CompetePool
         IEnumerable<ISorterOnSwitchableGroupSet> SorterOnSwitchableGroupSets { get; }
     }
 
-    public static class CompPool
+    public static class CompParaPool
     {
-        public static ICompPool ToCompPoolParallel<T>
+        public static ICompParaPool ToCompParaPoolParallel<T>
         (
             this IEnumerable<ISorter> sorters,
             IEnumerable<ISwitchableGroup<T>> switchableGroups
@@ -27,16 +27,16 @@ namespace Sorting.CompetePool
             var switchableGroupList = switchableGroups.ToList();
             var sortersList = sorters.ToList();
             KeyPairSwitchSet.Make<T>(switchableGroupList.First().KeyCount);
-            return new CompPoolImpl(
+            return new CompParaPoolImpl(
                 sortersList,
                 switchableGroupList,
                 sortersList.AsParallel().Select(t => t.MakeSorterOnSwitchableGroups(switchableGroupList)));
         }
     }
 
-    class CompPoolImpl : ICompPool
+    class CompParaPoolImpl : ICompParaPool
     {
-        public CompPoolImpl
+        public CompParaPoolImpl
             (
             
                 IEnumerable<ISorter> sorters,

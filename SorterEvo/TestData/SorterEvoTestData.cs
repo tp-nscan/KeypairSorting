@@ -5,7 +5,7 @@ using MathUtils;
 using MathUtils.Rand;
 using SorterEvo.Genomes;
 using SorterEvo.Workflows;
-using Sorting.CompetePool;
+using Sorting.CompetePools;
 using Sorting.Switchables;
 
 namespace SorterEvo.TestData
@@ -81,9 +81,9 @@ namespace SorterEvo.TestData
                 );
         }
 
-        public static SorterCompPoolParams SorterPoolCompParams()
+        public static SorterCompParaPoolParams SorterCompParaPoolParams()
         {
-            return new SorterCompPoolParams(
+            return new SorterCompParaPoolParams(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,
@@ -97,15 +97,26 @@ namespace SorterEvo.TestData
                 );
         }
 
-        static ICompPool _compPool;
-        public static ICompPool CompPool
+        public static SorterCompPoolParams SorterCompPoolParams()
+        {
+            return new SorterCompPoolParams(
+                     sorterLayerStartingGenomeCount: SorterGenomeCount,
+                     sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
+                     sorterMutationRate: SorterMutationRate,
+                     sorterInsertionRate: SorterMutationRate,
+                     sorterDeletionRate: SorterDeletionRate
+                );
+        }
+
+        static ICompParaPool _compParaPool;
+        public static ICompParaPool CompParaPool
         {
             get
             {
-                return _compPool ?? 
+                return _compParaPool ?? 
                     (
-                        _compPool = SorterLayer().Genomes.Select(g=>g.ToSorter())
-                                                 .ToCompPoolParallel(SwitchableGroupLayer()
+                        _compParaPool = SorterLayer().Genomes.Select(g=>g.ToSorter())
+                                                 .ToCompParaPoolParallel(SwitchableGroupLayer()
                                                  .Genomes.Select(g=>g.ToSwitchableGroup()
                                                  .Cast<ISwitchableGroup<uint>>()))
                     );

@@ -5,7 +5,7 @@ using MathUtils.Collections;
 using Sorting.Sorters;
 using Sorting.Switchables;
 
-namespace Sorting.CompetePool
+namespace Sorting.CompetePools
 {
     public interface ISorterOnSwitchableGroupSet
     {

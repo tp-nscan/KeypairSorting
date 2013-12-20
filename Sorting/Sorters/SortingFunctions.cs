@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Sorting.CompetePool;
+using Sorting.CompetePools;
 using Sorting.Switchables;
 using Sorting.SwitchFunctionSets;
 
