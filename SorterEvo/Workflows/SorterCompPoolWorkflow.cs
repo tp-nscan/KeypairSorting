@@ -13,7 +13,7 @@ namespace SorterEvo.Workflows
     {
         ICompPool CompPool { get; }
         int Generation { get; }
-        SorterCompPoolParams SorterCompPoolParams { get; }
+        ISorterCompPoolParams SorterCompPoolParams { get; }
         CompWorkflowState CompWorkflowState { get; }
         ISorterCompPoolWorkflow Step(int seed);
         ILayer<ISorterGenome> SorterLayer { get; }
@@ -25,7 +25,7 @@ namespace SorterEvo.Workflows
             int seed,
             int keyCount,
             int keyPairCount,
-            SorterCompPoolParams sorterCompPoolParams
+            ISorterCompPoolParams sorterCompPoolParams
         )
         {
             var randy = Rando.Fast(seed);
@@ -45,7 +45,7 @@ namespace SorterEvo.Workflows
 
         public static ISorterCompPoolWorkflow Make(
             ILayer<ISorterGenome> sorterLayer,
-            SorterCompPoolParams sorterCompPoolParams,
+            ISorterCompPoolParams sorterCompPoolParams,
             int generation
         )
         {
@@ -62,7 +62,7 @@ namespace SorterEvo.Workflows
     {
         public SorterCompPoolWorkflowImpl(
             ILayer<ISorterGenome> sorterLayer,
-            SorterCompPoolParams sorterCompPoolParams, 
+            ISorterCompPoolParams sorterCompPoolParams, 
             int generation
             )
         {
@@ -78,7 +78,7 @@ namespace SorterEvo.Workflows
                 ILayer<ISorterGenome> sorterLayer,
                 ICompPool compPool,
                 ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> sorterLayerEval,
-                SorterCompPoolParams sorterCompPoolParams, 
+                ISorterCompPoolParams sorterCompPoolParams, 
                 int generation
             )
         {
@@ -103,8 +103,8 @@ namespace SorterEvo.Workflows
             get { return _generation; }
         }
 
-        private readonly SorterCompPoolParams _sorterCompPoolParams;
-        public SorterCompPoolParams SorterCompPoolParams
+        private readonly ISorterCompPoolParams _sorterCompPoolParams;
+        public ISorterCompPoolParams SorterCompPoolParams
         {
             get { return _sorterCompPoolParams; }
         }
@@ -155,7 +155,14 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Multiply(seed: randy.NextInt(), newGenomeCount: SorterCompPoolParams.SorterLayerExpandedGenomeCount, mutationRate: SorterCompPoolParams.SorterMutationRate, insertionRate: SorterCompPoolParams.SorterMutationRate, deletionRate: SorterCompPoolParams.SorterDeletionRate);
+            var sorterLayer = SorterLayer.Multiply
+                (
+                    seed: randy.NextInt(), 
+                    newGenomeCount: SorterCompPoolParams.SorterLayerExpandedGenomeCount,
+                    mutationRate: SorterCompPoolParams.SorterMutationRate(Generation),
+                    insertionRate: SorterCompPoolParams.SorterMutationRate(Generation), 
+                    deletionRate: SorterCompPoolParams.SorterDeletionRate(Generation)
+                );
 
             return new SorterCompPoolWorkflowImpl
                 (
@@ -215,12 +222,17 @@ namespace SorterEvo.Workflows
                         genomes: SorterLayerEval.GenomeEvals
                                                 .SubSortShuffle(t => t.Score, rando.NextInt())
                                                 .Select(e => e.Genome)
-                                                .Take(SorterCompPoolParams.SorterLayerStartingGenomeCount)
+                                                .Take(
+                                                    (Generation % 4 == 0) ?
+                                                        SorterCompPoolParams.SorterLayerStartingGenomeCount/4
+                                                    :
+                                                        SorterCompPoolParams.SorterLayerStartingGenomeCount
+                                                 )
                         ),
-                    compPool: null,
-                    sorterLayerEval: null,
-                    sorterCompPoolParams: SorterCompPoolParams,
-                    generation: Generation + 1
+                        compPool: null,
+                        sorterLayerEval: null,
+                        sorterCompPoolParams: SorterCompPoolParams,
+                        generation: Generation + 1
                 );
         }
     }

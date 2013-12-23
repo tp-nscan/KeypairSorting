@@ -70,19 +70,19 @@ namespace SorterEvo.Layers
             return i => Rando.Fast(i).ToSorterGenome(keyCount, keyPairCount);
         }
 
-        public static Func<ISorterGenome, int, ISorterGenome> CopyFunc
+        public static Func<ISorterGenome, int, Guid, ISorterGenome> CopyFunc
             (
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
             )
         {
-            return (sg, i) =>
+            return (sg, i, guid) =>
             {
                 var randy = Rando.Fast(i);
                 return SorterGenome.Make
                     (
-                        guid: randy.NextGuid(),
+                        guid: guid,
                         parentGuid: sg.Guid,
                         chromosome: sg.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
                         keyCount: sg.KeyCount,

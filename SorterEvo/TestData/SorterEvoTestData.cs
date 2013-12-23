@@ -12,16 +12,16 @@ namespace SorterEvo.TestData
 {
     public static class SorterEvoTestData
     {
-        public static int Seed = 1234;
-        public static int KeyCount = 16;
-        public static int KeyPairCount = 800;
+        public static int Seed = 15394;
+        public static int KeyCount = 12;
+        public static int KeyPairCount = 1000;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
-        public static int SorterGenomeCount = 10;
-        public static int SorterExpandedGenomeCount = 20;
-        public static double SorterMutationRate = 0.02;
-        public static double SorterInsertionRate = 0.02;
-        public static double SorterDeletionRate = 0.02;
+        public static int SorterGenomeCount = 100;
+        public static int SorterExpandedGenomeCount = 200;
+        public static double SorterMutationRate = 0.025;
+        public static double SorterInsertionRate = 0.025;
+        public static double SorterDeletionRate = 0.025;
 
         public static int SwitchableGroupGenomeCount = 3;
         public static int SwitchableGroupExpandedGenomeCount = 6;
@@ -97,14 +97,15 @@ namespace SorterEvo.TestData
                 );
         }
 
-        public static SorterCompPoolParams SorterCompPoolParams()
+        public static ISorterCompPoolParams SorterCompPoolParams()
         {
-            return new SorterCompPoolParams(
+            return Workflows.SorterCompPoolParams.MakeStandard(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
-                     sorterDeletionRate: SorterDeletionRate
+                     sorterDeletionRate: SorterDeletionRate,
+                     name: "Test Params"
                 );
         }
 
@@ -115,10 +116,11 @@ namespace SorterEvo.TestData
             {
                 return _compParaPool ?? 
                     (
-                        _compParaPool = SorterLayer().Genomes.Select(g=>g.ToSorter())
-                                                 .ToCompParaPoolParallel(SwitchableGroupLayer()
-                                                 .Genomes.Select(g=>g.ToSwitchableGroup()
-                                                 .Cast<ISwitchableGroup<uint>>()))
+                        _compParaPool = SorterLayer()
+                                        .Genomes.Select(g=>g.ToSorter())
+                                        .ToCompParaPoolParallel(SwitchableGroupLayer()
+                                        .Genomes.Select(g=>g.ToSwitchableGroup()
+                                        .Cast<ISwitchableGroup<uint>>()))
                     );
             }
         }

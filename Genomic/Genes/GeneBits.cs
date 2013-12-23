@@ -35,7 +35,7 @@ namespace Genomic.Genes
         }
 
         private IEnumerable<uint> _asSerialized;
-        public IEnumerable<uint> AsSerialized
+        public IEnumerable<uint> ToIntStream
         {
             get 
             { 

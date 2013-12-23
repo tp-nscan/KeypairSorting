@@ -28,7 +28,7 @@ namespace SorterEvo.Genomes
                 parentGuid: Guid.Empty,
                 chromosome: randy.ToUintEnumerator(keyPairSetSize)
                                  .Take(keyPairCount)
-                                 .ToChromosomeUintN
+                                 .ToChromosomeUint
                                    (
                                         guid: randy.NextGuid(),
                                         maxVal: keyPairSetSize

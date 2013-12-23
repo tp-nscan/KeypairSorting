@@ -5,7 +5,7 @@ namespace Genomic.Genes
 {
     public interface IGene
     {
-        IEnumerable<uint> AsSerialized { get; }
+        IEnumerable<uint> ToIntStream { get; }
         IGene Mutate(IRando rando);
     }
 }

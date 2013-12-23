@@ -23,14 +23,14 @@ namespace Genomic.Chromosomes
 
     public static class Chromosome
     {
-        public static IChromosome<IGeneUintModN> ToChromosomeUintN
+        public static IChromosome<IGeneUintModN> ToChromosomeUint
             (
                 this IEnumerable<uint> sequence, 
                 Guid guid, 
                 uint maxVal
             )
         {
-            return new ChromosomeUintN(guid, sequence.ToList(), maxVal);
+            return new ChromosomeUintImpl(guid, sequence.ToList(), maxVal);
         }
 
         public static IChromosome ToChromosomeUlongN
@@ -94,7 +94,7 @@ namespace Genomic.Chromosomes
                         inserter: x => (T)x.Mutate(randy),
                         paddingFunc: x => chromosome.NewBlock(randy)
                     )
-                    .SelectMany(b => b.AsSerialized),
+                    .SelectMany(b => b.ToIntStream),
                 newGuid: Guid.NewGuid()
                 );
         }

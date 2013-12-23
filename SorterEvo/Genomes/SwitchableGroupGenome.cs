@@ -35,7 +35,7 @@ namespace SorterEvo.Genomes
                             keyCount: keyCount,
                             chromosome: rando.ToUintEnumerator(((uint)1) << (keyCount - 1))
                                              .Take(groupSize)
-                                             .ToChromosomeUintN(rando.NextGuid(), ((uint)1) << keyCount),
+                                             .ToChromosomeUint(rando.NextGuid(), ((uint)1) << keyCount),
                             switchableGroupGenomeType: SwitchableGroupGenomeType.UInt,
                             groupCount: groupSize
                         );
@@ -103,7 +103,7 @@ namespace SorterEvo.Genomes
                         keyCount: switchableGroup.KeyCount,
                         chromosome: ((ISwitchableGroup<uint>)switchableGroup).Switchables
                                             .Select(t => t.Item)
-                                            .ToChromosomeUintN(Guid.NewGuid(), symbolCount),
+                                            .ToChromosomeUint(Guid.NewGuid(), symbolCount),
                         switchableGroupGenomeType: SwitchableGroupGenomeType.UInt,
                         groupCount: switchableGroup.SwitchableCount
                     );

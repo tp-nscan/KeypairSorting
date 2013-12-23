@@ -15,7 +15,7 @@ namespace Genomic.Test
             foreach (var value in Rando.Fast(123).ToUlongEnumerator(((ulong)1) << (maxBits - 1)).Take(50))
             {
                 var longBlock = GeneUlongModN.Make(value, maxBits);
-                var serialized = longBlock.AsSerialized.ToArray();
+                var serialized = longBlock.ToIntStream.ToArray();
                 var longBack = GeneUlongModN.Make(serialized, maxBits);
                 Assert.AreEqual(longBack.Val, value);
             }

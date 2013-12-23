@@ -60,7 +60,7 @@
     <Compile Include="Table\GenomeTable.cs" />
     <Compile Include="Trackers\GenomeStats.cs" />
     <Compile Include="Layers\Layer.cs" />
-    <Compile Include="Chromosomes\ChromosomeUintN.cs" />
+    <Compile Include="Chromosomes\ChromosomeUint.cs" />
     <Compile Include="Chromosomes\ChromosomeUlongN.cs" />
     <Compile Include="Trackers\GenomePoolStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

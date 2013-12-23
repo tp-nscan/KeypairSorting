@@ -35,18 +35,19 @@ namespace Genomic.Layers
         public static ILayer<TG> Multiply<TG>
             (
                 this ILayer<TG> layer,
-                Func<TG, int, TG> genomeCopyFunc,
+                Func<TG, int, Guid, TG> genomeCopyFunc,
                 int newGenomeCount,
                 int seed
             ) where TG : IGenome
         {
             var randy = Rando.Fast(seed);
+
             return Make(
                     generation: layer.Generation,
                     genomes: layer.Genomes.Concat
                     (
                         layer.Genomes.Repeat().Take(newGenomeCount - layer.Genomes.Count)
-                                .Select(g => genomeCopyFunc(g, randy.NextInt()))
+                                .Select(g => genomeCopyFunc(g, randy.NextInt(), randy.NextGuid()))
                     )
                 );
         }

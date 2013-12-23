@@ -32,7 +32,7 @@ namespace Genomic.Genes
             get { return _items; }
         }
 
-        public IEnumerable<uint> AsSerialized
+        public IEnumerable<uint> ToIntStream
         {
             get { return _items; }
         }

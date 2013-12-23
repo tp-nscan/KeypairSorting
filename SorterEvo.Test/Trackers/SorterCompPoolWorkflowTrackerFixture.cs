@@ -11,9 +11,8 @@ namespace SorterEvo.Test.Trackers
     [TestClass]
     public class SorterCompPoolWorkflowTrackerFixture
     {
-
         [TestMethod]
-        public void TestUpdateWithMergeAndTrack2()
+        public void TestUpdateWithMergeAndTrack()
         {
             var tracker = SorterCompPoolWorkflowTracker.Make();
 
@@ -25,11 +24,9 @@ namespace SorterEvo.Test.Trackers
                     sorterCompPoolParamsGuid: TestRepository.SorterCompPoolParamsGuid
                 );
 
+            var updatedBuilder = builder;
 
-
-            ISorterCompPoolWorkflowBuilder updatedBuilder = builder;
-
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < 5000; i++)
             {
                 var seeds = Rando.Fast(i * 17).ToIntEnumerator().Take(5).ToList();
 
@@ -40,17 +37,6 @@ namespace SorterEvo.Test.Trackers
                         tracker: tracker
                     );
 
-                //    var bsetResult =
-                //        tracker.SorterPoolStats
-                //               .GenomeStatses
-                //               .OrderBy(t => t.ReferenceResult.Cast<ISorterOnSwitchableGroup>().SwitchesUsed)
-                //               .First().ReferenceResult
-                //               .Cast<ISorterOnSwitchableGroup>();
-
-                //    var averageScore = tracker.SorterPoolStats
-                //                              .GenomeStatses.Average(t => t.ReferenceResult.Cast<ISorterOnSwitchableGroup>().SwitchesUsed);
-
-                //    System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", bsetResult.SwitchesUsed, bsetResult.Success, averageScore, i);
                 System.Diagnostics.Debug.WriteLine(tracker.PoolReport);
 
                 tracker = tracker.Trim(1000);

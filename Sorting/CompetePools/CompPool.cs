@@ -28,7 +28,7 @@ namespace Sorting.CompetePools
 
             return new CompPoolImpl(
                     sortersList,
-                    sortersList.Select(s => s.Sort(switchables))
+                    sortersList.AsParallel().Select(s => s.Sort(switchables))
                 );
         }
     }

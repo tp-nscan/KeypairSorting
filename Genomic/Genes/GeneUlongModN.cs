@@ -36,7 +36,7 @@ namespace Genomic.Genes
             _maxVal = maxVal;
         }
 
-        public IEnumerable<uint> AsSerialized
+        public IEnumerable<uint> ToIntStream
         {
             get
             {

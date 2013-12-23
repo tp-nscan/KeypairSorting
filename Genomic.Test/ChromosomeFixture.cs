@@ -17,7 +17,7 @@ namespace Genomic.Test
             const uint symbolCount = 32;
             const int sequenceLength = 1000;
             var chromo = Rando.Fast(123).ToUintEnumerator(symbolCount)
-                .ToChromosomeUintN(guid, symbolCount);
+                .ToChromosomeUint(guid, symbolCount);
 
             Assert.AreEqual(chromo.Guid, guid);
             Assert.AreEqual(chromo.Sequence.Count, sequenceLength);
@@ -30,7 +30,7 @@ namespace Genomic.Test
             const uint symbolCount = 32;
             const int sequenceLength = 10000;
             var chromo = Rando.Fast(123).ToUintEnumerator(symbolCount)
-                .ToChromosomeUintN(guid, symbolCount);
+                .ToChromosomeUint(guid, symbolCount);
                 
             var newGuid = Guid.NewGuid();
             const int seed = 1234;

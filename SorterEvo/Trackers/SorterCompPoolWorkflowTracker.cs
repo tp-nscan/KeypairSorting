@@ -1,4 +1,5 @@
-﻿using Genomic.Trackers;
+﻿using System.Linq;
+using Genomic.Trackers;
 using SorterEvo.Genomes;
 using SorterEvo.Workflows;
 
@@ -52,7 +53,22 @@ namespace SorterEvo.Trackers
                 case CompWorkflowState.UpdateGenomes:
 
 
-                    _poolReport += "update_";
+                    _poolReport = string.Format(
+                        "{0}\t{1}\t{2}", 
+                        sorterCompPoolWorkflow.SorterCompPoolParams.Name, 
+                        sorterCompPoolWorkflow.Generation,
+                        sorterCompPoolWorkflow.CompPool.SorterOnSwitchableGroups
+                                              .Select(t=>t.SwitchesUsed)
+                                              .OrderBy(c => c)
+                                              .First()
+                        );
+                    
+
+                    //_poolReport = sorterCompPoolWorkflow.CompPool.SorterOnSwitchableGroups.Select(
+                    //    t=>t.SwitchesUsed)
+                    //    .OrderBy(c=>c)
+                    //    .Take(100)
+                    //    .Aggregate(string.Empty,(r,n)=> n + "\t"+ r);
 
                     //SorterPoolStats.AddGenomeEvals(
                     //        sorterCompParaPoolWorkflow.SorterLayerEval

@@ -6,21 +6,21 @@ using MathUtils.Rand;
 
 namespace Genomic.Chromosomes
 {
-    public interface IChromosomeUintN : IChromosome<IGeneUintModN>
+    public interface IChromosomeUint : IChromosome<IGeneUintModN>
     {
         uint MaxVal { get; }
     }
 
     public static class ChromosomeUint
     {
-        public static IChromosomeUintN Make
+        public static IChromosomeUint Make
             (
                 Guid guid,
                 IReadOnlyList<uint> sequence,
                 uint maxVal
             )
         {
-            return new ChromosomeUintN
+            return new ChromosomeUintImpl
                 (
                     guid: guid,
                     sequence: sequence,
@@ -29,9 +29,9 @@ namespace Genomic.Chromosomes
         }
     }
 
-    internal class ChromosomeUintN : ChromosomeImpl<IGeneUintModN>, IChromosomeUintN
+    internal class ChromosomeUintImpl : ChromosomeImpl<IGeneUintModN>, IChromosomeUint
     {
-        public ChromosomeUintN
+        public ChromosomeUintImpl
             (
                 Guid guid, 
                 IReadOnlyList<uint> sequence, 
@@ -50,7 +50,7 @@ namespace Genomic.Chromosomes
         private IReadOnlyList<IGeneUintModN> _blockList;
         public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
         {
-            return new ChromosomeUintN
+            return new ChromosomeUintImpl
                 (
                     guid: newGuid,
                     sequence: data.ToList(),

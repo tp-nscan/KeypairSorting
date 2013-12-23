@@ -80,19 +80,19 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static Func<ISwitchableGroupGenome, int, ISwitchableGroupGenome> CopyFunc
+        public static Func<ISwitchableGroupGenome, int, Guid, ISwitchableGroupGenome> CopyFunc
             (
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
             )
         {
-             return (sg, i) =>
+            return (sg, i, guid) =>
             {
                 var randy = Rando.Fast(i);
                 return SwitchableGroupGenome.Make
                     (
-                        guid: randy.NextGuid(),
+                        guid: guid,
                         parentGuid: sg.Guid,
                         keyCount: sg.KeyCount,
                         chromosome: sg.CopyChromosome

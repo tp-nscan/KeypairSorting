@@ -61,6 +61,7 @@
     <Compile Include="Workflows\SorterCompPoolParams.cs" />
     <Compile Include="Workflows\SorterCompPoolWorkflow.cs" />
     <Compile Include="Workflows\SorterCompPoolWorkflowBuilder.cs" />
+    <Compile Include="Trackers\TrackBundle.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

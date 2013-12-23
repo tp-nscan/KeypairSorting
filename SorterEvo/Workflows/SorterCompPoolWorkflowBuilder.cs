@@ -117,9 +117,9 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static SorterCompPoolParams ToSorterCompPoolParams(this IReadOnlyDictionary<string, IEntity> dict)
+        public static ISorterCompPoolParams ToSorterCompPoolParams(this IReadOnlyDictionary<string, IEntity> dict)
         {
-            return (SorterCompPoolParams)dict[SorterCompPoolWorkflowParts.SorterCompPoolParams.ToString()].Value;
+            return (ISorterCompPoolParams)dict[SorterCompPoolWorkflowParts.SorterCompPoolParams.ToString()].Value;
         }
 
         public static IReadOnlyDictionary<string, IEntity> ToEntityDictionary(this ISorterCompPoolWorkflowBuilder sorterCompParaPoolWorkflowBuilder)

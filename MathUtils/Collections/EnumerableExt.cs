@@ -60,6 +60,25 @@ namespace MathUtils.Collections
             }
         }
 
+        public static bool IsSameAs<T>(this IEnumerable<T> ableA, IEnumerable<T> ableB)
+        {
+            var atorA = ableA.ToList();
+            var atorB = ableB.ToList();
+            if (atorA.Count != atorB.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < atorA.Count; i++)
+            {
+                if (! atorA[i].Equals(atorB[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public static IEnumerable<T> GetDifferentItems<T>(this IEnumerable<T> ableA, IEnumerable<T> ableB)
         {
             var atorA = ableA.GetEnumerator();
