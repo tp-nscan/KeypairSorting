@@ -5,6 +5,7 @@ using System.Linq;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sorting.Json.Sorters;
 using Sorting.Sorters;
 using Sorting.CompetePools;
 using Sorting.Switchables;
@@ -18,9 +19,8 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestMethod1()
         {
-            Sample20(91234);
+            Sample20(55555);
         }
-
 
         void Sample5(int seed)
         {
@@ -127,7 +127,10 @@ namespace SorterEvo.Test.Workflows
                         }
                         histo[sorterOnSwitchableGroup.SwitchesUsed] = histo[sorterOnSwitchableGroup.SwitchesUsed] + 1;
 
-                        //sorterOnSwitchableGroup.Sorter.Guid
+                        if ((sorterOnSwitchableGroup.SwitchesUsed < 145) || (sorterOnSwitchableGroup.SwitchesUsed > 169))
+                        {
+                            Debug.WriteLine("****\t{0}\t{1}\t{2}", sorterOnSwitchableGroup.SwitchesUsed, sorterOnSwitchableGroup.Success, SorterToJson.ToJsonString(sorterOnSwitchableGroup.Sorter));
+                        }
                     }
 
                     if (count % 1 == 0)
@@ -148,7 +151,6 @@ namespace SorterEvo.Test.Workflows
                     count++;
                 }
             }
-
         }
 
         public IEnumerable<ISorter> RandomSorters(int seed, int keyCount, int switchLength)

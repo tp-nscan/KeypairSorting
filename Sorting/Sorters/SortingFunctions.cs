@@ -47,7 +47,7 @@ namespace Sorting.Sorters
                 totalSuccess &= sortSuccess;
             }
 
-            return SorterOnSwitchableGroup.Make(sorter, switchableGroup, switchUseList, totalSuccess);
+            return SorterOnSwitchableGroup.Make(sorter, switchableGroup.Guid, switchUseList, totalSuccess);
         }
 
         public static ISorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)

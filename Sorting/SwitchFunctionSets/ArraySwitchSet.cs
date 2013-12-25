@@ -80,7 +80,7 @@ namespace Sorting.SwitchFunctionSets
             get { return typeof (T); }
         }
 
-        public Func<T, Tuple<T, bool>> SwitchFunction(KeyPair keyPair)
+        public Func<T, Tuple<T, bool>> SwitchFunction(IKeyPair keyPair)
         {
             return _switchFuncs[keyPair.Index];
         }
@@ -120,7 +120,7 @@ namespace Sorting.SwitchFunctionSets
             }
         }
 
-        public static string ArrayBuilder(string arrayName, KeyPair keyPair, int keyCount)
+        public static string ArrayBuilder(string arrayName, IKeyPair keyPair, int keyCount)
         {
             var stringBuilder = new StringBuilder("new[] { ");
 

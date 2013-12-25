@@ -13,13 +13,13 @@ namespace Sorting.Sorters
         Guid Guid { get; }
         int KeyCount { get; }
         int KeyPairCount { get; }
-        KeyPair KeyPair(int index);
-        IReadOnlyList<KeyPair> KeyPairs { get; }
+        IKeyPair KeyPair(int index);
+        IReadOnlyList<IKeyPair> KeyPairs { get; }
     }
 
     public static class Sorter
     {
-        public static ISorter ToSorter(this IEnumerable<KeyPair> keyPairs, Guid guid, int keyCount)
+        public static ISorter ToSorter(this IEnumerable<IKeyPair> keyPairs, Guid guid, int keyCount)
         {
             return new SorterImpl(keyPairs, guid, keyCount);
         }
@@ -31,7 +31,7 @@ namespace Sorting.Sorters
             return sbRet.ToString();
         }
 
-        public static ISorter ToSorter(this IReadOnlyList<KeyPair> keyPairs, IEnumerable<uint> keyPairChoices, int keyCount, Guid guid)
+        public static ISorter ToSorter(this IReadOnlyList<IKeyPair> keyPairs, IEnumerable<uint> keyPairChoices, int keyCount, Guid guid)
         {
             return keyPairs.PickMembers(keyPairChoices).ToSorter(guid, keyCount);
         }
@@ -42,7 +42,7 @@ namespace Sorting.Sorters
             return rando.ToSorter(keyPairSet.KeyPairs, keyPairCount, keyCount, guid);
         }
 
-        public static ISorter ToSorter(this IRando rando, IReadOnlyList<KeyPair> keyPairs, int keyPairCount, int keyCount, Guid guid)
+        public static ISorter ToSorter(this IRando rando, IReadOnlyList<IKeyPair> keyPairs, int keyPairCount, int keyCount, Guid guid)
         {
             return rando.Pick(keyPairs).Take(keyPairCount).ToSorter(guid, keyCount);
         }
@@ -74,7 +74,7 @@ namespace Sorting.Sorters
 
     class SorterImpl : ISorter
     {
-        public SorterImpl(IEnumerable<KeyPair> keyPairs, Guid guid, int keyCount)
+        public SorterImpl(IEnumerable<IKeyPair> keyPairs, Guid guid, int keyCount)
         {
             _guid = guid;
             _keyCount = keyCount;
@@ -98,13 +98,13 @@ namespace Sorting.Sorters
             get { return _keyPairs.Length; }
         }
 
-        private readonly KeyPair[] _keyPairs;
-        public KeyPair KeyPair(int index)
+        private readonly IKeyPair[] _keyPairs;
+        public IKeyPair KeyPair(int index)
         {
             return _keyPairs[index];
         }
 
-        public IReadOnlyList<KeyPair> KeyPairs
+        public IReadOnlyList<IKeyPair> KeyPairs
         {
             get { return _keyPairs; }
         }

@@ -44,6 +44,7 @@
     <Compile Include="Bits\BitArrayUtils.cs" />
     <Compile Include="Bits\IntArrayUtils.cs" />
     <Compile Include="Bits\NumberConverters.cs" />
+    <Compile Include="Collections\DictionaryExt.cs" />
     <Compile Include="Collections\IGuid.cs" />
     <Compile Include="Collections\IKeyed.cs" />
     <Compile Include="Collections\MoveNext.cs" />

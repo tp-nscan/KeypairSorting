@@ -17,13 +17,13 @@ namespace Sorting.KeyPairs
             get { return _keyCount; }
         }
 
-        public KeyPair this[int index]
+        public IKeyPair this[int index]
         {
             get { return _keyPairs[index]; }
         }
 
-        readonly List<KeyPair> _keyPairs;
-        public IReadOnlyList<KeyPair> KeyPairs
+        readonly List<IKeyPair> _keyPairs;
+        public IReadOnlyList<IKeyPair> KeyPairs
         {
             get { return _keyPairs; }
         }

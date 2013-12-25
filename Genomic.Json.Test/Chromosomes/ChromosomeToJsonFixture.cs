@@ -17,7 +17,7 @@ namespace Genomic.Json.Test.Chromosomes
         {
             const uint maxVal = 25;
             const int sequenceLength = 100;
-            Guid guid = Guid.NewGuid();
+            var guid = Guid.NewGuid();
 
             IReadOnlyList<uint> sequence = Enumerable.Range(0, (int) maxVal).Select(t=>(uint)t)
                                             .Repeat().Take(sequenceLength).ToList();

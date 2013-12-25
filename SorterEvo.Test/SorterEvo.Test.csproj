@@ -86,6 +86,10 @@
       <Project>{fa79b317-6a42-4dec-9ed0-95b69d467c77}</Project>
       <Name>SorterEvo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sorting.Json\Sorting.Json.csproj">
+      <Project>{55a66926-6f0e-4423-92d2-913e039ef3cf}</Project>
+      <Name>Sorting.Json</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sorting\Sorting.csproj">
       <Project>{e5827c97-e3d1-4f30-b493-7bea79dbd877}</Project>
       <Name>Sorting</Name>

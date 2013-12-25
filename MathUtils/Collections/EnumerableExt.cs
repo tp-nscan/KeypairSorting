@@ -32,16 +32,6 @@ namespace MathUtils.Collections
             b = c;
         }
 
-        public static IEnumerable<Tuple<TA, TB>> Merge<TA, TB>(this IEnumerable<TA> ableA, IEnumerable<TB> ableB)
-        {
-            var atorA = ableA.GetEnumerator();
-            var atorB = ableB.GetEnumerator();
-            while (atorA.MoveNext() && atorB.MoveNext())
-            {
-                yield return new Tuple<TA, TB>(atorA.Current, atorB.Current);
-            }
-        }
-
         public static int ToHash<T>(this IEnumerable<T> items, Func<T, int> itemHash)
         {
             return items.Aggregate(1, (current, item) => (current*397) ^ itemHash(item).DeZero(42));

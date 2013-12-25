@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sorting.Sorters;
 using Sorting.Switchables;
@@ -15,7 +16,7 @@ namespace Sorting.CompetePools
 
     public interface ISorterOnSwitchableGroup : ISorterEval
     {
-        ISwitchableGroup SwitchableGroup { get; }
+        Guid SwitchableGroupGuid { get; }
         bool Success { get; }
     }
 
@@ -24,14 +25,14 @@ namespace Sorting.CompetePools
         public static ISorterOnSwitchableGroup Make
             (
                 ISorter sorter,
-                ISwitchableGroup switchableGroup,
+                Guid switchableGroupGuid,
                 IReadOnlyList<double> switchUseList, 
                 bool success
             )
         {
             return new SorterOnSwitchableGroupImpl(
                     sorter: sorter,
-                    switchableGroup: switchableGroup,
+                    switchableGroupGuid: switchableGroupGuid,
                     switchUseList: switchUseList, 
                     success: success
                 );    
@@ -45,7 +46,7 @@ namespace Sorting.CompetePools
         public SorterOnSwitchableGroupImpl
         (
             ISorter sorter,
-            ISwitchableGroup switchableGroup,
+            Guid switchableGroupGuid,
             IReadOnlyList<double> switchUseList, 
             bool success
         )
@@ -53,14 +54,14 @@ namespace Sorting.CompetePools
             _sorter = sorter;
             _switchUseList = switchUseList;
             _success = success;
-            _switchableGroup = switchableGroup;
+            _switchableGroupGuid = switchableGroupGuid;
             _switchesUsed = switchUseList.Count(t => t > 0);
         }
 
-        private readonly ISwitchableGroup _switchableGroup;
-        public ISwitchableGroup SwitchableGroup
+        private readonly Guid _switchableGroupGuid;
+        public Guid SwitchableGroupGuid
         {
-            get { return _switchableGroup; }
+            get { return _switchableGroupGuid; }
         }
 
         public ISorter Sorter

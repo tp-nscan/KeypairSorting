@@ -1,0 +1,254 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style x:Key="GlassButton" TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="13.333" />
+        <Setter Property="Foreground" Value="Silver" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonBorder" 
+                		CornerRadius="15" 
+                		BorderThickness="2" 
+                		Background="#000000FF"  
+                		BorderBrush="#99FFFFFF"
+                		RenderTransformOrigin="0.5,0.5" Margin="5">
+                		<Border.RenderTransform>
+                			<TransformGroup>
+                				<ScaleTransform/>
+                				<SkewTransform/>
+                				<RotateTransform/>
+                				<TranslateTransform/>
+                			</TransformGroup>
+                		</Border.RenderTransform>
+                		<VisualStateManager.VisualStateGroups>
+                			<VisualStateGroup x:Name="CommonStates">
+                				<VisualState x:Name="Normal"/>
+                				<VisualState x:Name="MouseOver">
+                					<Storyboard>
+                						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                							Storyboard.TargetName="border">
+                							<EasingColorKeyFrame KeyTime="0" Value="#886269DA"/>
+                						</ColorAnimationUsingKeyFrames>
+                					</Storyboard>
+                				</VisualState>
+                				<VisualState x:Name="Pressed">
+                					<Storyboard>
+                						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                							Storyboard.TargetName="border">
+                							<EasingColorKeyFrame KeyTime="0" Value="#88CCC85E"/>
+                						</ColorAnimationUsingKeyFrames>
+                						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" 
+                							Storyboard.TargetName="ButtonBorder">
+                							<EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                						</DoubleAnimationUsingKeyFrames>
+                						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" 
+                							Storyboard.TargetName="ButtonBorder">
+                							<EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                						</DoubleAnimationUsingKeyFrames>
+                					</Storyboard>
+                				</VisualState>
+                				<VisualState x:Name="Disabled">
+                					<Storyboard>
+                						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ButtonContentPresenter">
+                							<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+                						</DoubleAnimationUsingKeyFrames>
+                					</Storyboard>
+                				</VisualState>
+                			</VisualStateGroup>
+                			<VisualStateGroup x:Name="FocusStates">
+                				<VisualState x:Name="Unfocused"/>
+                				<VisualState x:Name="Focused"/>
+                			</VisualStateGroup>
+                		</VisualStateManager.VisualStateGroups>
+                		<Grid>
+                			<Grid.RowDefinitions>
+                				<RowDefinition Height="*"/>
+                				<RowDefinition Height="1.7*"/>
+                			</Grid.RowDefinitions>
+                			<Border x:Name="border" Grid.Row="0" CornerRadius="23,23,0,0" Padding="5,2">
+                				<Border.Background>
+                					<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                						<GradientStop Color="#08FFFFFF" Offset="0"/>
+                						<GradientStop Color="#38FFFFFF" Offset="1"/>
+                					</LinearGradientBrush>
+                				</Border.Background>
+                			</Border>
+                			<ContentPresenter x:Name="ButtonContentPresenter"
+                				VerticalAlignment="Center"  
+                				Grid.RowSpan="2"
+                				HorizontalAlignment="Center" Margin="7,4"/>
+                		</Grid>
+                	</Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GlassButtonSmall" TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="13.333" />
+        <Setter Property="Foreground" Value="Silver" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonBorder" 
+        		    CornerRadius="10" 
+        		    BorderThickness="2" 
+        		    Background="#000000FF"  
+        		    BorderBrush="#99FFFFFF"
+        		    RenderTransformOrigin="0.5,0.5" Margin="2">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                      Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#880E1CF9"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                      Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#88EDE514"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" 
+                                                                       Storyboard.TargetName="ButtonBorder">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" 
+                                                                       Storyboard.TargetName="ButtonBorder">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ButtonContentPresenter">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.7*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="border" Grid.Row="0" CornerRadius="23,23,0,0" Padding="3,1">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#08FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#88FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter x:Name="ButtonContentPresenter"
+        				        VerticalAlignment="Center"  
+        				        Grid.RowSpan="2"
+        				        HorizontalAlignment="Center" Margin="4,2"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="tabButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FontSize" Value="13.333" />
+        <Setter Property="Foreground" Value="Silver" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonBorder" 
+        		    CornerRadius="15" 
+        		    BorderThickness="2" 
+        		    Background="#000000FF"  
+        		    BorderBrush="#99FFFFFF"
+        		    RenderTransformOrigin="0.5,0.5" Margin="5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                      Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#880E1CF9"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" 
+                                                                      Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#88EDE514"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" 
+                                                                       Storyboard.TargetName="ButtonBorder">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" 
+                                                                       Storyboard.TargetName="ButtonBorder">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.05"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ButtonContentPresenter">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.7*"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="border" Grid.Row="0" CornerRadius="23,23,0,0" Padding="5,2">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Color="#08FFFFFF" Offset="0"/>
+                                        <GradientStop Color="#88FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <ContentPresenter x:Name="ButtonContentPresenter"
+        				        VerticalAlignment="Center"  
+        				        Grid.RowSpan="2"
+        				        HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonStyleLarge" TargetType="{x:Type Button}">
+    	<Setter Property="FontSize" Value="13.333" />
+    	<Setter Property="Foreground" Value="Silver" />
+    	<Setter Property="Template" Value="{DynamicResource MilkyGlassButton}"/>
+    </Style>
+
+</ResourceDictionary>

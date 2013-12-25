@@ -264,9 +264,9 @@ namespace SorterEvo.Workflows
 
 
             var switchableGroupLayerEval = 
-                CompParaPool.SorterOnSwitchableGroups.GroupBy(t => t.SwitchableGroup).Select(
+                CompParaPool.SorterOnSwitchableGroups.GroupBy(t => t.SwitchableGroupGuid).Select(
                     g => GenomeEval.Make(
-                            genome: SwitchableGroupLayer.GetGenome(g.Key.Guid),
+                            genome: SwitchableGroupLayer.GetGenome(g.Key),
                             score: g.Sum(s=> - s.SwitchesUsed),
                             generation: Generation
                         )

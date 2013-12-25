@@ -142,7 +142,7 @@ namespace Sorting.SwitchFunctionSets
             get { return typeof(T); }
         }
 
-        public Func<T, Tuple<T, bool>> SwitchFunction(KeyPair keyPair)
+        public Func<T, Tuple<T, bool>> SwitchFunction(IKeyPair keyPair)
         {
             return _switchFuncs[keyPair.Index];
         }
@@ -179,12 +179,12 @@ namespace Sorting.SwitchFunctionSets
             _switchFuncs = (Func<T, Tuple<T, bool>>[])Session.Execute(combo.ToString());
         }
 
-        public static string SwitchMaskDefinition(string dataType, KeyPair keyPair)
+        public static string SwitchMaskDefinition(string dataType, IKeyPair keyPair)
         {
             return string.Format("const {0} {1} = ((({0})1 << {2}) + 1) << {3};", dataType, KeyPairMaskName(keyPair), keyPair.HiKey - keyPair.LowKey, keyPair.LowKey);
         }
 
-        public static string KeyPairMaskName(KeyPair keyPair)
+        public static string KeyPairMaskName(IKeyPair keyPair)
         {
             return string.Format("{0}{1}To{2}", "Mask", keyPair.LowKey, keyPair.HiKey);
         }
@@ -200,7 +200,7 @@ namespace Sorting.SwitchFunctionSets
         }
 
         //switchExpr = a => ((a & Mask0To1) == CShift0) ? new Tuple<ushort, bool>((ushort) (a^Mask0To1), true) : new Tuple<ushort, bool>(a, false);
-        public static string SwitchExpression(string dataType, KeyPair keyPair)
+        public static string SwitchExpression(string dataType, IKeyPair keyPair)
         {
             return String.Format
             (

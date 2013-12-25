@@ -48,7 +48,7 @@ namespace Sorting.CompetePools
         )
         {
             _sorter = sorter;
-            _sorterOnSwitchableGroups = sorterOnSwitchableGroups.ToDictionary(t => t.SwitchableGroup.Guid);
+            _sorterOnSwitchableGroups = sorterOnSwitchableGroups.ToDictionary(t => t.SwitchableGroupGuid);
             _switchUseList = _sorterOnSwitchableGroups.Values.Select(T => T.SwitchUseList).VectorSumDouble();
             _switchesUsed = SwitchUseList.Count(T => T > 0);
         }

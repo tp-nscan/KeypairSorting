@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="WpfUtils.DataGridCollection.DataGridCollectionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:WpfUtils.Converters"
+             mc:Ignorable="d" 
+             x:Name="UserControl" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="CustomTemplate">
+            <Border Padding="3" Background="{Binding UsePercentage, Converter={converters:UnitIntervalToBrushConverter}}">
+                <TextBlock Foreground="Black" 
+                           Text="{Binding Path=Content.Label, RelativeSource={RelativeSource TemplatedParent}}" />
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    
+    <Grid>
+
+        <DataGrid x:Name="MyDataGrid"  ItemsSource="{Binding Path=Matrix.Rows, ElementName=UserControl}" AutoGenerateColumns="False">
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[0]}"  Header="Item 1"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[1]}"  Header="Item 2"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[2]}"  Header="Item 3"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[3]}"  Header="Item 4"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[4]}"  Header="Item 5"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=Item[5]}"  Header="Item 6"/>
+            </DataGrid.Columns>-->
+        </DataGrid>
+        
+    </Grid>
+    
+</UserControl>

@@ -8,7 +8,7 @@ namespace Sorting.SwitchFunctionSets
     public interface IKeyPairSwitchSet<T> : IKeyPairSwitchSet
     {
         bool IsSorted(T item);
-        Func<T, Tuple<T, bool>> SwitchFunction(KeyPair keyPair);
+        Func<T, Tuple<T, bool>> SwitchFunction(IKeyPair keyPair);
     }
 
     public interface IKeyPairSwitchSet

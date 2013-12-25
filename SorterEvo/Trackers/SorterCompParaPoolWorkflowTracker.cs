@@ -90,11 +90,11 @@ namespace SorterEvo.Trackers
                             .Where(
                                     g=> SorterPoolStats.GenomeStatses.Any(ps=>ps.Guid==g.Sorter.Guid)
                                         &&
-                                        SwitchablePoolStats.GenomeStatses.Any(ps => ps.Guid == g.SwitchableGroup.Guid)
+                                        SwitchablePoolStats.GenomeStatses.Any(ps => ps.Guid == g.SwitchableGroupGuid)
                                   )
                             .Select(
                                 s =>
-                                    new Tuple<Guid, Guid, Tuple<bool, int>>(s.Sorter.Guid, s.SwitchableGroup.Guid,
+                                    new Tuple<Guid, Guid, Tuple<bool, int>>(s.Sorter.Guid, s.SwitchableGroupGuid,
                                         new Tuple<bool, int>(s.Success, s.SwitchesUsed)));
 
                         var compParaPoolResults = compParaPoolScores.Select(
