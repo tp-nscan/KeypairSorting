@@ -111,30 +111,14 @@
                     <TextBox Text="{Binding ReportFrequency}" />
                 </StackPanel>
 
-
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <TextBlock Text="Range 1 min"/>
-                    <TextBox Text="{Binding Range1Min}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="3" Orientation="Horizontal">
-                    <TextBlock Text="Range 1 max"/>
-                    <TextBox Text="{Binding Range1Max}" />
+                    <TextBlock Text="Low range max"/>
+                    <TextBox Text="{Binding LowRangeMax}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <TextBlock Text="Range 2 min"/>
-                    <TextBox Text="{Binding Range2Min}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="5" Orientation="Horizontal">
-                    <TextBlock Text="Range 2 min"/>
-                    <TextBox Text="{Binding Range2Max}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="6" Orientation="Horizontal">
-                    <TextBlock Text="Range 2 max"/>
-                    <TextBox Text="{Binding Range2Max}" />
+                    <TextBlock Text="High range min"/>
+                    <TextBox Text="{Binding HighRangeMin}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="7" Orientation="Horizontal">
@@ -168,16 +152,20 @@
                 <StackPanel>
                     <TextBlock Text="Switch counts"></TextBlock>
                     <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
-                             MinWidth="50" Text="{Binding SizeDistributionReport}"/>
+                             MinWidth="50" Text="{Binding SizeDistributionReport, Mode=OneWay}"/>
                 </StackPanel>
                 
                 <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 								Width="3" Margin="0,2" Background="#8FFF" />
                 
                 <StackPanel Grid.Column="2">
-                    <TextBlock Text="Selected switches"></TextBlock>
-                    <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
-                             MinWidth="50" Text="{Binding SelectedSwitchReport}"/>
+                    <TextBlock Text="Selected switches" HorizontalAlignment="Center" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+                        <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
+                             MinWidth="50" Text="{Binding SelectedSwitchReport, Mode=OneWay}"/>
+
+                    </ScrollViewer>
                 </StackPanel>
                 
             </Grid>

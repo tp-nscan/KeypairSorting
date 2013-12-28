@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using KeypairSorting.Models;
 using MathUtils.Collections;
+using MathUtils.Rand;
 using Sorting.CompetePools;
+using Sorting.Json.CompetePools;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -16,15 +19,17 @@ namespace KeypairSorting.ViewModels
         {
             KeyCount = 16;
             ReportFrequency = 100;
-            //Range1Min = 10;
-            Range1Max = 50;
-            Range2Min = 70;
-            //Range2Max = 1000;
+            LowRangeMax = 50;
+            HighRangeMin = 70;
             Seed = 1234;
+            for (var i = 0; i < 500; i++)
+            {
+                _switchUseHistoGram[i] = 0;
+            }
         }
 
-        private int _keyCount;
-        public int KeyCount
+        private int? _keyCount;
+        public int? KeyCount
         {
             get { return _keyCount; }
             set
@@ -34,8 +39,8 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        private int _reportFrequency;
-        public int ReportFrequency
+        private int? _reportFrequency;
+        public int? ReportFrequency
         {
             get { return _reportFrequency; }
             set
@@ -45,75 +50,36 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        //private int _range1Min;
-        //public int Range1Min
-        //{
-        //    get { return _range1Min; }
-        //    set
-        //    {
-        //        _range1Min = value;
-        //        OnPropertyChanged("Range1Min");
-        //    }
-        //}
-
-        private int _range1Max;
-        public int Range1Max
+        private int? _lowRangeMax;
+        public int? LowRangeMax
         {
-            get { return _range1Max; }
+            get { return _lowRangeMax; }
             set
             {
-                _range1Max = value;
-                OnPropertyChanged("Range1Max");
+                _lowRangeMax = value;
+                OnPropertyChanged("LowRangeMax");
             }
         }
 
-        private int _range2Min;
-        public int Range2Min
+        private int? _highRangeMin;
+        public int? HighRangeMin
         {
-            get { return _range2Min; }
+            get { return _highRangeMin; }
             set
             {
-                _range2Min = value;
-                OnPropertyChanged("Range2Min");
+                _highRangeMin = value;
+                OnPropertyChanged("HighRangeMin");
             }
         }
 
-        //private int _range2Max;
-        //public int Range2Max
-        //{
-        //    get { return _range2Max; }
-        //    set
-        //    {
-        //        _range2Max = value;
-        //        OnPropertyChanged("Range2Max");
-        //    }
-        //}
-
-        private int _seed;
-        public int Seed
+        private int? _seed;
+        public int? Seed
         {
             get { return _seed; }
             set
             {
                 _seed = value;
                 OnPropertyChanged("Seed");
-            }
-        }
-
-        #region RandGenCommand
-
-        RelayCommand _randGenCommand;
-
-        public ICommand RandGenCommand
-        {
-            get
-            {
-                return _randGenCommand ?? (_randGenCommand
-                    = new RelayCommand
-                        (
-                            param => TryThis(),
-                            param => CanRandGenCommand()
-                        ));
             }
         }
 
@@ -128,17 +94,29 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        protected void OnRandGenCommand()
+        #region RandGenCommand
+
+        RelayCommand _randGenCommand;
+
+        public ICommand RandGenCommand
         {
-           TryThis();
+            get
+            {
+                return _randGenCommand ?? (_randGenCommand
+                    = new RelayCommand
+                        (
+                            param => GenerateSamples(),
+                            param => CanRandGenCommand()
+                        ));
+            }
         }
 
         bool CanRandGenCommand()
         {
-            return !_busy;
+            return !_busy && Seed.HasValue && ReportFrequency.HasValue && KeyCount.HasValue;
         }
 
-        async Task TryThis()
+        async Task GenerateSamples()
         {
             Busy = true;
             await Task.Run(() => Proc());
@@ -146,28 +124,43 @@ namespace KeypairSorting.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private Dictionary<int, int> _switchUseHistoGram;
-        private List<ISorterOnSwitchableGroup> _sorterOnSwitchableGroups;
+        private readonly Dictionary<int, int> _switchUseHistoGram = new Dictionary<int, int>();
+        private List<ISorterOnSwitchableGroup> _sorterOnSwitchableGroups = new List<ISorterOnSwitchableGroup>();
         private bool _continue;
         void Proc()
         {
-            SizeDistributionReport = string.Empty;
-            SelectedSwitchReport = string.Empty;
-
-            _switchUseHistoGram = new Dictionary<int, int>();
             for (var i = 0; i < 500; i++)
             {
                 _switchUseHistoGram[i] = 0;
             }
+            OnPropertyChanged("SizeDistributionReport");
 
             _sorterOnSwitchableGroups = new List<ISorterOnSwitchableGroup>();
+            OnPropertyChanged("SelectedSwitchReport");
+
+
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             _continue = true;
+            // ReSharper disable PossibleInvalidOperationException
+            var rando = Rando.Fast(Seed.Value);
             while (_continue)
             {
-                var results = SorterRandomSampler.SorterSampler(KeyCount, Seed, ReportFrequency);
+                var samplerParams = GetSorterSamplerParams(KeyCount.Value);
+                var results = SorterRandomSampler.SorterSampler
+                    (
+                        keyCount: KeyCount.Value,
+                        switchCount: samplerParams.SwitchCount,
+                        histogramMin: samplerParams.HistogramMin,
+                        histogramMax: samplerParams.HistogramMax,
+                        seed: rando.NextInt(),
+                        repCount: ReportFrequency.Value,
+                        // ReSharper restore PossibleInvalidOperationException
+                        lowRangeMax: LowRangeMax.HasValue ? LowRangeMax.Value : Int32.MaxValue,
+                        highRangeMin: HighRangeMin.HasValue ? HighRangeMin.Value : Int32.MinValue
+                    );
+
                 _switchUseHistoGram.Merge(results.SwitchUseHistogram, (a, b) => a + b);
                 _sorterOnSwitchableGroups.AddRange(results.SwitchResults);
 
@@ -211,25 +204,29 @@ namespace KeypairSorting.ViewModels
 
         #endregion // StopRandGenCommand
 
-        private string _sizeDistributionReport;
+
         public string SizeDistributionReport
         {
-            get { return _sizeDistributionReport; }
-            set
+            get
             {
-                _sizeDistributionReport = value;
-                OnPropertyChanged("SizeDistributionReport");
+                var samplerParams = GetSorterSamplerParams(KeyCount.Value);
+
+                return Enumerable.Range(samplerParams.HistogramMin, samplerParams.HistogramMax - samplerParams.HistogramMin)
+                    .Select(c => new Tuple<int, int>(c, _switchUseHistoGram[c]))
+                    .Aggregate(String.Empty, (o, n) => o + "\n" + n.Item1 + "\t" + n.Item2);
             }
         }
 
-        private string _selectedSwitchReport;
         public string SelectedSwitchReport
         {
-            get { return _selectedSwitchReport; }
-            set
+            get
             {
-                _selectedSwitchReport = value;
-                OnPropertyChanged("SelectedSwitchReport");
+                var listo = _sorterOnSwitchableGroups.ToList();
+                return listo.Aggregate
+                    (
+                        string.Empty,
+                        (o,n) => o + "\n" + SorterOnSwitchableGroupToJson.ToJsonString(n)
+                    );
             }
         }
 
@@ -243,6 +240,93 @@ namespace KeypairSorting.ViewModels
                 OnPropertyChanged("ProcTime");
             }
         }
+
+        static SorterSamplerParams GetSorterSamplerParams(int keyCount)
+        {
+            if (keyCount == 5)
+            {
+                return new SorterSamplerParams { KeyCount = 5, HistogramMin = 7, HistogramMax = 11, SwitchCount = 400 };
+            }
+            if (keyCount == 6)
+            {
+                return new SorterSamplerParams { KeyCount = 6, HistogramMin = 11, HistogramMax = 16, SwitchCount = 500 };
+            }
+            if (keyCount == 7)
+            {
+                return new SorterSamplerParams { KeyCount = 7, HistogramMin = 16, HistogramMax = 22, SwitchCount = 600 };
+            }
+            if (keyCount == 8)
+            {
+                return new SorterSamplerParams { KeyCount = 8, HistogramMin = 19, HistogramMax = 30, SwitchCount = 700 };
+            }
+            if (keyCount == 9)
+            {
+                return new SorterSamplerParams { KeyCount = 9, HistogramMin = 25, HistogramMax = 38, SwitchCount = 900 };
+            }
+            if (keyCount == 10)
+            {
+                return new SorterSamplerParams { KeyCount = 10, HistogramMin = 30, HistogramMax = 49, SwitchCount = 900 };
+            }
+            if (keyCount == 11)
+            {
+                return new SorterSamplerParams { KeyCount = 11, HistogramMin = 38, HistogramMax = 59, SwitchCount = 1000 };
+            }
+            if (keyCount == 12)
+            {
+                return new SorterSamplerParams { KeyCount = 12, HistogramMin = 46, HistogramMax = 70, SwitchCount = 1200 };
+            }
+            if (keyCount == 13)
+            {
+                return new SorterSamplerParams { KeyCount = 13, HistogramMin = 54, HistogramMax = 81, SwitchCount = 1400 };
+            }
+            if (keyCount == 14)
+            {
+                return new SorterSamplerParams { KeyCount = 14, HistogramMin = 65, HistogramMax = 94, SwitchCount = 1600 };
+            }
+            if (keyCount == 15)
+            {
+                return new SorterSamplerParams { KeyCount = 15, HistogramMin = 75, HistogramMax = 109, SwitchCount = 2000 };
+            }
+            if (keyCount == 16)
+            {
+                return new SorterSamplerParams { KeyCount = 16, HistogramMin = 85, HistogramMax = 119, SwitchCount = 2200 };
+            }
+            if (keyCount == 17)
+            {
+                return new SorterSamplerParams { KeyCount = 17, HistogramMin = 95, HistogramMax = 148, SwitchCount = 2400 };
+            }
+            if (keyCount == 18)
+            {
+                return new SorterSamplerParams { KeyCount = 18, HistogramMin = 105, HistogramMax = 162, SwitchCount = 2600 };
+            }
+            if (keyCount == 19)
+            {
+                return new SorterSamplerParams { KeyCount = 19, HistogramMin = 118, HistogramMax = 174, SwitchCount = 3000 };
+            }
+            if (keyCount == 20)
+            {
+                return new SorterSamplerParams { KeyCount = 20, HistogramMin = 132, HistogramMax = 184, SwitchCount = 3200 };
+            }
+            if (keyCount == 24)
+            {
+                return new SorterSamplerParams { KeyCount = 24, HistogramMin = 125, HistogramMax = 7, SwitchCount = 4000 };
+            }
+            if (keyCount == 32)
+            {
+                return new SorterSamplerParams { KeyCount = 32, HistogramMin = 175, HistogramMax = 500, SwitchCount = 8000 };
+            }
+
+            throw new Exception("Keycount:" + keyCount + " not handled");
+        }
+
+    }
+
+    class SorterSamplerParams
+    {
+        public int KeyCount { get; set; }
+        public int SwitchCount { get; set; }
+        public int HistogramMin { get; set; }
+        public int HistogramMax { get; set; }
     }
 
 

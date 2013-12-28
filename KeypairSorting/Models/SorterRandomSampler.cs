@@ -12,92 +12,7 @@ namespace KeypairSorting.Models
 {
     public static class SorterRandomSampler
     {
-        static SorterSamplerParams GetSorterSamplerParams(int keyCount)
-        {
-            if (keyCount == 5)
-            {
-                return new SorterSamplerParams {KeyCount = 5, LowRangeMax = 7, HiRangeMin = 11, SwitchCount = 400 };
-            }
-            if (keyCount == 6)
-            {
-                return new SorterSamplerParams { KeyCount = 6, LowRangeMax = 11, HiRangeMin = 16, SwitchCount = 500 };
-            }
-            if (keyCount == 7)
-            {
-                return new SorterSamplerParams { KeyCount = 7, LowRangeMax = 16, HiRangeMin = 22, SwitchCount = 600 };
-            }
-            if (keyCount == 8)
-            {
-                return new SorterSamplerParams { KeyCount = 8, LowRangeMax = 19, HiRangeMin = 29, SwitchCount = 700 };
-            }
-            if (keyCount == 9)
-            {
-                return new SorterSamplerParams { KeyCount = 9, LowRangeMax = 25, HiRangeMin = 38, SwitchCount = 900 };
-            }
-            if (keyCount == 10)
-            {
-                return new SorterSamplerParams { KeyCount = 10, LowRangeMax = 30, HiRangeMin = 49, SwitchCount = 900 };
-            }
-            if (keyCount == 11)
-            {
-                return new SorterSamplerParams { KeyCount = 11, LowRangeMax = 38, HiRangeMin = 59, SwitchCount = 1000 };
-            }
-            if (keyCount == 12)
-            {
-                return new SorterSamplerParams { KeyCount = 12, LowRangeMax = 46, HiRangeMin = 70, SwitchCount = 1200 };
-            }
-            if (keyCount == 13)
-            {
-                return new SorterSamplerParams { KeyCount = 13, LowRangeMax = 54, HiRangeMin = 81, SwitchCount = 1400 };
-            }
-            if (keyCount == 14)
-            {
-                return new SorterSamplerParams { KeyCount = 14, LowRangeMax = 65, HiRangeMin = 94, SwitchCount = 1600 };
-            }
-            if (keyCount == 15)
-            {
-                return new SorterSamplerParams { KeyCount = 15, LowRangeMax = 75, HiRangeMin = 109, SwitchCount = 2000 };
-            }
-            if (keyCount == 16)
-            {
-                return new SorterSamplerParams { KeyCount = 16, LowRangeMax = 85, HiRangeMin = 119, SwitchCount = 2200 };
-            }
-            if (keyCount == 17)
-            {
-                return new SorterSamplerParams { KeyCount = 17, LowRangeMax = 95, HiRangeMin = 148, SwitchCount = 2400 };
-            }
-            if (keyCount == 18)
-            {
-                return new SorterSamplerParams { KeyCount = 18, LowRangeMax = 105, HiRangeMin = 162, SwitchCount = 2600 };
-            }
-            if (keyCount == 19)
-            {
-                return new SorterSamplerParams { KeyCount = 19, LowRangeMax = 118, HiRangeMin = 174, SwitchCount = 3000 };
-            }
-            if (keyCount == 20)
-            {
-                return new SorterSamplerParams { KeyCount = 20, LowRangeMax = 132, HiRangeMin = 184, SwitchCount = 3200 };
-            }
-            if (keyCount == 24)
-            {
-                return new SorterSamplerParams { KeyCount = 24, LowRangeMax = 125, HiRangeMin = 7, SwitchCount = 4000 };
-            }
-            if (keyCount == 32)
-            {
-                return new SorterSamplerParams { KeyCount = 32, LowRangeMax = 175, HiRangeMin = 500, SwitchCount = 8000 };
-            }
-
-            throw new Exception("Keycount:" + keyCount + " not handled");
-        }
-
-        public static SorterSamplerResults SorterSampler(int keyCount, int seed, int repCount)
-        {
-
-            return SorterSampler(GetSorterSamplerParams(keyCount), seed, repCount);
-
-        }
-
-        public static string ToReport(this Dictionary<int, int> histo, int? minVal, int? maxVal)
+        public static string ToHistogramReport(this Dictionary<int, int> histo, int? minVal, int? maxVal)
         {
             var filteredDictionary = histo;
 
@@ -116,7 +31,16 @@ namespace KeypairSorting.Models
             return filteredDictionary.Aggregate(String.Empty, (o,n) => o + "\n" + n.Key + "\t" + n.Value);
         }
 
-        static SorterSamplerResults SorterSampler(SorterSamplerParams sorterSamplerParams, int seed, int repCount)
+        public static SorterSamplerResults SorterSampler(
+                int keyCount,
+                int switchCount,
+                int histogramMin,
+                int histogramMax, 
+                int seed, 
+                int repCount, 
+                int lowRangeMax, 
+                int highRangeMin
+            )
         {
             //var stopwatch = new Stopwatch();
             //stopwatch.Start();
@@ -131,23 +55,20 @@ namespace KeypairSorting.Models
 
             var sortFails = 0;
 
-            for (int i = 0; i < repCount; i++)
+            foreach (var results in RandomSorterTests(seed, keyCount, switchCount).Take(repCount))
             {
-                foreach (var results in RandomSorterTests(seed, sorterSamplerParams.KeyCount, sorterSamplerParams.SwitchCount))
+                foreach (var sorterOnSwitchableGroup in results)
                 {
-                    foreach (var sorterOnSwitchableGroup in results)
+                    if (!sorterOnSwitchableGroup.Success)
                     {
-                        if (!sorterOnSwitchableGroup.Success)
-                        {
-                            sortFails++;
-                        }
+                        sortFails++;
+                    }
 
-                        histo[sorterOnSwitchableGroup.SwitchesUsed] = histo[sorterOnSwitchableGroup.SwitchesUsed] + 1;
+                    histo[sorterOnSwitchableGroup.SwitchesUsed] = histo[sorterOnSwitchableGroup.SwitchesUsed] + 1;
 
-                        if ((sorterOnSwitchableGroup.SwitchesUsed < sorterSamplerParams.LowRangeMax) || (sorterOnSwitchableGroup.SwitchesUsed > sorterSamplerParams.HiRangeMin))
-                        {
-                            sorterOnSwitchableGroups.Add(sorterOnSwitchableGroup);
-                        }
+                    if ((sorterOnSwitchableGroup.SwitchesUsed < lowRangeMax) || (sorterOnSwitchableGroup.SwitchesUsed > highRangeMin))
+                    {
+                        sorterOnSwitchableGroups.Add(sorterOnSwitchableGroup);
                     }
                 }
             }
@@ -177,14 +98,6 @@ namespace KeypairSorting.Models
         }
 
 
-    }
-
-    class SorterSamplerParams
-    {
-        public int KeyCount { get; set; }
-        public int SwitchCount { get; set; }
-        public int LowRangeMax { get; set; }
-        public int HiRangeMin { get; set; }
     }
 
     public class SorterSamplerResults

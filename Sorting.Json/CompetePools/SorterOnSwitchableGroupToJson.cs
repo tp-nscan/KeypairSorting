@@ -3,47 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Sorting.CompetePools;
-using Sorting.KeyPairs;
-using Sorting.Sorters;
+using Sorting.Json.Sorters;
 
 namespace Sorting.Json.CompetePools
 {
-    //public class SorterOnSwitchableGroupToJson
-    //{
-    //    public static SorterOnSwitchableGroupToJson ToJsonAdapter(ISorterOnSwitchableGroup sorter)
-    //    {
-    //        var chromosomeUintToJson = new SorterOnSwitchableGroupToJson
-    //        {
-    //            Guid = sorter.Guid,
-    //            Sequence = sorter.KeyPairs.Select(kp=>kp.Index).ToList(),
-    //            KeyCount = sorter.KeyCount
-    //        };
+    public class SorterOnSwitchableGroupToJson
+    {
+        public static SorterOnSwitchableGroupToJson ToJsonAdapter(ISorterOnSwitchableGroup sorterOnSwitchableGroup)
+        {
+            var chromosomeUintToJson = new SorterOnSwitchableGroupToJson
+            {
+                SwitchableGroupGuid = sorterOnSwitchableGroup.SwitchableGroupGuid,
+                SorterToJson = SorterToJson.ToJsonAdapter(sorterOnSwitchableGroup.Sorter),
+                Success = sorterOnSwitchableGroup.Success,
+                SwitchesUsed = sorterOnSwitchableGroup.SwitchesUsed
+                //SwitchUseList = sorterOnSwitchableGroup.SwitchUseList.ToList()
+            };
 
-    //        return chromosomeUintToJson;
-    //    }
+            return chromosomeUintToJson;
+        }
 
-    //    public static string ToJsonString(ISorter sorter)
-    //    {
-    //        return JsonConvert.SerializeObject(ToJsonAdapter(sorter), Formatting.None);
-    //    }
+        public static string ToJsonString(ISorterOnSwitchableGroup sorterOnSwitchableGroup)
+        {
+            return JsonConvert.SerializeObject(ToJsonAdapter(sorterOnSwitchableGroup), Formatting.None);
+        }
 
-    //    public Guid Guid { get; set; }
+        public Guid SwitchableGroupGuid { get; set; }
 
-    //    public int KeyCount { get; set; }
+        //public List<double> SwitchUseList { get; set; } 
 
-    //    public List<int> Sequence { get; set; }
+        public SorterToJson SorterToJson { get; set; }
 
-    //    public static ISorterOnSwitchableGroup ToSorterOnSwitchableGroup(SorterOnSwitchableGroupToJson sorterToJson)
-    //    {
-    //        return SorterOnSwitchableGroup.Make
-    //            (
-                
-    //            )
-    //        //return Sorter.ToSorter(
-    //        //        guid: sorterToJson.Guid,
-    //        //        keyPairs: sorterToJson.Sequence.Select(KeyPairRepository.AtIndex),
-    //        //        keyCount: sorterToJson.KeyCount
-    //        //    );
-    //    }
-    //}
+        public bool Success { get; set; }
+
+        public int SwitchesUsed { get; set; }
+
+        public static ISorterOnSwitchableGroup ToSorterOnSwitchableGroup(SorterOnSwitchableGroupToJson sorterOnSwitchableGroupToJson)
+        {
+            return SorterOnSwitchableGroup.Make
+                (
+                    sorter: SorterToJson.ToSorter(sorterOnSwitchableGroupToJson.SorterToJson),
+                    switchableGroupGuid: sorterOnSwitchableGroupToJson.SwitchableGroupGuid,
+                    //switchUseList: sorterOnSwitchableGroupToJson.SwitchUseList,
+                    switchUseList: null,
+                    success: sorterOnSwitchableGroupToJson.Success
+                );
+        }
+
+        public static ISorterOnSwitchableGroup ToSorterOnSwitchableGroup(string serialized)
+        {
+            return ToSorterOnSwitchableGroup(
+            JsonConvert.DeserializeObject<SorterOnSwitchableGroupToJson>(serialized));
+        }
+    }
 }
