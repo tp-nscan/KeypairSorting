@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using Entities.BackgroundWorkers;
 using KeypairSorting.Models;
+using MathUtils;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Sorting.CompetePools;
-using Sorting.Json.CompetePools;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -83,6 +89,17 @@ namespace KeypairSorting.ViewModels
             }
         }
 
+        private int? _sortFails;
+        public int? SortFails
+        {
+            get { return _sortFails; }
+            set
+            {
+                _sortFails = value;
+                OnPropertyChanged("SortFails");
+            }
+        }
+        
         private bool _busy;
         public bool Busy
         {
@@ -116,64 +133,84 @@ namespace KeypairSorting.ViewModels
             return !_busy && Seed.HasValue && ReportFrequency.HasValue && KeyCount.HasValue;
         }
 
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        readonly Stopwatch _stopwatch = new Stopwatch();
         async Task GenerateSamples()
         {
             Busy = true;
-            await Task.Run(() => Proc());
+            var samplerParams =  GetSorterSamplerParams(KeyCount.Value);
+            _stopwatch.Reset();
+            _stopwatch.Start();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var rando = Rando.Fast(Seed.Value);
+            var inputs = Enumerable.Range(0, 10000).Select(t => rando.NextInt());
+
+            IEnumerativeBackgroundWorker<int, SorterSamplerResults> ibw = EnumerativeBackgroundWorker.Make
+                (
+                    inputs: inputs,
+                    mapper: (i, c) =>
+                        {
+                            var sorterSamplerResults = SorterRandomSampler.SorterSampler(
+                                keyCount: KeyCount.Value,
+                                switchCount: samplerParams.SwitchCount,
+                                histogramMin: samplerParams.HistogramMin,
+                                histogramMax: samplerParams.HistogramMax,
+                                seed: i,
+                                repCount: ReportFrequency.Value,
+                                lowRangeMax: LowRangeMax.Value,
+                                highRangeMin: HighRangeMin.Value,
+                                cancellationToken: _cancellationTokenSource.Token
+                                );
+
+                            if (sorterSamplerResults.WasCancelled)
+                            {
+                                return IterationResult.Make(default(SorterSamplerResults), ProgressStatus.StepIncomplete);
+                            }
+
+                            return IterationResult.Make(sorterSamplerResults, ProgressStatus.StepComplete);
+                        },
+                    cancellationTokenSource: _cancellationTokenSource
+                );
+
+            ibw.OnIterationResult.Subscribe(UpdateSorterSamplerResults);
+            await ibw.Start();
             Busy = false;
+            _stopwatch.Stop();
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private readonly Dictionary<int, int> _switchUseHistoGram = new Dictionary<int, int>();
-        private List<ISorterOnSwitchableGroup> _sorterOnSwitchableGroups = new List<ISorterOnSwitchableGroup>();
-        private bool _continue;
-        void Proc()
+        void UpdateSorterSamplerResults(IIterationResult<SorterSamplerResults> result)
         {
-            for (var i = 0; i < 500; i++)
+            if (result.Data == null)
             {
-                _switchUseHistoGram[i] = 0;
+                return;
             }
+
+            SorterOnSwitchableGroupVms.AddMany
+                (
+                    result.Data.SwitchResults.Select(r=>r.ToSorterOnSwitchableGroupVm())
+                );
+
+            _switchUseHistoGram.Merge(result.Data.SwitchUseHistogram, (a, b) => a + b);
             OnPropertyChanged("SizeDistributionReport");
-
-            _sorterOnSwitchableGroups = new List<ISorterOnSwitchableGroup>();
-            OnPropertyChanged("SelectedSwitchReport");
-
-
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            _continue = true;
-            // ReSharper disable PossibleInvalidOperationException
-            var rando = Rando.Fast(Seed.Value);
-            while (_continue)
-            {
-                var samplerParams = GetSorterSamplerParams(KeyCount.Value);
-                var results = SorterRandomSampler.SorterSampler
-                    (
-                        keyCount: KeyCount.Value,
-                        switchCount: samplerParams.SwitchCount,
-                        histogramMin: samplerParams.HistogramMin,
-                        histogramMax: samplerParams.HistogramMax,
-                        seed: rando.NextInt(),
-                        repCount: ReportFrequency.Value,
-                        // ReSharper restore PossibleInvalidOperationException
-                        lowRangeMax: LowRangeMax.HasValue ? LowRangeMax.Value : Int32.MaxValue,
-                        highRangeMin: HighRangeMin.HasValue ? HighRangeMin.Value : Int32.MinValue
-                    );
-
-                _switchUseHistoGram.Merge(results.SwitchUseHistogram, (a, b) => a + b);
-                _sorterOnSwitchableGroups.AddRange(results.SwitchResults);
-
-                OnPropertyChanged("SizeDistributionReport");
-                OnPropertyChanged("SelectedSwitchReport");
-
-                ProcTime = stopwatch.Elapsed.TotalSeconds.ToString("0");
-            }
-            stopwatch.Stop();
+            OnPropertyChanged("ProcTime");
+            SortFails = (SortFails.HasValue) ? SortFails.Value + result.Data.SortFails : result.Data.SortFails;
         }
 
+        private readonly Dictionary<int, int> _switchUseHistoGram = new Dictionary<int, int>();
+
+        private ObservableCollection<ISorterOnSwitchableGroupVm> _sorterOnSwitchableGroupVms 
+                = new ObservableCollection<ISorterOnSwitchableGroupVm>();
+        public ObservableCollection<ISorterOnSwitchableGroupVm> SorterOnSwitchableGroupVms
+        {
+            get { return _sorterOnSwitchableGroupVms; }
+            set { _sorterOnSwitchableGroupVms = value; }
+        }
 
         #endregion // RandGenCommand
+
 
         #region StopRandGenCommand
 
@@ -191,10 +228,9 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-
         protected void OnStopRandGenCommand()
         {
-            _continue = false;
+            _cancellationTokenSource.Cancel();
         }
 
         bool CanStopRandGenCommand()
@@ -203,6 +239,75 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // StopRandGenCommand
+
+
+        #region ResetCommand
+
+        RelayCommand _resetCommand;
+        public ICommand ResetCommand
+        {
+            get
+            {
+                return _resetCommand ?? (_resetCommand
+                    = new RelayCommand
+                        (
+                            param => OnResetCommand(),
+                            param => CanResetCommand()
+                        ));
+            }
+        }
+
+        protected void OnResetCommand()
+        {
+            _cancellationTokenSource.Cancel();
+        }
+
+        bool CanResetCommand()
+        {
+            return ! _busy;
+        }
+
+        #endregion // ResetCommand
+
+
+        #region CopyGridCommand
+
+        RelayCommand _copyGridCommand;
+        public ICommand CopyGridCommand
+        {
+            get
+            {
+                return _copyGridCommand ?? (_copyGridCommand
+                    = new RelayCommand
+                        (
+                            param => OnCopyGridCommand(),
+                            param => CanCopyGridCommand()
+                        ));
+            }
+        }
+
+        protected void OnCopyGridCommand()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var sorterOnSwitchableGroupVm in SorterOnSwitchableGroupVms)
+            {
+                sb.AppendLine(
+                                sorterOnSwitchableGroupVm.SwitchesUsed + "\t" + 
+                                sorterOnSwitchableGroupVm.Success + "\t" +
+                                sorterOnSwitchableGroupVm.SorterJson
+                              );
+            }
+
+            Clipboard.SetText(sb.ToString());
+        }
+
+        bool CanCopyGridCommand()
+        {
+            return true;
+        }
+
+        #endregion // CopyGridCommand
 
 
         public string SizeDistributionReport
@@ -217,28 +322,10 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        public string SelectedSwitchReport
-        {
-            get
-            {
-                var listo = _sorterOnSwitchableGroups.ToList();
-                return listo.Aggregate
-                    (
-                        string.Empty,
-                        (o,n) => o + "\n" + SorterOnSwitchableGroupToJson.ToJsonString(n)
-                    );
-            }
-        }
-
         private string _procTime;
         public string ProcTime
         {
-            get { return _procTime; }
-            set
-            {
-                _procTime = value;
-                OnPropertyChanged("ProcTime");
-            }
+            get { return _stopwatch.Elapsed.TotalSeconds.ToString("0"); }
         }
 
         static SorterSamplerParams GetSorterSamplerParams(int keyCount)
@@ -328,6 +415,4 @@ namespace KeypairSorting.ViewModels
         public int HistogramMin { get; set; }
         public int HistogramMax { get; set; }
     }
-
-
 }

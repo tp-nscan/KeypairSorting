@@ -19,19 +19,18 @@ namespace KeypairSorting
         {
             base.OnStartup(e);
 
-            //var window = new MainWindow();
-            //var viewModel = new MainWindowVm();
-            //EventHandler handler = null;
-            //handler = delegate
-            //{
-            //    viewModel.RequestClose -= handler;
-            //    window.Close();
-            //};
-            //viewModel.RequestClose += handler;
-            //window.DataContext = viewModel;
+            var window = new MainWindow();
+            var viewModel = new MainWindowVm();
+            EventHandler handler = null;
+            handler = delegate
+            {
+                viewModel.RequestClose -= handler;
+                window.Close();
+            };
+            viewModel.RequestClose += handler;
+            window.DataContext = viewModel;
 
 
-            var window = new testWindow();
 
             window.Show();
         }

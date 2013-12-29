@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Entities.BackgroundWorkers
 {
-    public interface IIterativeBackgroundWorker<T>
+    public interface IRecursiveBackgroundWorker<T>
     {
         IObservable<IIterationResult<T>> OnIterationResult { get; }
         Task Start();
@@ -15,19 +15,19 @@ namespace Entities.BackgroundWorkers
         int TotalIterations { get; }
     }
 
-    public static class IterativeBackgroundWorker
+    public static class RecursiveBackgroundWorker
     {
-        public static IIterativeBackgroundWorker<T> Make<T>
+        public static IRecursiveBackgroundWorker<T> Make<T>
             (
                 T initialState,
-                Func<T, CancellationToken, IIterationResult<T>> updateOperation,
+                Func<T, CancellationToken, IIterationResult<T>> recursion,
                 int totalIterations,
                 CancellationTokenSource cancellationTokenSource
             )
         {
-            return new IterativeBackgroundWorkerImpl<T>
+            return new RecursiveBackgroundWorkerImpl<T>
                 (
-                    updateOperation: updateOperation,
+                    recursion: recursion,
                     initialState: initialState,
                     totalIterations: totalIterations,
                     cancellationTokenSource: cancellationTokenSource
@@ -35,24 +35,24 @@ namespace Entities.BackgroundWorkers
         }
     }
 
-    class IterativeBackgroundWorkerImpl<T> : IIterativeBackgroundWorker<T>
+    class RecursiveBackgroundWorkerImpl<T> : IRecursiveBackgroundWorker<T>
     {
-        public IterativeBackgroundWorkerImpl
+        public RecursiveBackgroundWorkerImpl
             (
-                Func<T, CancellationToken, IIterationResult<T>> updateOperation, 
+                Func<T, CancellationToken, IIterationResult<T>> recursion, 
                 T initialState, 
                 int totalIterations,
                 CancellationTokenSource cancellationTokenSource
             )
         {
-            _updateOperation = updateOperation;
+            _recursion = recursion;
             _currentIteration = 0;
             _currentState = initialState;
             _totalIterations = totalIterations;
             _cancellationTokenSource = cancellationTokenSource;
         }
 
-        private readonly Func<T, CancellationToken, IIterationResult<T>> _updateOperation;
+        private readonly Func<T, CancellationToken, IIterationResult<T>> _recursion;
 
         private readonly Subject<IIterationResult<T>> _onIterationResult = new Subject<IIterationResult<T>>();
         public IObservable<IIterationResult<T>> OnIterationResult
@@ -74,8 +74,7 @@ namespace Entities.BackgroundWorkers
                 }
 
                 var result = IterationResult.Make(default(T), ProgressStatus.StepIncomplete);
-                await Task.Run(() => result = _updateOperation(CurrentState, _cancellationTokenSource.Token));
-                _onIterationResult.OnNext(result);
+                await Task.Run(() => result = _recursion(CurrentState, _cancellationTokenSource.Token));
 
                 if (result.ProgressStatus != ProgressStatus.StepComplete)
                 {
@@ -84,11 +83,11 @@ namespace Entities.BackgroundWorkers
                 else
                 {
                     _currentState = result.Data;
+                    _onIterationResult.OnNext(result);
                     _currentIteration++;
                 }
             }
         }
-
 
         private readonly CancellationTokenSource _cancellationTokenSource;
         public void Stop()

@@ -55,7 +55,7 @@ namespace Sorting.CompetePools
             _switchUseList = switchUseList;
             _success = success;
             _switchableGroupGuid = switchableGroupGuid;
-            _switchesUsed = switchUseList.Count(t => t > 0);
+            _switchesUsed = (switchUseList==null) ? 0: switchUseList.Count(t => t > 0);
         }
 
         private readonly Guid _switchableGroupGuid;

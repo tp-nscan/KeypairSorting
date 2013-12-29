@@ -77,6 +77,7 @@
     <Compile Include="Rand\RandoFixture.cs" />
     <Compile Include="Rand\RandyFixture.cs" />
     <Compile Include="Rand\RandSortFixture.cs" />
+    <Compile Include="StringExtFixture.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

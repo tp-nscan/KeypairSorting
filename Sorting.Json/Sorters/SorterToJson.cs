@@ -21,11 +21,6 @@ namespace Sorting.Json.Sorters
             return chromosomeUintToJson;
         }
 
-        public static string ToJsonString(ISorter sorter)
-        {
-            return JsonConvert.SerializeObject(ToJsonAdapter(sorter), Formatting.None);
-        }
-
         public Guid Guid { get; set; }
 
         public int KeyCount { get; set; }
@@ -39,6 +34,14 @@ namespace Sorting.Json.Sorters
                     keyPairs: sorterToJson.Sequence.Select(KeyPairRepository.AtIndex),
                     keyCount: sorterToJson.KeyCount
                 );
+        }
+    }
+
+    public static class SorterToJsonExt
+    {
+        public static string ToJsonString(this ISorter sorter)
+        {
+            return JsonConvert.SerializeObject(SorterToJson.ToJsonAdapter(sorter), Formatting.None);
         }
     }
 }

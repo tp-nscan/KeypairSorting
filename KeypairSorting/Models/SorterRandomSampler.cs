@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Sorting.CompetePools;
@@ -39,7 +40,8 @@ namespace KeypairSorting.Models
                 int seed, 
                 int repCount, 
                 int lowRangeMax, 
-                int highRangeMin
+                int highRangeMin,
+                CancellationToken cancellationToken
             )
         {
             //var stopwatch = new Stopwatch();
@@ -57,6 +59,11 @@ namespace KeypairSorting.Models
 
             foreach (var results in RandomSorterTests(seed, keyCount, switchCount).Take(repCount))
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return new SorterSamplerResults { WasCancelled = true };
+                }
+
                 foreach (var sorterOnSwitchableGroup in results)
                 {
                     if (!sorterOnSwitchableGroup.Success)
@@ -73,7 +80,7 @@ namespace KeypairSorting.Models
                 }
             }
 
-            return new SorterSamplerResults() { SwitchUseHistogram = histo, SwitchResults = sorterOnSwitchableGroups };
+            return new SorterSamplerResults { SwitchUseHistogram = histo, SwitchResults = sorterOnSwitchableGroups, SortFails= sortFails };
         }
 
         static IEnumerable<ISorter> RandomSorters(int seed, int keyCount, int switchLength)
@@ -104,5 +111,7 @@ namespace KeypairSorting.Models
     {
         public IReadOnlyDictionary<int, int> SwitchUseHistogram { get; set; }
         public IReadOnlyList<ISorterOnSwitchableGroup> SwitchResults { get; set; }
+        public int SortFails { get; set; }
+        public bool WasCancelled { get; set; }
     }
 }

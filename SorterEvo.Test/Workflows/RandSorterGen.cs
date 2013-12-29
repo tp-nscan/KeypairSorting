@@ -129,7 +129,7 @@ namespace SorterEvo.Test.Workflows
 
                         if ((sorterOnSwitchableGroup.SwitchesUsed < 145) || (sorterOnSwitchableGroup.SwitchesUsed > 169))
                         {
-                            Debug.WriteLine("****\t{0}\t{1}\t{2}", sorterOnSwitchableGroup.SwitchesUsed, sorterOnSwitchableGroup.Success, SorterToJson.ToJsonString(sorterOnSwitchableGroup.Sorter));
+                            Debug.WriteLine("****\t{0}\t{1}\t{2}", sorterOnSwitchableGroup.SwitchesUsed, sorterOnSwitchableGroup.Success, sorterOnSwitchableGroup.Sorter.ToJsonString());
                         }
                     }
 

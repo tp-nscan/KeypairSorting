@@ -51,13 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundWorkers\EnumerativeBackgroundWorker.cs" />
     <Compile Include="BackgroundWorkers\IterationResult.cs" />
     <Compile Include="BackgroundWorkers\ProgressStatus.cs" />
-    <Compile Include="BackgroundWorkers\IterativeBackgroundWorker.cs" />
+    <Compile Include="BackgroundWorkers\RecursiveBackgroundWorker.cs" />
     <Compile Include="EntityBuilder.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="EntityRepository.cs" />
-    <Compile Include="BackgroundWorkers\BackgroundWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

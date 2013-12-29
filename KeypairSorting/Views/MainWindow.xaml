@@ -1,11 +1,14 @@
-﻿<Window x:Class="KeypairSorting.Views.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:KeypairSorting="clr-namespace:KeypairSorting"
+        xmlns:views="clr-namespace:KeypairSorting.Views"
+        x:Class="KeypairSorting.Views.MainWindow"
         Title="MainWindow" Height="350" Width="525">
 
     <Window.Resources>
 
-        <Style TargetType="TextBox">
+        <Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="5,2,2,2"/>
             <Setter Property="MinWidth" Value="50"/>
             <Setter Property="IsReadOnly" Value="{Binding Busy}"/>
@@ -68,110 +71,17 @@
         </Style>
 
     </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <TextBlock Text="{Binding Mode}" HorizontalAlignment="Center"></TextBlock>
 
-        <Grid Grid.Row="1" Background="Orange" DataContext="{Binding SorterRandomSamplerVm}" >
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            
-            <Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+		<TextBlock Text="{Binding Mode}" HorizontalAlignment="Center"/>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <TextBlock Text="Key count"/>
-                    <TextBox Text="{Binding KeyCount}" />
-                </StackPanel>
+		<views:SorterRandomSamplerControl Margin="0,15.96,0,0" Grid.RowSpan="2"/>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <TextBlock Text="Report frequency"/>
-                    <TextBox Text="{Binding ReportFrequency}" />
-                </StackPanel>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <TextBlock Text="Low range max"/>
-                    <TextBox Text="{Binding LowRangeMax}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <TextBlock Text="High range min"/>
-                    <TextBox Text="{Binding HighRangeMin}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="7" Orientation="Horizontal">
-                    <TextBlock Text="Seed"/>
-                    <TextBox Text="{Binding Seed}" />
-                </StackPanel>
-                
-                <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Command="{Binding RandGenCommand}" Style="{DynamicResource ButtonStyle1}">Start</Button>
-                    <Button Command="{Binding StopRandGenCommand}" Style="{DynamicResource ButtonStyle1}">Stop</Button>
-                </StackPanel>
-
-                <StackPanel Grid.Row="9" Orientation="Horizontal">
-                    <TextBlock Text="Time"/>
-                    <TextBlock Margin="5,0,0,0" Text="{Binding ProcTime}" />
-                </StackPanel>
-                
-            </Grid>
-
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
-								Width="3" Margin="0,2" Background="#8FFF" />
-            
-            <Grid Background="#8888" Grid.Column="2">
-                
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel>
-                    <TextBlock Text="Switch counts"></TextBlock>
-                    <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
-                             MinWidth="50" Text="{Binding SizeDistributionReport, Mode=OneWay}"/>
-                </StackPanel>
-                
-                <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
-								Width="3" Margin="0,2" Background="#8FFF" />
-                
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="Selected switches" HorizontalAlignment="Center" />
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-
-                        <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
-                             MinWidth="50" Text="{Binding SelectedSwitchReport, Mode=OneWay}"/>
-
-                    </ScrollViewer>
-                </StackPanel>
-                
-            </Grid>
-            
-        </Grid>
-
-        
-    </Grid>
+	</Grid>
 </Window>

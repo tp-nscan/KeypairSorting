@@ -62,8 +62,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BackgroundWorkers\IterativeBackgroundWorkerFixture.cs" />
-    <Compile Include="BackgroundWorkers\BackgroundWorkerFixture.cs" />
+    <Compile Include="BackgroundWorkers\RecursiveBackgroundWorkerFixture.cs" />
+    <Compile Include="BackgroundWorkers\EnumerativeBackgroundWorkerFixture.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
