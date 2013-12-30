@@ -159,9 +159,9 @@ namespace SorterEvo.Workflows
                 (
                     seed: randy.NextInt(), 
                     newGenomeCount: SorterCompPoolParams.SorterLayerExpandedGenomeCount,
-                    mutationRate: SorterCompPoolParams.SorterMutationRate(Generation),
-                    insertionRate: SorterCompPoolParams.SorterMutationRate(Generation), 
-                    deletionRate: SorterCompPoolParams.SorterDeletionRate(Generation)
+                    mutationRate: SorterCompPoolParams.SorterMutationRate,
+                    insertionRate: SorterCompPoolParams.SorterMutationRate, 
+                    deletionRate: SorterCompPoolParams.SorterDeletionRate
                 );
 
             return new SorterCompPoolWorkflowImpl

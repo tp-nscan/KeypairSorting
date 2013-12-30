@@ -3,66 +3,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="clr-namespace:KeypairSorting.Views"
 	mc:Ignorable="d"
 	x:Class="KeypairSorting.Views.SorterRandomSamplerControl"
 	x:Name="UserControl"
 	d:DesignWidth="517" d:DesignHeight="303.04">
 	<UserControl.Resources>
-		<Style x:Key="FocusVisual">
-			<Setter Property="Control.Template">
-				<Setter.Value>
-					<ControlTemplate>
-						<Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-		<SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-		<SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
-		<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
-		<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
-		<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-		<SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-		<SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-		<SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-		<Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
-			<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-			<Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-			<Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-			<Setter Property="BorderThickness" Value="1"/>
-			<Setter Property="HorizontalContentAlignment" Value="Center"/>
-			<Setter Property="VerticalContentAlignment" Value="Center"/>
-			<Setter Property="Padding" Value="1"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type Button}">
-						<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="2" CornerRadius="4" Padding="2,1">
-							<ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsDefaulted" Value="true">
-								<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-							</Trigger>
-							<Trigger Property="IsMouseOver" Value="true">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-							</Trigger>
-							<Trigger Property="IsPressed" Value="true">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-							</Trigger>
-							<Trigger Property="IsEnabled" Value="false">
-								<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-								<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-								<Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
 
 	</UserControl.Resources>
 
@@ -70,9 +16,9 @@
 		<Grid Background="Orange" DataContext="{Binding SorterRandomSamplerVm}" >
 
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
+				<ColumnDefinition Width="2*"/>
 				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
+				<ColumnDefinition Width="6*"/>
 			</Grid.ColumnDefinitions>
 
 			<Grid>
@@ -92,44 +38,43 @@
 				</Grid.RowDefinitions>
 
 				<StackPanel Grid.Row="0" Orientation="Horizontal">
-					<TextBlock Text="Key count"/>
-					<TextBox Text="{Binding KeyCount}" />
+					<TextBlock Text="Key count" Style="{DynamicResource PlainTextBlockStyle}"/>
+					<TextBox Text="{Binding KeyCount}" Style="{DynamicResource PlainTextBoxStyle}" />
 				</StackPanel>
 
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
-					<TextBlock Text="Report frequency"/>
-					<TextBox Text="{Binding ReportFrequency}" />
+					<TextBlock Text="Report frequency" Style="{DynamicResource PlainTextBlockStyle}" />
+					<TextBox Text="{Binding ReportFrequency}" Style="{DynamicResource PlainTextBoxStyle}" />
 				</StackPanel>
 
 				<StackPanel Grid.Row="2" Orientation="Horizontal">
-					<TextBlock Text="Low range max"/>
-					<TextBox Text="{Binding LowRangeMax}" />
+					<TextBlock Text="Low range max" Style="{DynamicResource PlainTextBlockStyle}" />
+					<TextBox Text="{Binding LowRangeMax}" Style="{DynamicResource PlainTextBoxStyle}" />
 				</StackPanel>
 
 				<StackPanel Grid.Row="3" Orientation="Horizontal">
-					<TextBlock Text="High range min"/>
-					<TextBox Text="{Binding HighRangeMin}" />
+					<TextBlock Text="High range min" Style="{DynamicResource PlainTextBlockStyle}" />
+					<TextBox Text="{Binding HighRangeMin}" Style="{DynamicResource PlainTextBoxStyle}" />
 				</StackPanel>
 
 				<StackPanel Grid.Row="4" Orientation="Horizontal">
-					<TextBlock Text="Seed"/>
-					<TextBox Text="{Binding Seed}" />
+					<TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
+					<TextBox Text="{Binding Seed}" Style="{DynamicResource PlainTextBoxStyle}" />
 				</StackPanel>
 
 				<WrapPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-					<Button Command="{Binding RandGenCommand}" Style="{DynamicResource ButtonStyle1}" Content="Start"/>
-					<Button Command="{Binding StopRandGenCommand}" Style="{DynamicResource ButtonStyle1}" Content="Stop"/>
-					<Button Command="{Binding ResetCommand}" Style="{DynamicResource ButtonStyle1}" Content="Reset"/>
-					<Button Command="{Binding CopyGridCommand}" Style="{DynamicResource ButtonStyle1}" Content="Copy grid"/>
+					<Button Command="{Binding RandGenCommand}" Content="Start" Style="{DynamicResource PlainButtonStyle}"/>
+					<Button Command="{Binding StopRandGenCommand}"  Content="Stop" Style="{DynamicResource PlainButtonStyle}"/>
+					<Button Command="{Binding ResetCommand}"  Content="Reset" Style="{DynamicResource PlainButtonStyle}"/>
 				</WrapPanel>
 
 				<StackPanel Grid.Row="6" Orientation="Horizontal">
-					<TextBlock Text="Sort fails"/>
-					<TextBlock Margin="5,0,0,0" Text="{Binding SortFails}" />
+					<TextBlock Text="Sort fails" Style="{DynamicResource PlainTextBlockStyle}"/>
+					<TextBlock Margin="5,0,0,0" Text="{Binding SortFails}" Style="{DynamicResource PlainTextBlockStyle}"/>
 				</StackPanel>
 
 				<StackPanel Grid.Row="7" Orientation="Horizontal">
-					<TextBlock Text="Time"/>
+					<TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}"/>
 					<TextBlock Margin="5,0,0,0" Text="{Binding ProcTime}" />
 				</StackPanel>
 
@@ -156,12 +101,13 @@
 					Width="3" Margin="0,2" Background="#8FFF" />
 
 				<DockPanel LastChildFill="True" Grid.Column="2">
-					<TextBlock DockPanel.Dock="Top" Text="Selected switches" HorizontalAlignment="Center" />
+					
+					<TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Selected switches" 
+						HorizontalAlignment="Center" />
 
-
-					<DataGrid x:Name="dataGrid" VerticalScrollBarVisibility="Auto"
-						DockPanel.Dock="Bottom"
-						ItemsSource="{Binding SorterOnSwitchableGroupVms}"/>
+					<views:SorterEvalGridControl />
 
 				</DockPanel>
 

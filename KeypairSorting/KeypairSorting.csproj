@@ -69,10 +69,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\SorterEvalGridVm.cs" />
+    <Compile Include="ViewModels\SorterGridVm.cs" />
+    <Compile Include="ViewModels\SorterVm.cs" />
+    <Compile Include="Views\SorterEvalGridControl.xaml.cs">
+      <DependentUpon>SorterEvalGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SorterCompPoolParamsVm.cs" />
+    <Compile Include="Views\SorterCompPoolParamsControl.xaml.cs">
+      <DependentUpon>SorterCompPoolParamsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SorterGridControl.xaml.cs">
+      <DependentUpon>SorterGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SorterRandomSamplerControl.xaml.cs">
       <DependentUpon>SorterRandomSamplerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SorterOnSwitchableGroupVm.cs" />
+    <Page Include="Resources\CommonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SorterEvalGridControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SorterCompPoolParamsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SorterGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SorterRandomSamplerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

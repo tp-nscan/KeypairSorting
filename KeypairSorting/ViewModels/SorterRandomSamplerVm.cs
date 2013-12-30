@@ -310,6 +310,46 @@ namespace KeypairSorting.ViewModels
         #endregion // CopyGridCommand
 
 
+        #region PasteGridCommand
+
+        RelayCommand _pasteGridCommand;
+        public ICommand PasteGridCommand
+        {
+            get
+            {
+                return _pasteGridCommand ?? (_pasteGridCommand
+                    = new RelayCommand
+                        (
+                            param => OnPasteGridCommand(),
+                            param => CanPasteGridCommand()
+                        ));
+            }
+        }
+
+        protected void OnPasteGridCommand()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var sorterOnSwitchableGroupVm in SorterOnSwitchableGroupVms)
+            {
+                sb.AppendLine(
+                                sorterOnSwitchableGroupVm.SwitchesUsed + "\t" +
+                                sorterOnSwitchableGroupVm.Success + "\t" +
+                                sorterOnSwitchableGroupVm.SorterJson
+                              );
+            }
+
+            Clipboard.SetText(sb.ToString());
+        }
+
+        bool CanPasteGridCommand()
+        {
+            return Clipboard.ContainsText();
+        }
+
+        #endregion // PasteGridCommand
+
+
         public string SizeDistributionReport
         {
             get

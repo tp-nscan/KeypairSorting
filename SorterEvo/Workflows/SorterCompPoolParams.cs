@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SorterEvo.Workflows
 {
@@ -8,9 +7,9 @@ namespace SorterEvo.Workflows
         string Name { get; }
         int SorterLayerStartingGenomeCount { get; }
         int SorterLayerExpandedGenomeCount { get; }
-        double SorterMutationRate(int generation);
-        double SorterInsertionRate(int generation);
-        double SorterDeletionRate(int generation);
+        double SorterMutationRate { get; }
+        double SorterInsertionRate { get; }
+        double SorterDeletionRate { get; }
     }
 
     public static class SorterCompPoolParams
@@ -120,21 +119,21 @@ namespace SorterEvo.Workflows
             get { return _sorterLayerExpandedGenomeCount; }
         }
         private readonly double _sorterMutationRate;
-        public double SorterMutationRate(int generation)
+        public double SorterMutationRate
         {
-            return _sorterMutationRate; 
+            get { return _sorterMutationRate; }
         }
 
         private readonly double _sorterInsertionRate;
-        public double SorterInsertionRate(int generation)
+        public double SorterInsertionRate
         {
-            return _sorterInsertionRate; 
+            get { return _sorterInsertionRate; }
         }
 
         private readonly double _sorterDeletionRate;
-        public double SorterDeletionRate(int generation)
+        public double SorterDeletionRate
         {
-            return _sorterDeletionRate; 
+            get { return _sorterDeletionRate; }
         }
     }
 }
