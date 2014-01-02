@@ -37,7 +37,7 @@ namespace SorterEvo.Trackers
 
         public static ISorterOnSwitchableGroup SorterRefScore(ISorterGenome sorterGenome)
         {
-            return sorterGenome.ToSorter().FullTest(sorterGenome.KeyCount);
+            return sorterGenome.ToSorter().FullTest();
         }
 
         public static object SwitchableGroupRefScore(ISwitchableGroupGenome switchableGroupGenome)

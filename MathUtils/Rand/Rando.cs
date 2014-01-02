@@ -187,17 +187,17 @@ namespace MathUtils.Rand
             {
                 yield return new Guid
                     (
-                    (uint) rando.NextInt(),
-                    (ushort) rando.NextInt(),
-                    (ushort) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt(),
-                    (byte) rando.NextInt()
+                        (uint) rando.NextInt(),
+                        (ushort) rando.NextInt(),
+                        (ushort) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt(),
+                        (byte) rando.NextInt()
                     );
             }
         }

@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using KeypairSorting.ViewModels;
 using Sorting.Json.Sorters;
+using Sorting.Json.Switchables;
+using Sorting.Switchables;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class SorterGridVm : ViewModelBase
+    public class SwitchableGroupGridVm : ViewModelBase
     {
+        private readonly ObservableCollection<SwitchableGroupVm> _switchableGroupVms = new ObservableCollection<SwitchableGroupVm>();
+
+        public ObservableCollection<SwitchableGroupVm> SwitchableGroupVms
+        {
+            get { return _switchableGroupVms; }
+        }
+
 
         #region CopyGridCommand
 
@@ -33,9 +44,9 @@ namespace KeypairSorting.ViewModels
         {
             var sb = new StringBuilder();
 
-            foreach (var sorterVm in SorterVms)
+            foreach (var switchableGroupVm in SwitchableGroupVms)
             {
-                sb.AppendLine(sorterVm.SorterJson);
+                sb.AppendLine(switchableGroupVm.SwitchableGroupJson);
             }
 
             Clipboard.SetText(sb.ToString());
@@ -66,14 +77,14 @@ namespace KeypairSorting.ViewModels
 
         protected void OnPasteGridCommand()
         {
-            var vmList = new List<SorterVm>();
+            var vmList = new List<SwitchableGroupVm>();
             try
             {
                 var clipboardLines = Clipboard.GetText().Split("\n".ToCharArray());
 
-                foreach(var line in clipboardLines.Where( t=> ! String.IsNullOrEmpty(t)) )
+                foreach (var line in clipboardLines.Where(t => !String.IsNullOrEmpty(t)))
                 {
-                    vmList.Add(new SorterVm(line.ToSorter()));
+                    vmList.Add(new SwitchableGroupVm(line.ToSwitchableGroup()));
                 }
             }
             catch (Exception)
@@ -81,7 +92,8 @@ namespace KeypairSorting.ViewModels
                 MessageBox.Show("cant parse data on clipboard");
                 return;
             }
-            SorterVms.AddMany(vmList);
+
+            SwitchableGroupVms.AddMany(vmList);
         }
 
         bool CanPasteGridCommand()
@@ -91,11 +103,7 @@ namespace KeypairSorting.ViewModels
 
         #endregion // PasteGridCommand
 
-        private readonly ObservableCollection<SorterVm> _sorterVms = new ObservableCollection<SorterVm>();
-        public ObservableCollection<SorterVm> SorterVms
-        {
-            get { return _sorterVms; }
-        }
 
     }
+
 }

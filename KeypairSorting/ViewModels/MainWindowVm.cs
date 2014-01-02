@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfUtils;
 
@@ -10,16 +6,38 @@ namespace KeypairSorting.ViewModels
 {
     public class MainWindowVm : ViewModelBase
     {
-        private readonly SorterRandomSamplerVm _sorterRandomSamplerVm;
 
         public MainWindowVm()
         {
-            _sorterRandomSamplerVm = new SorterRandomSamplerVm();
+            //_sorterRandomSamplerVm = new SorterRandomSamplerVm();
+           // _sorterEvalVm = new SorterEvalVm();
+            //_makeSwitchableGroupsVm = new MakeSwitchableGroupsVm();
+            _makeSorterOnSwitchableGroupVms = new MakeSorterOnSwitchableGroupsVm();
         }
 
-        public SorterRandomSamplerVm SorterRandomSamplerVm
+        //private readonly SorterRandomSamplerVm _sorterRandomSamplerVm;
+        //public SorterRandomSamplerVm SorterRandomSamplerVm
+        //{
+        //    get { return _sorterRandomSamplerVm; }
+        //}
+
+        //private readonly SorterEvalVm _sorterEvalVm;
+        //public SorterEvalVm SorterEvalVm
+        //{
+        //    get { return _sorterEvalVm; }
+        //}
+
+        //private readonly MakeSwitchableGroupsVm _makeSwitchableGroupsVm;
+        //public MakeSwitchableGroupsVm MakeSwitchableGroupsVm
+        //{
+        //    get { return _makeSwitchableGroupsVm; }
+        //}
+
+
+        private readonly MakeSorterOnSwitchableGroupsVm _makeSorterOnSwitchableGroupVms;
+        public MakeSorterOnSwitchableGroupsVm MakeSorterOnSwitchableGroupVms
         {
-            get { return _sorterRandomSamplerVm; }
+            get { return _makeSorterOnSwitchableGroupVms; }
         }
 
         public string Mode
@@ -31,6 +49,7 @@ namespace KeypairSorting.ViewModels
         #region CloseCommand
 
         private RelayCommand _closeCommand;
+
         /// <summary>
         /// Returns the command that, when invoked, attempts
         /// to remove this workspace from the user interface.

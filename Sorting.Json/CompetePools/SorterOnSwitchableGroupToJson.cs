@@ -42,7 +42,7 @@ namespace Sorting.Json.CompetePools
         {
             return SorterOnSwitchableGroup.Make
                 (
-                    sorter: SorterToJson.ToSorter(sorterOnSwitchableGroupToJson.SorterToJson),
+                    sorter: sorterOnSwitchableGroupToJson.SorterToJson.ToSorter(),
                     switchableGroupGuid: sorterOnSwitchableGroupToJson.SwitchableGroupGuid,
                     //switchUseList: sorterOnSwitchableGroupToJson.SwitchUseList,
                     switchUseList: null,

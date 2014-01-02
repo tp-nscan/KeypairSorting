@@ -24,7 +24,11 @@ namespace Sorting.CompetePools
             var sortersList = sorters.ToList();
             var keyCount = sortersList[0].KeyCount;
             KeyPairSwitchSet.Make<uint>(keyCount);
-            var switchables = Switchable.AllSwitchablesForKeyCount(keyCount).ToSwitchableGroup(Guid.NewGuid(), keyCount);
+            var switchables = Switchable.AllSwitchablesForKeyCount(keyCount).ToSwitchableGroup
+                (
+                    guid: SwitchableGroup.GuidOfAllSwitchableGroupsForKeyCount(keyCount), 
+                    keyCount: keyCount
+                );
 
             return new CompPoolImpl(
                     sortersList,

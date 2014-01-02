@@ -97,7 +97,10 @@ namespace KeypairSorting.Models
             int switchLength)
         {
             KeyPairSwitchSet.Make<uint>(keyCount);
-            var testSet = Switchable.AllSwitchablesForKeyCount(keyCount).ToSwitchableGroup(Guid.NewGuid(), keyCount);
+            var testSet = Switchable.AllSwitchablesForKeyCount(keyCount).ToSwitchableGroup(
+                guid: SwitchableGroup.GuidOfAllSwitchableGroupsForKeyCount(keyCount), 
+                keyCount:keyCount);
+
             foreach (var chunk in RandomSorters(seed, keyCount, switchLength).Chunk(16))
             {
                 yield return chunk.AsParallel().Select(s => s.Sort(testSet));

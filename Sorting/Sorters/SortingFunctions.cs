@@ -50,12 +50,12 @@ namespace Sorting.Sorters
             return SorterOnSwitchableGroup.Make(sorter, switchableGroup.Guid, switchUseList, totalSuccess);
         }
 
-        public static ISorterOnSwitchableGroup FullTest(this ISorter sorter, int keyCount)
+        public static ISorterOnSwitchableGroup FullTest(this ISorter sorter)
         {
-            return sorter.Sort (
-                            Switchable.AllSwitchablesForKeyCount(keyCount)
-                                        .ToSwitchableGroup(Guid.NewGuid(), keyCount)
-                    );
+            return sorter.Sort(Switchable.AllSwitchablesForKeyCount(sorter.KeyCount)
+                .ToSwitchableGroup(
+                guid: SwitchableGroup.GuidOfAllSwitchableGroupsForKeyCount(sorter.KeyCount), 
+                keyCount:sorter.KeyCount));
         }
 
     }

@@ -12,14 +12,12 @@ namespace Entities.Test.BackgroundWorkers
         [TestMethod]
         public void TestCtor()
         {
-            var tokenSource = new CancellationTokenSource();
             var inputs = new[] {42,43,44,45};
 
             var ibw = EnumerativeBackgroundWorker.Make
                 (
                     inputs,
-                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete),
-                    tokenSource
+                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete)
                 );
 
             Assert.AreEqual(ibw.CurrentInput, inputs[0]);
@@ -36,13 +34,12 @@ namespace Entities.Test.BackgroundWorkers
             var ibw = EnumerativeBackgroundWorker.Make
                 (
                     inputs,
-                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete),
-                    tokenSource
+                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete)
                 );
 
             var nextResult = 0;
             ibw.OnIterationResult.Subscribe(r => nextResult = r.Data);
-            ibw.Start();
+            ibw.Start(tokenSource);
             Thread.Sleep(100);
 
             Assert.AreEqual(ibw.CurrentInput, default(int));
@@ -57,11 +54,10 @@ namespace Entities.Test.BackgroundWorkers
             var tokenSource = new CancellationTokenSource();
             var inputs = new[] { 42, 43, 44, 45 };
 
-            var ibw = EnumerativeBackgroundWorker.Make<int,int>
+            var ibw = EnumerativeBackgroundWorker.Make
                 (
                     inputs,
-                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete),
-                    tokenSource
+                    (i, c) => IterationResult.Make(i + 1, ProgressStatus.StepComplete)
                 );
 
             var nextResult = 0;
@@ -72,7 +68,7 @@ namespace Entities.Test.BackgroundWorkers
                     tokenSource.Cancel();
                 });
 
-            ibw.Start();
+            ibw.Start(tokenSource);
             Thread.Sleep(100);
 
             Assert.IsTrue(ibw.CurrentOutput < 46);

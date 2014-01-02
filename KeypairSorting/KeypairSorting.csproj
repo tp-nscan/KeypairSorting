@@ -69,11 +69,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\MakeSorterOnSwitchableGroupsVm.cs" />
+    <Compile Include="ViewModels\MakeSwitchableGroupsVm.cs" />
     <Compile Include="ViewModels\SorterEvalGridVm.cs" />
+    <Compile Include="ViewModels\MakeSorterEvalsVm.cs" />
     <Compile Include="ViewModels\SorterGridVm.cs" />
     <Compile Include="ViewModels\SorterVm.cs" />
-    <Compile Include="Views\SorterEvalGridControl.xaml.cs">
-      <DependentUpon>SorterEvalGridControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\SwitchableGroupGridVm.cs" />
+    <Compile Include="ViewModels\SwitchableGroupVm.cs" />
+    <Compile Include="Views\MakeSorterOnSwitchableGroupsControl.xaml.cs">
+      <DependentUpon>MakeSorterOnSwitchableGroupsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MakeSwitchableGroupsControl.xaml.cs">
+      <DependentUpon>MakeSwitchableGroupsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MakeSorterEvalsControl.xaml.cs">
+      <DependentUpon>MakeSorterEvalsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SorterEvalsGridControl.xaml.cs">
+      <DependentUpon>SorterEvalsGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SorterCompPoolParamsVm.cs" />
     <Compile Include="Views\SorterCompPoolParamsControl.xaml.cs">
@@ -82,15 +96,30 @@
     <Compile Include="Views\SorterGridControl.xaml.cs">
       <DependentUpon>SorterGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SorterRandomSamplerControl.xaml.cs">
-      <DependentUpon>SorterRandomSamplerControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeRandomSorterControl.xaml.cs">
+      <DependentUpon>MakeRandomSorterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SorterOnSwitchableGroupVm.cs" />
+    <Compile Include="Views\SwitchableGroupGridControl.xaml.cs">
+      <DependentUpon>SwitchableGroupGridControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\CommonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SorterEvalGridControl.xaml">
+    <Page Include="Views\MakeSorterOnSwitchableGroupsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeSwitchableGroupsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeSorterEvalsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SorterEvalsGridControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -102,7 +131,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SorterRandomSamplerControl.xaml">
+    <Page Include="Views\MakeRandomSorterControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -116,11 +145,15 @@
     </Compile>
     <Compile Include="Models\SorterRandomSampler.cs" />
     <Compile Include="ViewModels\MainWindowVm.cs" />
-    <Compile Include="ViewModels\SorterRandomSamplerVm.cs" />
+    <Compile Include="ViewModels\MakeRandomSorterVm.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SwitchableGroupGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

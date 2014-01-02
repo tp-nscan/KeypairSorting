@@ -9,8 +9,6 @@ namespace KeypairSorting.ViewModels
 {
     public class SorterEvalGridVm : ViewModelBase
     {
-        private readonly Dictionary<int, int> _switchUseHistoGram = new Dictionary<int, int>();
-
         private ObservableCollection<ISorterOnSwitchableGroupVm> _sorterOnSwitchableGroupVms
                 = new ObservableCollection<ISorterOnSwitchableGroupVm>();
         public ObservableCollection<ISorterOnSwitchableGroupVm> SorterOnSwitchableGroupVms
@@ -18,7 +16,6 @@ namespace KeypairSorting.ViewModels
             get { return _sorterOnSwitchableGroupVms; }
             set { _sorterOnSwitchableGroupVms = value; }
         }
-
 
         #region CopyGridCommand
 
@@ -58,7 +55,6 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // CopyGridCommand
-
 
     }
 }

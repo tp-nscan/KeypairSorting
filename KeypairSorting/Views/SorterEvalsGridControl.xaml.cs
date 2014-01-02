@@ -5,9 +5,9 @@ namespace KeypairSorting.Views
 	/// <summary>
 	/// Interaction logic for SorterGridControl.xaml
 	/// </summary>
-	public partial class SorterEvalGridControl : UserControl
+	public partial class SorterEvalsGridControl : UserControl
 	{
-		public SorterEvalGridControl()
+		public SorterEvalsGridControl()
 		{
 			this.InitializeComponent();
 		}

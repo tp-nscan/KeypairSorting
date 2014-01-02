@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:KeypairSorting="clr-namespace:KeypairSorting"
         xmlns:views="clr-namespace:KeypairSorting.Views"
+        xmlns:viewModels="clr-namespace:KeypairSorting.ViewModels"
         x:Class="KeypairSorting.Views.MainWindow"
         Title="MainWindow" Height="350" Width="525">
 
@@ -18,8 +19,13 @@
 
 		<TextBlock Text="{Binding Mode}" HorizontalAlignment="Center"/>
 
-		<views:SorterRandomSamplerControl Margin="0,15.96,0,0" Grid.RowSpan="2"/>
+        <!--<views:MakeRandomSorterControl DataContext="{Binding MakeRandomSorterVm}" Grid.Row="0" Grid.RowSpan="2"/>-->
 
+        <!--<views:MakeSorterEvalsControl  DataContext="{Binding MakeSorterEvalsVm}" Grid.Row="0" Grid.RowSpan="2"/>-->
 
-	</Grid>
+        <!--<views:MakeSwitchableGroupsControl  DataContext="{Binding MakeSwitchableGroupsVm}" Grid.Row="0" Grid.RowSpan="2"/>-->
+
+        <views:MakeSorterOnSwitchableGroupsControl DataContext="{Binding MakeSorterOnSwitchableGroupVms}" Grid.Row="0" Grid.RowSpan="2"/>
+        
+    </Grid>
 </Window>

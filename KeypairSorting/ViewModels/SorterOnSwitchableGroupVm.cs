@@ -1,4 +1,5 @@
-﻿using Sorting.CompetePools;
+﻿using System;
+using Sorting.CompetePools;
 using Sorting.Json.Sorters;
 using WpfUtils;
 
@@ -43,6 +44,8 @@ namespace KeypairSorting.ViewModels
         }
 
         public bool Success { get { return SorterOnSwitchableGroup.Success; } }
+
+        public Guid SwitchableGroupGuid { get { return SorterOnSwitchableGroup.SwitchableGroupGuid; } }
 
     }
 }

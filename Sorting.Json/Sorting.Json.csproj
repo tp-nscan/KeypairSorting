@@ -45,6 +45,7 @@
     <Compile Include="CompetePools\SorterOnSwitchableGroupToJson.cs" />
     <Compile Include="Sorters\SorterToJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Switchables\SwitchableGroupToJson.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathUtils\MathUtils.csproj">

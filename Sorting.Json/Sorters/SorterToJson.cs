@@ -26,15 +26,6 @@ namespace Sorting.Json.Sorters
         public int KeyCount { get; set; }
 
         public List<int> Sequence { get; set; }
-
-        public static ISorter ToSorter(SorterToJson sorterToJson)
-        {
-            return Sorter.ToSorter(
-                    guid: sorterToJson.Guid,
-                    keyPairs: sorterToJson.Sequence.Select(KeyPairRepository.AtIndex),
-                    keyCount: sorterToJson.KeyCount
-                );
-        }
     }
 
     public static class SorterToJsonExt
@@ -42,6 +33,21 @@ namespace Sorting.Json.Sorters
         public static string ToJsonString(this ISorter sorter)
         {
             return JsonConvert.SerializeObject(SorterToJson.ToJsonAdapter(sorter), Formatting.None);
+        }
+
+        public static ISorter ToSorter(this string sorterString)
+        {
+            var sorterToJson = JsonConvert.DeserializeObject<SorterToJson>(sorterString);
+            return sorterToJson.ToSorter();
+        }
+
+        public static ISorter ToSorter(this SorterToJson sorterToJson)
+        {
+            return Sorter.ToSorter(
+                    guid: sorterToJson.Guid,
+                    keyPairs: sorterToJson.Sequence.Select(KeyPairRepository.AtIndex),
+                    keyCount: sorterToJson.KeyCount
+                );
         }
     }
 }

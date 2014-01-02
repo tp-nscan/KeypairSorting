@@ -17,10 +17,30 @@ namespace Sorting.Switchables
         int KeyCount { get; }
         int SwitchableCount { get; }
         Type SwitchableDataType { get; }
+        IEnumerable<string> SwitchableStrings { get; }  
     }
 
-    public static class SwitchableGroupImpl
+    public static class SwitchableGroup
     {
+        const int AllSwitchableGroupsForKeyCount = 1;
+
+        public static Guid GuidOfAllSwitchableGroupsForKeyCount(int keyCount)
+        {
+            return new Guid(
+                    a: AllSwitchableGroupsForKeyCount,
+                    b: (short)keyCount, 
+                    c: 3, 
+                    d: 4, 
+                    e: 5, 
+                    f:6, 
+                    g:7, 
+                    h:8, 
+                    i:9, 
+                    j:10, 
+                    k: 11
+                );
+        }
+
         public static ISwitchableGroup<T> ToSwitchableGroup<T>(this IEnumerable<ISwitchable<T>> switchables, Guid guid, int keyCount)
         {
             return new SwitchableGroupImpl<T>(guid, keyCount, switchables);
@@ -88,6 +108,11 @@ namespace Sorting.Switchables
         public Type SwitchableDataType
         {
             get { return _switchableDataType; }
+        }
+
+        public IEnumerable<string> SwitchableStrings
+        {
+            get { return Switchables.Select(s=>s.Item.ToString()); }
         }
     }
 }

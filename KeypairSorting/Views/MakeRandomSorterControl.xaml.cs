@@ -5,9 +5,9 @@ namespace KeypairSorting.Views
 	/// <summary>
 	/// Interaction logic for SorterRandomSamplerControl.xaml
 	/// </summary>
-	public partial class SorterRandomSamplerControl : UserControl
+	public partial class MakeRandomSorterControl : UserControl
 	{
-		public SorterRandomSamplerControl()
+		public MakeRandomSorterControl()
 		{
 			this.InitializeComponent();
 		}

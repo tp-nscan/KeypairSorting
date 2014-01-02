@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="KeypairSorting.Views.MakeSwitchableGroupsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:KeypairSorting.Views"
+             mc:Ignorable="d" 
+	        d:DesignWidth="517" d:DesignHeight="303.04">
+    
+    <Grid x:Name="LayoutRoot">
+        <Grid Background="Orange">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="Key count" Style="{DynamicResource PlainTextBlockStyle}"/>
+                    <TextBox Text="{Binding KeyCount}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="Group size" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding GroupSize}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock Text="Group count" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding GroupCount}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
+                
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding Seed}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
+
+                <WrapPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Command="{Binding RandGenCommand}" Content="Make" Style="{DynamicResource PlainButtonStyle}"/>
+                    <Button Command="{Binding ResetCommand}"  Content="Reset" Style="{DynamicResource PlainButtonStyle}"/>
+                </WrapPanel>
+
+            </Grid>
+
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+				Width="3" Margin="0,2" Background="#8FFF" />
+
+            <DockPanel LastChildFill="True" Grid.Column="2">
+
+                <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Generated switchable groups" 
+						HorizontalAlignment="Center" />
+
+                <views:SwitchableGroupGridControl DataContext="{Binding SwitchableGroupGridVm}" />
+
+            </DockPanel>
+
+        </Grid>
+    </Grid>
+    
+    
+</UserControl>

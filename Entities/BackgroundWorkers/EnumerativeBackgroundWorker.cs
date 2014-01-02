@@ -10,7 +10,7 @@ namespace Entities.BackgroundWorkers
     public interface IEnumerativeBackgroundWorker<TD, TR>
     {
         IObservable<IIterationResult<TR>> OnIterationResult { get; }
-        Task Start();
+        Task Start(CancellationTokenSource cancellationTokenSource);
         void Stop();
         int CurrentIteration { get; }
         TD CurrentInput { get; }
@@ -23,15 +23,13 @@ namespace Entities.BackgroundWorkers
         public static IEnumerativeBackgroundWorker<TD, TR> Make<TD, TR>
         (
             IEnumerable<TD> inputs,
-            Func<TD, CancellationToken, IIterationResult<TR>> mapper,
-            CancellationTokenSource cancellationTokenSource
+            Func<TD, CancellationToken, IIterationResult<TR>> mapper
         )
             {
                 return new EnumerativeBackgroundWorkerImpl<TD, TR>
                     (
                         inputs: inputs,
-                        mapper: mapper,
-                        cancellationTokenSource: cancellationTokenSource
+                        mapper: mapper
                     );
             }
     }
@@ -41,13 +39,11 @@ namespace Entities.BackgroundWorkers
         public EnumerativeBackgroundWorkerImpl
             (
                 IEnumerable<TD> inputs,
-                Func<TD, CancellationToken, IIterationResult<TR>> mapper,
-                CancellationTokenSource cancellationTokenSource
+                Func<TD, CancellationToken, IIterationResult<TR>> mapper
             )
         {
             _inputs = inputs.ToList();
             _mapper = mapper;
-            _cancellationTokenSource = cancellationTokenSource;
         }
 
         private readonly List<TD> _inputs;
@@ -59,12 +55,13 @@ namespace Entities.BackgroundWorkers
             get { return _onIterationResult; }
         }
 
-        public async Task Start()
+        public async Task Start(CancellationTokenSource cancellationTokenSource)
         {
+            _cancellationTokenSource = cancellationTokenSource;
             var keepGoing = true;
             while ((CurrentIteration < TotalIterations) & keepGoing)
             {
-                if (_cancellationTokenSource.IsCancellationRequested)
+                if (cancellationTokenSource.IsCancellationRequested)
                 {
                     _onIterationResult.OnNext(
                         IterationResult.Make(default(TR), ProgressStatus.StepIncomplete)
@@ -73,7 +70,7 @@ namespace Entities.BackgroundWorkers
                 }
 
                 var result = IterationResult.Make(default(TR), ProgressStatus.StepIncomplete);
-                await Task.Run(() => result = _mapper(CurrentInput, _cancellationTokenSource.Token));
+                await Task.Run(() => result = _mapper(CurrentInput, cancellationTokenSource.Token));
 
                 if (result.ProgressStatus != ProgressStatus.StepComplete)
                 {
@@ -88,7 +85,8 @@ namespace Entities.BackgroundWorkers
             }
         }
 
-        private readonly CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
+
         public void Stop()
         {
             _cancellationTokenSource.Cancel();
