@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
 using KeypairSorting.Models;
+using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.Parts;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeRandomSorterVm : ViewModelBase
+    public class MakeRandomSorterVm : ViewModelBase, IToolTemplateVm
     {
         public MakeRandomSorterVm()
         {
@@ -28,6 +30,15 @@ namespace KeypairSorting.ViewModels
             }
         }
 
+        public ToolTemplateType ToolTemplateType
+        {
+            get { return ToolTemplateType.RandomSorter; }
+        }
+
+        public string Description
+        {
+            get { return "Make random Sorters"; }
+        }
 
         private SorterEvalGridVm _sorterEvalGridVm = new SorterEvalGridVm();
         public SorterEvalGridVm SorterEvalGridVm
@@ -259,7 +270,6 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // ResetCommand
-
 
         private readonly Dictionary<int, int> _switchUseHistoGram = new Dictionary<int, int>();
 

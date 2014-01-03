@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
+using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.Parts;
 using Sorting.CompetePools;
 using Sorting.Json.Sorters;
 using Sorting.Sorters;
@@ -12,13 +14,23 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeSorterEvalsVm : ViewModelBase
+    public class MakeSorterEvalsVm : ViewModelBase, IToolTemplateVm
     {
         public MakeSorterEvalsVm()
         {
             ReportFrequency = 50;
             _sorterEvalGridVm = new SorterEvalGridVm();
             _sorterGridVm = new SorterGridVm();
+        }
+
+        public ToolTemplateType ToolTemplateType
+        {
+            get { return ToolTemplateType.SorterEval; }
+        }
+
+        public string Description
+        {
+            get { return "Evaluate Sorters"; }
         }
 
         private readonly SorterEvalGridVm _sorterEvalGridVm;

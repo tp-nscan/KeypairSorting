@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:views="clr-namespace:KeypairSorting.Views"
+	xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
 	mc:Ignorable="d"
 	x:Class="KeypairSorting.Views.MakeRandomSorterControl"
 	x:Name="UserControl"
@@ -107,7 +108,7 @@
 						Text="Sorters in selected ranges" 
 						HorizontalAlignment="Center" />
 
-                    <views:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
+                    <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
 
 				</DockPanel>
 

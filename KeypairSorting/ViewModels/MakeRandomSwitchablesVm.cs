@@ -1,14 +1,27 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Input;
+using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.Parts;
 using MathUtils.Rand;
 using WpfUtils;
 using Sorting.Switchables;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeSwitchableGroupsVm : ViewModelBase
+    public class MakeRandomSwitchablesVm : ViewModelBase, IToolTemplateVm
     {
+        public ToolTemplateType ToolTemplateType
+        {
+            get { return ToolTemplateType.SwitchableGen; }
+        }
+
+
+        public string Description
+        {
+            get { return "Make random switchables"; }
+        }
+
         private int? _groupCount;
         public int? GroupCount
         {
@@ -82,12 +95,16 @@ namespace KeypairSorting.ViewModels
 
         private void GenerateSwitchableGroups()
         {
-            foreach (var switchableGroupVm in Rando.Fast(Seed.Value).ToRandomEnumerator().Take(GroupCount.Value)
-                .Select(r => r.ToSwitchableGroup<uint>(Guid.NewGuid(), KeyCount.Value, GroupSize.Value))
-                .Select(s => s.ToSwitchableGroupVm()))
+            for (int i = 1; i < 41; i++)
             {
-                SwitchableGroupGridVm.SwitchableGroupVms.Add(switchableGroupVm);
+                foreach (var switchableGroupVm in Rando.Fast(Seed.Value + i).ToRandomEnumerator().Take(GroupCount.Value)
+                    .Select(r => r.ToSwitchableGroup<uint>(Guid.NewGuid(), KeyCount.Value, GroupSize.Value * i))
+                    .Select(s => s.ToSwitchableGroupVm()))
+                {
+                    SwitchableGroupGridVm.SwitchableGroupVms.Add(switchableGroupVm);
+                }
             }
+
         }
 
         bool CanGenerateSwitchableGroups()

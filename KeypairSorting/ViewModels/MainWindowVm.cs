@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using KeypairSorting.Resources;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -9,35 +10,17 @@ namespace KeypairSorting.ViewModels
 
         public MainWindowVm()
         {
-            //_sorterRandomSamplerVm = new SorterRandomSamplerVm();
-           // _sorterEvalVm = new SorterEvalVm();
-            //_makeSwitchableGroupsVm = new MakeSwitchableGroupsVm();
-            _makeSorterOnSwitchableGroupVms = new MakeSorterOnSwitchableGroupsVm();
+
         }
 
-        //private readonly SorterRandomSamplerVm _sorterRandomSamplerVm;
-        //public SorterRandomSamplerVm SorterRandomSamplerVm
-        //{
-        //    get { return _sorterRandomSamplerVm; }
-        //}
-
-        //private readonly SorterEvalVm _sorterEvalVm;
-        //public SorterEvalVm SorterEvalVm
-        //{
-        //    get { return _sorterEvalVm; }
-        //}
-
-        //private readonly MakeSwitchableGroupsVm _makeSwitchableGroupsVm;
-        //public MakeSwitchableGroupsVm MakeSwitchableGroupsVm
-        //{
-        //    get { return _makeSwitchableGroupsVm; }
-        //}
-
-
-        private readonly MakeSorterOnSwitchableGroupsVm _makeSorterOnSwitchableGroupVms;
-        public MakeSorterOnSwitchableGroupsVm MakeSorterOnSwitchableGroupVms
+        public IToolTemplateVm ToolTemplateVm
         {
-            get { return _makeSorterOnSwitchableGroupVms; }
+            get { return _toolTemplateVm; }
+            set
+            {
+                _toolTemplateVm = value;
+                OnPropertyChanged("ToolTemplateVm");
+            }
         }
 
         public string Mode
@@ -46,9 +29,178 @@ namespace KeypairSorting.ViewModels
         }
 
 
+        #region RandomSortersCommand
+
+        RelayCommand _randomSortersCommand;
+        public ICommand RandomSortersCommand
+        {
+            get
+            {
+                return _randomSortersCommand ?? (_randomSortersCommand
+                    = new RelayCommand
+                        (
+                            param => OnRandomSortersCommand(),
+                            param => CanRandomSortersCommand()
+                        ));
+            }
+        }
+
+        protected void OnRandomSortersCommand()
+        {
+            ToolTemplateVm = new MakeRandomSorterVm();
+        }
+
+        bool CanRandomSortersCommand()
+        {
+            return true;
+        }
+
+        #endregion // RandomSortersCommand
+
+        #region EvalSortersCommand
+
+        RelayCommand _evalSortersCommand;
+        public ICommand EvalSortersCommand
+        {
+            get
+            {
+                return _evalSortersCommand ?? (_evalSortersCommand
+                    = new RelayCommand
+                        (
+                            param => OnEvalSortersCommand(),
+                            param => CanEvalSortersCommand()
+                        ));
+            }
+        }
+
+        protected void OnEvalSortersCommand()
+        {
+            ToolTemplateVm = new MakeSorterEvalsVm();
+        }
+
+        bool CanEvalSortersCommand()
+        {
+            return true;
+        }
+
+        #endregion // EvalSortersCommand
+
+        #region SortersSwitchesEvalCommand
+
+        RelayCommand _sortersSwitchesEvalCommand;
+        public ICommand SortersSwitchesEvalCommand
+        {
+            get
+            {
+                return _sortersSwitchesEvalCommand ?? (_sortersSwitchesEvalCommand
+                    = new RelayCommand
+                        (
+                            param => OnSortersSwitchesEvalCommand(),
+                            param => CanSortersSwitchesEvalCommand()
+                        ));
+            }
+        }
+
+        protected void OnSortersSwitchesEvalCommand()
+        {
+            ToolTemplateVm = new MakeSorterSwitchableEvalVm();
+        }
+
+        bool CanSortersSwitchesEvalCommand()
+        {
+            return true;
+        }
+
+        #endregion // SortersSwitchesEvalCommand
+
+        #region SortersSwitchesEvalCommand
+
+        RelayCommand _genomeGenCommand;
+        public ICommand GenomeGenCommand
+        {
+            get
+            {
+                return _genomeGenCommand ?? (_genomeGenCommand
+                    = new RelayCommand
+                        (
+                            param => OnGenomeGenCommand(),
+                            param => CanGenomeGenCommand()
+                        ));
+            }
+        }
+
+        protected void OnGenomeGenCommand()
+        {
+            ToolTemplateVm = new MakeSorterGenomesVm();
+        }
+
+        bool CanGenomeGenCommand()
+        {
+            return true;
+        }
+
+        #endregion // SortersSwitchesEvalCommand
+
+        #region RandomSwitchesCommand
+
+        RelayCommand _randomSwitchesCommand;
+        public ICommand RandomSwitchesCommand
+        {
+            get
+            {
+                return _randomSwitchesCommand ?? (_randomSwitchesCommand
+                    = new RelayCommand
+                        (
+                            param => OnRandomSwitchesCommand(),
+                            param => CanRandomSwitchesCommand()
+                        ));
+            }
+        }
+
+        protected void OnRandomSwitchesCommand()
+        {
+            ToolTemplateVm = new MakeRandomSwitchablesVm();
+        }
+
+        bool CanRandomSwitchesCommand()
+        {
+            return true;
+        }
+
+        #endregion // RandomSwitchesCommand
+
+        #region TuneSortersCommand
+
+        RelayCommand _tuneSortersCommand;
+        public ICommand TuneSortersCommand
+        {
+            get
+            {
+                return _tuneSortersCommand ?? (_tuneSortersCommand
+                    = new RelayCommand
+                        (
+                            param => OnTuneSortersCommand(),
+                            param => CanTuneSortersCommand()
+                        ));
+            }
+        }
+
+        protected void OnTuneSortersCommand()
+        {
+            ToolTemplateVm = new MakeSorterTuneVm();
+        }
+
+        bool CanTuneSortersCommand()
+        {
+            return true;
+        }
+
+        #endregion // TuneSortersCommand
+
         #region CloseCommand
 
         private RelayCommand _closeCommand;
+        private IToolTemplateVm _toolTemplateVm;
 
         /// <summary>
         /// Returns the command that, when invoked, attempts
@@ -67,7 +219,6 @@ namespace KeypairSorting.ViewModels
 
         #endregion // CloseCommand
 
-
         #region RequestClose [event]
 
         /// <summary>
@@ -83,5 +234,6 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // RequestClose [event]
+
     }
 }

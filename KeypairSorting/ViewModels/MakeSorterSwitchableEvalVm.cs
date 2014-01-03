@@ -6,7 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
-using MathUtils.Collections;
+using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.Parts;
 using Sorting.CompetePools;
 using Sorting.Json.Sorters;
 using Sorting.Json.Switchables;
@@ -17,14 +18,25 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeSorterOnSwitchableGroupsVm : ViewModelBase
+    public class MakeSorterSwitchableEvalVm : ViewModelBase, IToolTemplateVm
     {
-        public MakeSorterOnSwitchableGroupsVm()
+        public MakeSorterSwitchableEvalVm()
         {
             ReportFrequency = 50;
             _sorterEvalGridVm = new SorterEvalGridVm();
             _sorterGridVm = new SorterGridVm();
             _switchableGroupGridVm = new SwitchableGroupGridVm();
+        }
+
+
+        public ToolTemplateType ToolTemplateType
+        {
+            get { return ToolTemplateType.SorterSwitchableEval; }
+        }
+
+        public string Description
+        {
+            get { return "Test Sorters against Switchable groups"; }
         }
 
         private readonly SorterEvalGridVm _sorterEvalGridVm;

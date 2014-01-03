@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KeypairSorting.Views
 {
     /// <summary>
-    /// Interaction logic for SorterGridControl.xaml
+    /// Interaction logic for DefaultControl.xaml
     /// </summary>
-    public partial class SorterGridControl : UserControl
+    public partial class DefaultControl : UserControl
     {
-        public SorterGridControl()
+        public DefaultControl()
         {
             InitializeComponent();
         }

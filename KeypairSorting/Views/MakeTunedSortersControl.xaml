@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="KeypairSorting.Views.MakeTunedSortersControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:KeypairSorting.Views"
+             xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+
+    <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="OliveDrab">
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding SorterEvalCommand}" Content="Make"  Style="{DynamicResource PlainButtonStyle}"/>
+            <StackPanel Grid.Row="4" Orientation="Vertical" Margin="10,0">
+                <TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}" />
+                <TextBlock Text="{Binding ProcTime}" Style="{DynamicResource PlainTextBlockStyle}" />
+            </StackPanel>
+        </StackPanel>
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel LastChildFill="True" Grid.Column="0">
+
+                <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Sorters" 
+						HorizontalAlignment="Center" />
+
+                <parts:SorterGridControl DataContext="{Binding SorterGridVm}" />
+
+            </DockPanel>
+
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+				Width="3" Margin="0,2" Background="#8FFF" />
+
+            <DockPanel LastChildFill="True" Grid.Column="2">
+
+                <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Switchable groups" 
+						HorizontalAlignment="Center" />
+
+                <parts:SorterCompPoolParamsControl DataContext="{Binding SorterCompPoolParamsVm}" />
+
+            </DockPanel>
+
+            <GridSplitter Grid.Column="3" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+				Width="3" Margin="0,2" Background="#8FFF" />
+
+            <DockPanel LastChildFill="True" Grid.Column="4">
+
+                <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Evaluations" 
+						HorizontalAlignment="Center" />
+
+                <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
+
+            </DockPanel>
+        </Grid>
+
+
+    </DockPanel>
+
+</UserControl>

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KeypairSorting.Views
 {
     /// <summary>
-    /// Interaction logic for MakeSorterOnSwitchableGroupsControl.xaml
+    /// Interaction logic for MakeSorterGenomesControl.xaml
     /// </summary>
-    public partial class MakeSorterOnSwitchableGroupsControl : UserControl
+    public partial class MakeSorterGenomesControl : UserControl
     {
-        public MakeSorterOnSwitchableGroupsControl()
+        public MakeSorterGenomesControl()
         {
             InitializeComponent();
         }
