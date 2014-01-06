@@ -77,18 +77,19 @@ namespace SorterEvo.Layers
                 double deletionRate
             )
         {
-            return (sg, i, guid) =>
-            {
-                var randy = Rando.Fast(i);
-                return SorterGenome.Make
-                    (
-                        guid: guid,
-                        parentGuid: sg.Guid,
-                        chromosome: sg.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
-                        keyCount: sg.KeyCount,
-                        keyPairCount: sg.KeyPairCount
-                    );
-            };
+            throw new NotImplementedException();
+            //return (sg, i, guid) =>
+            //{
+            //    var randy = Rando.Fast(i);
+            //    return SorterGenome.Make
+            //        (
+            //            guid: guid,
+            //            parentGuid: sg.Guid,
+            //            chromosome: sg.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
+            //            keyCount: sg.KeyCount,
+            //            keyPairCount: sg.KeyPairCount
+            //        );
+            //};
         }
     }
 

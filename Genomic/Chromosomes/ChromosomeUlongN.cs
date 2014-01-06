@@ -23,7 +23,6 @@ namespace Genomic.Chromosomes
         {
             return new ChromosomeUlongNImpl
                 (
-                    guid: guid,
                     sequence: sequence,
                     maxVal: maxVal
                 );
@@ -33,10 +32,9 @@ namespace Genomic.Chromosomes
     internal class ChromosomeUlongNImpl : ChromosomeImpl<IGeneUlongModN>, IChromosomeUlongN
     {
         public ChromosomeUlongNImpl(
-            Guid guid, 
             IReadOnlyList<uint> sequence,
             ulong maxVal
-            ) : base(guid, sequence)
+            ) : base(sequence)
         {
             _maxVal = maxVal;
         }
@@ -48,15 +46,6 @@ namespace Genomic.Chromosomes
         }
 
         private IReadOnlyList<IGeneUlongModN> _blockList;
-        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
-        {
-            return data.ToChromosomeUlongN
-                (
-                    guid: newGuid,
-                    maxVal: _maxVal
-                );
-        }
-
         public override IReadOnlyList<IGeneUlongModN> Blocks
         {
             get
@@ -73,6 +62,15 @@ namespace Genomic.Chromosomes
         public override IGeneUlongModN NewBlock(IRando rando)
         {
             return GeneUlongModN.Make(rando.NextUlong(MaxVal), MaxVal);
+        }
+
+        public override IChromosome<IGeneUlongModN> Mutate(Func<IReadOnlyList<IGeneUlongModN>, IReadOnlyList<IGeneUlongModN>> mutator)
+        {
+            return new ChromosomeUlongNImpl
+                (
+                    mutator(Blocks).SelectMany(b => b.ToIntStream).ToList(),
+                    MaxVal
+                );
         }
     }
 }

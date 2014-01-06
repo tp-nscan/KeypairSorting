@@ -34,32 +34,32 @@ namespace Genomic.Genomes
     }
 
 
-    public static class Genome
-    {
-        public static ISimpleGenome<TC> MakeSimple<TC>(Guid guid, TC chromosome, Guid parentGuid)
-            where TC : IChromosome
-        {
-            return new SimpleGenomeImpl<TC>(guid, chromosome, parentGuid);
-        }
+    //public static class Genome
+    //{
+    //    public static ISimpleGenome<TC> MakeSimple<TC>(Guid guid, TC chromosome, Guid parentGuid)
+    //        where TC : IChromosome
+    //    {
+    //        return new SimpleGenomeImpl<TC>(guid, chromosome, parentGuid);
+    //    }
 
-        public static ISimpleGenome<TC> Copy<TC>
-            (
-                this ISimpleGenome<TC> genome,
-                IRando randy, 
-                double mutationRate,
-                double insertionRate,
-                double deletionRate
-            )
-            where TC : IChromosome<IGene>
-        {
-            return new SimpleGenomeImpl<TC>
-                (
-                    guid: randy.NextGuid(),
-                    chromosome: (TC)genome.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
-                    parentGuid: genome.Guid
-                );
-        }
-    }
+    //    public static ISimpleGenome<TC> Copy<TC>
+    //        (
+    //            this ISimpleGenome<TC> genome,
+    //            IRando randy, 
+    //            double mutationRate,
+    //            double insertionRate,
+    //            double deletionRate
+    //        )
+    //        where TC : IChromosome<IGene>
+    //    {
+    //        return new SimpleGenomeImpl<TC>
+    //            (
+    //                guid: randy.NextGuid(),
+    //                chromosome: (TC)genome.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
+    //                parentGuid: genome.Guid
+    //            );
+    //    }
+    //}
 
     public class SimpleGenomeImpl<TC> : ISimpleGenome<TC>
         where TC : IChromosome

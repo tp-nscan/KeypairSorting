@@ -12,7 +12,7 @@ namespace SorterEvo.Test.Table
         [TestMethod]
         public void TestCompParaPoolTable()
         {
-            var compParaPool = TestData.SorterEvoTestData.CompParaPool;
+            var compParaPool = TestData.Layers.CompParaPool;
             
             var compParaPoolScores =
                 compParaPool.SorterOnSwitchableGroups.Select(
@@ -23,8 +23,8 @@ namespace SorterEvo.Test.Table
             var compParaPoolResults = compParaPoolScores.Select (
                 s => new Tuple<ISorterGenome, ISwitchableGroupGenome, Tuple<bool, int>>
                 (
-                    TestData.SorterEvoTestData.SorterLayer().GetGenome(s.Item1),
-                    TestData.SorterEvoTestData.SwitchableGroupLayer().GetGenome(s.Item2),
+                    TestData.Layers.SorterLayer().GetGenome(s.Item1),
+                    TestData.Layers.SwitchableGroupLayer().GetGenome(s.Item2),
                     s.Item3
                 ));
 

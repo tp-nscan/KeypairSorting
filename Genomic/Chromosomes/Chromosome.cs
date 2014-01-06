@@ -9,9 +9,7 @@ namespace Genomic.Chromosomes
 {
     public interface IChromosome
     {
-        Guid Guid { get; }
         IReadOnlyList<uint> Sequence { get; }
-        IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid);
     }
 
     public interface IChromosome<T> : IChromosome
@@ -19,33 +17,32 @@ namespace Genomic.Chromosomes
     {
         IReadOnlyList<T> Blocks { get; }
         T NewBlock(IRando rando);
+        IChromosome<T> Mutate(Func<IReadOnlyList<T>, IReadOnlyList<T>> mutator);
     }
 
     public static class Chromosome
     {
         public static IChromosome<IGeneUintModN> ToChromosomeUint
             (
-                this IEnumerable<uint> sequence, 
-                Guid guid, 
+                this IReadOnlyList<uint> sequence,
                 uint maxVal
             )
         {
-            return new ChromosomeUintImpl(guid, sequence.ToList(), maxVal);
+            return new ChromosomeUintImpl(sequence.ToList(), maxVal);
         }
 
         public static IChromosome ToChromosomeUlongN
             (
-                this IEnumerable<uint> sequence, 
-                Guid guid, 
+                this IReadOnlyList<uint> sequence,
                 ulong maxVal
             )
         {
-            return new ChromosomeUlongNImpl(guid, sequence.ToList(), maxVal);
+            return new ChromosomeUlongNImpl(sequence.ToList(), maxVal);
         }
 
         public static IChromosome ToChromosomePermutation
             (
-                this IEnumerable<uint> sequence, 
+                this IReadOnlyList<uint> sequence, 
                 Guid guid,
                 int permutationItemCount,
                 double mixingRate
@@ -53,7 +50,6 @@ namespace Genomic.Chromosomes
         {
             return ChromosomePermutation.Make
                 (
-                    guid:   guid,
                     sequence:   sequence.ToList(),
                     permutationItemCount:   permutationItemCount,
                     mixingRate: mixingRate
@@ -62,64 +58,79 @@ namespace Genomic.Chromosomes
 
         public static IChromosome ToChromosomeBits
         (
-                this IEnumerable<uint> sequence,
+                this IReadOnlyList<uint> sequence,
                 Guid guid,
                 int bitCount
         )
         {
             return new ChromosomeBitsImpl
                 (
-                    guid: guid,
                     sequence: sequence.ToList(),
                     bitCount: bitCount
                 );
         }
 
-        public static IChromosome<T> Copy<T>
+        public static Func<IReadOnlyList<T>, IReadOnlyList<T>> StandardMutator<T>
+            (
+                double deletionRate, 
+                double insertionRate, 
+                double mutationRate, 
+                Func<T> geneMutator,
+                IRando rando
+            )
+        {
+            return list =>
+            {
+                var lp = new ListPropigator<T>
+                (
+                    deletor: (l, i) => l.RemoveAt(i),
+                    deletionFrequency: deletionRate,
+                    inserter: (l, i) => l.Insert(i, geneMutator.Invoke()),
+                    insertionFrequency: insertionRate,
+                    mutator: (l, i) => l.SetItem(i, geneMutator.Invoke()),
+                    mutationFrequency: mutationRate,
+                    finalIndex: list.Count
+                );
+
+                return list.Mutate(lp, rando);
+            };
+        }
+
+        public static IChromosome<T> StandardPropigate<T>
             (
                 this IChromosome<T> chromosome,
-                IRando randy,
+                IRando rando,
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
             ) where T : IGene
         {
-            return (IChromosome<T>) chromosome.ReplaceDataWith(
-                data: chromosome.Blocks.MutateInsertDelete
+            return chromosome.Mutate(
+                mutator: StandardMutator<T>
                     (
-                        doMutation: randy.ToBoolEnumerator(mutationRate),
-                        doInsertion: randy.ToBoolEnumerator(insertionRate),
-                        doDeletion: randy.ToBoolEnumerator(deletionRate),
-                        mutator: x => (T)x.Mutate(randy),
-                        inserter: x => (T)x.Mutate(randy),
-                        paddingFunc: x => chromosome.NewBlock(randy)
+                        deletionRate: deletionRate,
+                        insertionRate: insertionRate,
+                        mutationRate: mutationRate, 
+                        geneMutator: () => chromosome.NewBlock(rando),
+                        rando: rando
                     )
-                    .SelectMany(b => b.ToIntStream),
-                newGuid: Guid.NewGuid()
                 );
         }
+
     }
 
     abstract class ChromosomeImpl<T> : IChromosome<T> where T : IGene
     {
-        protected ChromosomeImpl(Guid guid, IReadOnlyList<uint> sequence)
+        protected ChromosomeImpl(IReadOnlyList<uint> sequence)
         {
-            _guid = guid;
             _sequence = sequence;
         }
 
         private readonly IReadOnlyList<uint> _sequence;
+
         public IReadOnlyList<uint> Sequence
         {
             get { return _sequence; }
-        }
-
-        public abstract IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid);
-
-        private readonly Guid _guid;
-        public Guid Guid
-        {
-            get { return _guid; }
         }
 
         public abstract IReadOnlyList<T> Blocks
@@ -128,5 +139,7 @@ namespace Genomic.Chromosomes
         }
 
         public abstract T NewBlock(IRando rando);
+
+        public abstract IChromosome<T> Mutate(Func<IReadOnlyList<T>, IReadOnlyList<T>> mutator);
     }
 }

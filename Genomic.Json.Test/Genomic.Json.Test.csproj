@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeToJsonFixture.cs" />
+    <Compile Include="Genomes\SorterGenomeToJsonFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

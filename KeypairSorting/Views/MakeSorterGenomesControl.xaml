@@ -12,16 +12,7 @@
 
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom">
 
-            <StackPanel Orientation="Horizontal" Margin="10,0">
-                <TextBlock Text="Report frequency" Style="{DynamicResource PlainTextBlockStyle}" />
-                <TextBox Text="{Binding ReportFrequency}" Style="{DynamicResource PlainTextBoxStyle}" />
-            </StackPanel>
-
-            <Button Command="{Binding SorterEvalCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Run"/>
-
-            <Button Command="{Binding StopSorterEvalCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Stop"/>
-
-            <Button Command="{Binding ResetCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Reset"/>
+            <Button Command="{Binding ConvertToGenomesCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Convert"/>
 
         </WrapPanel>
 
@@ -34,8 +25,7 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel LastChildFill="True" Grid.Column="0">
-
-
+                
                 <TextBlock DockPanel.Dock="Top"  Text="Sorters"/>
 
                 <parts:SorterGridControl DataContext="{Binding SorterGridVm}" />
@@ -53,7 +43,7 @@
 						    Text="Evaluation results" 
 						    HorizontalAlignment="Center" />
 
-                <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
+                <parts:SorterGenomeGridControl DataContext="{Binding SorterGenomeGridVm}" />
 
             </DockPanel>
 

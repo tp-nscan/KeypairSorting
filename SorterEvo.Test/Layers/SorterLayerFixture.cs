@@ -13,55 +13,55 @@ namespace SorterEvo.Test.Layers
         [TestMethod]
         public void TestCreate()
         {
-            var layer = SorterEvoTestData.SorterLayer();
+            var layer = TestData.Layers.SorterLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, SorterEvoTestData.SorterGenomeCount);
-            Assert.AreEqual(layer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
-            Assert.AreEqual(layer.Genomes.First().KeyPairCount, SorterEvoTestData.KeyPairCount);
+            Assert.AreEqual(layer.Genomes.Count, TestData.Layers.SorterGenomeCount);
+            Assert.AreEqual(layer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
+            Assert.AreEqual(layer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }
 
 
         [TestMethod]
         public void TestMultiply()
         {
-            var layer = SorterEvoTestData.SorterLayer();
+            var layer = TestData.Layers.SorterLayer();
 
             var randy = Rando.Fast(1233);
             
             var newLayer = layer.Multiply
                 (
-                    seed:SorterEvoTestData.Seeds.First(),
-                    newGenomeCount: SorterEvoTestData.SorterExpandedGenomeCount,
-                    mutationRate: SorterEvoTestData.SorterMutationRate,
-                    insertionRate: SorterEvoTestData.SorterInsertionRate,
-                    deletionRate: SorterEvoTestData.SorterDeletionRate
+                    seed: TestData.Layers.Seeds.First(),
+                    newGenomeCount: TestData.Layers.SorterExpandedGenomeCount,
+                    mutationRate: TestData.Layers.SorterMutationRate,
+                    insertionRate: TestData.Layers.SorterInsertionRate,
+                    deletionRate: TestData.Layers.SorterDeletionRate
                 );
 
             Assert.AreEqual(newLayer.Generation, 0);
-            Assert.AreEqual(newLayer.Genomes.Count, SorterEvoTestData.SorterExpandedGenomeCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, SorterEvoTestData.KeyPairCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SorterExpandedGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }
 
         [TestMethod]
         public void TestNextGen()
         {
-            var layer = SorterEvoTestData.SorterExpandedLayer();
+            var layer = TestData.Layers.SorterExpandedLayer();
 
             var randy = Rando.Fast(1233);
 
             var newLayer = layer.NextGen
                 (
                     scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
-                    seed: SorterEvoTestData.Seeds.First(),
-                    newGenomeCount: SorterEvoTestData.SorterGenomeCount
+                    seed: TestData.Layers.Seeds.First(),
+                    newGenomeCount: TestData.Layers.SorterGenomeCount
                 );
 
             Assert.AreEqual(newLayer.Generation, 1);
-            Assert.AreEqual(newLayer.Genomes.Count, SorterEvoTestData.SorterGenomeCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, SorterEvoTestData.KeyPairCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SorterGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }
     }
 }

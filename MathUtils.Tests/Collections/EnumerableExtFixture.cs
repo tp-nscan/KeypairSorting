@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using MathUtils.Collections;
 using MathUtils.Rand;
@@ -12,11 +13,12 @@ namespace MathUtils.Tests.Collections
         [TestMethod]
         public void TestSwap()
         {
-            //var a1 = new MyClass() {Value = 1};
-            //var a2 = new MyClass() {Value = 2};
-            //Set.Swap(ref a1, ref a2);
-            //Assert.AreEqual(a1.Value, 2);
-            //Assert.AreEqual(a2.Value, 1);
+            const int targetLength = 6;
+            var list = ImmutableList<int>.Empty;
+
+            list = list.AddRange(
+            new[]{ 0, 1, 2, 3, 4, 5 });
+            list = list.RemoveRange(targetLength, list.Count - targetLength);
         }
 
         [TestMethod]

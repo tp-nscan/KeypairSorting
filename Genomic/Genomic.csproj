@@ -46,7 +46,6 @@
     <Compile Include="Chromosomes\ChromosomeBits.cs" />
     <Compile Include="Chromosomes\ChromosomePermutation.cs" />
     <Compile Include="Genes\Gene.cs" />
-    <Compile Include="Chromosomes\ChromosomeRepository.cs" />
     <Compile Include="Genes\GeneBits.cs" />
     <Compile Include="Genes\GenePermutation.cs" />
     <Compile Include="Genes\GeneUintModN.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Genomic.Chromosomes;
+using Genomic.Json.Chromosomes;
 using Newtonsoft.Json;
 using SorterEvo.Genomes;
 using Sorting.KeyPairs;
@@ -15,16 +16,13 @@ namespace SorterEvo.Json.Genomes
             var chromosomeUintToJson = new SorterGenomeToJson
             {
                 Guid = sorterGenome.Guid,
-                Sequence = sorterGenome.Chromosome.Sequence.ToList(),
-                ChromosomeGuid = sorterGenome.Chromosome.Guid,
+                ChromosomeUintToJson = sorterGenome.Chromosome.ToJsonAdapter(),
                 KeyCount = sorterGenome.KeyCount,
                 KeyPairCount = sorterGenome.KeyPairCount
             };
 
             return chromosomeUintToJson;
         }
-
-        public Guid ChromosomeGuid { get; set; }
 
         public Guid Guid { get; set; }
 
@@ -34,7 +32,7 @@ namespace SorterEvo.Json.Genomes
 
         public int KeyPairCount { get; set; }
 
-        public List<uint> Sequence { get; set; }
+        public ChromosomeUintToJson ChromosomeUintToJson { get; set; }
     }
 
     public static class SorterGenomeToJsonExt
@@ -56,14 +54,9 @@ namespace SorterEvo.Json.Genomes
                     guid: sorterGenomeToJson.Guid,
                     keyCount: sorterGenomeToJson.KeyCount,
                     parentGuid:sorterGenomeToJson.ParentGuid,
-                    chromosome: sorterGenomeToJson.Sequence.ToChromosomeUint
-                                   (
-                                        guid: sorterGenomeToJson.ChromosomeGuid,
-                                        maxVal: (uint)KeyPairRepository.KeyPairSetSizeForKeyCount(sorterGenomeToJson.KeyCount)
-                                   ), 
+                    chromosome: sorterGenomeToJson.ChromosomeUintToJson.ToChromosomeUint(),
                     keyPairCount: sorterGenomeToJson.KeyPairCount
                 );
         }
     }
-
 }

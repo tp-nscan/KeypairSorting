@@ -10,7 +10,7 @@ using Sorting.Switchables;
 
 namespace SorterEvo.TestData
 {
-    public static class SorterEvoTestData
+    public static class Layers
     {
         public static int Seed = 15394;
         public static int KeyCount = 12;
@@ -41,7 +41,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISorterGenome> SorterLayer()
         {
-            return Layers.SorterLayer.Create(
+            return SorterEvo.Layers.SorterLayer.Create(
                     seed: Seed,
                     genomeCount: SorterGenomeCount,
                     keyCount: KeyCount,
@@ -51,7 +51,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISorterGenome> SorterExpandedLayer()
         {
-            return Layers.SorterLayer.Create(
+            return SorterEvo.Layers.SorterLayer.Create(
                     seed: Seed,
                     genomeCount: SorterExpandedGenomeCount,
                     keyCount: KeyCount,
@@ -61,7 +61,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISwitchableGroupGenome> SwitchableGroupLayer()
         {
-            return Layers.SwitchableGroupLayer.Create(
+            return SorterEvo.Layers.SwitchableGroupLayer.Create(
                     seed: Seed,
                     switchableGroupGenomeType: SwitchableGroupGenomeType,
                     genomeCount: SwitchableGroupGenomeCount,
@@ -72,7 +72,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISwitchableGroupGenome> SwitchableGroupExpandedLayer()
         {
-            return Layers.SwitchableGroupLayer.Create(
+            return SorterEvo.Layers.SwitchableGroupLayer.Create(
                     seed: Seed,
                     switchableGroupGenomeType: SwitchableGroupGenomeType,
                     genomeCount: SwitchableGroupExpandedGenomeCount,

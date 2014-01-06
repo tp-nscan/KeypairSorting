@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeUintToJson.cs" />
+    <Compile Include="Chromosomes\JsonConverterForChromosome.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

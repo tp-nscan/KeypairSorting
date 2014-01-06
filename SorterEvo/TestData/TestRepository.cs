@@ -23,25 +23,25 @@ namespace SorterEvo.TestData
             entityRepository.AddEntity(
                     Entity.Make(
                         guid: SorterLayerGuid, 
-                        val: SorterEvoTestData.SorterLayer())
+                        val: Layers.SorterLayer())
                 );
 
             entityRepository.AddEntity(
                     Entity.Make(
                         guid: SwitchableGroupLayerGuid, 
-                        val: SorterEvoTestData.SwitchableGroupLayer())
+                        val: Layers.SwitchableGroupLayer())
                 );
 
             entityRepository.AddEntity(
                     Entity.Make(
                         guid: SorterCompParaPoolParamsGuid, 
-                        val: SorterEvoTestData.SorterCompParaPoolParams())
+                        val: Layers.SorterCompParaPoolParams())
                 );
 
             entityRepository.AddEntity(
                     Entity.Make(
                         guid: SorterCompPoolParamsGuid,
-                        val: SorterEvoTestData.SorterCompPoolParams())
+                        val: Layers.SorterCompPoolParams())
                 );
                     }
 

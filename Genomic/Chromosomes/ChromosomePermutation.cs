@@ -17,14 +17,12 @@ namespace Genomic.Chromosomes
     {
         public static IChromosomePermutation Make
             (
-                Guid guid, 
                 IReadOnlyList<uint> sequence, 
                 int permutationItemCount, 
                 double mixingRate
             )
         {
             return new ChromosomePermutationImpl(
-                    guid: guid, 
                     sequence: sequence, 
                     permutationItemCount: permutationItemCount, 
                     mixingRate: mixingRate
@@ -32,30 +30,16 @@ namespace Genomic.Chromosomes
         }
     }
 
-    internal class ChromosomePermutationImpl : ChromosomeImpl<IGenePermutation>, 
-        IChromosomePermutation
+    internal class ChromosomePermutationImpl : ChromosomeImpl<IGenePermutation>, IChromosomePermutation
     {
         public ChromosomePermutationImpl(
-            Guid guid, 
             IReadOnlyList<uint> sequence, 
             int permutationItemCount, 
             double mixingRate
-            ) : base(guid, sequence)
+            ) : base(sequence)
         {
             _permutationItemCount = permutationItemCount;
             _mixingRate = mixingRate;
-        }
-
-
-        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
-        {
-            return ChromosomePermutation.Make
-                (
-                    guid: newGuid,
-                    sequence: data.ToList(),
-                    permutationItemCount: _permutationItemCount,
-                    mixingRate : MixingRate
-                );
         }
 
         private readonly double _mixingRate;
@@ -92,6 +76,16 @@ namespace Genomic.Chromosomes
                                 .Cast<uint>()
                                 .ToArray().FisherYatesShuffle(rando),
                     mixingRate: MixingRate
+                );
+        }
+
+        public override IChromosome<IGenePermutation> Mutate(Func<IReadOnlyList<IGenePermutation>, IReadOnlyList<IGenePermutation>> mutator)
+        {
+            return new ChromosomePermutationImpl
+                (
+                    mutator(Blocks).SelectMany(b => b.ToIntStream).ToList(),
+                    PermutationItemCount,
+                    MixingRate
                 );
         }
     }

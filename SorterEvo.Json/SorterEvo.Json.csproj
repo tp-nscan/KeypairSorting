@@ -46,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Genomic.Json\Genomic.Json.csproj">
+      <Project>{28f70008-25a6-4082-b825-57fbf7831484}</Project>
+      <Name>Genomic.Json</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Genomic\Genomic.csproj">
       <Project>{d2f5b40c-8c15-42d6-8549-2f8695ae91a9}</Project>
       <Name>Genomic</Name>

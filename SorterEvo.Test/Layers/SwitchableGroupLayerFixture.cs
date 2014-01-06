@@ -13,50 +13,52 @@ namespace SorterEvo.Test.Layers
         [TestMethod]
         public void TestCreate()
         {
-            var layer = SorterEvoTestData.SwitchableGroupLayer();
+            var layer = TestData.Layers.SwitchableGroupLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, SorterEvoTestData.SwitchableGroupGenomeCount);
-            Assert.AreEqual(layer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
-            Assert.AreEqual(layer.Genomes.First().GroupCount, SorterEvoTestData.SwitchableGroupSize);
+            Assert.AreEqual(layer.Genomes.Count, TestData.Layers.SwitchableGroupGenomeCount);
+            Assert.AreEqual(layer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
+            Assert.AreEqual(layer.Genomes.First().GroupCount, TestData.Layers.SwitchableGroupSize);
         }
 
         [TestMethod]
         public void TestMultiply()
         {
-            var layer = SorterEvoTestData.SwitchableGroupLayer();
+            var layer = TestData.Layers.SwitchableGroupLayer();
 
             var newLayer = layer.Multiply
                 (
-                    seed: SorterEvoTestData.Seeds.First(),
-                    newGenomeCount: SorterEvoTestData.SwitchableGroupExpandedGenomeCount,
-                    mutationRate: SorterEvoTestData.SwitchableMutationRate,
-                    insertionRate: SorterEvoTestData.SwitchableInsertionRate,
-                    deletionRate: SorterEvoTestData.SwitchableDeletionRate
+                    seed: TestData.Layers.Seeds.First(),
+                    newGenomeCount: TestData.Layers.SwitchableGroupExpandedGenomeCount,
+                    mutationRate: TestData.Layers.SwitchableMutationRate,
+                    insertionRate: TestData.Layers.SwitchableInsertionRate,
+                    deletionRate: TestData.Layers.SwitchableDeletionRate
                 );
 
             Assert.AreEqual(newLayer.Generation, 0);
-            Assert.AreEqual(newLayer.Genomes.Count, SorterEvoTestData.SwitchableGroupExpandedGenomeCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SwitchableGroupExpandedGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
         }
 
         [TestMethod]
         public void TestNextGen()
         {
-            var layer = SorterEvoTestData.SwitchableGroupExpandedLayer();
+            var layer = TestData.Layers.SwitchableGroupExpandedLayer();
 
             var randy = Rando.Fast(1233);
 
             var newLayer = layer.NextGen
                 (
                     scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
-                    seed: SorterEvoTestData.Seeds.First(),
-                    newGenomeCount: SorterEvoTestData.SwitchableGroupGenomeCount
+                    seed: TestData.Layers.Seeds.First(),
+                    newGenomeCount: TestData.Layers.SwitchableGroupGenomeCount
                 );
 
             Assert.AreEqual(newLayer.Generation, 1);
-            Assert.AreEqual(newLayer.Genomes.Count, SorterEvoTestData.SwitchableGroupGenomeCount);
-            Assert.AreEqual(newLayer.Genomes.First().KeyCount, SorterEvoTestData.KeyCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SwitchableGroupGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
         }
+
+
     }
 }

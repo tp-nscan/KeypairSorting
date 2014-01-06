@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeypairSorting", "KeypairSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorterEvo.Json", "SorterEvo.Json\SorterEvo.Json.csproj", "{294504CA-4CCC-4B97-A605-BC51B379514E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorterEvo.Json.Test", "SorterEvo.Json.Test\SorterEvo.Json.Test.csproj", "{DB9A9205-3D3C-4A9C-BD0E-9C0CA8C7F2DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{294504CA-4CCC-4B97-A605-BC51B379514E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294504CA-4CCC-4B97-A605-BC51B379514E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294504CA-4CCC-4B97-A605-BC51B379514E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB9A9205-3D3C-4A9C-BD0E-9C0CA8C7F2DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB9A9205-3D3C-4A9C-BD0E-9C0CA8C7F2DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB9A9205-3D3C-4A9C-BD0E-9C0CA8C7F2DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB9A9205-3D3C-4A9C-BD0E-9C0CA8C7F2DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

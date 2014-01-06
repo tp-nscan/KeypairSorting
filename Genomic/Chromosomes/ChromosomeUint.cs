@@ -15,14 +15,12 @@ namespace Genomic.Chromosomes
     {
         public static IChromosomeUint Make
             (
-                Guid guid,
                 IReadOnlyList<uint> sequence,
                 uint maxVal
             )
         {
             return new ChromosomeUintImpl
                 (
-                    guid: guid,
                     sequence: sequence,
                     maxVal: maxVal
                 );
@@ -33,10 +31,9 @@ namespace Genomic.Chromosomes
     {
         public ChromosomeUintImpl
             (
-                Guid guid, 
                 IReadOnlyList<uint> sequence, 
                 uint maxVal
-            ) : base(guid, sequence)
+            ) : base(sequence)
         {
             _maxVal = maxVal;
         }
@@ -48,16 +45,6 @@ namespace Genomic.Chromosomes
         }
 
         private IReadOnlyList<IGeneUintModN> _blockList;
-        public override IChromosome ReplaceDataWith(IEnumerable<uint> data, Guid newGuid)
-        {
-            return new ChromosomeUintImpl
-                (
-                    guid: newGuid,
-                    sequence: data.ToList(),
-                    maxVal: MaxVal
-                );
-        }
-
         public override IReadOnlyList<IGeneUintModN> Blocks
         {
             get
@@ -74,6 +61,15 @@ namespace Genomic.Chromosomes
         public override IGeneUintModN NewBlock(IRando rando)
         {
             return GeneUintModN.Make(rando.NextUint(MaxVal), MaxVal);
+        }
+
+        public override IChromosome<IGeneUintModN> Mutate(Func<IReadOnlyList<IGeneUintModN>, IReadOnlyList<IGeneUintModN>> mutator)
+        {
+            return new ChromosomeUintImpl
+                (
+                    mutator(Blocks).SelectMany(b => b.ToIntStream).ToList(),
+                    MaxVal
+                );
         }
     }
 }

@@ -12,9 +12,9 @@ namespace SorterEvo.Test.Workflows
         public void TestMake()
         {
             var workflow = SorterCompParaPoolWorkflow.Make(
-                sorterLayer: SorterEvoTestData.SorterLayer(),
-                switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompParaPoolParams: SorterEvoTestData.SorterCompParaPoolParams(),
+                sorterLayer: TestData.Layers.SorterLayer(),
+                switchableGroupLayer: TestData.Layers.SwitchableGroupLayer(),
+                sorterCompParaPoolParams: TestData.Layers.SorterCompParaPoolParams(),
                 generation:0
                 );
             Assert.IsNotNull(workflow);
@@ -24,13 +24,13 @@ namespace SorterEvo.Test.Workflows
         public void TestSteps()
         {
             var workflow = SorterCompParaPoolWorkflow.Make(
-                sorterLayer: SorterEvoTestData.SorterLayer(),
-                switchableGroupLayer: SorterEvoTestData.SwitchableGroupLayer(),
-                sorterCompParaPoolParams: SorterEvoTestData.SorterCompParaPoolParams(),
+                sorterLayer: TestData.Layers.SorterLayer(),
+                switchableGroupLayer: TestData.Layers.SwitchableGroupLayer(),
+                sorterCompParaPoolParams: TestData.Layers.SorterCompParaPoolParams(),
                 generation:0
                 );
 
-            var seedList = SorterEvoTestData.Seeds.Take(5).ToList();
+            var seedList = TestData.Layers.Seeds.Take(5).ToList();
             var newWorkflow = workflow.Step(seedList[0]);
             Assert.AreEqual(newWorkflow.CompWorkflowState, CompWorkflowState.RunCompetition);
             newWorkflow = newWorkflow.Step(seedList[1]);

@@ -16,14 +16,12 @@ namespace Genomic.Chromosomes
     {
         public static IChromosomeBits Make
             (
-                Guid guid,
                 IReadOnlyList<uint> sequence,
                 int bitCount
             )
         {
             return new ChromosomeBitsImpl
                 (
-                    guid: guid,
                     sequence: sequence,
                     bitCount: bitCount
                 );
@@ -34,10 +32,9 @@ namespace Genomic.Chromosomes
     {
         public ChromosomeBitsImpl
             (
-                Guid guid,
                 IReadOnlyList<uint> sequence, 
                 int bitCount
-            ) : base(guid, sequence)
+            ) : base(sequence)
         {
             _bitCount = bitCount;
         }
@@ -46,20 +43,6 @@ namespace Genomic.Chromosomes
         public int BitCount
         {
             get { return _bitCount; }
-        }
-
-        public override IChromosome ReplaceDataWith
-            (
-                IEnumerable<uint> data, 
-                Guid newGuid
-            )
-        {
-             return ChromosomeBits.Make
-                 (
-                    guid: newGuid,
-                    sequence: data.ToList(),
-                    bitCount: _bitCount
-                 );
         }
 
         private IReadOnlyList<IGeneBits> _blockList;
@@ -80,6 +63,15 @@ namespace Genomic.Chromosomes
         {
             return rando.ToBoolEnumerator(0.5).Take(BitCount)
                 .ToGeneBits();
+        }
+
+        public override IChromosome<IGeneBits> Mutate(Func<IReadOnlyList<IGeneBits>, IReadOnlyList<IGeneBits>> mutator)
+        {
+            return new ChromosomeBitsImpl
+                (
+                    mutator(Blocks).SelectMany(b => b.ToIntStream).ToList(), 
+                    BitCount
+                );
         }
     }
 }

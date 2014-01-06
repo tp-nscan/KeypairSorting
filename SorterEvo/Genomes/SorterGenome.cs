@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Genomic.Chromosomes;
-using Genomic.Genes;
 using Genomic.Genomes;
 using MathUtils.Rand;
 using Sorting.KeyPairs;
 
 namespace SorterEvo.Genomes
 {
-    public interface ISorterGenome : ISimpleGenome<IChromosome<IGeneUintModN>>
+    public interface ISorterGenome : ISimpleGenome<IChromosomeUint>
     {
         int KeyCount { get; }
         int KeyPairCount { get; }
@@ -26,13 +25,14 @@ namespace SorterEvo.Genomes
             (
                 guid: randy.NextGuid(),
                 parentGuid: Guid.Empty,
-                chromosome: randy.ToUintEnumerator(keyPairSetSize)
-                                 .Take(keyPairCount)
-                                 .ToChromosomeUint
-                                   (
-                                        guid: randy.NextGuid(),
-                                        maxVal: keyPairSetSize
-                                   ),
+                chromosome: (IChromosomeUint) randy
+                                .ToUintEnumerator(keyPairSetSize)
+                                .Take(keyPairCount)
+                                .ToList()
+                                .ToChromosomeUint
+                                (
+                                    maxVal: keyPairSetSize
+                                ),
                 keyCount: keyCount,
                 keyPairCount: keyPairCount
            );
@@ -40,8 +40,8 @@ namespace SorterEvo.Genomes
 
         public static ISorterGenome Make(
             Guid guid, 
-            Guid parentGuid, 
-            IChromosome<IGeneUintModN> chromosome, 
+            Guid parentGuid,
+            IChromosomeUint chromosome, 
             int keyCount, 
             int keyPairCount)
         {
@@ -56,12 +56,12 @@ namespace SorterEvo.Genomes
         }
     }
 
-    class SorterGenomeImpl : SimpleGenomeImpl<IChromosome<IGeneUintModN>>, ISorterGenome
+    class SorterGenomeImpl : SimpleGenomeImpl<IChromosomeUint>, ISorterGenome
     {
         public SorterGenomeImpl(
                 Guid guid, 
-                Guid parentGuid, 
-                IChromosome<IGeneUintModN> chromosome, 
+                Guid parentGuid,
+                IChromosomeUint chromosome, 
                 int keyCount, 
                 int keyPairCount
             ) 
