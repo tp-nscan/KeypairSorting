@@ -163,7 +163,7 @@ namespace SorterEvo.Test.Workflows
         }
 
 
-        public IEnumerable<IEnumerable<ISorterOnSwitchableGroup>> RandomSorterTests(int seed, int keyCount,
+        public IEnumerable<IEnumerable<ISorterEval>> RandomSorterTests(int seed, int keyCount,
             int switchLength)
         {
             KeyPairSwitchSet.Make<uint>(keyCount);

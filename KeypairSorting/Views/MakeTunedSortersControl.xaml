@@ -11,10 +11,19 @@
     <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="OliveDrab">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding SorterEvalCommand}" Content="Make"  Style="{DynamicResource PlainButtonStyle}"/>
-            <StackPanel Grid.Row="4" Orientation="Vertical" Margin="10,0">
+            <StackPanel Orientation="Vertical" Margin="10,0">
+                <TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
+                <TextBox Text="{Binding Seed, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource PlainTextBoxStyle}" />
+            </StackPanel>
+            <Button Command="{Binding RunCommand}" Content="Run"  Style="{DynamicResource PlainButtonStyle}"/>
+            <Button Command="{Binding StopCommand}" Content="Stop"  Style="{DynamicResource PlainButtonStyle}"/>
+            <StackPanel Orientation="Vertical" Margin="10,0">
                 <TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}" />
                 <TextBlock Text="{Binding ProcTime}" Style="{DynamicResource PlainTextBlockStyle}" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0">
+                <TextBlock Text="Generation" Style="{DynamicResource PlainTextBlockStyle}" />
+                <TextBlock Text="{Binding Generation}" Style="{DynamicResource PlainTextBlockStyle}" />
             </StackPanel>
         </StackPanel>
 
@@ -32,10 +41,10 @@
 
                 <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Sorters" 
+						Text="Sorter Genomes" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterGridControl DataContext="{Binding SorterGridVm}" />
+                <parts:SorterGenomeGridControl DataContext="{Binding SorterGenomeGridVm}" />
 
             </DockPanel>
 

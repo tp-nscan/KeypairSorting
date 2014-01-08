@@ -9,111 +9,111 @@
 	x:Class="KeypairSorting.Views.MakeRandomSorterControl"
 	x:Name="UserControl"
 	d:DesignWidth="517" d:DesignHeight="303.04">
-	<UserControl.Resources>
+    <UserControl.Resources>
 
-	</UserControl.Resources>
+    </UserControl.Resources>
 
-	<Grid x:Name="LayoutRoot">
-		<Grid Background="Orange">
+    <Grid x:Name="LayoutRoot">
+        <Grid Background="Orange">
 
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="6*"/>
-			</Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
 
-			<Grid>
+            <Grid>
 
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-				<StackPanel Grid.Row="0" Orientation="Horizontal">
-					<TextBlock Text="Key count" Style="{DynamicResource PlainTextBlockStyle}"/>
-					<TextBox Text="{Binding KeyCount}" Style="{DynamicResource PlainTextBoxStyle}" />
-				</StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="Key count" Style="{DynamicResource PlainTextBlockStyle}"/>
+                    <TextBox Text="{Binding KeyCount}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
 
-				<StackPanel Grid.Row="1" Orientation="Horizontal">
-					<TextBlock Text="Report frequency" Style="{DynamicResource PlainTextBlockStyle}" />
-					<TextBox Text="{Binding ReportFrequency}" Style="{DynamicResource PlainTextBoxStyle}" />
-				</StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="Report frequency" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding ReportFrequency}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
 
-				<StackPanel Grid.Row="2" Orientation="Horizontal">
-					<TextBlock Text="Low range max" Style="{DynamicResource PlainTextBlockStyle}" />
-					<TextBox Text="{Binding LowRangeMax}" Style="{DynamicResource PlainTextBoxStyle}" />
-				</StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock Text="Low range max" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding LowRangeMax}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
 
-				<StackPanel Grid.Row="3" Orientation="Horizontal">
-					<TextBlock Text="High range min" Style="{DynamicResource PlainTextBlockStyle}" />
-					<TextBox Text="{Binding HighRangeMin}" Style="{DynamicResource PlainTextBoxStyle}" />
-				</StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <TextBlock Text="High range min" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding HighRangeMin}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
 
-				<StackPanel Grid.Row="4" Orientation="Horizontal">
-					<TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
-					<TextBox Text="{Binding Seed}" Style="{DynamicResource PlainTextBoxStyle}" />
-				</StackPanel>
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
+                    <TextBox Text="{Binding Seed}" Style="{DynamicResource PlainTextBoxStyle}" />
+                </StackPanel>
 
-				<WrapPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-					<Button Command="{Binding RandGenCommand}" Content="Start" Style="{DynamicResource PlainButtonStyle}"/>
-					<Button Command="{Binding StopRandGenCommand}"  Content="Stop" Style="{DynamicResource PlainButtonStyle}"/>
-					<Button Command="{Binding ResetCommand}"  Content="Reset" Style="{DynamicResource PlainButtonStyle}"/>
-				</WrapPanel>
+                <WrapPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Command="{Binding RandGenCommand}" Content="Start" Style="{DynamicResource PlainButtonStyle}"/>
+                    <Button Command="{Binding StopRandGenCommand}"  Content="Stop" Style="{DynamicResource PlainButtonStyle}"/>
+                    <Button Command="{Binding ResetCommand}"  Content="Reset" Style="{DynamicResource PlainButtonStyle}"/>
+                </WrapPanel>
 
-				<StackPanel Grid.Row="6" Orientation="Horizontal">
-					<TextBlock Text="Sort fails" Style="{DynamicResource PlainTextBlockStyle}"/>
-					<TextBlock Margin="5,0,0,0" Text="{Binding SortFails}" Style="{DynamicResource PlainTextBlockStyle}"/>
-				</StackPanel>
+                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                    <TextBlock Text="Sort fails" Style="{DynamicResource PlainTextBlockStyle}"/>
+                    <TextBlock Margin="5,0,0,0" Text="{Binding SortFails}" Style="{DynamicResource PlainTextBlockStyle}"/>
+                </StackPanel>
 
-				<StackPanel Grid.Row="7" Orientation="Horizontal">
-					<TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}"/>
-					<TextBlock Margin="5,0,0,0" Text="{Binding ProcTime}" />
-				</StackPanel>
+                <StackPanel Grid.Row="7" Orientation="Horizontal">
+                    <TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}"/>
+                    <TextBlock Margin="5,0,0,0" Text="{Binding ProcTime}" />
+                </StackPanel>
 
-			</Grid>
+            </Grid>
 
-			<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 				Width="3" Margin="0,2" Background="#8FFF" />
 
-			<Grid Background="#8888" Grid.Column="2">
+            <Grid Background="#8888" Grid.Column="2">
 
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-				<StackPanel>
-					<TextBlock Text="Switch counts"/>
-					<TextBox IsReadOnly="True" VerticalAlignment="Stretch"
+                <StackPanel>
+                    <TextBlock Text="Switch counts"/>
+                    <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
 						MinWidth="50" Text="{Binding SizeDistributionReport, Mode=OneWay}"/>
-				</StackPanel>
+                </StackPanel>
 
-				<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+                <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 					Width="3" Margin="0,2" Background="#8FFF" />
 
-				<DockPanel LastChildFill="True" Grid.Column="2">
-					
-					<TextBlock DockPanel.Dock="Top" 
+                <DockPanel LastChildFill="True" Grid.Column="2">
+
+                    <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
 						Text="Sorters in selected ranges" 
 						HorizontalAlignment="Center" />
 
                     <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
 
-				</DockPanel>
+                </DockPanel>
 
-			</Grid>
+            </Grid>
 
-		</Grid>
-	</Grid>
+        </Grid>
+    </Grid>
 </UserControl>

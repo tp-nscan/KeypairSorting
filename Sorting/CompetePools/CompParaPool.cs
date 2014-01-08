@@ -11,9 +11,9 @@ namespace Sorting.CompetePools
     {
         IReadOnlyList<ISorter> Sorters { get; }
         IReadOnlyList<ISwitchableGroup> SwitchableGroups { get; }
-        IEnumerable<ISorterOnSwitchableGroup> SorterOnSwitchableGroups { get; }
-        ISorterOnSwitchableGroupSet SorterOnSwitchableGroupSet(Guid sorterId);
-        IEnumerable<ISorterOnSwitchableGroupSet> SorterOnSwitchableGroupSets { get; }
+        IEnumerable<ISorterEval> SorterOnSwitchableGroups { get; }
+        ISorterEvalSet SorterOnSwitchableGroupSet(Guid sorterId);
+        IEnumerable<ISorterEvalSet> SorterOnSwitchableGroupSets { get; }
     }
 
     public static class CompParaPool
@@ -41,7 +41,7 @@ namespace Sorting.CompetePools
             
                 IEnumerable<ISorter> sorters,
                 IEnumerable<ISwitchableGroup> switchableGroups,
-                IEnumerable<ISorterOnSwitchableGroupSet> sorterOnSwitchableGroupSets
+                IEnumerable<ISorterEvalSet> sorterOnSwitchableGroupSets
             )
         {
             _sorters = sorters.ToList();
@@ -61,18 +61,18 @@ namespace Sorting.CompetePools
             get { return _switchableGroups; }
         }
 
-        public IEnumerable<ISorterOnSwitchableGroup> SorterOnSwitchableGroups
+        public IEnumerable<ISorterEval> SorterOnSwitchableGroups
         {
             get { return SorterOnSwitchableGroupSets.SelectMany(t=>t.SorterOnSwitchableGroups); }
         }
 
-        public ISorterOnSwitchableGroupSet SorterOnSwitchableGroupSet(Guid sorterId)
+        public ISorterEvalSet SorterOnSwitchableGroupSet(Guid sorterId)
         {
             return _sorterOnSwitchableGroupSets[sorterId];
         }
 
-        private readonly IDictionary<Guid,ISorterOnSwitchableGroupSet> _sorterOnSwitchableGroupSets;
-        public IEnumerable<ISorterOnSwitchableGroupSet> SorterOnSwitchableGroupSets
+        private readonly IDictionary<Guid,ISorterEvalSet> _sorterOnSwitchableGroupSets;
+        public IEnumerable<ISorterEvalSet> SorterOnSwitchableGroupSets
         {
             get { return _sorterOnSwitchableGroupSets.Values; }
         }

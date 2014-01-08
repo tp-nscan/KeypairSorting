@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Genomic.Chromosomes;
-using Genomic.Genes;
 using MathUtils.Collections;
-using MathUtils.Rand;
 
 namespace Genomic.Genomes
 {
-    public interface IParentGuid
-    {
-        Guid ParentGuid { get; }
-    }
-
     public interface ISingleChromosome<out TC> 
         where TC : IChromosome
     {

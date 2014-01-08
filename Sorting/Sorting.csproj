@@ -65,10 +65,10 @@
   <ItemGroup>
     <Compile Include="CompetePools\CompParaPool.cs" />
     <Compile Include="CompetePools\CompPool.cs" />
-    <Compile Include="CompetePools\SorterOnSwitchableGroupSet.cs" />
+    <Compile Include="CompetePools\SorterEvalSet.cs" />
     <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />
     <Compile Include="KeyPairs\KeyPairSet.cs" />
-    <Compile Include="CompetePools\SorterOnSwitchableGroup.cs" />
+    <Compile Include="CompetePools\SorterEval.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
     <Compile Include="Switchables\Switchable.cs" />
     <Compile Include="Switchables\SwitchableGroup.cs" />

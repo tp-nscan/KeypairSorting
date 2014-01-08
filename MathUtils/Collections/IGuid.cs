@@ -10,6 +10,11 @@ namespace MathUtils.Collections
         Guid Guid { get; }
     }
 
+    public interface IParentGuid : IGuid
+    {
+        Guid ParentGuid { get; }
+    }
+
     public static class GuidExt
     {
         public static IEnumerable<Guid> NewGuids()
@@ -18,6 +23,11 @@ namespace MathUtils.Collections
             {
                 yield return Guid.NewGuid();
             }
+        }
+
+        public static IParentGuid MakeParentGuid(this Guid guid, Guid parentGuid)
+        {
+            return new ParentGuidImpl(guid, parentGuid);
         }
 
         public static int ToHash(this Guid guid)
@@ -70,6 +80,28 @@ namespace MathUtils.Collections
         public static Guid Add(this Guid lhs, IEnumerable<int> rhs)
         {
             return rhs.Aggregate(lhs, (current, rh) => current.Add(rh));
+        }
+    }
+
+    class ParentGuidImpl : IParentGuid
+    {
+        private readonly Guid _guid;
+        private readonly Guid _parentGuid;
+
+        public ParentGuidImpl(Guid guid, Guid parentGuid)
+        {
+            _guid = guid;
+            _parentGuid = parentGuid;
+        }
+
+        public Guid Guid
+        {
+            get { return _guid; }
+        }
+
+        public Guid ParentGuid
+        {
+            get { return _parentGuid; }
         }
     }
 }

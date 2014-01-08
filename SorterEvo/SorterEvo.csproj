@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Evals\SorterGenomeEval.cs" />
     <Compile Include="Genomes\GenomeToSorter.cs" />
     <Compile Include="Genomes\GenomeToSwitchableGroup.cs" />
     <Compile Include="Genomes\SorterGenome.cs" />

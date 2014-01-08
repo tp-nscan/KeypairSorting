@@ -48,7 +48,7 @@ namespace KeypairSorting.Models
             //stopwatch.Start();
             // //stopwatch.Stop();
 
-            var sorterOnSwitchableGroups = new List<ISorterOnSwitchableGroup>();
+            var sorterOnSwitchableGroups = new List<ISorterEval>();
             var histo = new Dictionary<int, int>();
             for (var i = 0; i < 500; i++)
             {
@@ -93,7 +93,7 @@ namespace KeypairSorting.Models
         }
 
 
-        static IEnumerable<IEnumerable<ISorterOnSwitchableGroup>> RandomSorterTests(int seed, int keyCount,
+        static IEnumerable<IEnumerable<ISorterEval>> RandomSorterTests(int seed, int keyCount,
             int switchLength)
         {
             KeyPairSwitchSet.Make<uint>(keyCount);
@@ -113,7 +113,7 @@ namespace KeypairSorting.Models
     public class SorterSamplerResults
     {
         public IReadOnlyDictionary<int, int> SwitchUseHistogram { get; set; }
-        public IReadOnlyList<ISorterOnSwitchableGroup> SwitchResults { get; set; }
+        public IReadOnlyList<ISorterEval> SwitchResults { get; set; }
         public int SortFails { get; set; }
         public bool WasCancelled { get; set; }
     }

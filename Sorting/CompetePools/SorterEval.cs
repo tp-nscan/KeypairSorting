@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sorting.Sorters;
-using Sorting.Switchables;
 
 namespace Sorting.CompetePools
 {
@@ -11,18 +10,13 @@ namespace Sorting.CompetePools
         ISorter Sorter { get; }
         IReadOnlyList<double> SwitchUseList { get; }
         int SwitchesUsed { get; }
-    }
-
-
-    public interface ISorterOnSwitchableGroup : ISorterEval
-    {
         Guid SwitchableGroupGuid { get; }
         bool Success { get; }
     }
 
-    public static class SorterOnSwitchableGroup
+    public static class SorterEval
     {
-        public static ISorterOnSwitchableGroup Make
+        public static ISorterEval Make
             (
                 ISorter sorter,
                 Guid switchableGroupGuid,
@@ -30,7 +24,7 @@ namespace Sorting.CompetePools
                 bool success
             )
         {
-            return new SorterOnSwitchableGroupImpl(
+            return new SorterEvalImpl(
                     sorter: sorter,
                     switchableGroupGuid: switchableGroupGuid,
                     switchUseList: switchUseList, 
@@ -39,11 +33,11 @@ namespace Sorting.CompetePools
         }
     }
 
-    public class SorterOnSwitchableGroupImpl : ISorterOnSwitchableGroup
+    public class SorterEvalImpl : ISorterEval
     {
         private readonly ISorter _sorter;
 
-        public SorterOnSwitchableGroupImpl
+        public SorterEvalImpl
         (
             ISorter sorter,
             Guid switchableGroupGuid,

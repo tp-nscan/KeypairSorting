@@ -68,10 +68,10 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        private IEnumerativeBackgroundWorker<ISorter, IEnumerable<ISorterOnSwitchableGroup>> _sorterBackgroundWorker;
+        private IEnumerativeBackgroundWorker<ISorter, IEnumerable<ISorterEval>> _sorterBackgroundWorker;
         private IDisposable _updateSubscription;
 
-        IEnumerativeBackgroundWorker<ISorter, IEnumerable<ISorterOnSwitchableGroup>> SorterBackgroundWorker
+        IEnumerativeBackgroundWorker<ISorter, IEnumerable<ISorterEval>> SorterBackgroundWorker
         {
             get
             {
@@ -91,7 +91,7 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        IEnumerable<ISorterOnSwitchableGroup> SorterOnSwitchableGroupTests(ISorter sorter)
+        IEnumerable<ISorterEval> SorterOnSwitchableGroupTests(ISorter sorter)
         {
             KeyPairSwitchSet.Make<uint>(sorter.KeyCount);
 
@@ -144,7 +144,7 @@ namespace KeypairSorting.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        void UpdateSorterResults(IIterationResult<IEnumerable<ISorterOnSwitchableGroup>> results)
+        void UpdateSorterResults(IIterationResult<IEnumerable<ISorterEval>> results)
         {
             if (results.ProgressStatus == ProgressStatus.StepComplete)
             {

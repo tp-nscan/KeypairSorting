@@ -24,12 +24,12 @@ namespace SorterEvo.Workflows
     public static class SorterCompPoolWorkflowBuilder
     {
         public static ISorterCompPoolWorkflowBuilder Make
-    (
-        Guid workFlowGuid,
-        IEntityRepository repository,
-        Guid sorterGroupGuid,
-        Guid sorterCompPoolParamsGuid
-    )
+        (
+            Guid workFlowGuid,
+            IEntityRepository repository,
+            Guid sorterGroupGuid,
+            Guid sorterCompPoolParamsGuid
+        )
         {
             var dict = new Dictionary<string, IEntity>();
             dict[SorterCompPoolWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
@@ -85,7 +85,7 @@ namespace SorterEvo.Workflows
         public static ISorterCompPoolWorkflowTracker Trim(this ISorterCompPoolWorkflowTracker tracker, int count)
         {
             return new SorterCompPoolWorkflowTrackerImpl(
-                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t => ((ISorterOnSwitchableGroup)t.ReferenceResult).SwitchesUsed).Take(count))
+                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t => ((ISorterEval)t.ReferenceResult).SwitchesUsed).Take(count))
                 );
         }
 
@@ -133,8 +133,8 @@ namespace SorterEvo.Workflows
         public static IReadOnlyDictionary<string, IEntity> InputEntityOptions(ISorterCompPoolWorkflowBuilder builder,
             bool mergeWithPrev)
         {
-            return mergeWithPrev
-                ? builder.InputEntities
+            return mergeWithPrev ?
+                  builder.InputEntities
                 : builder.ToEntityDictionary();
         }
 

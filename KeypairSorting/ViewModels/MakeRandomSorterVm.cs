@@ -143,20 +143,20 @@ namespace KeypairSorting.ViewModels
 
         bool CanRandGenCommand()
         {
-            return !_busy && Seed.HasValue && ReportFrequency.HasValue && KeyCount.HasValue;
+            return ! _busy && Seed.HasValue && ReportFrequency.HasValue && KeyCount.HasValue;
         }
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
         readonly Stopwatch _stopwatch = new Stopwatch();
+
         async Task GenerateSamples()
         {
             Busy = true;
             var samplerParams =  GetSorterSamplerParams(KeyCount.Value);
             _stopwatch.Reset();
             _stopwatch.Start();
-
             _cancellationTokenSource = new CancellationTokenSource();
+
             var rando = Rando.Fast(Seed.Value);
             var inputs = Enumerable.Range(0, 10000).Select(t => rando.NextInt());
 
@@ -188,6 +188,8 @@ namespace KeypairSorting.ViewModels
 
             ibw.OnIterationResult.Subscribe(UpdateSorterSamplerResults);
             await ibw.Start(_cancellationTokenSource);
+
+
             Busy = false;
             _stopwatch.Stop();
             CommandManager.InvalidateRequerySuggested();
@@ -285,7 +287,6 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        private string _procTime;
         public string ProcTime
         {
             get { return _stopwatch.Elapsed.TotalSeconds.ToString("0"); }

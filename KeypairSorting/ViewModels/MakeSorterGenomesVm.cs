@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Genomic.Chromosomes;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
-using MathUtils.Collections;
 using SorterEvo.Genomes;
 using Sorting.KeyPairs;
 using WpfUtils;

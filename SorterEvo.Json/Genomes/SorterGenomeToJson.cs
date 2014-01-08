@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Genomic.Chromosomes;
 using Genomic.Json.Chromosomes;
 using Newtonsoft.Json;
 using SorterEvo.Genomes;
-using Sorting.KeyPairs;
 
 namespace SorterEvo.Json.Genomes
 {
@@ -37,9 +33,22 @@ namespace SorterEvo.Json.Genomes
 
     public static class SorterGenomeToJsonExt
     {
+        public static SorterGenomeToJson ToJsonAdapter(this ISorterGenome sorterGenome)
+        {
+            var chromosomeUintToJson = new SorterGenomeToJson
+            {
+                Guid = sorterGenome.Guid,
+                ChromosomeUintToJson = sorterGenome.Chromosome.ToJsonAdapter(),
+                KeyCount = sorterGenome.KeyCount,
+                KeyPairCount = sorterGenome.KeyPairCount
+            };
+
+            return chromosomeUintToJson;
+        }
+
         public static string ToJsonString(this ISorterGenome sorterGenome)
         {
-            return JsonConvert.SerializeObject(SorterGenomeToJson.ToJsonAdapter(sorterGenome), Formatting.None);
+            return JsonConvert.SerializeObject(sorterGenome.ToJsonAdapter(), Formatting.None);
         }
 
         public static ISorterGenome ToSorterGenome(this string sorterGenomeString)

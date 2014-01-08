@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Genomic.Chromosomes;
 using Genomic.Genomes;
@@ -53,6 +54,18 @@ namespace SorterEvo.Genomes
                     keyCount: keyCount, 
                     keyPairCount: keyPairCount
                );
+        }
+
+        public static Guid ProgenitorGuid(this ISorterGenome sorterGenome, IDictionary<Guid, ISorterGenome> genomeDictionary)
+        {
+            var guidRet = sorterGenome.Guid;
+            ISorterGenome currentSorterGenome = sorterGenome;
+            while (currentSorterGenome.ParentGuid != Guid.Empty)
+            {
+                currentSorterGenome = genomeDictionary[currentSorterGenome.ParentGuid];
+            }
+
+            return guidRet;
         }
     }
 

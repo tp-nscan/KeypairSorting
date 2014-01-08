@@ -30,12 +30,12 @@ namespace SorterEvo.Trackers
         public static ISorterCompParaPoolWorkflowTracker Trim(this ISorterCompParaPoolWorkflowTracker tracker, int count)
         {
             return new SorterCompParaPoolWorkflowTrackerImpl(
-                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t=> ((ISorterOnSwitchableGroup)t.ReferenceResult).SwitchesUsed).Take(count)),
+                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t=> ((ISorterEval)t.ReferenceResult).SwitchesUsed).Take(count)),
                     switchablePoolStats: GenomePoolStats.Make(tracker.SwitchablePoolStats.GenomeStatses.OrderBy(t => t.ReferenceResult).Take(count))
                 );
         }
 
-        public static ISorterOnSwitchableGroup SorterRefScore(ISorterGenome sorterGenome)
+        public static ISorterEval SorterRefScore(ISorterGenome sorterGenome)
         {
             return sorterGenome.ToSorter().FullTest();
         }
@@ -109,7 +109,7 @@ namespace SorterEvo.Trackers
 
                     _poolReport = genomeTable.Print
                     (
-                        g=>g.FirstGeneration.ToString() + "_" + g.ReferenceResult.Cast<ISorterOnSwitchableGroup>().SwitchesUsed,
+                        g=>g.FirstGeneration.ToString() + "_" + g.ReferenceResult.Cast<ISorterEval>().SwitchesUsed,
                         h => h.FirstGeneration.ToString() + "_",
                         i=>i.Item2.ToString()
                     );

@@ -187,7 +187,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnTuneSortersCommand()
         {
-            ToolTemplateVm = new MakeSorterTuneVm();
+            ToolTemplateVm = new MakeTunedSortersVm();
         }
 
         bool CanTuneSortersCommand()
