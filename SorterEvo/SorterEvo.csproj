@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
-      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.27\lib\portable-net45+win8+wp8\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.30\lib\portable-net45+win8+wp8\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -86,7 +86,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

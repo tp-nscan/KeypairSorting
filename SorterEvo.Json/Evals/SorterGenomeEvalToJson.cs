@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -7,16 +8,17 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SorterEvo.Evals;
 using SorterEvo.Json.Genomes;
+using Sorting.Json.CompetePools;
 
 namespace SorterEvo.Json.Evals
 {
     public class SorterGenomeEvalToJson
     {
-
         public SorterGenomeToJson SorterGenomeToJson { get; set; }
 
-        //IImmutableStack<Guid> ParentGuids { get; }
-        //ISorterEval SorterEval { get; }
+        public IImmutableStack<Guid> ParentGuids { get; set; }
+
+        public SorterEvalToJson SorterEvalToJson { get; set; }
     }
 
     public static class SorterGenomeEvalToJsonExt
@@ -25,7 +27,9 @@ namespace SorterEvo.Json.Evals
         {
             var chromosomeUintToJson = new SorterGenomeEvalToJson
             {
-                SorterGenomeToJson = sorterGenomeEval.SorterGenome.ToJsonAdapter()
+                SorterGenomeToJson = sorterGenomeEval.SorterGenome.ToJsonAdapter(),
+                SorterEvalToJson = sorterGenomeEval.SorterEval.ToJsonAdapter(),
+                ParentGuids = sorterGenomeEval.ParentGuids
             };
 
             return chromosomeUintToJson;
@@ -46,8 +50,8 @@ namespace SorterEvo.Json.Evals
         {
             return SorterGenomeEval.Make(
                     sorterGenome: sorterGenomeEvalToJson.SorterGenomeToJson.ToSorterGenome(),
-                    parentGuids: null,
-                    sorterEval: null
+                    parentGuids: sorterGenomeEvalToJson.ParentGuids,
+                    sorterEval: sorterGenomeEvalToJson.SorterEvalToJson.ToSorterEval()
                 );
         }
     }

@@ -23,9 +23,14 @@
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap">Sorters eval</TextBlock>
                 </Button.Content>
             </Button>
+            <Button Command="{Binding EvalSorterGenomesCommand}">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Sorter genomes eval</TextBlock>
+                </Button.Content>
+            </Button>
             <Button Command="{Binding SortersSwitchesEvalCommand}">
                 <Button.Content>
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Sorters Switches eval</TextBlock>
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Sorters switches eval</TextBlock>
                 </Button.Content>
             </Button>
             <Button Command="{Binding RandomSwitchesCommand}">
@@ -33,7 +38,7 @@
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap">Random switches</TextBlock>
                 </Button.Content>
             </Button>
-            <Button Command="{Binding GenomeGenCommand}">
+            <Button Command="{Binding MakeSorterGenomesCommand}">
                 <Button.Content>
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap">Sorter to SorterGenome</TextBlock>
                 </Button.Content>

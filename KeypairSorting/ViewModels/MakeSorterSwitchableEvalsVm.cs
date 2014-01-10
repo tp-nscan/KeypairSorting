@@ -18,16 +18,15 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeSorterSwitchableEvalVm : ViewModelBase, IToolTemplateVm
+    public class MakeSorterSwitchableEvalsVm : ViewModelBase, IToolTemplateVm
     {
-        public MakeSorterSwitchableEvalVm()
+        public MakeSorterSwitchableEvalsVm()
         {
             ReportFrequency = 50;
             _sorterEvalGridVm = new SorterEvalGridVm();
             _sorterGridVm = new SorterGridVm();
             _switchableGroupGridVm = new SwitchableGroupGridVm();
         }
-
 
         public ToolTemplateType ToolTemplateType
         {
@@ -149,7 +148,7 @@ namespace KeypairSorting.ViewModels
             if (results.ProgressStatus == ProgressStatus.StepComplete)
             {
                 SorterEvalGridVm.SorterOnSwitchableGroupVms
-                    .AddMany(results.Data.Select(r=>r.ToSorterOnSwitchableGroupVm()));
+                    .AddMany(results.Data.Select(r=>r.ToSorterEvalVm()));
             }
             OnPropertyChanged("ProcTime");
         }

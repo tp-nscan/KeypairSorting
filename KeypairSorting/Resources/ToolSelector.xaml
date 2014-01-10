@@ -15,6 +15,10 @@
         <views:MakeSorterEvalsControl/>
     </DataTemplate>
 
+    <DataTemplate x:Key="sorterGenomeEvalTemplate">
+        <views:MakeSorterGenomeEvalsControl/>
+    </DataTemplate>
+    
     <DataTemplate x:Key="sorterGenomeGenTemplate">
         <views:MakeSorterGenomesControl/>
     </DataTemplate>
@@ -35,6 +39,7 @@
         DefaultTemplate="{StaticResource defaultTemplate}"
         RandomSorterTemplate="{StaticResource randomSorterTemplate}"
         SorterEvalTemplate="{StaticResource sorterEvalTemplate}"
+        SorterGenomeEvalTemplate="{StaticResource sorterGenomeEvalTemplate}"
         SorterGenomeGenTemplate="{StaticResource sorterGenomeGenTemplate}"
         SorterSwitchableEvalTemplate="{StaticResource sorterSwitchableEvalTemplate}"
         SwitchableGenTemplate="{StaticResource switchableGenTemplate}"

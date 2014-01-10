@@ -204,7 +204,7 @@ namespace KeypairSorting.ViewModels
 
             SorterEvalGridVm.SorterOnSwitchableGroupVms.AddMany
                 (
-                    result.Data.SwitchResults.Select(r=>r.ToSorterOnSwitchableGroupVm())
+                    result.Data.SwitchResults.Select(r=>r.ToSorterEvalVm())
                 );
 
             _switchUseHistoGram.Merge(result.Data.SwitchUseHistogram, (a, b) => a + b);

@@ -85,6 +85,35 @@ namespace KeypairSorting.ViewModels
 
         #endregion // EvalSortersCommand
 
+
+        #region EvalSortersCommand
+
+        RelayCommand _evalSorterGenomesCommand;
+        public ICommand EvalSorterGenomesCommand
+        {
+            get
+            {
+                return _evalSorterGenomesCommand ?? (_evalSorterGenomesCommand
+                    = new RelayCommand
+                        (
+                            param => OnEvalSorterGenomesCommand(),
+                            param => CanEvalSorterGenomesCommand()
+                        ));
+            }
+        }
+
+        void OnEvalSorterGenomesCommand()
+        {
+            ToolTemplateVm = new MakeSorterGenomeEvalsVm();
+        }
+
+        bool CanEvalSorterGenomesCommand()
+        {
+            return true;
+        }
+
+        #endregion // EvalSortersCommand
+
         #region SortersSwitchesEvalCommand
 
         RelayCommand _sortersSwitchesEvalCommand;
@@ -103,7 +132,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnSortersSwitchesEvalCommand()
         {
-            ToolTemplateVm = new MakeSorterSwitchableEvalVm();
+            ToolTemplateVm = new MakeSorterSwitchableEvalsVm();
         }
 
         bool CanSortersSwitchesEvalCommand()
@@ -113,14 +142,14 @@ namespace KeypairSorting.ViewModels
 
         #endregion // SortersSwitchesEvalCommand
 
-        #region SortersSwitchesEvalCommand
+        #region MakeSorterGenomesCommand
 
-        RelayCommand _genomeGenCommand;
-        public ICommand GenomeGenCommand
+        RelayCommand _makeSorterGenomesCommand;
+        public ICommand MakeSorterGenomesCommand
         {
             get
             {
-                return _genomeGenCommand ?? (_genomeGenCommand
+                return _makeSorterGenomesCommand ?? (_makeSorterGenomesCommand
                     = new RelayCommand
                         (
                             param => OnGenomeGenCommand(),

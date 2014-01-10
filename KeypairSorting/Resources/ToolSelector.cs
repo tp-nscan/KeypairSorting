@@ -13,6 +13,7 @@ namespace KeypairSorting.Resources
     {
         RandomSorter,
         SorterEval,
+        SorterGenomeEval,
         SorterGenomeGen,
         SorterSwitchableEval,
         SwitchableGen,
@@ -37,6 +38,12 @@ namespace KeypairSorting.Resources
         #region SorterEvalTemplate
 
         public DataTemplate SorterEvalTemplate { get; set; }
+
+        #endregion
+
+        #region SorterGenomeEvalTemplate
+
+        public DataTemplate SorterGenomeEvalTemplate { get; set; }
 
         #endregion
 
@@ -77,6 +84,8 @@ namespace KeypairSorting.Resources
                         return SorterEvalTemplate;
                     case ToolTemplateType.SorterGenomeGen:
                         return SorterGenomeGenTemplate;
+                    case ToolTemplateType.SorterGenomeEval:
+                        return SorterGenomeEvalTemplate;
                     case ToolTemplateType.SorterSwitchableEval:
                         return SorterSwitchableEvalTemplate;
                     case ToolTemplateType.SwitchableGen:

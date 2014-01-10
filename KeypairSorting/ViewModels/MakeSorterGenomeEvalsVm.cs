@@ -1,48 +1,55 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
-using Sorting.CompetePools;
-using Sorting.Json.Sorters;
+using SorterEvo.Evals;
+using SorterEvo.Genomes;
+using SorterEvo.Json.Genomes;
 using Sorting.Sorters;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
 {
-    public class MakeSorterEvalsVm : ViewModelBase, IToolTemplateVm
+    public class MakeSorterGenomeEvalsVm : ViewModelBase, IToolTemplateVm
     {
-        public MakeSorterEvalsVm()
+        public MakeSorterGenomeEvalsVm()
         {
             ReportFrequency = 50;
-            _sorterEvalGridVm = new SorterEvalGridVm();
-            _sorterGridVm = new SorterGridVm();
+            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm();
+            _sorterGenomeEvalGridVm.SorterGenomeEvalVms.CollectionChanged 
+                        += (s,e) => CommandManager.InvalidateRequerySuggested();
+            _sorterGenomeGridVm = new SorterGenomeGridVm();
+            _sorterGenomeGridVm.SorterGenomeVms.CollectionChanged
+                        += (s, e) => CommandManager.InvalidateRequerySuggested();
         }
 
         public ToolTemplateType ToolTemplateType
         {
-            get { return ToolTemplateType.SorterEval; }
+            get { return ToolTemplateType.SorterGenomeEval; }
         }
 
         public string Description
         {
-            get { return "Evaluate Sorters"; }
+            get { return "Evaluate Sorter Genomes"; }
         }
 
-        private readonly SorterEvalGridVm _sorterEvalGridVm;
-        public SorterEvalGridVm SorterEvalGridVm
+
+        private readonly SorterGenomeEvalGridVm _sorterGenomeEvalGridVm;
+        public SorterGenomeEvalGridVm SorterGenomeEvalGridVm
         {
-            get { return _sorterEvalGridVm; }
+            get { return _sorterGenomeEvalGridVm; }
         }
 
-        private readonly SorterGridVm _sorterGridVm;
-        public SorterGridVm SorterGridVm
+        private readonly SorterGenomeGridVm _sorterGenomeGridVm;
+        public SorterGenomeGridVm SorterGenomeGridVm
         {
-            get { return _sorterGridVm; }
+            get { return _sorterGenomeGridVm; }
         }
 
         private bool _busy;
@@ -67,11 +74,10 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-
-        private IEnumerativeBackgroundWorker<ISorter, ISorterEval> _sorterBackgroundWorker;
+        private IEnumerativeBackgroundWorker<ISorterGenome, ISorterGenomeEval> _sorterBackgroundWorker;
         private IDisposable _updateSubscription;
-         
-        IEnumerativeBackgroundWorker<ISorter, ISorterEval> SorterBackgroundWorker
+
+        IEnumerativeBackgroundWorker<ISorterGenome, ISorterGenomeEval> SorterBackgroundWorker
         {
             get
             {
@@ -80,8 +86,15 @@ namespace KeypairSorting.ViewModels
 
                     _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make
                         (
-                            inputs: SorterGridVm.SorterVms.Select(t => t.SorterJson.ToSorter()),
-                            mapper: (s, c) => IterationResult.Make(s.FullTest(), ProgressStatus.StepComplete)
+                            inputs: SorterGenomeGridVm.SorterGenomeVms.Select(t => t.SorterGenomeJson.ToSorterGenome()),
+                            mapper: (s, c) => 
+                                IterationResult.Make(
+                                                        data: SorterGenomeEval.Make(
+                                                            sorterGenome: s, 
+                                                            parentGuids: ImmutableStack<Guid>.Empty, 
+                                                            sorterEval: s.ToSorter().FullTest()), 
+                                                        progressStatus: ProgressStatus.StepComplete
+                                                    )
                         );
 
                     _updateSubscription = _sorterBackgroundWorker.OnIterationResult.Subscribe(UpdateSorterResults);
@@ -91,26 +104,26 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        #region SorterEvalCommand
+        #region SorterGenomeEvalCommand
 
-        RelayCommand _sorterEvalCommand;
+        RelayCommand _sorterGenomeEvalCommand;
 
-        public ICommand SorterEvalCommand
+        public ICommand SorterGenomeEvalCommand
         {
             get
             {
-                return _sorterEvalCommand ?? (_sorterEvalCommand
+                return _sorterGenomeEvalCommand ?? (_sorterGenomeEvalCommand
                     = new RelayCommand
                         (
                             param => EvaluateSorters(),
-                            param => CanRandGenCommand()
+                            param => CanEvaluateSorters()
                         ));
             }
         }
 
-        bool CanRandGenCommand()
+        bool CanEvaluateSorters()
         {
-            return !_busy && ReportFrequency.HasValue && SorterGridVm.SorterVms.Count > 0;
+            return !_busy && ReportFrequency.HasValue && SorterGenomeGridVm.SorterGenomeVms.Count > 0;
         }
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -129,24 +142,24 @@ namespace KeypairSorting.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        void UpdateSorterResults(IIterationResult<ISorterEval> result)
+        void UpdateSorterResults(IIterationResult<ISorterGenomeEval> result)
         {
             if (result.ProgressStatus == ProgressStatus.StepComplete)
             {
-                SorterEvalGridVm.SorterOnSwitchableGroupVms.Add(result.Data.ToSorterEvalVm());
+                SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(result.Data.ToSorterGenomeEvalVm());
             }
         }
 
-        #endregion // RandGenCommand
+        #endregion // SorterGenomeEvalCommand
 
-        #region StopSorterEvalCommand
+        #region StopSorterGenomeEvalCommand
 
-        RelayCommand _stopSorterEvalCommand;
-        public ICommand StopSorterEvalCommand
+        RelayCommand _stopSorterGenomeEvalCommand;
+        public ICommand StopSorterGenomeEvalCommand
         {
             get
             {
-                return _stopSorterEvalCommand ?? (_stopSorterEvalCommand
+                return _stopSorterGenomeEvalCommand ?? (_stopSorterGenomeEvalCommand
                     = new RelayCommand
                         (
                             param => OnStopRandGenCommand(),
@@ -187,7 +200,7 @@ namespace KeypairSorting.ViewModels
         {
             _updateSubscription.Dispose();
             _sorterBackgroundWorker = null;
-            SorterEvalGridVm.SorterOnSwitchableGroupVms.Clear();
+            SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
         }
 
         bool CanResetCommand()
@@ -196,6 +209,8 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // ResetCommand
+
+
 
     }
 }
