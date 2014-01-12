@@ -18,7 +18,7 @@ namespace SorterEvo.Test.Table
                 compParaPool.SorterOnSwitchableGroups.Select(
                     s =>
                         new Tuple<Guid, Guid, Tuple<bool, int>>(s.Sorter.Guid, s.SwitchableGroupGuid,
-                            new Tuple<bool, int>(s.Success, s.SwitchesUsed)));
+                            new Tuple<bool, int>(s.Success, s.SwitchUseCount)));
 
             var compParaPoolResults = compParaPoolScores.Select (
                 s => new Tuple<ISorterGenome, ISwitchableGroupGenome, Tuple<bool, int>>

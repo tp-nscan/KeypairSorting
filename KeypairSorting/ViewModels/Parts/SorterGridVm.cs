@@ -92,6 +92,34 @@ namespace KeypairSorting.ViewModels.Parts
 
         #endregion // PasteGridCommand
 
+        #region ClearGridCommand
+
+        RelayCommand _clearGridCommand;
+        public ICommand ClearGridCommand
+        {
+            get
+            {
+                return _clearGridCommand ?? (_clearGridCommand
+                    = new RelayCommand
+                        (
+                            param => OnClearGridCommand(),
+                            param => CanClearGridCommand()
+                        ));
+            }
+        }
+
+        protected void OnClearGridCommand()
+        {
+            SorterVms.Clear();
+        }
+
+        bool CanClearGridCommand()
+        {
+            return SorterVms.Any();
+        }
+
+        #endregion // ClearGridCommand
+
         private readonly ObservableCollection<SorterVm> _sorterVms = new ObservableCollection<SorterVm>();
         public ObservableCollection<SorterVm> SorterVms
         {

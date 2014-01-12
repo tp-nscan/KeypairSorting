@@ -12,17 +12,20 @@
 		<DockPanel LastChildFill="True">
 			<WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
                 
-                <Button Command="{Binding CopyGridCommand}" Content="Copy all" 
+                <Button Command="{Binding CopyGridCommand}" Content="Copy" 
                         Style="{DynamicResource PlainButtonStyle}"/>
 
-                <Button Command="{Binding CopyResultsCommand}" Content="Copy results" 
+                <Button Command="{Binding PasteGridCommand}" Content="Paste" 
+                        Style="{DynamicResource PlainButtonStyle}"/>
+
+                <Button Command="{Binding ClearGridCommand}" Content="Clear" 
                         Style="{DynamicResource PlainButtonStyle}"/>
 
             </WrapPanel>
 
 			<DataGrid x:Name="dataGrid" VerticalScrollBarVisibility="Auto"
 				    DockPanel.Dock="Bottom"
-				    ItemsSource="{Binding SorterOnSwitchableGroupVms}"/>
+				    ItemsSource="{Binding SorterEvalVms}"/>
 
 		</DockPanel>
 	</Grid>

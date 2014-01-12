@@ -88,13 +88,14 @@ namespace KeypairSorting.ViewModels
                         (
                             inputs: SorterGenomeGridVm.SorterGenomeVms.Select(t => t.SorterGenomeJson.ToSorterGenome()),
                             mapper: (s, c) => 
-                                IterationResult.Make(
-                                                        data: SorterGenomeEval.Make(
-                                                            sorterGenome: s, 
-                                                            parentGuids: ImmutableStack<Guid>.Empty, 
-                                                            sorterEval: s.ToSorter().FullTest()), 
-                                                        progressStatus: ProgressStatus.StepComplete
-                                                    )
+                                IterationResult.Make
+                                (
+                                    data: SorterGenomeEval.Make(
+                                        sorterGenome: s, 
+                                        ancestors: ImmutableStack<Guid>.Empty, 
+                                        sorterEval: s.ToSorter().FullTest()), 
+                                    progressStatus: ProgressStatus.StepComplete
+                                )
                         );
 
                     _updateSubscription = _sorterBackgroundWorker.OnIterationResult.Subscribe(UpdateSorterResults);

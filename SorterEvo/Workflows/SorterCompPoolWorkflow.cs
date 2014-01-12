@@ -155,7 +155,7 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Multiply
+            var sorterLayer = SorterLayer.NextGeneration
                 (
                     seed: randy.NextInt(), 
                     newGenomeCount: SorterCompPoolParams.SorterLayerExpandedGenomeCount,
@@ -192,10 +192,10 @@ namespace SorterEvo.Workflows
         private ISorterCompPoolWorkflow EvaluateResultsStep(int seed)
         {
             var sorterLayerEval =
-                CompPool.SorterOnSwitchableGroups.Select(
+                CompPool.SorterEvals.Select(
                     t => GenomeEval.Make(
                             genome: SorterLayer.GetGenome(t.Sorter.Guid),
-                            score: t.SwitchesUsed,
+                            score: t.SwitchUseCount,
                             generation: Generation
                         )
                     ).Make<ISorterGenome, IGenomeEval<ISorterGenome>>();

@@ -10,8 +10,8 @@ namespace Sorting.CompetePools
     public interface ICompPool
     {
         IReadOnlyList<ISorter> Sorters { get; }
-        IEnumerable<ISorterEval> SorterOnSwitchableGroups { get; }
-        ISorterEval SorterOnSwitchableGroup(Guid sorterId);
+        IEnumerable<ISorterEval> SorterEvals { get; }
+        ISorterEval SorterEval(Guid sorterId);
     }
 
     public static class CompPool
@@ -52,12 +52,12 @@ namespace Sorting.CompetePools
         }
 
         private readonly IDictionary<Guid, ISorterEval> _sorterOnSwitchableGroups;
-        public IEnumerable<ISorterEval> SorterOnSwitchableGroups
+        public IEnumerable<ISorterEval> SorterEvals
         {
             get { return _sorterOnSwitchableGroups.Values; }
         }
 
-        public ISorterEval SorterOnSwitchableGroup(Guid sorterId)
+        public ISorterEval SorterEval(Guid sorterId)
         {
             return _sorterOnSwitchableGroups[sorterId];
         }

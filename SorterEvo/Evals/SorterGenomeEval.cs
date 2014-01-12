@@ -8,7 +8,7 @@ namespace SorterEvo.Evals
     public interface ISorterGenomeEval
     {
         ISorterGenome SorterGenome { get; }
-        IImmutableStack<Guid> ParentGuids { get; }
+        IImmutableStack<Guid> Ancestors { get; }
         ISorterEval SorterEval { get; }
     }
 
@@ -16,14 +16,14 @@ namespace SorterEvo.Evals
     {
         public static ISorterGenomeEval Make(
                 ISorterGenome sorterGenome,
-                IImmutableStack<Guid> parentGuids,
+                IImmutableStack<Guid> ancestors,
                 ISorterEval sorterEval
             )
         {
             return new SorterGenomeEvalImpl
                 (
                     sorterGenome: sorterGenome,
-                    parentGuids: parentGuids,
+                    ancestors: ancestors,
                     sorterEval: sorterEval
                 );
         }
@@ -37,7 +37,7 @@ namespace SorterEvo.Evals
             return Make
                 (
                     sorterGenome: sorterGenome,
-                    parentGuids: parentGenomeEval.ParentGuids.Push
+                    ancestors: parentGenomeEval.Ancestors.Push
                             (
                                 sorterGenome.Guid
                             ),
@@ -49,18 +49,18 @@ namespace SorterEvo.Evals
     class SorterGenomeEvalImpl : ISorterGenomeEval
     {
         private readonly ISorterGenome _sorterGenome;
-        private readonly IImmutableStack<Guid> _parentGuids;
+        private readonly IImmutableStack<Guid> _ancestors;
         private readonly ISorterEval _sorterEval;
 
         public SorterGenomeEvalImpl
             (
                 ISorterGenome sorterGenome, 
-                IImmutableStack<Guid> parentGuids, 
+                IImmutableStack<Guid> ancestors, 
                 ISorterEval sorterEval
             )
         {
             _sorterGenome = sorterGenome;
-            _parentGuids = parentGuids;
+            _ancestors = ancestors;
             _sorterEval = sorterEval;
         }
 
@@ -69,9 +69,9 @@ namespace SorterEvo.Evals
             get { return _sorterGenome; }
         }
 
-        public IImmutableStack<Guid> ParentGuids
+        public IImmutableStack<Guid> Ancestors
         {
-            get { return _parentGuids; }
+            get { return _ancestors; }
         }
 
         public ISorterEval SorterEval

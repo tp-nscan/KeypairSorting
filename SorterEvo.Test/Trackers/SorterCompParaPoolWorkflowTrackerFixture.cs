@@ -85,14 +85,14 @@ namespace SorterEvo.Test.Trackers
                 var bsetResult =
                     tracker.SorterPoolStats
                            .GenomeStatses
-                           .OrderBy(t => t.ReferenceResult.Cast<ISorterEval>().SwitchesUsed)
+                           .OrderBy(t => t.ReferenceResult.Cast<ISorterEval>().SwitchUseCount)
                            .First().ReferenceResult
                            .Cast<ISorterEval>();
 
                 var averageScore = tracker.SorterPoolStats
-                                          .GenomeStatses.Average(t => t.ReferenceResult.Cast<ISorterEval>().SwitchesUsed);
+                                          .GenomeStatses.Average(t => t.ReferenceResult.Cast<ISorterEval>().SwitchUseCount);
 
-                System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", bsetResult.SwitchesUsed, bsetResult.Success, averageScore, i);
+                System.Diagnostics.Debug.WriteLine("{0}\t{1}\t{2}\t{3}", bsetResult.SwitchUseCount, bsetResult.Success, averageScore, i);
                 System.Diagnostics.Debug.WriteLine(tracker.PoolReport);
 
                 tracker = tracker.Trim(1000);

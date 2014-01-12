@@ -17,7 +17,7 @@ namespace KeypairSorting.ViewModels
 
         public MakeTunedSortersVm()
         {
-            _sorterGenomeGridVm = new SorterGenomeGridVm();
+            _sorterEvalGridVmInitial = new SorterEvalsGridVm();
             _sorterCompPoolParamsVm = new SorterCompPoolParamsVm
                 (
                     SorterCompPoolParams.MakeStandard(
@@ -29,7 +29,7 @@ namespace KeypairSorting.ViewModels
                         name: "standard"
                     )
                 );
-            _sorterEvalGridVm = new SorterEvalGridVm();
+            _sorterEvalGridVm = new SorterEvalsGridVm();
             _stopwatch = new Stopwatch();
         }
 
@@ -67,10 +67,10 @@ namespace KeypairSorting.ViewModels
             }
         }
 
-        private readonly SorterGenomeGridVm _sorterGenomeGridVm;
-        public SorterGenomeGridVm SorterGenomeGridVm
+        private readonly SorterEvalsGridVm _sorterEvalGridVmInitial;
+        public SorterEvalsGridVm SorterEvalGridVmInitial
         {
-            get { return _sorterGenomeGridVm; }
+            get { return _sorterEvalGridVmInitial; }
         }
 
         private readonly SorterCompPoolParamsVm _sorterCompPoolParamsVm;
@@ -79,8 +79,8 @@ namespace KeypairSorting.ViewModels
             get { return _sorterCompPoolParamsVm; }
         }
 
-        private readonly SorterEvalGridVm _sorterEvalGridVm;
-        public SorterEvalGridVm SorterEvalGridVm
+        private readonly SorterEvalsGridVm _sorterEvalGridVm;
+        public SorterEvalsGridVm SorterEvalGridVm
         {
             get { return _sorterEvalGridVm; }
         }

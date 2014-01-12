@@ -65,10 +65,26 @@ namespace KeypairSorting.ViewModels.Parts
         protected void OnCopyGridCommand()
         {
             var sb = new StringBuilder();
-
+            sb.AppendLine
+              (
+                "SorterGenomeJson" + "\t" +
+                "Success" + "\t" +
+                "UseCount" + "\t" +
+                "Ancestors" + "\t" +
+                "SwitchableGroupGuid" + "\t" +
+                "Switches"
+              );
             foreach (var sorterGenomeEvalVm in SorterGenomeEvalVms)
             {
-                sb.AppendLine(sorterGenomeEvalVm.SorterGenomeEvalJson);
+                sb.AppendLine
+                (
+                    sorterGenomeEvalVm.SorterGenomeJson + "\t" +
+                    sorterGenomeEvalVm.Success + "\t" +
+                    sorterGenomeEvalVm.SwitchUseCount + "\t" +
+                    sorterGenomeEvalVm.Ancestors + "\t" +
+                    sorterGenomeEvalVm.SwitchableGroupGuid + "\t" +
+                    sorterGenomeEvalVm.SwitchUseList
+                );
             }
 
             Clipboard.SetText(sb.ToString());
@@ -106,7 +122,7 @@ namespace KeypairSorting.ViewModels.Parts
 
                 foreach (var line in clipboardLines.Where(t => !String.IsNullOrEmpty(t)))
                 {
-                    vmList.Add(line.ToSorterGenomeEval().ToSorterGenomeEvalVm());
+                    vmList.Add(line.ToSorterGenomeEvalVm());
                 }
             }
             catch (Exception)

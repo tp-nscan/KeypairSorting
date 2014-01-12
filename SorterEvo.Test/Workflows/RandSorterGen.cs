@@ -125,11 +125,11 @@ namespace SorterEvo.Test.Workflows
                         {
                             sortFails++;
                         }
-                        histo[sorterOnSwitchableGroup.SwitchesUsed] = histo[sorterOnSwitchableGroup.SwitchesUsed] + 1;
+                        histo[sorterOnSwitchableGroup.SwitchUseCount] = histo[sorterOnSwitchableGroup.SwitchUseCount] + 1;
 
-                        if ((sorterOnSwitchableGroup.SwitchesUsed < 145) || (sorterOnSwitchableGroup.SwitchesUsed > 169))
+                        if ((sorterOnSwitchableGroup.SwitchUseCount < 145) || (sorterOnSwitchableGroup.SwitchUseCount > 169))
                         {
-                            Debug.WriteLine("****\t{0}\t{1}\t{2}", sorterOnSwitchableGroup.SwitchesUsed, sorterOnSwitchableGroup.Success, sorterOnSwitchableGroup.Sorter.ToJsonString());
+                            Debug.WriteLine("****\t{0}\t{1}\t{2}", sorterOnSwitchableGroup.SwitchUseCount, sorterOnSwitchableGroup.Success, sorterOnSwitchableGroup.Sorter.ToJsonString());
                         }
                     }
 

@@ -23,7 +23,7 @@ namespace KeypairSorting.ViewModels
         public MakeSorterSwitchableEvalsVm()
         {
             ReportFrequency = 50;
-            _sorterEvalGridVm = new SorterEvalGridVm();
+            _sorterEvalGridVm = new SorterEvalsGridVm();
             _sorterGridVm = new SorterGridVm();
             _switchableGroupGridVm = new SwitchableGroupGridVm();
         }
@@ -38,8 +38,8 @@ namespace KeypairSorting.ViewModels
             get { return "Test Sorters against Switchable groups"; }
         }
 
-        private readonly SorterEvalGridVm _sorterEvalGridVm;
-        public SorterEvalGridVm SorterEvalGridVm
+        private readonly SorterEvalsGridVm _sorterEvalGridVm;
+        public SorterEvalsGridVm SorterEvalGridVm
         {
             get { return _sorterEvalGridVm; }
         }
@@ -147,7 +147,7 @@ namespace KeypairSorting.ViewModels
         {
             if (results.ProgressStatus == ProgressStatus.StepComplete)
             {
-                SorterEvalGridVm.SorterOnSwitchableGroupVms
+                SorterEvalGridVm.SorterEvalVms
                     .AddMany(results.Data.Select(r=>r.ToSorterEvalVm()));
             }
             OnPropertyChanged("ProcTime");
@@ -209,7 +209,7 @@ namespace KeypairSorting.ViewModels
         {
             _updateSubscription.Dispose();
             _sorterBackgroundWorker = null;
-            SorterEvalGridVm.SorterOnSwitchableGroupVms.Clear();
+            SorterEvalGridVm.SorterEvalVms.Clear();
         }
 
         bool CanResetCommand()

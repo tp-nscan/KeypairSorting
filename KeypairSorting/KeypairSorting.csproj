@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -78,7 +82,7 @@
     <Compile Include="ViewModels\MakeTunedSortersVm.cs" />
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
-    <Compile Include="ViewModels\Parts\SorterEvalGridVm.cs" />
+    <Compile Include="ViewModels\Parts\SorterEvalsGridVm.cs" />
     <Compile Include="ViewModels\MakeSorterEvalsVm.cs" />
     <Compile Include="ViewModels\Parts\SorterGenomeEvalGridVm.cs" />
     <Compile Include="ViewModels\Parts\SorterGenomeEvalVm.cs" />

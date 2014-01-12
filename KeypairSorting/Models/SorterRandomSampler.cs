@@ -71,9 +71,9 @@ namespace KeypairSorting.Models
                         sortFails++;
                     }
 
-                    histo[sorterOnSwitchableGroup.SwitchesUsed] = histo[sorterOnSwitchableGroup.SwitchesUsed] + 1;
+                    histo[sorterOnSwitchableGroup.SwitchUseCount] = histo[sorterOnSwitchableGroup.SwitchUseCount] + 1;
 
-                    if ((sorterOnSwitchableGroup.SwitchesUsed < lowRangeMax) || (sorterOnSwitchableGroup.SwitchesUsed > highRangeMin))
+                    if ((sorterOnSwitchableGroup.SwitchUseCount < lowRangeMax) || (sorterOnSwitchableGroup.SwitchUseCount > highRangeMin))
                     {
                         sorterOnSwitchableGroups.Add(sorterOnSwitchableGroup);
                     }

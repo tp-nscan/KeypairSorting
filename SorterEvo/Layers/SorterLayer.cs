@@ -25,7 +25,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static ILayer<ISorterGenome> Multiply
+        public static ILayer<ISorterGenome> NextGeneration
             (
                 this ILayer<ISorterGenome> sorterGenomeLayer,
                 int seed,
@@ -37,7 +37,7 @@ namespace SorterEvo.Layers
         {
             return sorterGenomeLayer.Multiply
                 (
-                    genomeCopyFunc: CopyFunc
+                    genomeCopyFunc: Propigator
                         (
                             mutationRate: mutationRate,
                             insertionRate: insertionRate,
@@ -70,26 +70,26 @@ namespace SorterEvo.Layers
             return i => Rando.Fast(i).ToSorterGenome(keyCount, keyPairCount);
         }
 
-        public static Func<ISorterGenome, int, Guid, ISorterGenome> CopyFunc
+        public static Func<ISorterGenome, int, Guid, ISorterGenome> Propigator
             (
                 double mutationRate,
                 double insertionRate,
                 double deletionRate
             )
         {
-            throw new NotImplementedException();
-            //return (sg, i, guid) =>
-            //{
-            //    var randy = Rando.Fast(i);
-            //    return SorterGenome.Make
-            //        (
-            //            guid: guid,
-            //            parentGuid: sg.Guid,
-            //            chromosome: sg.Chromosome.Copy(randy, mutationRate, insertionRate, deletionRate),
-            //            keyCount: sg.KeyCount,
-            //            keyPairCount: sg.KeyPairCount
-            //        );
-            //};
+            return (sg, i, guid) =>
+            {
+                var randy = Rando.Fast(i);
+                return SorterGenome.Make
+                    (
+                        guid: guid,
+                        parentGuid: sg.Guid,
+                        chromosome: (IChromosomeUint) sg.Chromosome
+                            .StandardPropigate(randy, mutationRate, insertionRate, deletionRate),
+                        keyCount: sg.KeyCount,
+                        keyPairCount: sg.KeyPairCount
+                    );
+            };
         }
     }
 

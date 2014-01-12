@@ -29,7 +29,7 @@ namespace SorterEvo.Test.Layers
 
             var randy = Rando.Fast(1233);
             
-            var newLayer = layer.Multiply
+            var newLayer = layer.NextGeneration
                 (
                     seed: TestData.Layers.Seeds.First(),
                     newGenomeCount: TestData.Layers.SorterExpandedGenomeCount,

@@ -28,7 +28,7 @@ namespace Sorting.Test.Sorters
 
             stopwatch.Stop();
 
-            var score = sorterTestOnSwitchableGroup.SwitchesUsed;
+            var score = sorterTestOnSwitchableGroup.SwitchUseCount;
             var s = sorterTestOnSwitchableGroup.Success;
             Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
         }

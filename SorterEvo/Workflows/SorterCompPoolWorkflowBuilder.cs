@@ -67,16 +67,16 @@ namespace SorterEvo.Workflows
                  guid: builder.Guid.Add(seeds),
                  inputEntities: InputEntityOptions(builder, mergeWithPrev),
                  entity: seeds.Aggregate
-                               (
-                                 builder.Entity,
-                                   (current, seed) =>
-                                   {
-                                       var newWorkflow = Entity.Make(
-                                               guid: builder.Guid.Add(seed),
-                                               val: current.Value.Step(seed)
-                                               );
-                                       return newWorkflow;
-                                   }
+                    (
+                        builder.Entity,
+                        (current, seed) =>
+                        {
+                            var newWorkflow = Entity.Make(
+                                    guid: builder.Guid.Add(seed),
+                                    val: current.Value.Step(seed)
+                                    );
+                            return newWorkflow;
+                        }
                      ),
                  seeds: mergeWithPrev ? builder.Seeds.Concat(seeds).ToList() : seeds.ToList()
              );
@@ -85,7 +85,7 @@ namespace SorterEvo.Workflows
         public static ISorterCompPoolWorkflowTracker Trim(this ISorterCompPoolWorkflowTracker tracker, int count)
         {
             return new SorterCompPoolWorkflowTrackerImpl(
-                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t => ((ISorterEval)t.ReferenceResult).SwitchesUsed).Take(count))
+                    sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t => ((ISorterEval)t.ReferenceResult).SwitchUseCount).Take(count))
                 );
         }
 

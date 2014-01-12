@@ -29,7 +29,7 @@ namespace SorterEvo.Json.Evals
             {
                 SorterGenomeToJson = sorterGenomeEval.SorterGenome.ToJsonAdapter(),
                 SorterEvalToJson = sorterGenomeEval.SorterEval.ToJsonAdapter(),
-                ParentGuids = sorterGenomeEval.ParentGuids
+                ParentGuids = sorterGenomeEval.Ancestors
             };
 
             return chromosomeUintToJson;
@@ -50,7 +50,7 @@ namespace SorterEvo.Json.Evals
         {
             return SorterGenomeEval.Make(
                     sorterGenome: sorterGenomeEvalToJson.SorterGenomeToJson.ToSorterGenome(),
-                    parentGuids: sorterGenomeEvalToJson.ParentGuids,
+                    ancestors: sorterGenomeEvalToJson.ParentGuids,
                     sorterEval: sorterGenomeEvalToJson.SorterEvalToJson.ToSorterEval()
                 );
         }

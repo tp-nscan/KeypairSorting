@@ -9,7 +9,7 @@ namespace Sorting.CompetePools
     {
         ISorter Sorter { get; }
         IReadOnlyList<double> SwitchUseList { get; }
-        int SwitchesUsed { get; }
+        int SwitchUseCount { get; }
         Guid SwitchableGroupGuid { get; }
         bool Success { get; }
     }
@@ -17,18 +17,38 @@ namespace Sorting.CompetePools
     public static class SorterEval
     {
         public static ISorterEval Make
+        (
+            ISorter sorter,
+            Guid switchableGroupGuid,
+            bool success,
+            int switchUseCount
+        )
+        {
+            return new SorterEvalImpl
+                (
+                    sorter: sorter,
+                    switchableGroupGuid: switchableGroupGuid,
+                    switchUseList: null,
+                    success: success,
+                    switchUseCount: switchUseCount
+                );
+        }
+
+        public static ISorterEval Make
             (
                 ISorter sorter,
                 Guid switchableGroupGuid,
-                IReadOnlyList<double> switchUseList, 
-                bool success
+                bool success,
+                IReadOnlyList<double> switchUseList
             )
         {
-            return new SorterEvalImpl(
+            return new SorterEvalImpl
+                (
                     sorter: sorter,
                     switchableGroupGuid: switchableGroupGuid,
                     switchUseList: switchUseList, 
-                    success: success
+                    success: success,
+                    switchUseCount: (switchUseList == null) ? 0 : switchUseList.Count(t => t > 0)
                 );    
         }
     }
@@ -42,14 +62,15 @@ namespace Sorting.CompetePools
             ISorter sorter,
             Guid switchableGroupGuid,
             IReadOnlyList<double> switchUseList, 
-            bool success
+            bool success,
+            int switchUseCount
         )
         {
             _sorter = sorter;
             _switchUseList = switchUseList;
             _success = success;
             _switchableGroupGuid = switchableGroupGuid;
-            _switchesUsed = (switchUseList==null) ? 0: switchUseList.Count(t => t > 0);
+            _switchUseCount = switchUseCount;
         }
 
         private readonly Guid _switchableGroupGuid;
@@ -75,10 +96,10 @@ namespace Sorting.CompetePools
             get { return _switchUseList; }
         }
 
-        private readonly int _switchesUsed;
-        public int SwitchesUsed
+        private readonly int _switchUseCount;
+        public int SwitchUseCount
         {
-            get { return _switchesUsed; }
+            get { return _switchUseCount; }
         }
     }
 }

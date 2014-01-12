@@ -193,7 +193,7 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Multiply(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SorterLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
+            var sorterLayer = SorterLayer.NextGeneration(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SorterLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
 
             var switchableGroupLayer = SwitchableGroupLayer.Multiply(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, insertionRate: SorterCompParaPoolParams.SwitchableGroupInsertionRate, deletionRate: SorterCompParaPoolParams.SwitchableGroupDeletionRate);
 
@@ -267,7 +267,7 @@ namespace SorterEvo.Workflows
                 CompParaPool.SorterOnSwitchableGroups.GroupBy(t => t.SwitchableGroupGuid).Select(
                     g => GenomeEval.Make(
                             genome: SwitchableGroupLayer.GetGenome(g.Key),
-                            score: g.Sum(s=> - s.SwitchesUsed),
+                            score: g.Sum(s=> - s.SwitchUseCount),
                             generation: Generation
                         )
                     ).Make<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>>();

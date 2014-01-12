@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sorting.CompetePools;
 using Sorting.Switchables;
@@ -47,7 +48,12 @@ namespace Sorting.Sorters
                 totalSuccess &= sortSuccess;
             }
 
-            return SorterEval.Make(sorter, switchableGroup.Guid, switchUseList, totalSuccess);
+            return SorterEval.Make(
+                sorter: sorter,
+                switchableGroupGuid: switchableGroup.Guid,
+                success: totalSuccess,
+                switchUseList: switchUseList
+                );
         }
 
         public static ISorterEval FullTest(this ISorter sorter)

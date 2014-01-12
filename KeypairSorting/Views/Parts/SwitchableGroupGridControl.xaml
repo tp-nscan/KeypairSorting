@@ -10,6 +10,7 @@
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
             <Button Command="{Binding CopyGridCommand}" Content="Copy" Style="{DynamicResource PlainButtonStyle}"/>
             <Button Command="{Binding PasteGridCommand}"  Content="Paste" Style="{DynamicResource PlainButtonStyle}"/>
+            <Button Command="{Binding ClearGridCommand}"  Content="Clear" Style="{DynamicResource PlainButtonStyle}"/>
         </WrapPanel>
 
         <DataGrid x:Name="DataGrid" 

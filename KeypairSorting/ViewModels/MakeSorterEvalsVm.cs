@@ -19,7 +19,7 @@ namespace KeypairSorting.ViewModels
         public MakeSorterEvalsVm()
         {
             ReportFrequency = 50;
-            _sorterEvalGridVm = new SorterEvalGridVm();
+            _sorterEvalGridVm = new SorterEvalsGridVm();
             _sorterGridVm = new SorterGridVm();
         }
 
@@ -33,8 +33,8 @@ namespace KeypairSorting.ViewModels
             get { return "Evaluate Sorters"; }
         }
 
-        private readonly SorterEvalGridVm _sorterEvalGridVm;
-        public SorterEvalGridVm SorterEvalGridVm
+        private readonly SorterEvalsGridVm _sorterEvalGridVm;
+        public SorterEvalsGridVm SorterEvalGridVm
         {
             get { return _sorterEvalGridVm; }
         }
@@ -133,7 +133,7 @@ namespace KeypairSorting.ViewModels
         {
             if (result.ProgressStatus == ProgressStatus.StepComplete)
             {
-                SorterEvalGridVm.SorterOnSwitchableGroupVms.Add(result.Data.ToSorterEvalVm());
+                SorterEvalGridVm.SorterEvalVms.Add(result.Data.ToSorterEvalVm());
             }
         }
 
@@ -187,7 +187,7 @@ namespace KeypairSorting.ViewModels
         {
             _updateSubscription.Dispose();
             _sorterBackgroundWorker = null;
-            SorterEvalGridVm.SorterOnSwitchableGroupVms.Clear();
+            SorterEvalGridVm.SorterEvalVms.Clear();
         }
 
         bool CanResetCommand()

@@ -57,8 +57,8 @@ namespace SorterEvo.Trackers
                         "{0}\t{1}\t{2}", 
                         sorterCompPoolWorkflow.SorterCompPoolParams.Name, 
                         sorterCompPoolWorkflow.Generation,
-                        sorterCompPoolWorkflow.CompPool.SorterOnSwitchableGroups
-                                              .Select(t=>t.SwitchesUsed)
+                        sorterCompPoolWorkflow.CompPool.SorterEvals
+                                              .Select(t=>t.SwitchUseCount)
                                               .OrderBy(c => c)
                                               .First()
                         );

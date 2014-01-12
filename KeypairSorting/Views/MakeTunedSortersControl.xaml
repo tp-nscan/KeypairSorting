@@ -41,10 +41,10 @@
 
                 <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Sorter Genomes" 
+						Text="Starting Sorters" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterGenomeGridControl DataContext="{Binding SorterGenomeGridVm}" />
+                <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVmInitial}" />
 
             </DockPanel>
 
@@ -55,7 +55,7 @@
 
                 <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Switchable groups" 
+						Text="Updating Params" 
 						HorizontalAlignment="Center" />
 
                 <parts:SorterCompPoolParamsControl DataContext="{Binding SorterCompPoolParamsVm}" />
@@ -69,7 +69,7 @@
 
                 <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Evaluations" 
+						Text="Current Generation" 
 						HorizontalAlignment="Center" />
 
                 <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />

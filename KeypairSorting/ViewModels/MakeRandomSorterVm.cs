@@ -40,8 +40,8 @@ namespace KeypairSorting.ViewModels
             get { return "Make random Sorters"; }
         }
 
-        private SorterEvalGridVm _sorterEvalGridVm = new SorterEvalGridVm();
-        public SorterEvalGridVm SorterEvalGridVm
+        private SorterEvalsGridVm _sorterEvalGridVm = new SorterEvalsGridVm();
+        public SorterEvalsGridVm SorterEvalGridVm
         {
             get { return _sorterEvalGridVm; }
             set { _sorterEvalGridVm = value; }
@@ -202,7 +202,7 @@ namespace KeypairSorting.ViewModels
                 return;
             }
 
-            SorterEvalGridVm.SorterOnSwitchableGroupVms.AddMany
+            SorterEvalGridVm.SorterEvalVms.AddMany
                 (
                     result.Data.SwitchResults.Select(r=>r.ToSorterEvalVm())
                 );
@@ -261,7 +261,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnResetCommand()
         {
-            SorterEvalGridVm.SorterOnSwitchableGroupVms.Clear();
+            SorterEvalGridVm.SorterEvalVms.Clear();
             _switchUseHistoGram.Clear();
             _cancellationTokenSource.Cancel();
         }

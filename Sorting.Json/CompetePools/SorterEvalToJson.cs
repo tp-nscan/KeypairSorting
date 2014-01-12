@@ -29,7 +29,7 @@ namespace Sorting.Json.CompetePools
                 SwitchableGroupGuid = sorterEval.SwitchableGroupGuid,
                 SorterToJson = SorterToJson.ToJsonAdapter(sorterEval.Sorter),
                 Success = sorterEval.Success,
-                SwitchesUsed = sorterEval.SwitchesUsed,
+                SwitchesUsed = sorterEval.SwitchUseCount,
                 SwitchUseList = sorterEval.SwitchUseList.ToList()
             };
 

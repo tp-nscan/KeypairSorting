@@ -106,7 +106,7 @@ namespace Genomic.Chromosomes
             ) where T : IGene
         {
             return chromosome.Mutate(
-                mutator: StandardMutator<T>
+                mutator: StandardMutator
                     (
                         deletionRate: deletionRate,
                         insertionRate: insertionRate,
