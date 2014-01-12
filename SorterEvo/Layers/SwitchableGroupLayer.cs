@@ -25,7 +25,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static ILayer<ISwitchableGroupGenome> Multiply
+        public static ILayer<ISwitchableGroupGenome> Reproduce
             (
                 this ILayer<ISwitchableGroupGenome> switchableGroupGenomeLayer,
                 int seed,
@@ -37,7 +37,7 @@ namespace SorterEvo.Layers
         {
             return switchableGroupGenomeLayer.Multiply
                 (
-                    genomeCopyFunc: CopyFunc
+                    genomeReproFunc: SwitchableGroupPropigator
                         (
                             mutationRate: mutationRate,
                             insertionRate: insertionRate,
@@ -80,7 +80,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static Func<ISwitchableGroupGenome, int, Guid, ISwitchableGroupGenome> CopyFunc
+        public static Func<ISwitchableGroupGenome, int, Guid, ISwitchableGroupGenome> SwitchableGroupPropigator
             (
                 double mutationRate,
                 double insertionRate,

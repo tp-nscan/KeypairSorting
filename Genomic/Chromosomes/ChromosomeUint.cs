@@ -63,7 +63,8 @@ namespace Genomic.Chromosomes
             return GeneUintModN.Make(rando.NextUint(MaxVal), MaxVal);
         }
 
-        public override IChromosome<IGeneUintModN> Mutate(Func<IReadOnlyList<IGeneUintModN>, IReadOnlyList<IGeneUintModN>> mutator)
+        public override IChromosome<IGeneUintModN> Mutate(
+            Func<IReadOnlyList<IGeneUintModN>, IReadOnlyList<IGeneUintModN>> mutator)
         {
             return new ChromosomeUintImpl
                 (

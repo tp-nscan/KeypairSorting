@@ -16,11 +16,11 @@ namespace SorterEvo.Test.Workflows
     [TestClass]
     public class RandSorterGen
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-            Sample20(55555);
-        }
+        //[TestMethod]
+        //public void TestMethod1()
+        //{
+        //    Sample20(55555);
+        //}
 
         void Sample5(int seed)
         {

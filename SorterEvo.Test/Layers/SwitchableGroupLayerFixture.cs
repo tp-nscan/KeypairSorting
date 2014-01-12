@@ -26,7 +26,7 @@ namespace SorterEvo.Test.Layers
         {
             var layer = TestData.Layers.SwitchableGroupLayer();
 
-            var newLayer = layer.Multiply
+            var newLayer = layer.Reproduce
                 (
                     seed: TestData.Layers.Seeds.First(),
                     newGenomeCount: TestData.Layers.SwitchableGroupExpandedGenomeCount,

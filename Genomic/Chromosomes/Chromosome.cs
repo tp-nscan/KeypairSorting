@@ -22,7 +22,7 @@ namespace Genomic.Chromosomes
 
     public static class Chromosome
     {
-        public static IChromosome<IGeneUintModN> ToChromosomeUint
+        public static IChromosomeUint ToChromosomeUint
             (
                 this IReadOnlyList<uint> sequence,
                 uint maxVal
@@ -31,7 +31,7 @@ namespace Genomic.Chromosomes
             return new ChromosomeUintImpl(sequence.ToList(), maxVal);
         }
 
-        public static IChromosome ToChromosomeUlongN
+        public static IChromosomeUlongN ToChromosomeUlongN
             (
                 this IReadOnlyList<uint> sequence,
                 ulong maxVal
@@ -40,7 +40,7 @@ namespace Genomic.Chromosomes
             return new ChromosomeUlongNImpl(sequence.ToList(), maxVal);
         }
 
-        public static IChromosome ToChromosomePermutation
+        public static IChromosomePermutation ToChromosomePermutation
             (
                 this IReadOnlyList<uint> sequence, 
                 Guid guid,
@@ -56,7 +56,7 @@ namespace Genomic.Chromosomes
                 );
         }
 
-        public static IChromosome ToChromosomeBits
+        public static IChromosomeBits ToChromosomeBits
         (
                 this IReadOnlyList<uint> sequence,
                 Guid guid,
@@ -110,12 +110,33 @@ namespace Genomic.Chromosomes
                     (
                         deletionRate: deletionRate,
                         insertionRate: insertionRate,
-                        mutationRate: mutationRate, 
+                        mutationRate: mutationRate,
                         geneMutator: () => chromosome.NewBlock(rando),
                         rando: rando
                     )
                 );
         }
+
+        //public static IChromosome<T> StandardPropigate<T>
+        //    (
+        //        this IChromosome<T> chromosome,
+        //        IRando rando,
+        //        double mutationRate,
+        //        double insertionRate,
+        //        double deletionRate
+        //    ) where T : IGene
+        //{
+        //    return chromosome.Mutate(
+        //        mutator: StandardMutator
+        //            (
+        //                deletionRate: deletionRate,
+        //                insertionRate: insertionRate,
+        //                mutationRate: mutationRate, 
+        //                geneMutator: () => chromosome.NewBlock(rando),
+        //                rando: rando
+        //            )
+        //        );
+        //}
 
     }
 

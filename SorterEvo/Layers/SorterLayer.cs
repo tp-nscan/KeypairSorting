@@ -25,7 +25,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static ILayer<ISorterGenome> NextGeneration
+        public static ILayer<ISorterGenome> Reproduce
             (
                 this ILayer<ISorterGenome> sorterGenomeLayer,
                 int seed,
@@ -37,7 +37,7 @@ namespace SorterEvo.Layers
         {
             return sorterGenomeLayer.Multiply
                 (
-                    genomeCopyFunc: Propigator
+                    genomeReproFunc: SorterPropigator
                         (
                             mutationRate: mutationRate,
                             insertionRate: insertionRate,
@@ -70,7 +70,7 @@ namespace SorterEvo.Layers
             return i => Rando.Fast(i).ToSorterGenome(keyCount, keyPairCount);
         }
 
-        public static Func<ISorterGenome, int, Guid, ISorterGenome> Propigator
+        public static Func<ISorterGenome, int, Guid, ISorterGenome> SorterPropigator
             (
                 double mutationRate,
                 double insertionRate,

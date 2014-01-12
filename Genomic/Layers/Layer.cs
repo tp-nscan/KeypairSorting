@@ -28,14 +28,14 @@ namespace Genomic.Layers
                 (
                     generation: 0,
                     genomes: Enumerable.Range(0, genomeCount)
-                                 .Select(i => createFunc(randy.NextInt()))
+                                       .Select(i => createFunc(randy.NextInt()))
                 );
         }
 
         public static ILayer<TG> Multiply<TG>
             (
                 this ILayer<TG> layer,
-                Func<TG, int, Guid, TG> genomeCopyFunc,
+                Func<TG, int, Guid, TG> genomeReproFunc,
                 int newGenomeCount,
                 int seed
             ) where TG : IGenome
@@ -46,18 +46,20 @@ namespace Genomic.Layers
                     generation: layer.Generation,
                     genomes: layer.Genomes.Concat
                     (
-                        layer.Genomes.Repeat().Take(newGenomeCount - layer.Genomes.Count)
-                                .Select(g => genomeCopyFunc(g, randy.NextInt(), randy.NextGuid()))
+                        layer.Genomes
+                             .Repeat().Take(newGenomeCount - layer.Genomes.Count)
+                             .Select(g => genomeReproFunc(g, randy.NextInt(), randy.NextGuid()))
                     )
                 );
         }
 
-        public static ILayer<TG> NextGen<TG>(
-                                              this ILayer<TG> layer,
-                                              int seed,
-                                              IReadOnlyList<Tuple<Guid, double>> scores,
-                                              int newGenomeCount
-                                            ) where TG : IGenome
+        public static ILayer<TG> NextGen<TG>
+            (
+                this ILayer<TG> layer,
+                int seed,
+                IReadOnlyList<Tuple<Guid, double>> scores,
+                int newGenomeCount
+            ) where TG : IGenome
         {
             return Make(
                     generation: layer.Generation + 1,
@@ -68,10 +70,11 @@ namespace Genomic.Layers
                 );
         }
 
-        public static ILayer<TG> Make<TG>(
-                                           int generation,
-                                           IEnumerable<TG> genomes
-                                         ) where TG : IGenome
+        public static ILayer<TG> Make<TG>
+            (
+                int generation,
+                IEnumerable<TG> genomes
+            ) where TG : IGenome
         {
             return new LayerImpl<TG>
                 (

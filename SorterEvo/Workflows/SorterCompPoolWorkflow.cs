@@ -155,7 +155,7 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.NextGeneration
+            var sorterLayer = SorterLayer.Reproduce
                 (
                     seed: randy.NextInt(), 
                     newGenomeCount: SorterCompPoolParams.SorterLayerExpandedGenomeCount,
