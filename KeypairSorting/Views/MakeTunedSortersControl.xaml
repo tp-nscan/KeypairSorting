@@ -44,7 +44,7 @@
 						Text="Starting Sorters" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVmInitial}" />
+                <parts:SorterGenomeEvalsGridControl  DataContext="{Binding SorterGenomeEvalGridVmInitial}" />
 
             </DockPanel>
 
@@ -72,7 +72,7 @@
 						Text="Current Generation" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterEvalsGridControl DataContext="{Binding SorterEvalGridVm}" />
+                <parts:SorterGenomeEvalsGridControl DataContext="{Binding SorterGenomeEvalGridVm}" />
 
             </DockPanel>
         </Grid>

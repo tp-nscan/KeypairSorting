@@ -26,7 +26,7 @@ namespace SorterEvo.Workflows
 
             for (var i = 0; i < count; i++)
             {
-                yield return SorterCompPoolParams.MakeStandard
+                yield return Make
                     (
                         sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
                         sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
@@ -39,7 +39,7 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static ISorterCompPoolParams MakeStandard
+        public static ISorterCompPoolParams Make
             (
                 int sorterLayerStartingGenomeCount,
                 int sorterLayerExpandedGenomeCount,

@@ -25,6 +25,19 @@ namespace SorterEvo.Layers
                 );
         }
 
+        public static ILayer<ISorterGenome> Make
+        (
+            IEnumerable<ISorterGenome> sorterGenomes,
+            int generation
+        )
+        {
+            return Layer.Make
+                (
+                    generation: generation,
+                    genomes: sorterGenomes
+                );
+        }
+
         public static ILayer<ISorterGenome> Reproduce
             (
                 this ILayer<ISorterGenome> sorterGenomeLayer,
@@ -48,6 +61,7 @@ namespace SorterEvo.Layers
                 );
         }
 
+
         public static ILayer<ISorterGenome> NextGen
         (
             this ILayer<ISorterGenome> layer,
@@ -64,6 +78,7 @@ namespace SorterEvo.Layers
                     newGenomeCount: newGenomeCount
                 );
         }
+
 
         public static Func<int, ISorterGenome> CreateFunc(int keyCount, int keyPairCount)
         {

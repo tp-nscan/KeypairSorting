@@ -99,7 +99,7 @@ namespace SorterEvo.TestData
 
         public static ISorterCompPoolParams SorterCompPoolParams()
         {
-            return Workflows.SorterCompPoolParams.MakeStandard(
+            return Workflows.SorterCompPoolParams.Make(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,

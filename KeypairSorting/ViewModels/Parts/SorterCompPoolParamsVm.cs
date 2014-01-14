@@ -9,9 +9,9 @@ namespace KeypairSorting.ViewModels.Parts
 {
     public static class SorterCompPoolParamsVmExt
     {
-        public static ISorterCompPoolParams ToSorterCompPoolParams(this SorterCompPoolParamsVm sorterCompPoolParamsVm)
+        public static ISorterCompPoolParams ToSorterCompPoolParams(this ISorterCompPoolParams sorterCompPoolParamsVm)
         {
-            return SorterCompPoolParams.MakeStandard
+            return SorterCompPoolParams.Make
                 (
                     sorterLayerStartingGenomeCount: sorterCompPoolParamsVm.SorterLayerStartingGenomeCount,
                     sorterLayerExpandedGenomeCount: sorterCompPoolParamsVm.SorterLayerExpandedGenomeCount,
@@ -26,11 +26,11 @@ namespace KeypairSorting.ViewModels.Parts
     public class SorterCompPoolParamsVm : ViewModelBase
     {
         private string _name;
-        private int _sorterLayerStartingGenomeCount;
-        private int _sorterLayerExpandedGenomeCount;
-        private double _sorterMutationRate;
-        private double _sorterInsertionRate;
-        private double _sorterDeletionRate;
+        private int? _sorterLayerStartingGenomeCount;
+        private int? _sorterLayerExpandedGenomeCount;
+        private double? _sorterMutationRate;
+        private double? _sorterInsertionRate;
+        private double? _sorterDeletionRate;
 
         public SorterCompPoolParamsVm(ISorterCompPoolParams sorterCompPoolParams)
         {
@@ -52,7 +52,7 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public int SorterLayerStartingGenomeCount
+        public int? SorterLayerStartingGenomeCount
         {
             get { return _sorterLayerStartingGenomeCount; }
             set
@@ -62,7 +62,7 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public int SorterLayerExpandedGenomeCount
+        public int? SorterLayerExpandedGenomeCount
         {
             get { return _sorterLayerExpandedGenomeCount; }
             set
@@ -72,7 +72,7 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public double SorterMutationRate
+        public double? SorterMutationRate
         {
             get { return _sorterMutationRate; }
             set
@@ -82,7 +82,7 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public double SorterInsertionRate
+        public double? SorterInsertionRate
         {
             get { return _sorterInsertionRate; }
             set
@@ -92,7 +92,7 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public double SorterDeletionRate
+        public double? SorterDeletionRate
         {
             get { return _sorterDeletionRate; }
             set
@@ -123,20 +123,63 @@ namespace KeypairSorting.ViewModels.Parts
         {
             var sb = new StringBuilder();
             sb.AppendLine("Name\t" + Name);
-            sb.AppendLine("Starting Count\t" + SorterLayerStartingGenomeCount);
-            sb.AppendLine("Expanded Count\t" + SorterLayerExpandedGenomeCount);
-            sb.AppendLine("Deletion rate\t" + SorterDeletionRate.ToString("0.000"));
-            sb.AppendLine("Insertion rate\t" + SorterInsertionRate.ToString("0.000"));
-            sb.AppendLine("Mutation rate\t" + SorterMutationRate.ToString("0.000"));
+            // ReSharper disable PossibleInvalidOperationException
+            sb.AppendLine("Starting Count\t" + SorterLayerStartingGenomeCount.Value);
+            sb.AppendLine("Expanded Count\t" + SorterLayerExpandedGenomeCount.Value);
+            sb.AppendLine("Deletion rate\t" + SorterDeletionRate.Value.ToString("0.000"));
+            sb.AppendLine("Insertion rate\t" + SorterInsertionRate.Value.ToString("0.000"));
+            sb.AppendLine("Mutation rate\t" + SorterMutationRate.Value.ToString("0.000"));
+            // ReSharper restore PossibleInvalidOperationException
 
             Clipboard.SetText(sb.ToString());
         }
 
         bool CanCopyCommand()
         {
-            return true;
+            return HasValidData;
         }
 
         #endregion // CopyCommand
+
+        public bool HasValidData
+        {
+            get
+            {
+                return 
+                    ! String.IsNullOrEmpty(Name) 
+                    &&
+                    SorterLayerStartingGenomeCount.HasValue 
+                    &&
+                    SorterLayerExpandedGenomeCount.HasValue 
+                    &&
+                    SorterDeletionRate.HasValue 
+                    &&
+                    SorterInsertionRate.HasValue 
+                    &&
+                    SorterMutationRate.HasValue;
+            }
+        }
+
+        public ISorterCompPoolParams GetParams
+        {
+            get
+            {
+
+                return HasValidData ?
+                        SorterCompPoolParams.Make
+                        (
+                            // ReSharper disable PossibleInvalidOperationException
+                            sorterLayerStartingGenomeCount: SorterLayerStartingGenomeCount.Value,
+                            sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount.Value,
+                            sorterMutationRate: SorterMutationRate.Value,
+                            sorterInsertionRate: SorterInsertionRate.Value,
+                            sorterDeletionRate: SorterDeletionRate.Value,
+                            // ReSharper restore PossibleInvalidOperationException
+                            name: Name
+                        )
+                        :
+                        null;
+            }
+        }
     }
 }
