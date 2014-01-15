@@ -21,7 +21,7 @@ namespace KeypairSorting.Resources
         None
     }
 
-    public class ToolSelector : DataTemplateSelector
+    public class ToolSelector : DataTemplateSelector 
     {
         #region DefaultTemplate
 
