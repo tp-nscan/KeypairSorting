@@ -28,7 +28,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="switchableGenTemplate">
-        <views:MakeRandomSwitchablesControl/>
+        <views:MakeRandomSwitchablesControl/> 
     </DataTemplate>
 
     <DataTemplate x:Key="sorterTuneTemplate">
