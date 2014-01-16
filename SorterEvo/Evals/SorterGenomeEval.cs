@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Immutable;
+using Genomic.Genomes;
 using SorterEvo.Genomes;
 using Sorting.CompetePools;
 
 namespace SorterEvo.Evals
 {
-    public interface ISorterGenomeEval
+    public interface ISorterGenomeEval : IGenomeEval<ISorterGenome>
     {
         ISorterGenome SorterGenome { get; }
         IImmutableStack<Guid> Ancestors { get; }
@@ -17,21 +18,25 @@ namespace SorterEvo.Evals
         public static ISorterGenomeEval Make(
                 ISorterGenome sorterGenome,
                 IImmutableStack<Guid> ancestors,
-                ISorterEval sorterEval
+                ISorterEval sorterEval,
+                int generation
             )
         {
             return new SorterGenomeEvalImpl
                 (
                     sorterGenome: sorterGenome,
                     ancestors: ancestors,
-                    sorterEval: sorterEval
+                    sorterEval: sorterEval,
+                    generation: generation,
+                    score: sorterEval.SwitchUseCount
                 );
         }
 
         public static ISorterGenomeEval Make(
             ISorterGenome sorterGenome,
             ISorterGenomeEval parentGenomeEval,
-            ISorterEval sorterEval
+            ISorterEval sorterEval,
+            int generation
         )
         {
             return Make
@@ -41,7 +46,8 @@ namespace SorterEvo.Evals
                             (
                                 sorterGenome.Guid
                             ),
-                    sorterEval: sorterEval
+                    sorterEval: sorterEval,
+                    generation: generation
                 );
         }
     }
@@ -51,17 +57,23 @@ namespace SorterEvo.Evals
         private readonly ISorterGenome _sorterGenome;
         private readonly IImmutableStack<Guid> _ancestors;
         private readonly ISorterEval _sorterEval;
+        private readonly int _generation;
+        private readonly double _score;
 
         public SorterGenomeEvalImpl
             (
                 ISorterGenome sorterGenome, 
                 IImmutableStack<Guid> ancestors, 
-                ISorterEval sorterEval
+                ISorterEval sorterEval, 
+                int generation, 
+                double score
             )
         {
             _sorterGenome = sorterGenome;
             _ancestors = ancestors;
             _sorterEval = sorterEval;
+            _generation = generation;
+            _score = score;
         }
 
         public ISorterGenome SorterGenome
@@ -77,6 +89,26 @@ namespace SorterEvo.Evals
         public ISorterEval SorterEval
         {
             get { return _sorterEval; }
+        }
+
+        public Guid Guid
+        {
+            get { return _sorterGenome.Guid; }
+        }
+
+        public int Generation
+        {
+            get { return _generation; }
+        }
+
+        public ISorterGenome Genome
+        {
+            get { return SorterGenome; }
+        }
+
+        public double Score
+        {
+            get { return _score; }
         }
     }
 }

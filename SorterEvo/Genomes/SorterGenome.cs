@@ -26,7 +26,7 @@ namespace SorterEvo.Genomes
             (
                 guid: randy.NextGuid(),
                 parentGuid: Guid.Empty,
-                chromosome: (IChromosomeUint) randy
+                chromosome: randy
                                 .ToUintEnumerator(keyPairSetSize)
                                 .Take(keyPairCount)
                                 .ToList()

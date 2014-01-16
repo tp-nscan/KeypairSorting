@@ -39,6 +39,7 @@ namespace KeypairSorting.ViewModels.Parts
             var switchableGuid = Guid.Empty;
             var success = false;
             var useCount = 0;
+            var generation = 0;
             var ancestors = ImmutableStack<Guid>.Empty;
 
             if (pcs.Count() > 2)
@@ -73,7 +74,8 @@ namespace KeypairSorting.ViewModels.Parts
                     (
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
-                        sorterEval: sorterEval
+                        sorterEval: sorterEval,
+                        generation: generation
                     )
                 );
             }
@@ -98,7 +100,8 @@ namespace KeypairSorting.ViewModels.Parts
                     (
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
-                        sorterEval: sorterEval
+                        sorterEval: sorterEval,
+                        generation: generation
                     )
                 );
             }
@@ -119,7 +122,8 @@ namespace KeypairSorting.ViewModels.Parts
                 (
                     sorterGenome: sorterGenome,
                     ancestors: ancestors,
-                    sorterEval: sorterEval
+                    sorterEval: sorterEval, 
+                    generation: generation
                 )
             );
 

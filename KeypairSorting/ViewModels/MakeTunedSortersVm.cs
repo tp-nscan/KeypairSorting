@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
 using MathUtils.Rand;
+using SorterEvo.Evals;
+using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using SorterEvo.Workflows;
+using Sorting.CompetePools;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -127,13 +133,22 @@ namespace KeypairSorting.ViewModels
                            generation: 0
                         ),
                    recursion: (i, c) =>
-                        {
-                            if (_cancellationTokenSource.IsCancellationRequested)
+                   {
+                            var nextStep = i;
+                            while (true)
                             {
-                                return IterationResult.Make<ISorterCompPoolWorkflow>(null, ProgressStatus.StepIncomplete);
-                            }
+                                if (_cancellationTokenSource.IsCancellationRequested)
+                                {
+                                    return IterationResult.Make<ISorterCompPoolWorkflow>(null, ProgressStatus.StepIncomplete);
+                                }
 
-                            return IterationResult.Make(i.Step(rando.NextInt()), ProgressStatus.StepComplete);
+                                nextStep = nextStep.Step(rando.NextInt());
+
+                                if (nextStep.CompWorkflowState == CompWorkflowState.UpdateGenomes)
+                                {
+                                    return IterationResult.Make(nextStep, ProgressStatus.StepComplete);
+                                }
+                            }
                         },
                     totalIterations: int.MaxValue,
                     cancellationTokenSource: _cancellationTokenSource
@@ -146,16 +161,63 @@ namespace KeypairSorting.ViewModels
             Busy = false;
         }
 
+        readonly Dictionary<Guid,ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
+        
         private void UpdateSorterTuneResults(IIterationResult<ISorterCompPoolWorkflow> result)
         {
             if (result.ProgressStatus == ProgressStatus.StepComplete)
             {
                 _generation = result.Data.Generation;
+                SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
                 OnPropertyChanged("Generation");
                 OnPropertyChanged("ProcTime");
-                foreach (var sorterEval in result.Data.CompPool.SorterEvals)
+                var currentGeneration = result.Data.Generation;
+                foreach (var sorterGenomeEval in result.Data.SorterLayerEval.GenomeEvals)
                 {
-                    //SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterEval.ToSorterEvalVm());
+                    if (_sorterGenomeEvals.ContainsKey(sorterGenomeEval.Genome.ParentGuid))
+                    {
+                        var oldSorterEval = _sorterGenomeEvals[sorterGenomeEval.Genome.ParentGuid];
+                        _sorterGenomeEvals[sorterGenomeEval.Guid] = SorterGenomeEval.Make(
+                            sorterGenome: sorterGenomeEval.Genome,
+                            parentGenomeEval: oldSorterEval,
+                            sorterEval: SorterEval.Make(
+                                            sorter: sorterGenomeEval.Genome.ToSorter(),
+                                            switchableGroupGuid: Guid.Empty,
+                                            success: true  ,
+                                            switchUseCount: (int) sorterGenomeEval.Score
+                                        ),
+                            generation: currentGeneration
+                        );
+
+                    }
+                    else
+                    {
+                        _sorterGenomeEvals[sorterGenomeEval.Guid] = SorterGenomeEval.Make(
+                            sorterGenome: sorterGenomeEval.Genome,
+                            ancestors: ImmutableStack<Guid>.Empty,
+                            sorterEval: SorterEval.Make(
+                                            sorter: sorterGenomeEval.Genome.ToSorter(),
+                                            switchableGroupGuid: Guid.Empty,
+                                            success: true,
+                                            switchUseCount: (int)sorterGenomeEval.Score
+                                        ),
+                            generation: currentGeneration
+                        );
+                    }
+                }
+
+                var evalGuidList = _sorterGenomeEvals.Select(t => t.Key).ToList();
+                foreach (var evalGuid in evalGuidList)
+                {
+                    if (_sorterGenomeEvals[evalGuid].Generation < currentGeneration - 1)
+                    {
+                        _sorterGenomeEvals.Remove(evalGuid);
+                    }
+                }
+
+                foreach (var sorterGenomeEval in _sorterGenomeEvals.Values.OrderBy(r=>r.SorterEval.SwitchUseCount))
+                {
+                    SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterGenomeEval.ToSorterGenomeEvalVm());
                 }
             }
         }

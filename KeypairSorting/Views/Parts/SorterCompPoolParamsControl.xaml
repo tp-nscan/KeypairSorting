@@ -48,7 +48,7 @@
 
         <StackPanel Grid.Row="5" Orientation="Horizontal">
             <TextBlock Text="Sorter deletion rate"/>
-            <TextBlock Margin="5,0,0,0" Text="{Binding SorterDeletionRate}" />
+            <TextBox Margin="5,0,0,0" Text="{Binding SorterDeletionRate}" Style="{DynamicResource PlainTextBoxStyle}"/>
         </StackPanel>
 
         <WrapPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Center">

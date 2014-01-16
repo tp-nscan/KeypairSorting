@@ -83,7 +83,7 @@ namespace KeypairSorting.ViewModels
             {
                 if (_sorterBackgroundWorker == null)
                 {
-
+                    var i = 0;
                     _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make
                         (
                             inputs: SorterGenomeGridVm.SorterGenomeVms.Select(t => t.SorterGenomeJson.ToSorterGenome()),
@@ -93,7 +93,8 @@ namespace KeypairSorting.ViewModels
                                     data: SorterGenomeEval.Make(
                                         sorterGenome: s, 
                                         ancestors: ImmutableStack<Guid>.Empty, 
-                                        sorterEval: s.ToSorter().FullTest()), 
+                                        sorterEval: s.ToSorter().FullTest(),
+                                        generation: 1),
                                     progressStatus: ProgressStatus.StepComplete
                                 )
                         );

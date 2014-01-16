@@ -14,7 +14,8 @@ namespace SorterEvo.Json.Genomes
                 Guid = sorterGenome.Guid,
                 ChromosomeUintToJson = sorterGenome.Chromosome.ToJsonAdapter(),
                 KeyCount = sorterGenome.KeyCount,
-                KeyPairCount = sorterGenome.KeyPairCount
+                KeyPairCount = sorterGenome.KeyPairCount,
+                ParentGuid = sorterGenome.ParentGuid
             };
 
             return chromosomeUintToJson;
@@ -40,7 +41,8 @@ namespace SorterEvo.Json.Genomes
                 Guid = sorterGenome.Guid,
                 ChromosomeUintToJson = sorterGenome.Chromosome.ToJsonAdapter(),
                 KeyCount = sorterGenome.KeyCount,
-                KeyPairCount = sorterGenome.KeyPairCount
+                KeyPairCount = sorterGenome.KeyPairCount,
+                ParentGuid = sorterGenome.ParentGuid
             };
 
             return chromosomeUintToJson;

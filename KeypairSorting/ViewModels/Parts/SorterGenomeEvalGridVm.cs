@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using SorterEvo.Json.Evals;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Parts

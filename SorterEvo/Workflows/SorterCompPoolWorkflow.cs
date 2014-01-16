@@ -3,6 +3,7 @@ using System.Linq;
 using Genomic.Genomes;
 using Genomic.Layers;
 using MathUtils.Rand;
+using SorterEvo.Evals;
 using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using Sorting.CompetePools;
@@ -17,6 +18,7 @@ namespace SorterEvo.Workflows
         CompWorkflowState CompWorkflowState { get; }
         ISorterCompPoolWorkflow Step(int seed);
         ILayer<ISorterGenome> SorterLayer { get; }
+        ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> SorterLayerEval { get; }
     }
 
     public static class SorterCompPoolWorkflow
@@ -222,12 +224,14 @@ namespace SorterEvo.Workflows
                         genomes: SorterLayerEval.GenomeEvals
                                                 .SubSortShuffle(t => t.Score, rando.NextInt())
                                                 .Select(e => e.Genome)
-                                                .Take(
-                                                    (Generation % 4 == 0) ?
-                                                        SorterCompPoolParams.SorterLayerStartingGenomeCount/4
-                                                    :
-                                                        SorterCompPoolParams.SorterLayerStartingGenomeCount
-                                                 )
+                                                .Take(SorterCompPoolParams.SorterLayerStartingGenomeCount)
+
+                                                //.Take(
+                                                //    (Generation % 4 == 0) ?
+                                                //        SorterCompPoolParams.SorterLayerStartingGenomeCount/4
+                                                //    :
+                                                //        SorterCompPoolParams.SorterLayerStartingGenomeCount
+                                                // )
                         ),
                         compPool: null,
                         sorterLayerEval: null,

@@ -39,10 +39,10 @@ namespace Sorting.CompetePools
 
     class CompPoolImpl : ICompPool
     {
-        public CompPoolImpl(IReadOnlyList<ISorter> sorters, IEnumerable<ISorterEval> sorterOnSwitchableGroups)
+        public CompPoolImpl(IReadOnlyList<ISorter> sorters, IEnumerable<ISorterEval> sorterEvals)
         {
             _sorters = sorters;
-            _sorterOnSwitchableGroups = sorterOnSwitchableGroups.ToDictionary(s=>s.Sorter.Guid);
+            _sorterEvals = sorterEvals.ToDictionary(s=>s.Sorter.Guid);
         }
 
         private readonly IReadOnlyList<ISorter> _sorters;
@@ -51,15 +51,15 @@ namespace Sorting.CompetePools
             get { return _sorters; }
         }
 
-        private readonly IDictionary<Guid, ISorterEval> _sorterOnSwitchableGroups;
+        private readonly IDictionary<Guid, ISorterEval> _sorterEvals;
         public IEnumerable<ISorterEval> SorterEvals
         {
-            get { return _sorterOnSwitchableGroups.Values; }
+            get { return _sorterEvals.Values; }
         }
 
         public ISorterEval SorterEval(Guid sorterId)
         {
-            return _sorterOnSwitchableGroups[sorterId];
+            return _sorterEvals[sorterId];
         }
     }
 }
