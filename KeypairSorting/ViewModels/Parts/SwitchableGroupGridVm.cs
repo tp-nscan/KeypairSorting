@@ -19,7 +19,6 @@ namespace KeypairSorting.ViewModels.Parts
             get { return _switchableGroupVms; }
         }
 
-
         #region CopyGridCommand
 
         RelayCommand _copyGridCommand;

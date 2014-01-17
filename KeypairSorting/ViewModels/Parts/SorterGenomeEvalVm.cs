@@ -146,11 +146,8 @@ namespace KeypairSorting.ViewModels.Parts
         {
             get
             {
-                return JsonConvert.SerializeObject
-                (
-                    GetSorterGenomeEval().Ancestors,
-                    Formatting.None
-                );
+                return GetSorterGenomeEval().Ancestors
+                    .Aggregate(string.Empty, (s, g) => s + ", " + g.ToString().Substring(0, 5));
             }
         }
 

@@ -8,18 +8,26 @@
 	x:Name="UserControl"
 	d:DesignWidth="127" d:DesignHeight="287.08">
 
-	<Grid x:Name="LayoutRoot">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot">
 		<DockPanel LastChildFill="True">
 			<WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
                 
-                <Button Command="{Binding CopyGridCommand}" Content="Copy" 
-                        Style="{DynamicResource PlainButtonStyle}"/>
+                <Button Command="{Binding CopyGridCommand}" Content="Copy"/>
 
-                <Button Command="{Binding PasteGridCommand}" Content="Paste" 
-                        Style="{DynamicResource PlainButtonStyle}"/>
+                <Button Command="{Binding PasteGridCommand}" Content="Paste"/>
 
-                <Button Command="{Binding ClearGridCommand}" Content="Clear" 
-                        Style="{DynamicResource PlainButtonStyle}"/>
+                <Button Command="{Binding ClearGridCommand}" Content="Clear"/>
 
             </WrapPanel>
 

@@ -11,10 +11,21 @@ namespace KeypairSorting.ViewModels.Parts
 {
     public class SorterGenomeEvalGridVm : ViewModelBase
     {
+        public SorterGenomeEvalGridVm(string name)
+        {
+            _name = name;
+        }
+
         private readonly ObservableCollection<ISorterGenomeEvalVm> _sorterGenomeVms = new ObservableCollection<ISorterGenomeEvalVm>();
         public ObservableCollection<ISorterGenomeEvalVm> SorterGenomeEvalVms
         {
             get { return _sorterGenomeVms; }
+        }
+
+        private readonly string _name;
+        public string Name
+        {
+            get { return _name; }
         }
 
         #region ClearGridCommand

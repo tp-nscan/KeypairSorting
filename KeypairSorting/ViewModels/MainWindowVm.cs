@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.MakeTunedSorters;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -84,7 +85,6 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // EvalSortersCommand
-
 
         #region EvalSortersCommand
 

@@ -10,6 +10,8 @@ namespace SorterEvo.Workflows
         double SorterMutationRate { get; }
         double SorterInsertionRate { get; }
         double SorterDeletionRate { get; }
+        int Seed { get; }
+        int TotalGenerations { get; }
     }
 
     public static class SorterCompPoolParams
@@ -17,7 +19,9 @@ namespace SorterEvo.Workflows
         public static IEnumerable<ISorterCompPoolParams> MakeStandards
             (
                 string baseName,
-                int count
+                int count,
+                int seed,
+                int totalGenerations
             )
         {
             const int sorterLayerStartingGenomeCount = 100;
@@ -33,11 +37,12 @@ namespace SorterEvo.Workflows
                         sorterMutationRate: baseMutationRate * i,
                         sorterInsertionRate: baseMutationRate * i,
                         sorterDeletionRate: baseMutationRate * i,
-                        name: baseName + "_p" + i
+                        name: baseName + "_p" + i,
+                        seed: seed,
+                        totalGenerations: totalGenerations
                     );
             }
         }
-
 
         public static ISorterCompPoolParams Make
             (
@@ -46,7 +51,9 @@ namespace SorterEvo.Workflows
                 double sorterMutationRate,
                 double sorterInsertionRate,
                 double sorterDeletionRate,
-                string name
+                string name,
+                int seed,
+                int totalGenerations
             )
         {
             return new SorterCompPoolParamsImpl
@@ -56,7 +63,9 @@ namespace SorterEvo.Workflows
                     sorterMutationRate: sorterMutationRate,
                     sorterInsertionRate: sorterInsertionRate,
                     sorterDeletionRate: sorterDeletionRate,
-                    name: name
+                    name: name,
+                    seed: seed,
+                    totalGenerations: totalGenerations
                 );
         }
 
@@ -67,7 +76,9 @@ namespace SorterEvo.Workflows
             double sorterMutationRate,
             double sorterInsertionRate,
             double sorterDeletionRate,
-            string name
+            string name,
+            int seed,
+            int totalGenerations
         )
         {
             return new SorterCompPoolParamsImpl
@@ -77,7 +88,9 @@ namespace SorterEvo.Workflows
                     sorterMutationRate: sorterMutationRate,
                     sorterInsertionRate: sorterInsertionRate,
                     sorterDeletionRate: sorterDeletionRate,
-                    name: name
+                    name: name,
+                    seed: seed,
+                    totalGenerations: totalGenerations
                 );
         }
     }
@@ -90,15 +103,19 @@ namespace SorterEvo.Workflows
                 double sorterMutationRate,
                 double sorterInsertionRate,
                 double sorterDeletionRate, 
-                string name
+                string name, 
+                int seed,
+                int totalGenerations
             )
         {
             _sorterMutationRate = sorterMutationRate;
             _sorterInsertionRate = sorterInsertionRate;
             _sorterDeletionRate = sorterDeletionRate;
             _name = name;
+            _seed = seed;
             _sorterLayerExpandedGenomeCount = sorterLayerExpandedGenomeCount;
             _sorterLayerStartingGenomeCount = sorterLayerStartingGenomeCount;
+            _totalGenerations = totalGenerations;
         }
 
         private readonly string _name;
@@ -134,6 +151,18 @@ namespace SorterEvo.Workflows
         public double SorterDeletionRate
         {
             get { return _sorterDeletionRate; }
+        }
+
+        private readonly int _seed;
+        public int Seed
+        {
+            get { return _seed; }
+        }
+
+        private int _totalGenerations;
+        public int TotalGenerations
+        {
+            get { return _totalGenerations; }
         }
     }
 }

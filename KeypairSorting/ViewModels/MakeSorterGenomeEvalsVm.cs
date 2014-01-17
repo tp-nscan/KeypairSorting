@@ -21,7 +21,7 @@ namespace KeypairSorting.ViewModels
         public MakeSorterGenomeEvalsVm()
         {
             ReportFrequency = 50;
-            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm();
+            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm(string.Empty);
             _sorterGenomeEvalGridVm.SorterGenomeEvalVms.CollectionChanged 
                         += (s,e) => CommandManager.InvalidateRequerySuggested();
             _sorterGenomeGridVm = new SorterGenomeGridVm();
@@ -38,7 +38,6 @@ namespace KeypairSorting.ViewModels
         {
             get { return "Evaluate Sorter Genomes"; }
         }
-
 
         private readonly SorterGenomeEvalGridVm _sorterGenomeEvalGridVm;
         public SorterGenomeEvalGridVm SorterGenomeEvalGridVm

@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="clr-namespace:KeypairSorting.Views"
+                    xmlns:resources="clr-namespace:KeypairSorting.Resources"
+                    xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters">
+
+    <DataTemplate x:Key="defaultTemplate">
+        <views:DefaultControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="configTemplate">
+        <makeTunedSorters:ConfigTunedSortersControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="runTemplate">
+        <makeTunedSorters:RunTunedSortersControl/>
+    </DataTemplate>
+    
+    <resources:ConfigRunSelector x:Key="tuneSorterSelector"
+        DefaultTemplate="{StaticResource defaultTemplate}"
+        ConfigTemplate="{StaticResource configTemplate}"
+        RunTemplate="{StaticResource runTemplate}"
+     />
+</ResourceDictionary>

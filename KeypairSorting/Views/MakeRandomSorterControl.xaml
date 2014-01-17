@@ -9,8 +9,16 @@
 	x:Class="KeypairSorting.Views.MakeRandomSorterControl"
 	x:Name="UserControl"
 	d:DesignWidth="517" d:DesignHeight="303.04">
-    <UserControl.Resources>
 
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">

@@ -7,6 +7,17 @@
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
              mc:Ignorable="d" 
 	        d:DesignWidth="517" d:DesignHeight="303.04">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+    </UserControl.Resources>
     
     <Grid x:Name="LayoutRoot">
         <Grid Background="Orange">
@@ -34,28 +45,28 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <TextBlock Text="Key count" Style="{DynamicResource PlainTextBlockStyle}"/>
-                    <TextBox Text="{Binding KeyCount}" Style="{DynamicResource PlainTextBoxStyle}" />
+                    <TextBlock Text="Key count" />
+                    <TextBox Text="{Binding KeyCount}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <TextBlock Text="Group size" Style="{DynamicResource PlainTextBlockStyle}" />
-                    <TextBox Text="{Binding GroupSize}" Style="{DynamicResource PlainTextBoxStyle}" />
+                    <TextBlock Text="Group size" />
+                    <TextBox Text="{Binding GroupSize}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <TextBlock Text="Group count" Style="{DynamicResource PlainTextBlockStyle}" />
-                    <TextBox Text="{Binding GroupCount}" Style="{DynamicResource PlainTextBoxStyle}" />
+                    <TextBlock Text="Group count" />
+                    <TextBox Text="{Binding GroupCount}" />
                 </StackPanel>
                 
                 <StackPanel Grid.Row="4" Orientation="Horizontal">
-                    <TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
-                    <TextBox Text="{Binding Seed}" Style="{DynamicResource PlainTextBoxStyle}" />
+                    <TextBlock Text="Seed"/>
+                    <TextBox Text="{Binding Seed}"/>
                 </StackPanel>
 
                 <WrapPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Command="{Binding RandGenCommand}" Content="Make" Style="{DynamicResource PlainButtonStyle}"/>
-                    <Button Command="{Binding ResetCommand}"  Content="Reset" Style="{DynamicResource PlainButtonStyle}"/>
+                    <Button Command="{Binding RandGenCommand}" Content="Make"/>
+                    <Button Command="{Binding ResetCommand}"  Content="Reset"/>
                 </WrapPanel>
 
             </Grid>
@@ -66,7 +77,6 @@
             <DockPanel LastChildFill="True" Grid.Column="2">
 
                 <TextBlock DockPanel.Dock="Top" 
-						Style="{DynamicResource PlainTextBlockStyle}"
 						Text="Generated switchable groups" 
 						HorizontalAlignment="Center" />
 

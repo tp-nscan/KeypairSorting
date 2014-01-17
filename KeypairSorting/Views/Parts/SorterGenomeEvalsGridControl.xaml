@@ -22,7 +22,13 @@
 
         <DataGrid x:Name="dataGrid" VerticalScrollBarVisibility="Auto"
 				    DockPanel.Dock="Bottom"
-				    ItemsSource="{Binding SorterGenomeEvalVms}"/>
+                  AutoGenerateColumns="False"
+				    ItemsSource="{Binding SorterGenomeEvalVms}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Count" Binding="{Binding SwitchUseCount}" />
+                <DataGridTextColumn Header="Ancestors" Binding="{Binding Ancestors}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
     </DockPanel>
 </UserControl>

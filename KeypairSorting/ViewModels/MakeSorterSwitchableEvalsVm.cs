@@ -25,7 +25,6 @@ namespace KeypairSorting.ViewModels
             ReportFrequency = 50;
             _sorterEvalGridVm = new SorterEvalsGridVm();
             _sorterGridVm = new SorterGridVm();
-            _switchableGroupGridVm = new SwitchableGroupGridVm();
         }
 
         public ToolTemplateType ToolTemplateType

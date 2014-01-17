@@ -16,7 +16,6 @@ namespace KeypairSorting.ViewModels
             get { return ToolTemplateType.SwitchableGen; }
         }
 
-
         public string Description
         {
             get { return "Make random switchables"; }
@@ -143,7 +142,6 @@ namespace KeypairSorting.ViewModels
 
 
         #endregion // RandGenCommand
-
 
         private readonly SwitchableGroupGridVm _switchableGroupGridVm = new SwitchableGroupGridVm();
         public SwitchableGroupGridVm SwitchableGroupGridVm

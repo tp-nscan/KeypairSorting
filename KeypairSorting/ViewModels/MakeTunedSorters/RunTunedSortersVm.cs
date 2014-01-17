@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
@@ -18,38 +17,28 @@ using SorterEvo.Workflows;
 using Sorting.CompetePools;
 using WpfUtils;
 
-namespace KeypairSorting.ViewModels
+namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class MakeTunedSortersVm : ViewModelBase, IToolTemplateVm
+    public class RunTunedSortersVm : ViewModelBase, IConfigRunSelectorVm
     {
-        public MakeTunedSortersVm()
+        public RunTunedSortersVm(ISorterCompPoolParams sorterCompPoolParams)
         {
-            _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm();
-            _sorterCompPoolParamsVm = new SorterCompPoolParamsVm
-                (
-                    SorterCompPoolParams.Make(
-                        sorterLayerStartingGenomeCount: 10,
-                        sorterLayerExpandedGenomeCount: 30,
-                        sorterMutationRate: 0.03,
-                        sorterInsertionRate: 0.03,
-                        sorterDeletionRate: 0.03,
-                        name: "standard"
-                    )
-                );
-            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm();
+            _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm(string.Empty);
+            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm(string.Empty);
+            _sorterCompPoolParamsVm = new SorterCompPoolParamsVm(sorterCompPoolParams);
             _stopwatch = new Stopwatch();
         }
 
-        public ToolTemplateType ToolTemplateType
+        public ConfigRunTemplateType ConfigRunTemplateType
         {
-            get { return ToolTemplateType.SorterTune; }
+            get { return ConfigRunTemplateType.Run; }
         }
-
 
         public string Description
         {
-            get { return "Optimize Sorters"; }
+            get { return "Tune sorters"; }
         }
+
 
         private bool _busy;
         public bool Busy
@@ -80,16 +69,16 @@ namespace KeypairSorting.ViewModels
             get { return _sorterGenomeEvalGridVmInitial; }
         }
 
-        private readonly SorterCompPoolParamsVm _sorterCompPoolParamsVm;
-        public SorterCompPoolParamsVm SorterCompPoolParamsVm
-        {
-            get { return _sorterCompPoolParamsVm; }
-        }
-
         private readonly SorterGenomeEvalGridVm _sorterGenomeEvalGridVm;
         public SorterGenomeEvalGridVm SorterGenomeEvalGridVm
         {
             get { return _sorterGenomeEvalGridVm; }
+        }
+
+        private readonly SorterCompPoolParamsVm _sorterCompPoolParamsVm;
+        public SorterCompPoolParamsVm SorterCompPoolParamsVm
+        {
+            get { return _sorterCompPoolParamsVm; }
         }
 
         #region RunCommand
@@ -109,8 +98,6 @@ namespace KeypairSorting.ViewModels
         }
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-        //ISorterCompPoolWorkflow
         async Task OnRunCommand()
         {
             Busy = true;
@@ -126,7 +113,7 @@ namespace KeypairSorting.ViewModels
                     initialState: SorterCompPoolWorkflow.Make
                         (
                            sorterLayer: SorterLayer.Make(
-                               sorterGenomes: _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.Select(t=>t.GetSorterGenomeEval().SorterGenome) ,
+                               sorterGenomes: _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.Select(t => t.GetSorterGenomeEval().SorterGenome),
                                generation: 0
                            ),
                            sorterCompPoolParams: SorterCompPoolParamsVm.GetParams,
@@ -134,22 +121,22 @@ namespace KeypairSorting.ViewModels
                         ),
                    recursion: (i, c) =>
                    {
-                            var nextStep = i;
-                            while (true)
-                            {
-                                if (_cancellationTokenSource.IsCancellationRequested)
-                                {
-                                    return IterationResult.Make<ISorterCompPoolWorkflow>(null, ProgressStatus.StepIncomplete);
-                                }
+                       var nextStep = i;
+                       while (true)
+                       {
+                           if (_cancellationTokenSource.IsCancellationRequested)
+                           {
+                               return IterationResult.Make<ISorterCompPoolWorkflow>(null, ProgressStatus.StepIncomplete);
+                           }
 
-                                nextStep = nextStep.Step(rando.NextInt());
+                           nextStep = nextStep.Step(rando.NextInt());
 
-                                if (nextStep.CompWorkflowState == CompWorkflowState.UpdateGenomes)
-                                {
-                                    return IterationResult.Make(nextStep, ProgressStatus.StepComplete);
-                                }
-                            }
-                        },
+                           if (nextStep.CompWorkflowState == CompWorkflowState.UpdateGenomes)
+                           {
+                               return IterationResult.Make(nextStep, ProgressStatus.StepComplete);
+                           }
+                       }
+                   },
                     totalIterations: int.MaxValue,
                     cancellationTokenSource: _cancellationTokenSource
                 );
@@ -161,8 +148,8 @@ namespace KeypairSorting.ViewModels
             Busy = false;
         }
 
-        readonly Dictionary<Guid,ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
-        
+        readonly Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
+
         private void UpdateSorterTuneResults(IIterationResult<ISorterCompPoolWorkflow> result)
         {
             if (result.ProgressStatus == ProgressStatus.StepComplete)
@@ -183,8 +170,8 @@ namespace KeypairSorting.ViewModels
                             sorterEval: SorterEval.Make(
                                             sorter: sorterGenomeEval.Genome.ToSorter(),
                                             switchableGroupGuid: Guid.Empty,
-                                            success: true  ,
-                                            switchUseCount: (int) sorterGenomeEval.Score
+                                            success: true,
+                                            switchUseCount: (int)sorterGenomeEval.Score
                                         ),
                             generation: currentGeneration
                         );
@@ -215,7 +202,7 @@ namespace KeypairSorting.ViewModels
                     }
                 }
 
-                foreach (var sorterGenomeEval in _sorterGenomeEvals.Values.OrderBy(r=>r.SorterEval.SwitchUseCount))
+                foreach (var sorterGenomeEval in _sorterGenomeEvals.Values.OrderBy(r => r.SorterEval.SwitchUseCount))
                 {
                     SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterGenomeEval.ToSorterGenomeEvalVm());
                 }
@@ -224,10 +211,9 @@ namespace KeypairSorting.ViewModels
 
         bool CanRunCommand()
         {
-            return 
-                !_busy 
-                && Seed.HasValue 
-                && SorterCompPoolParamsVm.HasValidData;
+            return
+                !_busy
+                && Seed.HasValue;
         }
 
         #endregion // RunCommand

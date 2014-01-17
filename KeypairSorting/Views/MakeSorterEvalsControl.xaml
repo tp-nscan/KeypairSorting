@@ -3,25 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:KeypairSorting.Views"
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+    </UserControl.Resources>
     
     <DockPanel LastChildFill="True">
         
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom">
 
             <StackPanel Orientation="Horizontal" Margin="10,0">
-                <TextBlock Text="Report frequency" Style="{DynamicResource PlainTextBlockStyle}" />
-                <TextBox Text="{Binding ReportFrequency}" Style="{DynamicResource PlainTextBoxStyle}" />
+                <TextBlock Text="Report frequency" />
+                <TextBox Text="{Binding ReportFrequency}" />
             </StackPanel>
 
-            <Button Command="{Binding SorterEvalCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Run"/>
+            <Button Command="{Binding SorterEvalCommand}" Content="Run"/>
             
-            <Button Command="{Binding StopSorterEvalCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Stop"/>
+            <Button Command="{Binding StopSorterEvalCommand}" Content="Stop"/>
 
-            <Button Command="{Binding ResetCommand}" Style="{DynamicResource PlainButtonStyle}" Content="Reset"/>
+            <Button Command="{Binding ResetCommand}" Content="Reset"/>
             
         </WrapPanel>
         
@@ -48,8 +58,7 @@
 
             <DockPanel LastChildFill="True" Grid.Column="2">
 
-                <TextBlock DockPanel.Dock="Top" 
-						    Style="{DynamicResource PlainTextBlockStyle}"
+                <TextBlock DockPanel.Dock="Top"
 						    Text="Evaluation results" 
 						    HorizontalAlignment="Center" />
 

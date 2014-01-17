@@ -18,28 +18,33 @@ namespace KeypairSorting.ViewModels.Parts
                     sorterMutationRate: sorterCompPoolParamsVm.SorterMutationRate,
                     sorterInsertionRate: sorterCompPoolParamsVm.SorterInsertionRate,
                     sorterDeletionRate: sorterCompPoolParamsVm.SorterDeletionRate,
-                    name: sorterCompPoolParamsVm.Name
+                    name: sorterCompPoolParamsVm.Name,
+                    seed: sorterCompPoolParamsVm.Seed,
+                    totalGenerations: sorterCompPoolParamsVm.TotalGenerations
                 );
         }
     }
 
-    public class SorterCompPoolParamsVm : ViewModelBase
+    public class SorterCompPoolParamsVm : ViewModelBase, ISorterCompPoolParams
     {
         private string _name;
-        private int? _sorterLayerStartingGenomeCount;
-        private int? _sorterLayerExpandedGenomeCount;
-        private double? _sorterMutationRate;
-        private double? _sorterInsertionRate;
-        private double? _sorterDeletionRate;
+        private readonly int _sorterLayerStartingGenomeCount;
+        private readonly int _sorterLayerExpandedGenomeCount;
+        private readonly double _sorterMutationRate;
+        private readonly double _sorterInsertionRate;
+        private readonly double _sorterDeletionRate;
 
         public SorterCompPoolParamsVm(ISorterCompPoolParams sorterCompPoolParams)
         {
             Name = sorterCompPoolParams.Name;
-            SorterLayerStartingGenomeCount = sorterCompPoolParams.SorterLayerStartingGenomeCount;
-            SorterLayerExpandedGenomeCount = sorterCompPoolParams.SorterLayerExpandedGenomeCount;
-            SorterMutationRate = sorterCompPoolParams.SorterMutationRate;
-            SorterInsertionRate = sorterCompPoolParams.SorterInsertionRate;
-            SorterDeletionRate = sorterCompPoolParams.SorterDeletionRate;
+            _sorterLayerStartingGenomeCount = sorterCompPoolParams.SorterLayerStartingGenomeCount;
+            _sorterLayerExpandedGenomeCount = sorterCompPoolParams.SorterLayerExpandedGenomeCount;
+            _sorterMutationRate = sorterCompPoolParams.SorterMutationRate;
+            _sorterInsertionRate = sorterCompPoolParams.SorterInsertionRate;
+            _sorterDeletionRate = sorterCompPoolParams.SorterDeletionRate;
+            _totalGenerations = sorterCompPoolParams.TotalGenerations;
+            _seed = sorterCompPoolParams.Seed;
+            _currentGeneration = 0;
         }
 
         public String Name
@@ -52,56 +57,54 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
-        public int? SorterLayerStartingGenomeCount
+        public int SorterLayerStartingGenomeCount
         {
             get { return _sorterLayerStartingGenomeCount; }
-            set
-            {
-                _sorterLayerStartingGenomeCount = value;
-                OnPropertyChanged("SorterLayerStartingGenomeCount");
-            }
         }
 
-        public int? SorterLayerExpandedGenomeCount
+        public int SorterLayerExpandedGenomeCount
         {
             get { return _sorterLayerExpandedGenomeCount; }
-            set
-            {
-                _sorterLayerExpandedGenomeCount = value;
-                OnPropertyChanged("SorterLayerExpandedGenomeCount");
-            }
         }
 
-        public double? SorterMutationRate
+        public double SorterMutationRate
         {
             get { return _sorterMutationRate; }
-            set
-            {
-                _sorterMutationRate = value;
-                OnPropertyChanged("SorterMutationRate");
-            }
         }
 
-        public double? SorterInsertionRate
+        public double SorterInsertionRate
         {
             get { return _sorterInsertionRate; }
-            set
-            {
-                _sorterInsertionRate = value;
-                OnPropertyChanged("SorterInsertionRate");
-            }
         }
 
-        public double? SorterDeletionRate
+        public double SorterDeletionRate
         {
             get { return _sorterDeletionRate; }
+        }
+
+
+        private readonly int _seed;
+        public int Seed
+        {
+            get { return _seed; }
+        }
+
+        private int _currentGeneration;
+        public int CurrentGenertation
+        {
+            get { return _currentGeneration; }
             set
             {
-                _sorterDeletionRate = value;
-                OnPropertyChanged("SorterDeletionRate");
+                _currentGeneration = value;
+                OnPropertyChanged("CurrentGenertation");
             }
         }
 
+        private readonly int _totalGenerations;
+        public int TotalGenerations
+        {
+            get { return _totalGenerations; }
+        }
 
         #region CopyCommand
 
@@ -123,62 +126,43 @@ namespace KeypairSorting.ViewModels.Parts
         {
             var sb = new StringBuilder();
             sb.AppendLine("Name\t" + Name);
-            // ReSharper disable PossibleInvalidOperationException
-            sb.AppendLine("Starting Count\t" + SorterLayerStartingGenomeCount.Value);
-            sb.AppendLine("Expanded Count\t" + SorterLayerExpandedGenomeCount.Value);
-            sb.AppendLine("Deletion rate\t" + SorterDeletionRate.Value.ToString("0.000"));
-            sb.AppendLine("Insertion rate\t" + SorterInsertionRate.Value.ToString("0.000"));
-            sb.AppendLine("Mutation rate\t" + SorterMutationRate.Value.ToString("0.000"));
-            // ReSharper restore PossibleInvalidOperationException
+            sb.AppendLine("Starting Count\t" + SorterLayerStartingGenomeCount);
+            sb.AppendLine("Expanded Count\t" + SorterLayerExpandedGenomeCount);
+            sb.AppendLine("Deletion rate\t" + SorterDeletionRate.ToString("0.000"));
+            sb.AppendLine("Insertion rate\t" + SorterInsertionRate.ToString("0.000"));
+            sb.AppendLine("Mutation rate\t" + SorterMutationRate.ToString("0.000"));
+            sb.AppendLine("Seed\t" + SorterMutationRate.ToString("0.000"));
+            sb.AppendLine("Current generation\t" + CurrentGenertation.ToString("0.000"));
+            sb.AppendLine("Total generatinos\t" + TotalGenerations.ToString("0.000"));
 
             Clipboard.SetText(sb.ToString());
         }
 
         bool CanCopyCommand()
         {
-            return HasValidData;
+            return true;
         }
 
         #endregion // CopyCommand
 
-        public bool HasValidData
-        {
-            get
-            {
-                return 
-                    ! String.IsNullOrEmpty(Name) 
-                    &&
-                    SorterLayerStartingGenomeCount.HasValue 
-                    &&
-                    SorterLayerExpandedGenomeCount.HasValue 
-                    &&
-                    SorterDeletionRate.HasValue 
-                    &&
-                    SorterInsertionRate.HasValue 
-                    &&
-                    SorterMutationRate.HasValue;
-            }
-        }
 
         public ISorterCompPoolParams GetParams
         {
             get
             {
-
-                return HasValidData ?
-                        SorterCompPoolParams.Make
-                        (
-                            // ReSharper disable PossibleInvalidOperationException
-                            sorterLayerStartingGenomeCount: SorterLayerStartingGenomeCount.Value,
-                            sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount.Value,
-                            sorterMutationRate: SorterMutationRate.Value,
-                            sorterInsertionRate: SorterInsertionRate.Value,
-                            sorterDeletionRate: SorterDeletionRate.Value,
-                            // ReSharper restore PossibleInvalidOperationException
-                            name: Name
-                        )
-                        :
-                        null;
+                return SorterCompPoolParams.Make
+                    (
+                        // ReSharper disable PossibleInvalidOperationException
+                        sorterLayerStartingGenomeCount: SorterLayerStartingGenomeCount,
+                        sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount,
+                        sorterMutationRate: SorterMutationRate,
+                        sorterInsertionRate: SorterInsertionRate,
+                        sorterDeletionRate: SorterDeletionRate,
+                        seed: Seed,
+                        totalGenerations: CurrentGenertation,
+                        // ReSharper restore PossibleInvalidOperationException
+                        name: Name
+                    );
             }
         }
     }

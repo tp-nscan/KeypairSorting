@@ -1,23 +1,22 @@
-﻿<UserControl x:Class="KeypairSorting.Views.Parts.SorterCompPoolParamsControl"
+﻿<UserControl x:Class="KeypairSorting.Views.MakeTunedSorters.ConfigTunedSortersControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
         </Style>
-
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
-        </Style>
-
+        
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
+        
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
     </UserControl.Resources>
-    
-    <Grid Background="Gray">
+
+    <Grid Background="Snow" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" />
@@ -32,54 +31,52 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="Name:"/>
-            <TextBlock Text="{Binding Name}" />
+            <TextBlock Text="Name"/>
+            <TextBox Text="{Binding Name}" Style="{DynamicResource PlainTextBoxStyle}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <TextBlock Text="Sorter starting count:"/>
-            <TextBlock Text="{Binding SorterLayerStartingGenomeCount}"/>
+            <TextBlock Text="Sorter starting count"/>
+            <TextBox Text="{Binding SorterLayerStartingGenomeCount}" />
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <TextBlock Text="Sorter expanded count:"/>
-            <TextBlock Text="{Binding SorterLayerExpandedGenomeCount}" />
+            <TextBlock Text="Sorter expanded count"/>
+            <TextBox Text="{Binding SorterLayerExpandedGenomeCount}" />
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <TextBlock Text="Sorter mutation rate:"/>
-            <TextBlock Text="{Binding SorterMutationRate}" />
+            <TextBlock Text="Sorter mutation rate"/>
+            <TextBox Text="{Binding SorterMutationRate}" />
         </StackPanel>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <TextBlock Text="Sorter insertion rate:"/>
-            <TextBlock Text="{Binding SorterInsertionRate}" />
+            <TextBlock Text="Sorter insertion rate"/>
+            <TextBox Text="{Binding SorterInsertionRate}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="5" Orientation="Horizontal">
-            <TextBlock Text="Sorter deletion rate:"/>
-            <TextBlock Text="{Binding SorterDeletionRate}" />
+            <TextBlock Text="Sorter deletion rate"/>
+            <TextBox Margin="5,0,0,0" Text="{Binding SorterDeletionRate}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="6" Orientation="Horizontal">
-            <TextBlock Text="Seed:"/>
-            <TextBlock Text="{Binding Seed}" />
-        </StackPanel>
-        
         <StackPanel Grid.Row="7" Orientation="Horizontal">
-            <TextBlock Text="Current generation:"/>
-            <TextBlock Text="{Binding CurrentGeneration}" />
+            <TextBlock Text="Seed"/>
+            <TextBox Margin="5,0,0,0" Text="{Binding Seed}"/>
         </StackPanel>
-        
-        <StackPanel Grid.Row="8" Orientation="Horizontal">
-            <TextBlock Text="Total generations:"/>
-            <TextBlock Text="{Binding TotalGenerations}" />
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal">
+            <TextBlock Text="Total generations"/>
+            <TextBox Margin="5,0,0,0" Text="{Binding TotalGenerations}"/>
         </StackPanel>
-        
-        <WrapPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding CopyCommand}" Content="Copy"/>
-        </WrapPanel>
+
+        <StackPanel Grid.Row="10" Orientation="Horizontal">
+            <Button Command="{Binding RunTunedSortersCommand}" Content="Make"
+                    Width="60"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>
+

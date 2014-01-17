@@ -30,6 +30,7 @@ namespace SorterEvo.TestData
         public static double SwitchableDeletionRate = 0.02;
 
         public static int SwitchableGroupSize = 200;
+        public static int TotalGenerations = 10;
 
         public static IEnumerable<int> Seeds
         {
@@ -105,7 +106,9 @@ namespace SorterEvo.TestData
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
                      sorterDeletionRate: SorterDeletionRate,
-                     name: "Test Params"
+                     name: "Test Params",
+                     seed: Seed,
+                     totalGenerations: TotalGenerations  
                 );
         }
 

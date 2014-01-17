@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KeypairSorting.Views
+namespace KeypairSorting.Views.MakeTunedSorters
 {
     /// <summary>
-    /// Interaction logic for MakeTunedSortersControl.xaml
+    /// Interaction logic for RunTunedSortersControl.xaml
     /// </summary>
-    public partial class MakeTunedSortersControl : UserControl
+    public partial class RunTunedSortersControl : UserControl
     {
-        public MakeTunedSortersControl()
+        public RunTunedSortersControl()
         {
             InitializeComponent();
         }
