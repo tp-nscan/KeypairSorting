@@ -59,8 +59,10 @@ namespace KeypairSorting.ViewModels.Parts
         protected void OnCopyGridCommand()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Guid\tJson");
-
+            if (CopyHeaders)
+            {
+                sb.AppendLine("Guid\tJson");
+            }
             foreach (var sorterGenomeVm in SorterGenomeVms)
             {
                 sb.AppendLine(sorterGenomeVm.Guid + "\t" + sorterGenomeVm.SorterGenomeJson);
@@ -123,6 +125,17 @@ namespace KeypairSorting.ViewModels.Parts
         public ObservableCollection<SorterGenomeVm> SorterGenomeVms
         {
             get { return _sorterGenomeVms; }
+        }
+
+        private bool _copyHeaders;
+        public bool CopyHeaders
+        {
+            get { return _copyHeaders; }
+            set
+            {
+                _copyHeaders = value;
+                OnPropertyChanged("CopyHeaders");
+            }
         }
     }
 }

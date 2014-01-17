@@ -28,6 +28,8 @@
                 <Button Command="{Binding PasteGridCommand}" Content="Paste"/>
 
                 <Button Command="{Binding ClearGridCommand}" Content="Clear"/>
+                
+                <CheckBox IsChecked="{Binding CopyHeaders}" Content="Copy headers"/>
 
             </WrapPanel>
 

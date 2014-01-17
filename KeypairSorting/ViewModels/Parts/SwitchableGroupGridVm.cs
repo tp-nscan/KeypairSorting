@@ -38,8 +38,12 @@ namespace KeypairSorting.ViewModels.Parts
         protected void OnCopyGridCommand()
         {
             var sb = new StringBuilder();
+            if (CopyHeaders)
+            {
 
-            sb.AppendLine("Guid\tGroupSize\tJson");
+                sb.AppendLine("Guid\tGroupSize\tJson");
+            }
+
 
             foreach (var switchableGroupVm in SwitchableGroupVms)
             {
@@ -128,6 +132,16 @@ namespace KeypairSorting.ViewModels.Parts
 
         #endregion // ClearGridCommand
 
+        private bool _copyHeaders;
+        public bool CopyHeaders
+        {
+            get { return _copyHeaders; }
+            set
+            {
+                _copyHeaders = value;
+                OnPropertyChanged("CopyHeaders");
+            }
+        }
     }
 
 }

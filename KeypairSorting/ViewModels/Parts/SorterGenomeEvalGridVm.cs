@@ -75,15 +75,20 @@ namespace KeypairSorting.ViewModels.Parts
         protected void OnCopyGridCommand()
         {
             var sb = new StringBuilder();
-            sb.AppendLine
-              (
-                "SorterGenomeJson" + "\t" +
-                "Success" + "\t" +
-                "UseCount" + "\t" +
-                "Ancestors" + "\t" +
-                "SwitchableGroupGuid" + "\t" +
-                "Switches"
-              );
+
+            if (CopyHeaders)
+            {
+                sb.AppendLine
+                  (
+                    "SorterGenomeJson" + "\t" +
+                    "Success" + "\t" +
+                    "UseCount" + "\t" +
+                    "Ancestors" + "\t" +
+                    "SwitchableGroupGuid" + "\t" +
+                    "Switches"
+                  );
+            }
+
             foreach (var sorterGenomeEvalVm in SorterGenomeEvalVms)
             {
                 sb.AppendLine
@@ -150,5 +155,15 @@ namespace KeypairSorting.ViewModels.Parts
 
         #endregion // PasteGridCommand
 
+        private bool _copyHeaders;
+        public bool CopyHeaders
+        {
+            get { return _copyHeaders; }
+            set
+            {
+                _copyHeaders = value;
+                OnPropertyChanged("CopyHeaders");
+            }
+        }
     }
 }
