@@ -36,8 +36,13 @@
         <makeTunedSorters:TunedSortersControl/>
     </DataTemplate>
 
+    <DataTemplate x:Key="configMultiSorterTuneTemplate">
+        <makeTunedSorters:MultiTunedSortersControl/>
+    </DataTemplate>
+    
     <resources:ToolSelector x:Key="toolSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
+        MultiSorterTuneTemplate="{StaticResource configMultiSorterTuneTemplate}"
         RandomSorterTemplate="{StaticResource randomSorterTemplate}"
         SorterEvalTemplate="{StaticResource sorterEvalTemplate}"
         SorterGenomeEvalTemplate="{StaticResource sorterGenomeEvalTemplate}"

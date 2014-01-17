@@ -8,7 +8,6 @@ namespace KeypairSorting.ViewModels
 {
     public class MainWindowVm : ViewModelBase
     {
-
         public MainWindowVm()
         {
 
@@ -170,6 +169,35 @@ namespace KeypairSorting.ViewModels
 
         #endregion // SortersSwitchesEvalCommand
 
+
+        #region MultiTuneSortersCommand
+
+        RelayCommand _multiTuneSortersCommand;
+        public ICommand MultiTuneSortersCommand
+        {
+            get
+            {
+                return _multiTuneSortersCommand ?? (_multiTuneSortersCommand
+                    = new RelayCommand
+                        (
+                            param => OnMultiTuneSortersCommand(),
+                            param => CanMultiTuneSortersCommand()
+                        ));
+            }
+        }
+
+        protected void OnMultiTuneSortersCommand()
+        {
+            ToolTemplateVm = new MultiTuneSortersVm();
+        }
+
+        bool CanMultiTuneSortersCommand()
+        {
+            return true;
+        }
+
+        #endregion // TuneSortersCommand
+
         #region RandomSwitchesCommand
 
         RelayCommand _randomSwitchesCommand;
@@ -216,7 +244,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnTuneSortersCommand()
         {
-            ToolTemplateVm = new MakeTunedSortersVm();
+            ToolTemplateVm = new TunedSortersVm();
         }
 
         bool CanTuneSortersCommand()

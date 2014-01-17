@@ -5,9 +5,9 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class MakeTunedSortersVm : ViewModelBase, IToolTemplateVm
+    public class TunedSortersVm : ViewModelBase, IToolTemplateVm
     {
-        public MakeTunedSortersVm()
+        public TunedSortersVm()
         {
             _configRunSelectorVm = new ConfigSorterCompPoolParamsVm(
                     SorterCompPoolParams.Make(

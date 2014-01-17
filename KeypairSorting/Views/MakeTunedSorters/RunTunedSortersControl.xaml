@@ -6,23 +6,26 @@
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
 
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+    </UserControl.Resources>
+    
     <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="OliveDrab">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding RunCommand}" Content="Run" />
+            <Button Command="{Binding StopCommand}" Content="Stop" />
             <StackPanel Orientation="Vertical" Margin="10,0">
-                <TextBlock Text="Seed" Style="{DynamicResource PlainTextBlockStyle}" />
-                <TextBox Text="{Binding Seed, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource PlainTextBoxStyle}" />
-            </StackPanel>
-            <Button Command="{Binding RunCommand}" Content="Run"  Style="{DynamicResource PlainButtonStyle}"/>
-            <Button Command="{Binding StopCommand}" Content="Stop"  Style="{DynamicResource PlainButtonStyle}"/>
-            <StackPanel Orientation="Vertical" Margin="10,0">
-                <TextBlock Text="Time" Style="{DynamicResource PlainTextBlockStyle}" />
-                <TextBlock Text="{Binding ProcTime}" Style="{DynamicResource PlainTextBlockStyle}" />
-            </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="10,0">
-                <TextBlock Text="Generation" Style="{DynamicResource PlainTextBlockStyle}" />
-                <TextBlock Text="{Binding Generation}" Style="{DynamicResource PlainTextBlockStyle}" />
+                <TextBlock Text="Time" />
+                <TextBlock Text="{Binding ProcTime}"/>
             </StackPanel>
         </StackPanel>
 

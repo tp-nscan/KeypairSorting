@@ -18,6 +18,7 @@ namespace KeypairSorting.Resources
         SorterSwitchableEval,
         SwitchableGen,
         SorterTune,
+        MultiSorterTune,
         None
     }
 
@@ -26,6 +27,12 @@ namespace KeypairSorting.Resources
         #region DefaultTemplate
 
         public DataTemplate DefaultTemplate { get; set; }
+
+        #endregion
+
+        #region MultiSorterTuneTemplate
+
+        public DataTemplate MultiSorterTuneTemplate { get; set; }
 
         #endregion
 
@@ -78,6 +85,8 @@ namespace KeypairSorting.Resources
             if (tabItem != null)
                 switch (tabItem.ToolTemplateType)
                 {
+                    case ToolTemplateType.MultiSorterTune:
+                        return MultiSorterTuneTemplate;
                     case ToolTemplateType.RandomSorter:
                         return RandomSorterTemplate;
                     case ToolTemplateType.SorterEval:

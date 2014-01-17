@@ -8,17 +8,34 @@
         <views:DefaultControl/>
     </DataTemplate>
 
-    <DataTemplate x:Key="configTemplate">
+    <DataTemplate x:Key="configSorterTemplate">
         <makeTunedSorters:ConfigTunedSortersControl/>
     </DataTemplate>
 
-    <DataTemplate x:Key="runTemplate">
+    <DataTemplate x:Key="runSorterTemplate">
         <makeTunedSorters:RunTunedSortersControl/>
     </DataTemplate>
     
     <resources:ConfigRunSelector x:Key="tuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
-        ConfigTemplate="{StaticResource configTemplate}"
-        RunTemplate="{StaticResource runTemplate}"
+        ConfigTemplate="{StaticResource configSorterTemplate}"
+        RunTemplate="{StaticResource runSorterTemplate}"
      />
+
+    
+    
+    <DataTemplate x:Key="configMultiSorterTemplate">
+        <makeTunedSorters:ConfigMultiTuneSortersControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="runMultiSorterTemplate">
+        <makeTunedSorters:RunMultiTuneSortersControl/>
+    </DataTemplate>
+
+    <resources:ConfigRunSelector x:Key="multiTuneSorterSelector"
+        DefaultTemplate="{StaticResource defaultTemplate}"
+        ConfigTemplate="{StaticResource configMultiSorterTemplate}"
+        RunTemplate="{StaticResource runMultiSorterTemplate}"
+     />
+
 </ResourceDictionary>

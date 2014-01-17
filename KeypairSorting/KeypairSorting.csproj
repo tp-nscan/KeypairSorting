@@ -80,7 +80,16 @@
     <Compile Include="Resources\ConfigRunSelector.cs" />
     <Compile Include="ViewModels\MakeSorterGenomeEvalsVm.cs" />
     <Compile Include="ViewModels\MakeSorterSwitchableEvalsVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\MakeTunedSortersVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\ConfigMultiSorterCompPoolParamsVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\MultiTuneSortersVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\RunMultiTuneSortersVm.cs" />
+    <Compile Include="Views\MakeTunedSorters\ConfigMultiTuneSortersControl.xaml.cs">
+      <DependentUpon>ConfigMultiTuneSortersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MakeTunedSorters\MultiTunedSortersControl.xaml.cs">
+      <DependentUpon>MultiTunedSortersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MakeTunedSorters\TunedSortersVm.cs" />
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\RunTunedSortersVm.cs" />
@@ -115,6 +124,9 @@
     </Compile>
     <Compile Include="Views\MakeTunedSorters\ConfigTunedSortersControl.xaml.cs">
       <DependentUpon>ConfigTunedSortersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MakeTunedSorters\RunMultiTuneSortersControl.xaml.cs">
+      <DependentUpon>RunMultiTuneSortersControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MakeTunedSorters\TunedSortersControl.xaml.cs">
       <DependentUpon>TunedSortersControl.xaml</DependentUpon>
@@ -158,6 +170,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MakeTunedSorters\ConfigMultiTuneSortersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeTunedSorters\MultiTunedSortersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DefaultControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MakeTunedSorters\ConfigTunedSortersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeTunedSorters\RunMultiTuneSortersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

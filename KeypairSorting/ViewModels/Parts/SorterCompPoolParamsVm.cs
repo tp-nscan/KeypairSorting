@@ -90,13 +90,13 @@ namespace KeypairSorting.ViewModels.Parts
         }
 
         private int _currentGeneration;
-        public int CurrentGenertation
+        public int CurrentGeneration
         {
             get { return _currentGeneration; }
             set
             {
                 _currentGeneration = value;
-                OnPropertyChanged("CurrentGenertation");
+                OnPropertyChanged("CurrentGeneration");
             }
         }
 
@@ -132,7 +132,7 @@ namespace KeypairSorting.ViewModels.Parts
             sb.AppendLine("Insertion rate\t" + SorterInsertionRate.ToString("0.000"));
             sb.AppendLine("Mutation rate\t" + SorterMutationRate.ToString("0.000"));
             sb.AppendLine("Seed\t" + SorterMutationRate.ToString("0.000"));
-            sb.AppendLine("Current generation\t" + CurrentGenertation.ToString("0.000"));
+            sb.AppendLine("Current generation\t" + CurrentGeneration.ToString("0.000"));
             sb.AppendLine("Total generatinos\t" + TotalGenerations.ToString("0.000"));
 
             Clipboard.SetText(sb.ToString());
@@ -159,7 +159,7 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterInsertionRate: SorterInsertionRate,
                         sorterDeletionRate: SorterDeletionRate,
                         seed: Seed,
-                        totalGenerations: CurrentGenertation,
+                        totalGenerations: CurrentGeneration,
                         // ReSharper restore PossibleInvalidOperationException
                         name: Name
                     );

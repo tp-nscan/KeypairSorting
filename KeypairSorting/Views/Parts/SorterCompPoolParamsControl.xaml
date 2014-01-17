@@ -69,7 +69,7 @@
         
         <StackPanel Grid.Row="7" Orientation="Horizontal">
             <TextBlock Text="Current generation:"/>
-            <TextBlock Text="{Binding CurrentGeneration}" />
+            <TextBlock Text="{Binding CurrentGeneration, Mode=TwoWay}" />
         </StackPanel>
         
         <StackPanel Grid.Row="8" Orientation="Horizontal">

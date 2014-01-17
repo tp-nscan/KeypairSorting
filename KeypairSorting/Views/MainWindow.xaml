@@ -48,6 +48,11 @@
                     <TextBlock TextAlignment="Center" TextWrapping="Wrap">Tune sorters</TextBlock>
                 </Button.Content>
             </Button>
+            <Button Command="{Binding MultiTuneSortersCommand}">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Multi Tune sorters</TextBlock>
+                </Button.Content>
+            </Button>
         </StackPanel>
 
 
