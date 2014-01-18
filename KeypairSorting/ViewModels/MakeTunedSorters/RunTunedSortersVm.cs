@@ -21,11 +21,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
     public class RunTunedSortersVm : ViewModelBase, IConfigRunSelectorVm
     {
-        public RunTunedSortersVm(ISorterCompPoolParams sorterCompPoolParams)
+        public RunTunedSortersVm(IScpParams scpParams)
         {
             _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm(string.Empty);
             _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm(string.Empty);
-            _sorterCompPoolParamsVm = new SorterCompPoolParamsVm(sorterCompPoolParams);
+            _scpParamsVm = new ScpParamsVm(scpParams);
             _stopwatch = new Stopwatch();
         }
 
@@ -64,10 +64,10 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             get { return _sorterGenomeEvalGridVm; }
         }
 
-        private readonly SorterCompPoolParamsVm _sorterCompPoolParamsVm;
-        public SorterCompPoolParamsVm SorterCompPoolParamsVm
+        private readonly ScpParamsVm _scpParamsVm;
+        public ScpParamsVm ScpParamsVm
         {
-            get { return _sorterCompPoolParamsVm; }
+            get { return _scpParamsVm; }
         }
 
         #region RunCommand
@@ -94,17 +94,17 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             _stopwatch.Start();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var rando = Rando.Fast(SorterCompPoolParamsVm.Seed);
+            var rando = Rando.Fast(ScpParamsVm.Seed);
 
             var rbw = RecursiveBackgroundWorker.Make
                 (
-                    initialState: SorterCompPoolWorkflow.Make
+                    initialState: ScpWorkflow.Make
                         (
                            sorterLayer: SorterLayer.Make(
                                sorterGenomes: _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.Select(t => t.GetSorterGenomeEval().SorterGenome),
                                generation: 0
                            ),
-                           sorterCompPoolParams: SorterCompPoolParamsVm.GetParams,
+                           scpParams: ScpParamsVm.GetParams,
                            generation: 0
                         ),
                    recursion: (i, c) =>
@@ -114,7 +114,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                        {
                            if (_cancellationTokenSource.IsCancellationRequested)
                            {
-                               return IterationResult.Make<ISorterCompPoolWorkflow>(null, ProgressStatus.StepIncomplete);
+                               return IterationResult.Make<IScpWorkflow>(null, ProgressStatus.StepIncomplete);
                            }
 
                            nextStep = nextStep.Step(rando.NextInt());
@@ -125,7 +125,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                            }
                        }
                    },
-                    totalIterations: SorterCompPoolParamsVm.TotalGenerations,
+                    totalIterations: ScpParamsVm.TotalGenerations,
                     cancellationTokenSource: _cancellationTokenSource
                 );
 
@@ -138,11 +138,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         readonly Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
 
-        private void UpdateSorterTuneResults(IIterationResult<ISorterCompPoolWorkflow> result)
+        private void UpdateSorterTuneResults(IIterationResult<IScpWorkflow> result)
         {
             if (result.ProgressStatus == ProgressStatus.StepComplete)
             {
-                SorterCompPoolParamsVm.CurrentGeneration = result.Data.Generation;
+                ScpParamsVm.CurrentGeneration = result.Data.Generation;
                 SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
                 OnPropertyChanged("ProcTime");
                 var currentGeneration = result.Data.Generation;

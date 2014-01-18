@@ -31,13 +31,13 @@ namespace SorterEvo.Workflows
                 IEntityRepository repository,
                 Guid switchableGroupGuid,
                 Guid sorterGroupGuid,
-                Guid sorterCompPoolParamsGuid
+                Guid scpParamsGuid
             )
         {
             var dict = new Dictionary<string, IEntity>();
             dict[SorterCompParaPoolWorkflowParts.SwitchableLayer.ToString()] = repository.GetEntity(switchableGroupGuid);
             dict[SorterCompParaPoolWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
-            dict[SorterCompParaPoolWorkflowParts.SorterCompParaPoolParams.ToString()] = repository.GetEntity(sorterCompPoolParamsGuid);
+            dict[SorterCompParaPoolWorkflowParts.SorterCompParaPoolParams.ToString()] = repository.GetEntity(scpParamsGuid);
 
 
             var entity = Entity.Make

@@ -9,19 +9,19 @@ using SorterEvo.Workflows;
 namespace SorterEvo.Test.Trackers
 {
     [TestClass]
-    public class SorterCompPoolWorkflowTrackerFixture
+    public class ScpWorkflowTrackerFixture
     {
         [TestMethod]
         public void TestUpdateWithMergeAndTrack()
         {
-            var tracker = SorterCompPoolWorkflowTracker.Make();
+            var tracker = ScpWorkflowTracker.Make();
 
-            var builder = SorterCompPoolWorkflowBuilder.Make
+            var builder = ScpWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompPoolParamsGuid
+                    scpParamsGuid: TestRepository.ScpParamsGuid
                 );
 
             var updatedBuilder = builder;
@@ -30,7 +30,7 @@ namespace SorterEvo.Test.Trackers
             {
                 var seeds = Rando.Fast(i * 17).ToIntEnumerator().Take(5).ToList();
 
-                updatedBuilder = SorterCompPoolWorkflowBuilder.UpdateAndTrack(
+                updatedBuilder = ScpWorkflowBuilder.UpdateAndTrack(
                         builder: updatedBuilder,
                         seeds: seeds,
                         mergeWithPrev: true,

@@ -9,45 +9,45 @@ using Sorting.CompetePools;
 
 namespace SorterEvo.Workflows
 {
-    public enum SorterCompPoolWorkflowParts
+    public enum ScpWorkflowParts
     {
         SorterLayer,
-        SorterCompPoolParams,
+        ScpParams,
         AllParts
     }
 
-    public interface ISorterCompPoolWorkflowBuilder : IEntityBuilder<ISorterCompPoolWorkflow>
+    public interface IScpWorkflowBuilder : IEntityBuilder<IScpWorkflow>
     {
         IEnumerable<int> Seeds { get; }
     }
 
-    public static class SorterCompPoolWorkflowBuilder
+    public static class ScpWorkflowBuilder
     {
-        public static ISorterCompPoolWorkflowBuilder Make
+        public static IScpWorkflowBuilder Make
         (
             Guid workFlowGuid,
             IEntityRepository repository,
             Guid sorterGroupGuid,
-            Guid sorterCompPoolParamsGuid
+            Guid scpParamsGuid
         )
         {
             var dict = new Dictionary<string, IEntity>();
-            dict[SorterCompPoolWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
-            dict[SorterCompPoolWorkflowParts.SorterCompPoolParams.ToString()] = repository.GetEntity(sorterCompPoolParamsGuid);
+            dict[ScpWorkflowParts.SorterLayer.ToString()] = repository.GetEntity(sorterGroupGuid);
+            dict[ScpWorkflowParts.ScpParams.ToString()] = repository.GetEntity(scpParamsGuid);
 
 
             var entity = Entity.Make
             (
                 guid: workFlowGuid,
-                val: SorterCompPoolWorkflow.Make
+                val: ScpWorkflow.Make
                 (
                     sorterLayer: dict.ToSorterGenome(),
-                    sorterCompPoolParams: dict.ToSorterCompPoolParams(),
+                    scpParams: dict.ToScpParams(),
                     generation: 0
                 )
             );
 
-            return new SorterCompPoolWorkflowBuilderImpl(
+            return new ScpWorkflowBuilderImpl(
                     guid: workFlowGuid,
                     inputEntities: dict,
                     entity: entity,
@@ -56,14 +56,14 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static ISorterCompPoolWorkflowBuilder Update
+        public static IScpWorkflowBuilder Update
             (
-                ISorterCompPoolWorkflowBuilder builder,
+                IScpWorkflowBuilder builder,
                 IReadOnlyList<int> seeds,
                 bool mergeWithPrev
             )
         {
-            return new SorterCompPoolWorkflowBuilderImpl(
+            return new ScpWorkflowBuilderImpl(
                  guid: builder.Guid.Add(seeds),
                  inputEntities: InputEntityOptions(builder, mergeWithPrev),
                  entity: seeds.Aggregate
@@ -82,22 +82,22 @@ namespace SorterEvo.Workflows
              );
         }
 
-        public static ISorterCompPoolWorkflowTracker Trim(this ISorterCompPoolWorkflowTracker tracker, int count)
+        public static IScpWorkflowTracker Trim(this IScpWorkflowTracker tracker, int count)
         {
-            return new SorterCompPoolWorkflowTrackerImpl(
+            return new ScpWorkflowTrackerImpl(
                     sorterPoolStats: GenomePoolStats.Make(tracker.SorterPoolStats.GenomeStatses.OrderBy(t => ((ISorterEval)t.ReferenceResult).SwitchUseCount).Take(count))
                 );
         }
 
-        public static ISorterCompPoolWorkflowBuilder UpdateAndTrack
+        public static IScpWorkflowBuilder UpdateAndTrack
         (
-            ISorterCompPoolWorkflowBuilder builder,
+            IScpWorkflowBuilder builder,
             IReadOnlyList<int> seeds,
             bool mergeWithPrev,
-            ISorterCompPoolWorkflowTracker tracker
+            IScpWorkflowTracker tracker
         )
         {
-            IEntity<ISorterCompPoolWorkflow> curWorkflowEntity = builder.Entity;
+            IEntity<IScpWorkflow> curWorkflowEntity = builder.Entity;
             foreach (var seed in seeds)
             {
                 tracker.TrackItem(curWorkflowEntity.Value);
@@ -108,7 +108,7 @@ namespace SorterEvo.Workflows
                     );
             }
 
-            return new SorterCompPoolWorkflowBuilderImpl(
+            return new ScpWorkflowBuilderImpl(
                  guid: builder.Guid.Add(seeds),
                  inputEntities: InputEntityOptions(builder, mergeWithPrev),
                  entity: curWorkflowEntity,
@@ -117,12 +117,12 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static ISorterCompPoolParams ToSorterCompPoolParams(this IReadOnlyDictionary<string, IEntity> dict)
+        public static IScpParams ToScpParams(this IReadOnlyDictionary<string, IEntity> dict)
         {
-            return (ISorterCompPoolParams)dict[SorterCompPoolWorkflowParts.SorterCompPoolParams.ToString()].Value;
+            return (IScpParams)dict[ScpWorkflowParts.ScpParams.ToString()].Value;
         }
 
-        public static IReadOnlyDictionary<string, IEntity> ToEntityDictionary(this ISorterCompPoolWorkflowBuilder sorterCompParaPoolWorkflowBuilder)
+        public static IReadOnlyDictionary<string, IEntity> ToEntityDictionary(this IScpWorkflowBuilder sorterCompParaPoolWorkflowBuilder)
         {
             var dict = new Dictionary<string, IEntity>();
             dict[SorterCompParaPoolWorkflowParts.AllParts.ToString()] = sorterCompParaPoolWorkflowBuilder.Entity;
@@ -130,7 +130,7 @@ namespace SorterEvo.Workflows
         }
 
 
-        public static IReadOnlyDictionary<string, IEntity> InputEntityOptions(ISorterCompPoolWorkflowBuilder builder,
+        public static IReadOnlyDictionary<string, IEntity> InputEntityOptions(IScpWorkflowBuilder builder,
             bool mergeWithPrev)
         {
             return mergeWithPrev ?
@@ -140,12 +140,12 @@ namespace SorterEvo.Workflows
 
     }
 
-    class SorterCompPoolWorkflowBuilderImpl : EntityBuilder<ISorterCompPoolWorkflow>, ISorterCompPoolWorkflowBuilder
+    class ScpWorkflowBuilderImpl : EntityBuilder<IScpWorkflow>, IScpWorkflowBuilder
     {
-        public SorterCompPoolWorkflowBuilderImpl(
+        public ScpWorkflowBuilderImpl(
                 Guid guid,
                 IReadOnlyDictionary<string, IEntity> inputEntities,
-                IEntity<ISorterCompPoolWorkflow> entity,
+                IEntity<IScpWorkflow> entity,
                 IReadOnlyList<int> seeds
             )
             : base

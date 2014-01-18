@@ -18,7 +18,7 @@ namespace SorterEvo.Test.Workflows
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
+                    scpParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
             Assert.AreEqual(builder.InputEntities.Count, 3);
@@ -34,7 +34,7 @@ namespace SorterEvo.Test.Workflows
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
+                    scpParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
@@ -64,7 +64,7 @@ namespace SorterEvo.Test.Workflows
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
+                    scpParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 

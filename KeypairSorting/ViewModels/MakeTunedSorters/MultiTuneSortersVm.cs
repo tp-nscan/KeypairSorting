@@ -8,7 +8,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
     {
         public MultiTuneSortersVm()
         {
-            ConfigRunSelectorVm = new ConfigMultiSorterCompPoolParamsVm(RunMultiTuneSortersCommand);
+            ConfigRunSelectorVm = new MultiConfigScpParamVm(RunMultiTuneSortersCommand);
         }
 
         public ToolTemplateType ToolTemplateType
@@ -44,7 +44,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         bool CanRunMultiTuneSortersCommand()
         {
-            var configSorterPoolParams = _configRunSelectorVm as ConfigSorterCompPoolParamsVm;
+            var configSorterPoolParams = _configRunSelectorVm as ConfigScpParamVm;
 
             return (configSorterPoolParams == null) || configSorterPoolParams.HasValidData;
         }

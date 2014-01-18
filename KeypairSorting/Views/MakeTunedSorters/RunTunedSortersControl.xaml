@@ -60,7 +60,7 @@
 						Text="Updating Params" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterCompPoolParamsControl DataContext="{Binding SorterCompPoolParamsVm}" />
+                <parts:ScpParamsControl DataContext="{Binding ScpParamsVm}" />
 
             </DockPanel>
 

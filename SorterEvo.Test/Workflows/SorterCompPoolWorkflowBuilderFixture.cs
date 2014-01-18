@@ -8,17 +8,17 @@ using SorterEvo.Workflows;
 namespace SorterEvo.Test.Workflows
 {
     [TestClass]
-    public class SorterCompPoolWorkflowBuilderFixture
+    public class ScpWorkflowBuilderFixture
     {
         [TestMethod]
         public void TestMake()
         {
-            var builder = SorterCompPoolWorkflowBuilder.Make
+            var builder = ScpWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompPoolParamsGuid
+                    scpParamsGuid: TestRepository.ScpParamsGuid
                 );
 
             Assert.AreEqual(builder.InputEntities.Count, 2);
@@ -28,22 +28,22 @@ namespace SorterEvo.Test.Workflows
         [TestMethod]
         public void TestUpdateWithMerge()
         {
-            var builder = SorterCompPoolWorkflowBuilder.Make
+            var builder = ScpWorkflowBuilder.Make
                 (
                     workFlowGuid: Guid.NewGuid(),
                     repository: TestRepository.EntityRepository,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompPoolParamsGuid
+                    scpParamsGuid: TestRepository.ScpParamsGuid
                 );
 
 
-            var updatedBuilder = SorterCompPoolWorkflowBuilder.Update(
+            var updatedBuilder = ScpWorkflowBuilder.Update(
                     builder: builder,
                     seeds: new[] { 123, 12345 },
                     mergeWithPrev: true
                 );
 
-            updatedBuilder = SorterCompPoolWorkflowBuilder.Update(
+            updatedBuilder = ScpWorkflowBuilder.Update(
                     builder: updatedBuilder,
                     seeds: new[] { 23, 2345, 444, 777 },
                     mergeWithPrev: true

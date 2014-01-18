@@ -8,7 +8,7 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class ConfigSorterCompPoolParamsVm : ViewModelBase, IConfigRunSelectorVm
+    public class ConfigScpParamVm : ViewModelBase, IConfigRunSelectorVm
     {
         private string _name;
         private int? _sorterLayerStartingGenomeCount;
@@ -17,17 +17,17 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         private double? _sorterInsertionRate;
         private double? _sorterDeletionRate;
 
-        public ConfigSorterCompPoolParamsVm(ISorterCompPoolParams sorterCompPoolParams, ICommand runTunedSortersCommand)
+        public ConfigScpParamVm(IScpParams scpParams, ICommand runTunedSortersCommand)
         {
             RunTunedSortersCommand = runTunedSortersCommand;
-            Name = sorterCompPoolParams.Name;
-            SorterLayerStartingGenomeCount = sorterCompPoolParams.SorterLayerStartingGenomeCount;
-            SorterLayerExpandedGenomeCount = sorterCompPoolParams.SorterLayerExpandedGenomeCount;
-            SorterMutationRate = sorterCompPoolParams.SorterMutationRate;
-            SorterInsertionRate = sorterCompPoolParams.SorterInsertionRate;
-            SorterDeletionRate = sorterCompPoolParams.SorterDeletionRate;
-            Seed = sorterCompPoolParams.Seed;
-            TotalGenerations = sorterCompPoolParams.TotalGenerations;
+            Name = scpParams.Name;
+            SorterLayerStartingGenomeCount = scpParams.SorterLayerStartingGenomeCount;
+            SorterLayerExpandedGenomeCount = scpParams.SorterLayerExpandedGenomeCount;
+            SorterMutationRate = scpParams.SorterMutationRate;
+            SorterInsertionRate = scpParams.SorterInsertionRate;
+            SorterDeletionRate = scpParams.SorterDeletionRate;
+            Seed = scpParams.Seed;
+            TotalGenerations = scpParams.TotalGenerations;
         }
 
         public ICommand RunTunedSortersCommand { get; private set; }
@@ -186,13 +186,13 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
-        public ISorterCompPoolParams GetParams
+        public IScpParams GetParams
         {
             get
             {
 
                 return HasValidData ?
-                        SorterCompPoolParams.Make
+                        ScpParams.Make
                         (
                             // ReSharper disable PossibleInvalidOperationException
                             sorterLayerStartingGenomeCount: SorterLayerStartingGenomeCount.Value,

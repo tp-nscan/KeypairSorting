@@ -19,10 +19,20 @@
     
     <DockPanel LastChildFill="True" Background="Green">
 
-        <StackPanel Grid.Row="10" Orientation="Horizontal">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
             <Button Command="{Binding RunMultiTunedSortersCommand}" Content="Make"
                     Width="60"/>
         </StackPanel>
+
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Content="Add"/>
+                <Button Content="Remove"/>
+            </StackPanel>
+            
+            <TabControl></TabControl>
+            
+        </DockPanel>
         
     </DockPanel>
 </UserControl>

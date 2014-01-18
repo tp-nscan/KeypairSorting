@@ -5,25 +5,25 @@ using SorterEvo.Workflows;
 
 namespace SorterEvo.Trackers
 {
-    public interface ISorterCompPoolWorkflowTracker: ITracker<ISorterCompPoolWorkflow>
+    public interface IScpWorkflowTracker: ITracker<IScpWorkflow>
     {
         IGenomePoolStats<ISorterGenome> SorterPoolStats { get; }
         string PoolReport { get; }
     }
 
-    public static class SorterCompPoolWorkflowTracker
+    public static class ScpWorkflowTracker
     {
-        public static ISorterCompPoolWorkflowTracker Make()
+        public static IScpWorkflowTracker Make()
         {
-            return new SorterCompPoolWorkflowTrackerImpl(
+            return new ScpWorkflowTrackerImpl(
                     sorterPoolStats: GenomePoolStats.Make<ISorterGenome>()
                 );
         }
     }
 
-    class SorterCompPoolWorkflowTrackerImpl : ISorterCompPoolWorkflowTracker
+    class ScpWorkflowTrackerImpl : IScpWorkflowTracker
     {
-        public SorterCompPoolWorkflowTrackerImpl(IGenomePoolStats<ISorterGenome> sorterPoolStats)
+        public ScpWorkflowTrackerImpl(IGenomePoolStats<ISorterGenome> sorterPoolStats)
         {
             _sorterPoolStats = sorterPoolStats;
         }
@@ -40,9 +40,9 @@ namespace SorterEvo.Trackers
             get { return _poolReport; }
         }
 
-        public void TrackItem(ISorterCompPoolWorkflow sorterCompPoolWorkflow)
+        public void TrackItem(IScpWorkflow scpWorkflow)
         {
-            switch (sorterCompPoolWorkflow.CompWorkflowState)
+            switch (scpWorkflow.CompWorkflowState)
             {
                 case CompWorkflowState.ReproGenomes:
                     break;
@@ -55,16 +55,16 @@ namespace SorterEvo.Trackers
 
                     _poolReport = string.Format(
                         "{0}\t{1}\t{2}", 
-                        sorterCompPoolWorkflow.SorterCompPoolParams.Name, 
-                        sorterCompPoolWorkflow.Generation,
-                        sorterCompPoolWorkflow.CompPool.SorterEvals
+                        scpWorkflow.ScpParams.Name, 
+                        scpWorkflow.Generation,
+                        scpWorkflow.CompPool.SorterEvals
                                               .Select(t=>t.SwitchUseCount)
                                               .OrderBy(c => c)
                                               .First()
                         );
                     
 
-                    //_poolReport = sorterCompPoolWorkflow.CompPool.SorterOnSwitchableGroups.Select(
+                    //_poolReport = scpWorkflow.CompPool.SorterOnSwitchableGroups.Select(
                     //    t=>t.SwitchesUsed)
                     //    .OrderBy(c=>c)
                     //    .Take(100)

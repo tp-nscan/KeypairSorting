@@ -6,7 +6,7 @@ using SorterEvo.Workflows;
 namespace SorterEvo.Test.Workflows
 {
     [TestClass]
-    public class SorterCompPoolWorkflowFixture
+    public class ScpWorkflowFixture
     {
         [TestMethod]
         public void TestMake()

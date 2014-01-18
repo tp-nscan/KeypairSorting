@@ -8,7 +8,7 @@ namespace SorterEvo.TestData
         public static Guid SorterLayerGuid = Guid.NewGuid();
         public static Guid SwitchableGroupLayerGuid = Guid.NewGuid();
         public static Guid SorterCompParaPoolParamsGuid = Guid.NewGuid();
-        public static Guid SorterCompPoolParamsGuid = Guid.NewGuid();
+        public static Guid ScpParamsGuid = Guid.NewGuid();
 
         private static readonly IEntityRepository entityRepository;
         public static IEntityRepository EntityRepository
@@ -40,8 +40,8 @@ namespace SorterEvo.TestData
 
             entityRepository.AddEntity(
                     Entity.Make(
-                        guid: SorterCompPoolParamsGuid,
-                        val: Layers.SorterCompPoolParams())
+                        guid: ScpParamsGuid,
+                        val: Layers.ScpParams())
                 );
                     }
 

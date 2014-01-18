@@ -80,7 +80,7 @@
     <Compile Include="Resources\ConfigRunSelector.cs" />
     <Compile Include="ViewModels\MakeSorterGenomeEvalsVm.cs" />
     <Compile Include="ViewModels\MakeSorterSwitchableEvalsVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\ConfigMultiSorterCompPoolParamsVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\MultiConfigScpParamVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\MultiTuneSortersVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\RunMultiTuneSortersVm.cs" />
     <Compile Include="Views\MakeTunedSorters\ConfigMultiTuneSortersControl.xaml.cs">
@@ -93,7 +93,7 @@
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\RunTunedSortersVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\ConfigSorterCompPoolParamsVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\ConfigSorterCompPoolParamVm.cs" />
     <Compile Include="ViewModels\Parts\SorterEvalsGridVm.cs" />
     <Compile Include="ViewModels\MakeSorterEvalsVm.cs" />
     <Compile Include="ViewModels\Parts\SorterGenomeEvalGridVm.cs" />
@@ -134,13 +134,13 @@
     <Compile Include="Views\MakeTunedSorters\RunTunedSortersControl.xaml.cs">
       <DependentUpon>RunTunedSortersControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Parts\SorterCompPoolParamsControl.xaml.cs">
-      <DependentUpon>SorterCompPoolParamsControl.xaml</DependentUpon>
+    <Compile Include="Views\Parts\ScpParamsControl.xaml.cs">
+      <DependentUpon>ScpParamsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Parts\SorterEvalsGridControl.xaml.cs">
       <DependentUpon>SorterEvalsGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Parts\SorterCompPoolParamsVm.cs" />
+    <Compile Include="ViewModels\Parts\ScpParamsVm.cs" />
     <Compile Include="Views\Parts\SorterGenomeEvalsGridControl.xaml.cs">
       <DependentUpon>SorterGenomeEvalsGridControl.xaml</DependentUpon>
     </Compile>
@@ -218,7 +218,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Parts\SorterCompPoolParamsControl.xaml">
+    <Page Include="Views\Parts\ScpParamsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

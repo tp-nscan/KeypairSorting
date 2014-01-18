@@ -2,7 +2,7 @@
 
 namespace SorterEvo.Workflows
 {
-    public interface ISorterCompPoolParams
+    public interface IScpParams
     {
         string Name { get; }
         int SorterLayerStartingGenomeCount { get; }
@@ -14,9 +14,9 @@ namespace SorterEvo.Workflows
         int TotalGenerations { get; }
     }
 
-    public static class SorterCompPoolParams
+    public static class ScpParams
     {
-        public static IEnumerable<ISorterCompPoolParams> MakeStandards
+        public static IEnumerable<IScpParams> MakeStandards
             (
                 string baseName,
                 int count,
@@ -44,7 +44,7 @@ namespace SorterEvo.Workflows
             }
         }
 
-        public static ISorterCompPoolParams Make
+        public static IScpParams Make
             (
                 int sorterLayerStartingGenomeCount,
                 int sorterLayerExpandedGenomeCount,
@@ -56,7 +56,7 @@ namespace SorterEvo.Workflows
                 int totalGenerations
             )
         {
-            return new SorterCompPoolParamsImpl
+            return new ScpParamsImpl
                 (
                     sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
                     sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
@@ -69,7 +69,7 @@ namespace SorterEvo.Workflows
                 );
         }
 
-        public static ISorterCompPoolParams MakeGenerational
+        public static IScpParams MakeGenerational
         (
             int sorterLayerStartingGenomeCount,
             int sorterLayerExpandedGenomeCount,
@@ -81,7 +81,7 @@ namespace SorterEvo.Workflows
             int totalGenerations
         )
         {
-            return new SorterCompPoolParamsImpl
+            return new ScpParamsImpl
                 (
                     sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
                     sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
@@ -95,9 +95,9 @@ namespace SorterEvo.Workflows
         }
     }
 
-    public class SorterCompPoolParamsImpl : ISorterCompPoolParams
+    public class ScpParamsImpl : IScpParams
     {
-        public SorterCompPoolParamsImpl (
+        public ScpParamsImpl (
                 int sorterLayerStartingGenomeCount, 
                 int sorterLayerExpandedGenomeCount,
                 double sorterMutationRate,

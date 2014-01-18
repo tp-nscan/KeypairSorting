@@ -29,7 +29,7 @@ namespace SorterEvo.Test.Trackers
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
+                    scpParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 
@@ -65,7 +65,7 @@ namespace SorterEvo.Test.Trackers
                     repository: TestRepository.EntityRepository,
                     switchableGroupGuid: TestRepository.SwitchableGroupLayerGuid,
                     sorterGroupGuid: TestRepository.SorterLayerGuid,
-                    sorterCompPoolParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
+                    scpParamsGuid: TestRepository.SorterCompParaPoolParamsGuid
                 );
 
 

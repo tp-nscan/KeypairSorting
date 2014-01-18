@@ -98,9 +98,9 @@ namespace SorterEvo.TestData
                 );
         }
 
-        public static ISorterCompPoolParams SorterCompPoolParams()
+        public static IScpParams ScpParams()
         {
-            return Workflows.SorterCompPoolParams.Make(
+            return Workflows.ScpParams.Make(
                      sorterLayerStartingGenomeCount: SorterGenomeCount,
                      sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
                      sorterMutationRate: SorterMutationRate,

@@ -7,8 +7,8 @@
 //{
 //    public interface ITrackBundle
 //    {
-//        ISorterCompPoolParams SorterCompPoolParams { get; }
-//        ISorterCompPoolWorkflowTracker Tracker { get; }
+//        IScpParams ScpParams { get; }
+//        IScpWorkflowTracker Tracker { get; }
 //        IEnumerable<int> Seeds { get; }
 //    }
 
@@ -25,9 +25,9 @@
 //            var seeds = Rando.Fast(seed).ToIntEnumerator().Take(repCount).ToList();
 //            for (var i = 0; i < repCount; i++)
 //            {
-//                foreach (var sorterCompPoolParams in SorterCompPoolParams.MakeStandards(baseName + "_r" + i, partitionCount))
+//                foreach (var scpParams in ScpParams.MakeStandards(baseName + "_r" + i, partitionCount))
 //                {
-//                    yield return new TrackBundleImpl(sorterCompPoolParams, seeds[i]);
+//                    yield return new TrackBundleImpl(scpParams, seeds[i]);
 //                }
 //            }
 //        }
@@ -36,22 +36,22 @@
 
 //    class TrackBundleImpl : ITrackBundle
 //    {
-//        public TrackBundleImpl(ISorterCompPoolParams sorterCompPoolParams, int rootSeed)
+//        public TrackBundleImpl(IScpParams scpParams, int rootSeed)
 //        {
-//            _sorterCompPoolParams = sorterCompPoolParams;
+//            _scpParams = scpParams;
 //            _rootSeed = rootSeed;
 //            _rando = Rando.Fast(RootSeed);
 //        }
 
 
-//        private readonly ISorterCompPoolParams _sorterCompPoolParams;
-//        public ISorterCompPoolParams SorterCompPoolParams
+//        private readonly IScpParams _scpParams;
+//        public IScpParams ScpParams
 //        {
-//            get { return _sorterCompPoolParams; }
+//            get { return _scpParams; }
 //        }
 
-//        private readonly ISorterCompPoolWorkflowTracker _tracker = SorterCompPoolWorkflowTracker.Make();
-//        public ISorterCompPoolWorkflowTracker Tracker
+//        private readonly IScpWorkflowTracker _tracker = ScpWorkflowTracker.Make();
+//        public IScpWorkflowTracker Tracker
 //        {
 //            get { return _tracker; }
 //        }
