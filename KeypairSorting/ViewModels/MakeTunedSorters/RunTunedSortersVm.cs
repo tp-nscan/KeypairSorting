@@ -25,7 +25,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         {
             _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm(string.Empty);
             _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm(string.Empty);
-            _scpParamsVm = new ScpParamsVm(scpParams);
+            _scpParamsVm = new ScpParamVm(scpParams);
             _stopwatch = new Stopwatch();
         }
 
@@ -64,8 +64,8 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             get { return _sorterGenomeEvalGridVm; }
         }
 
-        private readonly ScpParamsVm _scpParamsVm;
-        public ScpParamsVm ScpParamsVm
+        private readonly ScpParamVm _scpParamsVm;
+        public ScpParamVm ScpParamsVm
         {
             get { return _scpParamsVm; }
         }

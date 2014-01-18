@@ -44,9 +44,9 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         bool CanRunMultiTuneSortersCommand()
         {
-            var configSorterPoolParams = _configRunSelectorVm as ConfigScpParamVm;
+            var configSorterPoolParams = _configRunSelectorVm as CreateScpParamVm;
 
-            return (configSorterPoolParams == null) || configSorterPoolParams.HasValidData;
+            return (configSorterPoolParams == null);
         }
 
         #endregion // RunTunedSortersCommand

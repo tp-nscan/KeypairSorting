@@ -77,14 +77,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\MakeTunedSorters\ConfigScpParamVm.cs" />
+    <Compile Include="Views\MakeTunedSorters\ConfigScpParamsControl.xaml.cs">
+      <DependentUpon>ConfigScpParamsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\ConfigRunSelector.cs" />
     <Compile Include="ViewModels\MakeSorterGenomeEvalsVm.cs" />
     <Compile Include="ViewModels\MakeSorterSwitchableEvalsVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\MultiConfigScpParamVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\MultiTuneSortersVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\RunMultiTuneSortersVm.cs" />
-    <Compile Include="Views\MakeTunedSorters\ConfigMultiTuneSortersControl.xaml.cs">
-      <DependentUpon>ConfigMultiTuneSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\MultiCreateScpParamsControl.xaml.cs">
+      <DependentUpon>MultiCreateScpParamsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MakeTunedSorters\MultiTunedSortersControl.xaml.cs">
       <DependentUpon>MultiTunedSortersControl.xaml</DependentUpon>
@@ -93,7 +97,7 @@
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\RunTunedSortersVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\ConfigSorterCompPoolParamVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\CreateScpParamVm.cs" />
     <Compile Include="ViewModels\Parts\SorterEvalsGridVm.cs" />
     <Compile Include="ViewModels\MakeSorterEvalsVm.cs" />
     <Compile Include="ViewModels\Parts\SorterGenomeEvalGridVm.cs" />
@@ -122,8 +126,8 @@
     <Compile Include="Views\MakeSorterEvalsControl.xaml.cs">
       <DependentUpon>MakeSorterEvalsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\ConfigTunedSortersControl.xaml.cs">
-      <DependentUpon>ConfigTunedSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\CreateScpParamsControl.xaml.cs">
+      <DependentUpon>CreateScpParamsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MakeTunedSorters\RunMultiTuneSortersControl.xaml.cs">
       <DependentUpon>RunMultiTuneSortersControl.xaml</DependentUpon>
@@ -140,7 +144,7 @@
     <Compile Include="Views\Parts\SorterEvalsGridControl.xaml.cs">
       <DependentUpon>SorterEvalsGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Parts\ScpParamsVm.cs" />
+    <Compile Include="ViewModels\Parts\ScpParamVm.cs" />
     <Compile Include="Views\Parts\SorterGenomeEvalsGridControl.xaml.cs">
       <DependentUpon>SorterGenomeEvalsGridControl.xaml</DependentUpon>
     </Compile>
@@ -158,6 +162,10 @@
       <DependentUpon>SwitchableGroupGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\ToolSelector.cs" />
+    <Page Include="Views\MakeTunedSorters\ConfigScpParamsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,7 +178,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\ConfigMultiTuneSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\MultiCreateScpParamsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,7 +210,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\ConfigTunedSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\CreateScpParamsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

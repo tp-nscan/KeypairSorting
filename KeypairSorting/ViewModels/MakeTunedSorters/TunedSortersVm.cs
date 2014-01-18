@@ -9,7 +9,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
     {
         public TunedSortersVm()
         {
-            _configRunSelectorVm = new ConfigScpParamVm(
+            _configRunSelectorVm = new CreateScpParamVm(
                     ScpParams.Make(
                         sorterLayerStartingGenomeCount: 10,
                         sorterLayerExpandedGenomeCount: 30,
@@ -52,14 +52,14 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         void OnRunTunedSortersCommand()
         {
-            ConfigRunSelectorVm = new RunTunedSortersVm(((ConfigScpParamVm)ConfigRunSelectorVm).GetParams);
+            ConfigRunSelectorVm = new RunTunedSortersVm(((CreateScpParamVm)ConfigRunSelectorVm).ConfigScpParamVm.GetParams);
         }
 
         bool CanRunTunedSortersCommand()
         {
-            var configSorterPoolParams = _configRunSelectorVm as ConfigScpParamVm;
+            var configSorterPoolParams = _configRunSelectorVm as CreateScpParamVm;
 
-            return (configSorterPoolParams==null) || configSorterPoolParams.HasValidData;
+            return (configSorterPoolParams==null) || configSorterPoolParams.ConfigScpParamVm.HasValidData;
         }
 
         #endregion // RunTunedSortersCommand

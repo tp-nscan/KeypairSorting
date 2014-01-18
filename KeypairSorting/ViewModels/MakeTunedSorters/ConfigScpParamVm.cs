@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Text;
-using System.Windows;
-using System.Windows.Input;
-using KeypairSorting.Resources;
 using SorterEvo.Workflows;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class ConfigScpParamVm : ViewModelBase, IConfigRunSelectorVm
+    public class ConfigScpParamVm : ViewModelBase
     {
-        private string _name;
-        private int? _sorterLayerStartingGenomeCount;
-        private int? _sorterLayerExpandedGenomeCount;
-        private double? _sorterMutationRate;
-        private double? _sorterInsertionRate;
-        private double? _sorterDeletionRate;
-
-        public ConfigScpParamVm(IScpParams scpParams, ICommand runTunedSortersCommand)
+        public ConfigScpParamVm(IScpParams scpParams)
         {
-            RunTunedSortersCommand = runTunedSortersCommand;
             Name = scpParams.Name;
             SorterLayerStartingGenomeCount = scpParams.SorterLayerStartingGenomeCount;
             SorterLayerExpandedGenomeCount = scpParams.SorterLayerExpandedGenomeCount;
@@ -30,18 +18,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             TotalGenerations = scpParams.TotalGenerations;
         }
 
-        public ICommand RunTunedSortersCommand { get; private set; }
-
-        public ConfigRunTemplateType ConfigRunTemplateType
-        {
-            get { return ConfigRunTemplateType.Config; }
-        }
-
-        public string Description
-        {
-            get { return "Config sorter tune"; }
-        }
-
+        private string _name;
         public String Name
         {
             get { return _name; }
@@ -74,6 +51,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
+        private int? _sorterLayerStartingGenomeCount;
         public int? SorterLayerStartingGenomeCount
         {
             get { return _sorterLayerStartingGenomeCount; }
@@ -84,6 +62,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
+        private int? _sorterLayerExpandedGenomeCount;
         public int? SorterLayerExpandedGenomeCount
         {
             get { return _sorterLayerExpandedGenomeCount; }
@@ -94,6 +73,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
+        private double? _sorterMutationRate;
         public double? SorterMutationRate
         {
             get { return _sorterMutationRate; }
@@ -104,6 +84,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
+        private double? _sorterInsertionRate;
         public double? SorterInsertionRate
         {
             get { return _sorterInsertionRate; }
@@ -114,6 +95,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
+        private double? _sorterDeletionRate;
         public double? SorterDeletionRate
         {
             get { return _sorterDeletionRate; }
@@ -124,59 +106,20 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
-
-        #region CopyCommand
-
-        RelayCommand _copyCommand;
-        public ICommand CopyCommand
-        {
-            get
-            {
-                return _copyCommand ?? (_copyCommand
-                    = new RelayCommand
-                        (
-                            param => OnCopyCommand(),
-                            param => CanCopyCommand()
-                        ));
-            }
-        }
-
-        protected void OnCopyCommand()
-        {
-            var sb = new StringBuilder();
-            sb.AppendLine("Name\t" + Name);
-            // ReSharper disable PossibleInvalidOperationException
-            sb.AppendLine("Starting Count\t" + SorterLayerStartingGenomeCount.Value);
-            sb.AppendLine("Expanded Count\t" + SorterLayerExpandedGenomeCount.Value);
-            sb.AppendLine("Deletion rate\t" + SorterDeletionRate.Value.ToString("0.000"));
-            sb.AppendLine("Insertion rate\t" + SorterInsertionRate.Value.ToString("0.000"));
-            sb.AppendLine("Mutation rate\t" + SorterMutationRate.Value.ToString("0.000"));
-            // ReSharper restore PossibleInvalidOperationException
-
-            Clipboard.SetText(sb.ToString());
-        }
-
-        bool CanCopyCommand()
-        {
-            return HasValidData;
-        }
-
-        #endregion // CopyCommand
-
         public bool HasValidData
         {
             get
             {
-                return 
-                    ! String.IsNullOrEmpty(Name) 
+                return
+                    !String.IsNullOrEmpty(Name)
                     &&
-                    SorterLayerStartingGenomeCount.HasValue 
+                    SorterLayerStartingGenomeCount.HasValue
                     &&
-                    SorterLayerExpandedGenomeCount.HasValue 
+                    SorterLayerExpandedGenomeCount.HasValue
                     &&
-                    SorterDeletionRate.HasValue 
+                    SorterDeletionRate.HasValue
                     &&
-                    SorterInsertionRate.HasValue 
+                    SorterInsertionRate.HasValue
                     &&
                     SorterMutationRate.HasValue
                     &&
@@ -194,7 +137,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                 return HasValidData ?
                         ScpParams.Make
                         (
-                            // ReSharper disable PossibleInvalidOperationException
+                    // ReSharper disable PossibleInvalidOperationException
                             sorterLayerStartingGenomeCount: SorterLayerStartingGenomeCount.Value,
                             sorterLayerExpandedGenomeCount: SorterLayerExpandedGenomeCount.Value,
                             sorterMutationRate: SorterMutationRate.Value,
@@ -202,7 +145,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                             sorterDeletionRate: SorterDeletionRate.Value,
                             totalGenerations: TotalGenerations.Value,
                             seed: Seed.Value,
-                            // ReSharper restore PossibleInvalidOperationException
+                    // ReSharper restore PossibleInvalidOperationException
                             name: Name
                         )
                         :
@@ -210,6 +153,4 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
     }
-
-
 }

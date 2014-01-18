@@ -9,7 +9,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="configSorterTemplate">
-        <makeTunedSorters:ConfigTunedSortersControl/>
+        <makeTunedSorters:CreateScpParamsControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="runSorterTemplate">
@@ -25,7 +25,7 @@
     
     
     <DataTemplate x:Key="configMultiSorterTemplate">
-        <makeTunedSorters:ConfigMultiTuneSortersControl/>
+        <makeTunedSorters:MultiCreateScpParamsControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="runMultiSorterTemplate">
