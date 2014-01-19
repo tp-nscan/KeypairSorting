@@ -169,7 +169,6 @@ namespace KeypairSorting.ViewModels
 
         #endregion // SortersSwitchesEvalCommand
 
-
         #region MultiTuneSortersCommand
 
         RelayCommand _multiTuneSortersCommand;
@@ -188,7 +187,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnMultiTuneSortersCommand()
         {
-            ToolTemplateVm = new MultiTuneSortersVm();
+            ToolTemplateVm = new MultiScpVm();
         }
 
         bool CanMultiTuneSortersCommand()
@@ -244,7 +243,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnTuneSortersCommand()
         {
-            ToolTemplateVm = new TunedSortersVm();
+            ToolTemplateVm = new ScpVm();
         }
 
         bool CanTuneSortersCommand()

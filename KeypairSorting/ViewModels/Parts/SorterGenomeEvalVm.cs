@@ -18,6 +18,7 @@ namespace KeypairSorting.ViewModels.Parts
         bool Success { get; }
         int SwitchUseCount { get; }
         string Ancestors { get; }
+        string AncestorsJson { get; }
         Guid SwitchableGroupGuid { get; }
         string SwitchUseList { get; }
         ISorterGenomeEval GetSorterGenomeEval();
@@ -151,6 +152,18 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
+        public string AncestorsJson
+        {
+            get
+            {
+              return JsonConvert.SerializeObject
+                (
+                   GetSorterGenomeEval().Ancestors,
+                  Formatting.None
+              );
+
+            }
+        }
         public Guid SwitchableGroupGuid
         {
             get { return _sorterGenomeEval.SorterEval.SwitchableGroupGuid; }

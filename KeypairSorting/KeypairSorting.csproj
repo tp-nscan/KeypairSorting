@@ -78,26 +78,31 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\MakeTunedSorters\ConfigScpParamVm.cs" />
-    <Compile Include="Views\MakeTunedSorters\ConfigScpParamsControl.xaml.cs">
-      <DependentUpon>ConfigScpParamsControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\MakeTunedSorters\ConfigScpVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\ScpRunnerVm.cs" />
+    <Compile Include="Views\MakeTunedSorters\ConfigScpControl.xaml.cs">
+      <DependentUpon>ConfigScpControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MakeTunedSorters\ConfigScpParamControl.xaml.cs">
+      <DependentUpon>ConfigScpParamControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\ConfigRunSelector.cs" />
     <Compile Include="ViewModels\MakeSorterGenomeEvalsVm.cs" />
     <Compile Include="ViewModels\MakeSorterSwitchableEvalsVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\MultiConfigScpParamVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\MultiTuneSortersVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\RunMultiTuneSortersVm.cs" />
-    <Compile Include="Views\MakeTunedSorters\MultiCreateScpParamsControl.xaml.cs">
-      <DependentUpon>MultiCreateScpParamsControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\MakeTunedSorters\MultiCreateScpVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\MultiScpVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\MultiRunScpVm.cs" />
+    <Compile Include="Views\MakeTunedSorters\MultiCreateScpControl.xaml.cs">
+      <DependentUpon>MultiCreateScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\MultiTunedSortersControl.xaml.cs">
-      <DependentUpon>MultiTunedSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\MultiScpControl.xaml.cs">
+      <DependentUpon>MultiScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MakeTunedSorters\TunedSortersVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\ScpVm.cs" />
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\RunTunedSortersVm.cs" />
-    <Compile Include="ViewModels\MakeTunedSorters\CreateScpParamVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\RunScpVm.cs" />
+    <Compile Include="ViewModels\MakeTunedSorters\CreateScpVm.cs" />
     <Compile Include="ViewModels\Parts\SorterEvalsGridVm.cs" />
     <Compile Include="ViewModels\MakeSorterEvalsVm.cs" />
     <Compile Include="ViewModels\Parts\SorterGenomeEvalGridVm.cs" />
@@ -126,17 +131,17 @@
     <Compile Include="Views\MakeSorterEvalsControl.xaml.cs">
       <DependentUpon>MakeSorterEvalsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\CreateScpParamsControl.xaml.cs">
-      <DependentUpon>CreateScpParamsControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\CreateScpControl.xaml.cs">
+      <DependentUpon>CreateScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\RunMultiTuneSortersControl.xaml.cs">
-      <DependentUpon>RunMultiTuneSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\MultiRunScpControl.xaml.cs">
+      <DependentUpon>MultiRunScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\TunedSortersControl.xaml.cs">
-      <DependentUpon>TunedSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\ScpControl.xaml.cs">
+      <DependentUpon>ScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\RunTunedSortersControl.xaml.cs">
-      <DependentUpon>RunTunedSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MakeTunedSorters\RunScpControl.xaml.cs">
+      <DependentUpon>RunScpControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Parts\ScpParamsControl.xaml.cs">
       <DependentUpon>ScpParamsControl.xaml</DependentUpon>
@@ -162,7 +167,15 @@
       <DependentUpon>SwitchableGroupGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\ToolSelector.cs" />
-    <Page Include="Views\MakeTunedSorters\ConfigScpParamsControl.xaml">
+    <Page Include="Resources\ControlTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeTunedSorters\ConfigScpControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeTunedSorters\ConfigScpParamControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,11 +191,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\MultiCreateScpParamsControl.xaml">
+    <Page Include="Views\MakeTunedSorters\MultiCreateScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\MultiTunedSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\MultiScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,19 +223,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\CreateScpParamsControl.xaml">
+    <Page Include="Views\MakeTunedSorters\CreateScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\RunMultiTuneSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\MultiRunScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\TunedSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\ScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\RunTunedSortersControl.xaml">
+    <Page Include="Views\MakeTunedSorters\RunScpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

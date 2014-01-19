@@ -4,7 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
-	x:Class="KeypairSorting.ConfigMultiScpParamsControl"
+	x:Class="KeypairSorting.Views.MakeTunedSorters.ConfigScpParamControl"
 	x:Name="UserControl"
 	d:DesignWidth="280" d:DesignHeight="254.04">
 
@@ -38,7 +38,7 @@
 
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
 				<TextBlock Text="Name"/>
-				<TextBox Text="{Binding Name}"/>
+				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 			</StackPanel>
 
 			<StackPanel Grid.Row="1" Orientation="Horizontal">

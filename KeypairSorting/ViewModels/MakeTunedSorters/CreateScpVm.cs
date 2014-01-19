@@ -1,15 +1,19 @@
 ﻿using System.Windows.Input;
 using KeypairSorting.Resources;
+using SorterEvo.Workflows;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class MultiConfigScpParamVm : ViewModelBase, IConfigRunSelectorVm
+    public class CreateScpVm : ViewModelBase, IConfigRunSelectorVm
     {
-        public MultiConfigScpParamVm(ICommand runMultiTunedSortersCommand)
+        public CreateScpVm(IScpParams scpParams, ICommand createScpCommand)
         {
-            RunMultiTunedSortersCommand = runMultiTunedSortersCommand;
+            CreateScpCommand = createScpCommand;
+            ConfigScpVm = new ConfigScpVm(scpParams);
         }
+
+        public ICommand CreateScpCommand { get; private set; }
 
         public ConfigRunTemplateType ConfigRunTemplateType
         {
@@ -21,6 +25,8 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             get { return "Config sorter tune"; }
         }
 
-        public ICommand RunMultiTunedSortersCommand { get; private set; }
+        public ConfigScpVm ConfigScpVm { get; set; }
+
     }
+
 }

@@ -1,11 +1,11 @@
 ﻿namespace KeypairSorting.Views.MakeTunedSorters
 {
     /// <summary>
-    /// Interaction logic for MultiTunedSorters.xaml
+    /// Interaction logic for RunTunedSortersControl.xaml
     /// </summary>
-    public partial class MultiTunedSortersControl
+    public partial class RunScpControl
     {
-        public MultiTunedSortersControl()
+        public RunScpControl()
         {
             InitializeComponent();
         }

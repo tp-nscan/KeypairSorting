@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for ConfigTunedSortersControl.xaml
     /// </summary>
-    public partial class CreateScpParamsControl
+    public partial class CreateScpControl
     {
-        public CreateScpParamsControl()
+        public CreateScpControl()
         {
             InitializeComponent();
         }

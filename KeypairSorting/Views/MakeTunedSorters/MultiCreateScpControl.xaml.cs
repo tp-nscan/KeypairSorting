@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for MultiCreateScpParamsControl.xaml
     /// </summary>
-    public partial class MultiCreateScpParamsControl
+    public partial class MultiCreateScpControl
     {
-        public MultiCreateScpParamsControl()
+        public MultiCreateScpControl()
         {
             InitializeComponent();
         }

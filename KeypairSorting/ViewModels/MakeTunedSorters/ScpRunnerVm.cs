@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
 using MathUtils.Rand;
 using SorterEvo.Evals;
-using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using SorterEvo.Workflows;
-using Sorting.CompetePools;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
 {
-    public class RunTunedSortersVm : ViewModelBase, IConfigRunSelectorVm
+    public class ScpRunnerVm : ViewModelBase
     {
-        public RunTunedSortersVm(IScpParams scpParams)
+        public ScpRunnerVm(IScpParams scpParams, IEnumerable<ISorterGenomeEvalVm> sorterGenomeEvalVms)
         {
-            _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm(string.Empty);
-            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm(string.Empty);
+            _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm("Progenitors");
+            _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.AddMany(sorterGenomeEvalVms);
+            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Current population");
             _scpParamsVm = new ScpParamVm(scpParams);
-            _stopwatch = new Stopwatch();
         }
 
         public ConfigRunTemplateType ConfigRunTemplateType
@@ -39,7 +36,6 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             get { return "Tune sorters"; }
         }
 
-
         private bool _busy;
         public bool Busy
         {
@@ -47,7 +43,6 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             set
             {
                 _busy = value;
-                CommandManager.InvalidateRequerySuggested();
                 OnPropertyChanged("Busy");
             }
         }
@@ -72,26 +67,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         #region RunCommand
 
-        RelayCommand _runCommand;
-        public ICommand RunCommand
-        {
-            get
-            {
-                return _runCommand ?? (_runCommand
-                    = new RelayCommand
-                        (
-                            param => OnRunCommand(),
-                            param => CanRunCommand()
-                        ));
-            }
-        }
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         async Task OnRunCommand()
         {
             Busy = true;
-            _stopwatch.Reset();
-            _stopwatch.Start();
             _cancellationTokenSource = new CancellationTokenSource();
 
             var rando = Rando.Fast(ScpParamsVm.Seed);
@@ -132,7 +112,6 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             rbw.OnIterationResult.Subscribe(UpdateSorterTuneResults);
             await rbw.Start();
 
-            _stopwatch.Stop();
             Busy = false;
         }
 
@@ -197,40 +176,9 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
         #endregion // RunCommand
 
-        #region StopCommand
 
-        RelayCommand _stopCommand;
 
-        public ICommand StopCommand
-        {
-            get
-            {
-                return _stopCommand ?? (_stopCommand
-                    = new RelayCommand
-                        (
-                            param => OnStopCommand(),
-                            param => CanStopCommand()
-                        ));
-            }
-        }
 
-        void OnStopCommand()
-        {
-            _cancellationTokenSource.Cancel();
-        }
-
-        bool CanStopCommand()
-        {
-            return _busy;
-        }
-
-        #endregion // StopCommand
-
-        private readonly Stopwatch _stopwatch;
-        public string ProcTime
-        {
-            get { return _stopwatch.Elapsed.TotalSeconds.ToString("0"); }
-        }
 
     }
 }

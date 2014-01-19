@@ -8,34 +8,32 @@
         <views:DefaultControl/>
     </DataTemplate>
 
-    <DataTemplate x:Key="configSorterTemplate">
-        <makeTunedSorters:CreateScpParamsControl/>
+    <DataTemplate x:Key="createScpTemplate">
+        <makeTunedSorters:CreateScpControl/>
     </DataTemplate>
 
-    <DataTemplate x:Key="runSorterTemplate">
-        <makeTunedSorters:RunTunedSortersControl/>
+    <DataTemplate x:Key="runScpTemplate">
+        <makeTunedSorters:RunScpControl/>
     </DataTemplate>
     
     <resources:ConfigRunSelector x:Key="tuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
-        ConfigTemplate="{StaticResource configSorterTemplate}"
-        RunTemplate="{StaticResource runSorterTemplate}"
+        ConfigTemplate="{StaticResource createScpTemplate}"
+        RunTemplate="{StaticResource runScpTemplate}"
      />
 
-    
-    
-    <DataTemplate x:Key="configMultiSorterTemplate">
-        <makeTunedSorters:MultiCreateScpParamsControl/>
+    <DataTemplate x:Key="createMultiScpTemplate">
+        <makeTunedSorters:MultiCreateScpControl/>
     </DataTemplate>
 
-    <DataTemplate x:Key="runMultiSorterTemplate">
-        <makeTunedSorters:RunMultiTuneSortersControl/>
+    <DataTemplate x:Key="runMultiScpTemplate">
+        <makeTunedSorters:MultiRunScpControl/>
     </DataTemplate>
 
     <resources:ConfigRunSelector x:Key="multiTuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
-        ConfigTemplate="{StaticResource configMultiSorterTemplate}"
-        RunTemplate="{StaticResource runMultiSorterTemplate}"
+        ConfigTemplate="{StaticResource createMultiScpTemplate}"
+        RunTemplate="{StaticResource runMultiScpTemplate}"
      />
 
 </ResourceDictionary>

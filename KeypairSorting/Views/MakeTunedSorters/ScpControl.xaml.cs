@@ -4,9 +4,9 @@ namespace KeypairSorting.Views.MakeTunedSorters
     /// <summary>
     /// Interaction logic for MakeTunedSortersControl.xaml
     /// </summary>
-    public partial class TunedSortersControl
+    public partial class ScpControl
     {
-        public TunedSortersControl()
+        public ScpControl()
         {
             InitializeComponent();
         }

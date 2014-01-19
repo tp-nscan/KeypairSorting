@@ -33,11 +33,11 @@
     </DataTemplate>
 
     <DataTemplate x:Key="configSorterTuneTemplate">
-        <makeTunedSorters:TunedSortersControl/>
+        <makeTunedSorters:ScpControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="configMultiSorterTuneTemplate">
-        <makeTunedSorters:MultiTunedSortersControl/>
+        <makeTunedSorters:MultiScpControl/>
     </DataTemplate>
     
     <resources:ToolSelector x:Key="toolSelector"

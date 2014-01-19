@@ -96,7 +96,7 @@ namespace KeypairSorting.ViewModels.Parts
                     sorterGenomeEvalVm.SorterGenomeJson + "\t" +
                     sorterGenomeEvalVm.Success + "\t" +
                     sorterGenomeEvalVm.SwitchUseCount + "\t" +
-                    sorterGenomeEvalVm.Ancestors + "\t" +
+                    sorterGenomeEvalVm.AncestorsJson + "\t" +
                     sorterGenomeEvalVm.SwitchableGroupGuid + "\t" +
                     sorterGenomeEvalVm.SwitchUseList
                 );

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KeypairSorting.Views.MakeTunedSorters
 {
     /// <summary>
-    /// Interaction logic for RunTunedSortersControl.xaml
+    /// Interaction logic for ConfigScpControl.xaml
     /// </summary>
-    public partial class RunTunedSortersControl : UserControl
+    public partial class ConfigScpControl : UserControl
     {
-        public RunTunedSortersControl()
+        public ConfigScpControl()
         {
             InitializeComponent();
         }
