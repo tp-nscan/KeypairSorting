@@ -143,6 +143,9 @@
     <Compile Include="Views\MakeTunedSorters\RunScpControl.xaml.cs">
       <DependentUpon>RunScpControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MakeTunedSorters\ScpRunnerControl.xaml.cs">
+      <DependentUpon>ScpRunnerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Parts\ScpParamsControl.xaml.cs">
       <DependentUpon>ScpParamsControl.xaml</DependentUpon>
     </Compile>
@@ -236,6 +239,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MakeTunedSorters\RunScpControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeTunedSorters\ScpRunnerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

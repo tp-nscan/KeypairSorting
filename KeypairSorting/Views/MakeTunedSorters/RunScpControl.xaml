@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
+             xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
     
@@ -17,7 +18,7 @@
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
     </UserControl.Resources>
-    
+
     <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="OliveDrab">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -28,57 +29,39 @@
                 <TextBlock Text="{Binding ProcTime}"/>
             </StackPanel>
         </StackPanel>
-
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
 
-            <DockPanel LastChildFill="True" Grid.Column="0"
-                       DataContext="{Binding SorterGenomeEvalGridVmInitial}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
 
-                <TextBlock DockPanel.Dock="Top" 
+
+            <makeTunedSorters:ScpRunnerControl/>
+
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+				Width="3" Margin="0,2" Background="#8FFF" />
+
+
+        <DockPanel LastChildFill="True" Grid.Column="2" DataContext="{Binding TrajectoryGridVm}">
+
+            <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
 						Text="{Binding Name}" 
 						HorizontalAlignment="Center" />
 
-                <parts:SorterGenomeEvalsGridControl />
+            <parts:SorterGenomeEvalsGridControl  />
 
-            </DockPanel>
+        </DockPanel>
 
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
-				Width="3" Margin="0,2" Background="#8FFF" />
 
-            <DockPanel LastChildFill="True" Grid.Column="2">
+    </Grid>
 
-                <TextBlock DockPanel.Dock="Top" 
-						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Updating Params" 
-						HorizontalAlignment="Center" />
-
-                <parts:ScpParamsControl DataContext="{Binding ScpParamsVm}" />
-
-            </DockPanel>
-
-            <GridSplitter Grid.Column="3" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
-				Width="3" Margin="0,2" Background="#8FFF" />
-
-            <DockPanel LastChildFill="True" Grid.Column="4">
-
-                <TextBlock DockPanel.Dock="Top" 
-						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="Current Generation" 
-						HorizontalAlignment="Center" />
-
-                <parts:SorterGenomeEvalsGridControl DataContext="{Binding SorterGenomeEvalGridVm}" />
-
-            </DockPanel>
-        </Grid>
 
     </DockPanel>
+
+
 
 </UserControl>

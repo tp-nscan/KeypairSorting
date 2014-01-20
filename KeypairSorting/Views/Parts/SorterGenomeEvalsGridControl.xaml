@@ -25,8 +25,10 @@
                   AutoGenerateColumns="False"
 				    ItemsSource="{Binding SorterGenomeEvalVms}">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Generation" Binding="{Binding Generation}" />
                 <DataGridTextColumn Header="Count" Binding="{Binding SwitchUseCount}" />
                 <DataGridTextColumn Header="Ancestors" Binding="{Binding Ancestors}" />
+                <DataGridTextColumn Header="Ancestors" Binding="{Binding SwitchUseList}" />
             </DataGrid.Columns>
         </DataGrid>
 

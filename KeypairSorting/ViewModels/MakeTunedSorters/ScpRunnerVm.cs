@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
+using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using Entities.BackgroundWorkers;
@@ -24,6 +24,12 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.AddMany(sorterGenomeEvalVms);
             _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Current population");
             _scpParamsVm = new ScpParamVm(scpParams);
+        }
+
+        private readonly Subject<ISorterGenomeEval> _onIterationResult = new Subject<ISorterGenomeEval>();
+        public IObservable<ISorterGenomeEval> OnIterationResult
+        {
+            get { return _onIterationResult; }
         }
 
         public ConfigRunTemplateType ConfigRunTemplateType
@@ -68,11 +74,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         #region RunCommand
 
 
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        async Task OnRunCommand()
+        private CancellationTokenSource _cancellationTokenSource;
+        public async Task OnRunAsync(CancellationTokenSource cancellationTokenSource)
         {
             Busy = true;
-            _cancellationTokenSource = new CancellationTokenSource();
+            _cancellationTokenSource = cancellationTokenSource;
 
             var rando = Rando.Fast(ScpParamsVm.Seed);
 
@@ -123,7 +129,6 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             {
                 ScpParamsVm.CurrentGeneration = result.Data.Generation;
                 SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
-                OnPropertyChanged("ProcTime");
                 var currentGeneration = result.Data.Generation;
 
                 var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
@@ -146,7 +151,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                         _sorterGenomeEvals[sorterGenomeEval.Guid] = SorterGenomeEval.Make
                             (
                                 sorterGenome: sorterGenomeEval.Genome,
-                                ancestors: ImmutableStack<Guid>.Empty,
+                                ancestors: ImmutableStack<Guid>.Empty.Push(sorterGenomeEval.Genome.ParentGuid),
                                 sorterEval: sorterEvalDict[sorterGenomeEval.Guid],
                                 generation: currentGeneration
                            );
@@ -162,23 +167,22 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                     }
                 }
 
-                foreach (var sorterGenomeEval in _sorterGenomeEvals.Values.OrderBy(r => r.SorterEval.SwitchUseCount))
+                var orderedEvals = _sorterGenomeEvals.Values.OrderBy(r => r.SorterEval.SwitchUseCount).ToList();
+                foreach (var sorterGenomeEval in orderedEvals)
                 {
                     SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterGenomeEval.ToSorterGenomeEvalVm());
                 }
+
+                _onIterationResult.OnNext(orderedEvals.First());
             }
         }
 
-        bool CanRunCommand()
+        public bool CanRun()
         {
             return !_busy;
         }
 
         #endregion // RunCommand
-
-
-
-
 
     }
 }

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
-using MathUtils.Rand;
 using SorterEvo.Evals;
-using SorterEvo.Layers;
 using SorterEvo.Workflows;
 using WpfUtils;
 
@@ -21,11 +16,22 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
     {
         public RunScpVm(IScpParams scpParams, IEnumerable<ISorterGenomeEvalVm> sorterGenomeEvalVms)
         {
-            _sorterGenomeEvalGridVmInitial = new SorterGenomeEvalGridVm("Progenitors");
-            _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.AddMany(sorterGenomeEvalVms);
-            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Current population");
-            _scpParamsVm = new ScpParamVm(scpParams);
+            ScpRunnerVm = new ScpRunnerVm(scpParams, sorterGenomeEvalVms);
+            ScpRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
+            _trajectoryGridVm = new SorterGenomeEvalGridVm("History");
             _stopwatch = new Stopwatch();
+        }
+
+        void ReportBestResult(ISorterGenomeEval result)
+        {
+            OnPropertyChanged("ProcTime");
+            TrajectoryGridVm.SorterGenomeEvalVms.Add(result.ToSorterGenomeEvalVm());
+        }
+
+        private readonly SorterGenomeEvalGridVm _trajectoryGridVm;
+        public SorterGenomeEvalGridVm TrajectoryGridVm
+        {
+            get { return _trajectoryGridVm; }
         }
 
         public ConfigRunTemplateType ConfigRunTemplateType
@@ -50,23 +56,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
-        private readonly SorterGenomeEvalGridVm _sorterGenomeEvalGridVmInitial;
-        public SorterGenomeEvalGridVm SorterGenomeEvalGridVmInitial
-        {
-            get { return _sorterGenomeEvalGridVmInitial; }
-        }
-
-        private readonly SorterGenomeEvalGridVm _sorterGenomeEvalGridVm;
-        public SorterGenomeEvalGridVm SorterGenomeEvalGridVm
-        {
-            get { return _sorterGenomeEvalGridVm; }
-        }
-
-        private readonly ScpParamVm _scpParamsVm;
-        public ScpParamVm ScpParamsVm
-        {
-            get { return _scpParamsVm; }
-        }
+        public ScpRunnerVm ScpRunnerVm { get; set; }
 
         #region RunCommand
 
@@ -92,100 +82,10 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             _stopwatch.Start();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var rando = Rando.Fast(ScpParamsVm.Seed);
-
-            var rbw = RecursiveBackgroundWorker.Make
-                (
-                    initialState: ScpWorkflow.Make
-                        (
-                           sorterLayer: SorterLayer.Make(
-                               sorterGenomes: _sorterGenomeEvalGridVmInitial.SorterGenomeEvalVms.Select(t => t.GetSorterGenomeEval().SorterGenome),
-                               generation: 0
-                           ),
-                           scpParams: ScpParamsVm.GetParams,
-                           generation: 0
-                        ),
-                   recursion: (i, c) =>
-                   {
-                       var nextStep = i;
-                       while (true)
-                       {
-                           if (_cancellationTokenSource.IsCancellationRequested)
-                           {
-                               return IterationResult.Make<IScpWorkflow>(null, ProgressStatus.StepIncomplete);
-                           }
-
-                           nextStep = nextStep.Step(rando.NextInt());
-
-                           if (nextStep.CompWorkflowState == CompWorkflowState.UpdateGenomes)
-                           {
-                               return IterationResult.Make(nextStep, ProgressStatus.StepComplete);
-                           }
-                       }
-                   },
-                    totalIterations: ScpParamsVm.TotalGenerations,
-                    cancellationTokenSource: _cancellationTokenSource
-                );
-
-            rbw.OnIterationResult.Subscribe(UpdateSorterTuneResults);
-            await rbw.Start();
+            await ScpRunnerVm.OnRunAsync(_cancellationTokenSource);
 
             _stopwatch.Stop();
             Busy = false;
-        }
-
-        readonly Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
-
-        private void UpdateSorterTuneResults(IIterationResult<IScpWorkflow> result)
-        {
-            if (result.ProgressStatus == ProgressStatus.StepComplete)
-            {
-                ScpParamsVm.CurrentGeneration = result.Data.Generation;
-                SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
-                OnPropertyChanged("ProcTime");
-                var currentGeneration = result.Data.Generation;
-
-                var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
-
-                foreach (var sorterGenomeEval in result.Data.SorterLayerEval.GenomeEvals)
-                {
-                    if (_sorterGenomeEvals.ContainsKey(sorterGenomeEval.Genome.ParentGuid))
-                    {
-                        var oldSorterEval = _sorterGenomeEvals[sorterGenomeEval.Genome.ParentGuid];
-                        _sorterGenomeEvals[sorterGenomeEval.Guid] = SorterGenomeEval.Make
-                            (
-                                sorterGenome: sorterGenomeEval.Genome,
-                                parentGenomeEval: oldSorterEval,
-                                sorterEval: sorterEvalDict[sorterGenomeEval.Guid],
-                                generation: currentGeneration
-                           );
-                    }
-                    else
-                    {
-                        _sorterGenomeEvals[sorterGenomeEval.Guid] = SorterGenomeEval.Make
-                            (
-                                sorterGenome: sorterGenomeEval.Genome,
-                                ancestors: ImmutableStack<Guid>.Empty,
-                                sorterEval: sorterEvalDict[sorterGenomeEval.Guid],
-                                generation: currentGeneration
-                           );
-                    }
-                }
-
-                var evalGuidList = _sorterGenomeEvals.Select(t => t.Key).ToList();
-                foreach (var evalGuid in evalGuidList)
-                {
-                    if (_sorterGenomeEvals[evalGuid].Generation < currentGeneration - 1)
-                    {
-                        _sorterGenomeEvals.Remove(evalGuid);
-                    }
-                }
-
-                foreach (var sorterGenomeEval in _sorterGenomeEvals.Values.OrderBy(r => r.SorterEval.SwitchUseCount))
-                {
-                    SorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterGenomeEval.ToSorterGenomeEvalVm());
-                }
-            }
         }
 
         bool CanRunCommand()
