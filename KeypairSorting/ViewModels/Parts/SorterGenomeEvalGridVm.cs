@@ -16,7 +16,8 @@ namespace KeypairSorting.ViewModels.Parts
             _name = name;
         }
 
-        private readonly ObservableCollection<ISorterGenomeEvalVm> _sorterGenomeVms = new ObservableCollection<ISorterGenomeEvalVm>();
+        private readonly ObservableCollection<ISorterGenomeEvalVm> _sorterGenomeVms 
+            = new ObservableCollection<ISorterGenomeEvalVm>();
         public ObservableCollection<ISorterGenomeEvalVm> SorterGenomeEvalVms
         {
             get { return _sorterGenomeVms; }

@@ -187,6 +187,16 @@ namespace KeypairSorting.ViewModels.Parts
             }
         }
 
+        public string SwitchUseListAlt
+        {
+            get
+            {
+                return GetSorterGenomeEval().SorterEval.SwitchUseList
+                    .Select(v => v.ToString("0"))
+                    .Aggregate(String.Empty, (v, e) => v + "\t" + e);
+            }
+        }
+
         public bool Success
         {
             get { return _sorterGenomeEval.SorterEval.Success; }

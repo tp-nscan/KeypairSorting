@@ -5,5 +5,9 @@
     <DataTemplate x:Key="configScpControl">
         <makeTunedSorters:ConfigScpControl/>
     </DataTemplate>
+
+    <DataTemplate x:Key="scpRunnerControl">
+        <makeTunedSorters:ScpRunnerControl/>
+    </DataTemplate>
     
 </ResourceDictionary>

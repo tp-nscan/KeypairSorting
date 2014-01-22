@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
              xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
@@ -29,6 +28,7 @@
                 <TextBlock Text="{Binding ProcTime}"/>
             </StackPanel>
         </StackPanel>
+        
         <Grid>
 
         <Grid.ColumnDefinitions>
@@ -37,31 +37,32 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
+            <makeTunedSorters:ScpRunnerControl  
+                  DataContext="{Binding ScpRunnerVm}" />
 
+            <GridSplitter Grid.Column="1" 
+                          VerticalAlignment="Stretch" 
+                          ResizeBehavior="PreviousAndNext" 
+				          Width="3" 
+                          Margin="0,2" 
+                          Background="#8FFF" />
 
-            <makeTunedSorters:ScpRunnerControl/>
+            <DockPanel 
+                LastChildFill="True" 
+                Grid.Column="2" 
+                DataContext="{Binding TrajectoryGridVm}">
 
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
-				Width="3" Margin="0,2" Background="#8FFF" />
+                <TextBlock DockPanel.Dock="Top" 
+						    Style="{DynamicResource PlainTextBlockStyle}"
+						    Text="{Binding Name}" 
+						    HorizontalAlignment="Center" />
 
+                    <makeTunedSorters:SgHistoryGridControl  />
 
-        <DockPanel LastChildFill="True" Grid.Column="2" DataContext="{Binding TrajectoryGridVm}">
+            </DockPanel>
 
-            <TextBlock DockPanel.Dock="Top" 
-						Style="{DynamicResource PlainTextBlockStyle}"
-						Text="{Binding Name}" 
-						HorizontalAlignment="Center" />
-
-            <parts:SorterGenomeEvalsGridControl  />
-
-        </DockPanel>
-
-
-    </Grid>
-
+        </Grid>
 
     </DockPanel>
-
-
 
 </UserControl>

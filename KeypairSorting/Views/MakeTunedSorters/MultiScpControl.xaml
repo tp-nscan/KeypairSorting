@@ -24,4 +24,5 @@
             ContentTemplateSelector="{DynamicResource multiTuneSorterSelector}"/>
 
     </DockPanel>
+    
 </UserControl>

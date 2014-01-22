@@ -68,7 +68,7 @@ namespace SorterEvo.Trackers
                     //    t=>t.SwitchesUsed)
                     //    .OrderBy(c=>c)
                     //    .Take(100)
-                    //    .Aggregate(string.Empty,(r,n)=> n + "\t"+ r);
+                    //    .Aggregate(string.Empty,(r,n)=> n + "\t" + r);
 
                     //SorterPoolStats.AddGenomeEvals(
                     //        sorterCompParaPoolWorkflow.SorterLayerEval

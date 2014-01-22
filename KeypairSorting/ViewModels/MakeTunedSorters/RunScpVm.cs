@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
-using SorterEvo.Evals;
 using SorterEvo.Workflows;
 using WpfUtils;
 
@@ -18,18 +17,18 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         {
             ScpRunnerVm = new ScpRunnerVm(scpParams, sorterGenomeEvalVms);
             ScpRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
-            _trajectoryGridVm = new SorterGenomeEvalGridVm("History");
+            _trajectoryGridVm = new SgHistoryGridVm();
             _stopwatch = new Stopwatch();
         }
 
-        void ReportBestResult(ISorterGenomeEval result)
+        void ReportBestResult(Tuple<string, string> result)
         {
             OnPropertyChanged("ProcTime");
-            TrajectoryGridVm.SorterGenomeEvalVms.Add(result.ToSorterGenomeEvalVm());
+            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2));
         }
 
-        private readonly SorterGenomeEvalGridVm _trajectoryGridVm;
-        public SorterGenomeEvalGridVm TrajectoryGridVm
+        private readonly SgHistoryGridVm _trajectoryGridVm;
+        public SgHistoryGridVm TrajectoryGridVm
         {
             get { return _trajectoryGridVm; }
         }

@@ -233,8 +233,8 @@ namespace SorterEvo.Workflows
                                                 //        ScpParams.SorterLayerStartingGenomeCount
                                                 // )
                         ),
-                        compPool: null,
-                        sorterLayerEval: null,
+                        compPool: CompPool,
+                        sorterLayerEval: SorterLayerEval,
                         scpParams: ScpParams,
                         generation: Generation + 1
                 );

@@ -23,7 +23,7 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel LastChildFill="True" Grid.Row="0" 
-                       DataContext="{Binding ScpRunnerVm.SorterGenomeEvalGridVmInitial}" >
+                       DataContext="{Binding SorterGenomeEvalGridVmInitial}" >
 
                     <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
@@ -42,7 +42,7 @@
 						HorizontalAlignment="Center" />
 
                     <ScrollViewer>
-                    	<parts:ScpParamsControl DataContext="{Binding ScpRunnerVm.ScpParamsVm}"/>
+                    	<parts:ScpParamsControl DataContext="{Binding ScpParamsVm}"/>
                     </ScrollViewer>
                     
                 </DockPanel>
@@ -64,7 +64,7 @@
 						Text="Current Generation" 
 						HorizontalAlignment="Center" />
 
-            <parts:SorterGenomeEvalsGridControl DataContext="{Binding ScpRunnerVm.SorterGenomeEvalGridVm}" />
+            <parts:SorterGenomeEvalsGridControl DataContext="{Binding SorterGenomeEvalGridVm}" />
 
         </DockPanel>
         
