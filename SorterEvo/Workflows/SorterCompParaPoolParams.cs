@@ -3,8 +3,8 @@ namespace SorterEvo.Workflows
     public class SorterCompParaPoolParams
     {
         public SorterCompParaPoolParams(
-                int sorterLayerStartingGenomeCount, 
-                int sorterLayerExpandedGenomeCount,
+                int populationSize, 
+                int childCount,
                 double sorterMutationRate,
                 double sorterInsertionRate,
                 double sorterDeletionRate,
@@ -12,7 +12,8 @@ namespace SorterEvo.Workflows
                 int switchableLayerExpandedGenomeCount,
                 double switchableGroupMutationRate,
                 double switchableGroupInsertionRate,
-                double switchableGroupDeletionRate
+                double switchableGroupDeletionRate, 
+                double sorterRecombinationRate
             )
         {
             _sorterMutationRate = sorterMutationRate;
@@ -21,22 +22,23 @@ namespace SorterEvo.Workflows
             _switchableLayerExpandedGenomeCount = switchableLayerExpandedGenomeCount;
             _switchableGroupInsertionRate = switchableGroupInsertionRate;
             _switchableGroupDeletionRate = switchableGroupDeletionRate;
-            _sorterLayerExpandedGenomeCount = sorterLayerExpandedGenomeCount;
+            _sorterRecombinationRate = sorterRecombinationRate;
+            _childCount = childCount;
             _switchableLayerStartingGenomeCount = switchableLayerStartingGenomeCount;
-            _sorterLayerStartingGenomeCount = sorterLayerStartingGenomeCount;
+            _populationSize = populationSize;
             _switchableGroupMutationRate = switchableGroupMutationRate;
         }
 
-        private readonly int _sorterLayerStartingGenomeCount;
-        public int SorterLayerStartingGenomeCount
+        private readonly int _populationSize;
+        public int PopulationSize
         {
-            get { return _sorterLayerStartingGenomeCount; }
+            get { return _populationSize; }
         }
 
-        private readonly int _sorterLayerExpandedGenomeCount;
-        public int SorterLayerExpandedGenomeCount
+        private readonly int _childCount;
+        public int ChildCount
         {
-            get { return _sorterLayerExpandedGenomeCount; }
+            get { return _childCount; }
         }
 
         private readonly double _sorterMutationRate;
@@ -55,6 +57,12 @@ namespace SorterEvo.Workflows
         public double SorterDeletionRate
         {
             get { return _sorterDeletionRate; }
+        }
+
+        private readonly double _sorterRecombinationRate;
+        public double SorterRecombinationRate
+        {
+            get { return _sorterRecombinationRate; }
         }
 
         private readonly int _switchableLayerStartingGenomeCount;

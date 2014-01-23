@@ -16,7 +16,7 @@ namespace SorterEvo.Test.Layers
             var layer = TestData.Layers.SorterLayer();
 
             Assert.AreEqual(layer.Generation, 0);
-            Assert.AreEqual(layer.Genomes.Count, TestData.Layers.SorterGenomeCount);
+            Assert.AreEqual(layer.Genomes.Count, TestData.Layers.PopulationSize);
             Assert.AreEqual(layer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
             Assert.AreEqual(layer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }
@@ -32,14 +32,14 @@ namespace SorterEvo.Test.Layers
             var newLayer = layer.Reproduce
                 (
                     seed: TestData.Layers.Seeds.First(),
-                    newGenomeCount: TestData.Layers.SorterExpandedGenomeCount,
+                    newGenomeCount: TestData.Layers.ChildCount,
                     mutationRate: TestData.Layers.SorterMutationRate,
                     insertionRate: TestData.Layers.SorterInsertionRate,
                     deletionRate: TestData.Layers.SorterDeletionRate
                 );
 
             Assert.AreEqual(newLayer.Generation, 0);
-            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SorterExpandedGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.ChildCount);
             Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
             Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }
@@ -55,11 +55,11 @@ namespace SorterEvo.Test.Layers
                 (
                     scores: layer.Genomes.Select(g => new Tuple<Guid, double>(g.Guid, randy.NextDouble())).ToList(),
                     seed: TestData.Layers.Seeds.First(),
-                    newGenomeCount: TestData.Layers.SorterGenomeCount
+                    newGenomeCount: TestData.Layers.PopulationSize
                 );
 
             Assert.AreEqual(newLayer.Generation, 1);
-            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.SorterGenomeCount);
+            Assert.AreEqual(newLayer.Genomes.Count, TestData.Layers.PopulationSize);
             Assert.AreEqual(newLayer.Genomes.First().KeyCount, TestData.Layers.KeyCount);
             Assert.AreEqual(newLayer.Genomes.First().KeyPairCount, TestData.Layers.KeyPairCount);
         }

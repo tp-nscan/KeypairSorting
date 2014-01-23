@@ -14,15 +14,20 @@
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="Orange">
+    <DockPanel x:Name="LayoutRoot" Background="#40F0">
         
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Command="{Binding SorterEvalCommand}" Content="Make" />
-            <StackPanel Grid.Row="4" Orientation="Vertical" Margin="10,0">
+            <StackPanel Orientation="Vertical" Margin="10,0">
                 <TextBlock Text="Time"/>
                 <TextBlock Text="{Binding ProcTime}"/>
             </StackPanel>
@@ -38,9 +43,10 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <DockPanel LastChildFill="True" Grid.Column="0">
+            <DockPanel Grid.Column="0">
 
                 <TextBlock DockPanel.Dock="Top"
+                        FontSize="14"
 						Text="Sorters" 
 						HorizontalAlignment="Center" />
 
@@ -51,9 +57,10 @@
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 				Width="3" Margin="0,2" Background="#8FFF" />
 
-            <DockPanel LastChildFill="True" Grid.Column="2">
+            <DockPanel Grid.Column="2">
 
                 <TextBlock DockPanel.Dock="Top"
+                        FontSize="14"
 						Text="Switchable groups" 
 						HorizontalAlignment="Center" />
 
@@ -64,9 +71,10 @@
             <GridSplitter Grid.Column="3" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 				Width="3" Margin="0,2" Background="#8FFF" />
 
-            <DockPanel LastChildFill="True" Grid.Column="4">
+            <DockPanel Grid.Column="4">
 
                 <TextBlock DockPanel.Dock="Top"
+                        FontSize="14"
 						Text="Evaluations" 
 						HorizontalAlignment="Center" />
 

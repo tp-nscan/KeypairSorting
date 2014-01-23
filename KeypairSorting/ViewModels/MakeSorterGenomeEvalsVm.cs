@@ -91,7 +91,7 @@ namespace KeypairSorting.ViewModels
                                 (
                                     data: SorterGenomeEval.Make(
                                         sorterGenome: s, 
-                                        ancestors: ImmutableStack<Guid>.Empty, 
+                                        ancestors: ImmutableStack<int>.Empty, 
                                         sorterEval: s.ToSorter().FullTest(),
                                         generation: 1),
                                     progressStatus: ProgressStatus.StepComplete

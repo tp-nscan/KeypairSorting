@@ -14,6 +14,11 @@
         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
 
@@ -22,7 +27,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">
-        <Grid Background="Orange">
+        <Grid Background="#400F">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -30,7 +35,7 @@
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid>
+            <Grid Margin="5">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -92,7 +97,7 @@
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 				Width="3" Margin="0,2" Background="#8FFF" />
 
-            <Grid Background="#8888" Grid.Column="2">
+            <Grid Grid.Column="2">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -100,7 +105,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
+                <StackPanel Margin="5">
                     <TextBlock Text="Switch counts"/>
                     <TextBox IsReadOnly="True" VerticalAlignment="Stretch"
 						MinWidth="50" Text="{Binding SizeDistributionReport, Mode=OneWay}"/>
@@ -109,7 +114,7 @@
                 <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 					Width="3" Margin="0,2" Background="#8FFF" />
 
-                <DockPanel LastChildFill="True" Grid.Column="2">
+                <DockPanel Grid.Column="2">
 
                     <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"

@@ -42,7 +42,7 @@ namespace KeypairSorting.ViewModels.Parts
             var success = false;
             var useCount = 0;
             var generation = 0;
-            var ancestors = ImmutableStack<Guid>.Empty;
+            var ancestors = ImmutableStack<int>.Empty;
 
             if (pcs.Count() > 2)
             {
@@ -58,7 +58,7 @@ namespace KeypairSorting.ViewModels.Parts
 
             if (pcs.Count() > 3)
             {
-                ancestors = JsonConvert.DeserializeObject<ImmutableStack<Guid>>(pcs[3]);
+                ancestors = JsonConvert.DeserializeObject<ImmutableStack<int>>(pcs[3]);
             }
             else
             {

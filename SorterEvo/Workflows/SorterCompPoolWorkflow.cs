@@ -36,7 +36,7 @@ namespace SorterEvo.Workflows
                     sorterLayer: SorterLayer.Create
                                 (
                                       seed: randy.NextInt(),
-                                      genomeCount: scpParams.SorterLayerStartingGenomeCount,
+                                      genomeCount: scpParams.PopulationCount,
                                       keyCount: keyCount,
                                       keyPairCount: keyPairCount
                                 ),
@@ -160,7 +160,7 @@ namespace SorterEvo.Workflows
             var sorterLayer = SorterLayer.Reproduce
                 (
                     seed: randy.NextInt(), 
-                    newGenomeCount: ScpParams.SorterLayerExpandedGenomeCount,
+                    newGenomeCount: ScpParams.ChildCount,
                     mutationRate: ScpParams.SorterMutationRate,
                     insertionRate: ScpParams.SorterMutationRate, 
                     deletionRate: ScpParams.SorterDeletionRate
@@ -224,7 +224,7 @@ namespace SorterEvo.Workflows
                         genomes: SorterLayerEval.GenomeEvals
                                                 .SubSortShuffle(t => t.Score, rando.NextInt())
                                                 .Select(e => e.Genome)
-                                                .Take(ScpParams.SorterLayerStartingGenomeCount)
+                                                .Take(ScpParams.PopulationCount)
 
                                                 //.Take(
                                                 //    (Generation % 4 == 0) ?

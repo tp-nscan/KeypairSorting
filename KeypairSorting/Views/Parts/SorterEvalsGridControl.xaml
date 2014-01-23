@@ -6,7 +6,7 @@
 	mc:Ignorable="d"
 	x:Class="KeypairSorting.Views.Parts.SorterEvalsGridControl"
 	x:Name="UserControl"
-	d:DesignWidth="127" d:DesignHeight="287.08">
+	d:DesignWidth="227" d:DesignHeight="287.08">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
@@ -29,11 +29,16 @@
 
                 <Button Command="{Binding ClearGridCommand}" Content="Clear"/>
                 
-                <CheckBox IsChecked="{Binding CopyHeaders}" Content="Copy headers"/>
+                <CheckBox IsChecked="{Binding CopyHeaders}"
+                          Content="Copy headers" 
+                          Margin="5"
+                          VerticalAlignment="Center" 
+                          HorizontalAlignment="Left"/>
 
             </WrapPanel>
 
-			<DataGrid x:Name="dataGrid" VerticalScrollBarVisibility="Auto"
+			<DataGrid x:Name="dataGrid" 
+                    VerticalScrollBarVisibility="Auto"
 				    DockPanel.Dock="Bottom"
 				    ItemsSource="{Binding SorterEvalVms}"/>
 

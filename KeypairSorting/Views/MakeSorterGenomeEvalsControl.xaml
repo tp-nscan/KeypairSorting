@@ -14,11 +14,16 @@
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="True">
+    <DockPanel>
 
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom">
 
@@ -43,7 +48,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <DockPanel LastChildFill="True" Grid.Column="0">
+            <DockPanel Grid.Column="0">
 
                 <TextBlock DockPanel.Dock="Top" 
 						    Style="{DynamicResource PlainTextBlockStyle}"
@@ -57,7 +62,7 @@
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 					    Width="3" Margin="0,2" Background="#8FFF" />
 
-            <DockPanel LastChildFill="True" Grid.Column="2">
+            <DockPanel Grid.Column="2">
 
                 <TextBlock DockPanel.Dock="Top" 
 						    Style="{DynamicResource PlainTextBlockStyle}"

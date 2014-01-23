@@ -5,7 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700">
+    
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -13,7 +30,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel LastChildFill="True" Grid.Column="0">
+        <DockPanel Grid.Column="0">
             
             <Grid>
                 <Grid.RowDefinitions>
@@ -22,11 +39,11 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <DockPanel LastChildFill="True" Grid.Row="0" 
+                <DockPanel Grid.Row="0" 
                        DataContext="{Binding SorterGenomeEvalGridVmInitial}" >
 
                     <TextBlock DockPanel.Dock="Top" 
-						Style="{DynamicResource PlainTextBlockStyle}"
+                        FontSize="14"
 						Text="{Binding Name}" 
 						HorizontalAlignment="Center" />
 
@@ -34,7 +51,7 @@
 
                 </DockPanel>
 
-                <DockPanel LastChildFill="True" Grid.Row="2">
+                <DockPanel Grid.Row="2">
 					
                     <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"
@@ -57,7 +74,7 @@
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
 				Width="3" Margin="0,2" Background="#8FFF" />
 
-        <DockPanel LastChildFill="True" Grid.Column="4">
+        <DockPanel Grid.Column="2">
 
             <TextBlock DockPanel.Dock="Top" 
 						Style="{DynamicResource PlainTextBlockStyle}"

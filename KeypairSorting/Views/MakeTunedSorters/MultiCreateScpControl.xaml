@@ -10,6 +10,11 @@
         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
 
@@ -17,14 +22,14 @@
         </Style>
     </UserControl.Resources>
 
-    <DockPanel LastChildFill="True" Background="Green">
+    <DockPanel Background="#40F0">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Command="{Binding CreateMultiScpCommand}" Content="Make"
                     Width="60"/>
         </StackPanel>
 
-        <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+        <DockPanel DockPanel.Dock="Bottom" >
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" DockPanel.Dock="Bottom">
                 <Button Command="{Binding AddScpConfigCommand}" Content="Add"/>
                 <Button Command="{Binding RemoveScpConfigCommand}" Content="Remove" 

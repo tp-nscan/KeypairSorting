@@ -14,11 +14,16 @@
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
     </UserControl.Resources>
 
-    <DockPanel LastChildFill="True" x:Name="LayoutRoot" Background="OliveDrab">
+    <DockPanel x:Name="LayoutRoot" Background="#40F0">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Command="{Binding RunCommand}" Content="Run" />
@@ -47,8 +52,7 @@
                           Margin="0,2" 
                           Background="#8FFF" />
 
-            <DockPanel 
-                LastChildFill="True" 
+            <DockPanel
                 Grid.Column="2" 
                 DataContext="{Binding TrajectoryGridVm}">
 

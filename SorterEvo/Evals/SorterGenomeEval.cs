@@ -9,7 +9,7 @@ namespace SorterEvo.Evals
     public interface ISorterGenomeEval : IGenomeEval<ISorterGenome>
     {
         ISorterGenome SorterGenome { get; }
-        IImmutableStack<Guid> Ancestors { get; }
+        IImmutableStack<int> Ancestors { get; }
         ISorterEval SorterEval { get; }
     }
 
@@ -17,7 +17,7 @@ namespace SorterEvo.Evals
     {
         public static ISorterGenomeEval Make(
                 ISorterGenome sorterGenome,
-                IImmutableStack<Guid> ancestors,
+                IImmutableStack<int> ancestors,
                 ISorterEval sorterEval,
                 int generation
             )
@@ -44,7 +44,7 @@ namespace SorterEvo.Evals
                     sorterGenome: sorterGenome,
                     ancestors: parentGenomeEval.Ancestors.Push
                             (
-                                sorterGenome.Guid
+                                sorterEval.SwitchUseCount
                             ),
                     sorterEval: sorterEval,
                     generation: generation
@@ -55,7 +55,7 @@ namespace SorterEvo.Evals
     class SorterGenomeEvalImpl : ISorterGenomeEval
     {
         private readonly ISorterGenome _sorterGenome;
-        private readonly IImmutableStack<Guid> _ancestors;
+        private readonly IImmutableStack<int> _ancestors;
         private readonly ISorterEval _sorterEval;
         private readonly int _generation;
         private readonly double _score;
@@ -63,7 +63,7 @@ namespace SorterEvo.Evals
         public SorterGenomeEvalImpl
             (
                 ISorterGenome sorterGenome, 
-                IImmutableStack<Guid> ancestors, 
+                IImmutableStack<int> ancestors, 
                 ISorterEval sorterEval, 
                 int generation, 
                 double score
@@ -81,7 +81,7 @@ namespace SorterEvo.Evals
             get { return _sorterGenome; }
         }
 
-        public IImmutableStack<Guid> Ancestors
+        public IImmutableStack<int> Ancestors
         {
             get { return _ancestors; }
         }

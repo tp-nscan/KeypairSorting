@@ -5,11 +5,14 @@ namespace SorterEvo.Workflows
     public interface IScpParams
     {
         string Name { get; }
-        int SorterLayerStartingGenomeCount { get; }
-        int SorterLayerExpandedGenomeCount { get; }
+        int PopulationCount { get; }
+        int ChildCount { get; }
+        int CubCount { get; }
+        int LegacyCount { get; }
         double SorterMutationRate { get; }
         double SorterInsertionRate { get; }
         double SorterDeletionRate { get; }
+        double SorterRecombinationRate { get; }
         int Seed { get; }
         int TotalGenerations { get; }
     }
@@ -32,11 +35,14 @@ namespace SorterEvo.Workflows
             {
                 yield return Make
                     (
-                        sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
-                        sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
+                        populationCount: sorterLayerStartingGenomeCount,
+                        childCount: sorterLayerExpandedGenomeCount,
+                        legacyCount:0,
+                        cubCount:0,
                         sorterMutationRate: baseMutationRate * i,
                         sorterInsertionRate: baseMutationRate * i,
                         sorterDeletionRate: baseMutationRate * i,
+                        sorterRecombinationRate: 0,
                         name: baseName + "_p" + i,
                         seed: seed,
                         totalGenerations: totalGenerations
@@ -46,11 +52,14 @@ namespace SorterEvo.Workflows
 
         public static IScpParams Make
             (
-                int sorterLayerStartingGenomeCount,
-                int sorterLayerExpandedGenomeCount,
+                int populationCount,
+                int childCount,
+                int cubCount,
+                int legacyCount,
                 double sorterMutationRate,
                 double sorterInsertionRate,
                 double sorterDeletionRate,
+                double sorterRecombinationRate,
                 string name,
                 int seed,
                 int totalGenerations
@@ -58,11 +67,14 @@ namespace SorterEvo.Workflows
         {
             return new ScpParamsImpl
                 (
-                    sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
-                    sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
+                    populationCount: populationCount,
+                    childCount: childCount,
+                    cubCount: cubCount,
+                    legacyCount: legacyCount,
                     sorterMutationRate: sorterMutationRate,
                     sorterInsertionRate: sorterInsertionRate,
                     sorterDeletionRate: sorterDeletionRate,
+                    sorterRecombinationRate: sorterRecombinationRate,
                     name: name,
                     seed: seed,
                     totalGenerations: totalGenerations
@@ -71,11 +83,14 @@ namespace SorterEvo.Workflows
 
         public static IScpParams MakeGenerational
         (
-            int sorterLayerStartingGenomeCount,
-            int sorterLayerExpandedGenomeCount,
+            int populationCount,
+            int childCount,
+            int cubCount,
+            int legacyCount,
             double sorterMutationRate,
             double sorterInsertionRate,
             double sorterDeletionRate,
+            double sorterRecombinationRate,
             string name,
             int seed,
             int totalGenerations
@@ -83,11 +98,14 @@ namespace SorterEvo.Workflows
         {
             return new ScpParamsImpl
                 (
-                    sorterLayerStartingGenomeCount: sorterLayerStartingGenomeCount,
-                    sorterLayerExpandedGenomeCount: sorterLayerExpandedGenomeCount,
+                    populationCount: populationCount,
+                    childCount: childCount,
+                    cubCount: cubCount,
+                    legacyCount: legacyCount,
                     sorterMutationRate: sorterMutationRate,
                     sorterInsertionRate: sorterInsertionRate,
                     sorterDeletionRate: sorterDeletionRate,
+                    sorterRecombinationRate: sorterRecombinationRate,
                     name: name,
                     seed: seed,
                     totalGenerations: totalGenerations
@@ -98,24 +116,28 @@ namespace SorterEvo.Workflows
     public class ScpParamsImpl : IScpParams
     {
         public ScpParamsImpl (
-                int sorterLayerStartingGenomeCount, 
-                int sorterLayerExpandedGenomeCount,
+                int populationCount, 
+                int childCount,
+                int cubCount, 
+                int legacyCount,
                 double sorterMutationRate,
                 double sorterInsertionRate,
                 double sorterDeletionRate, 
                 string name, 
                 int seed,
-                int totalGenerations
-            )
+                int totalGenerations, double sorterRecombinationRate)
         {
             _sorterMutationRate = sorterMutationRate;
             _sorterInsertionRate = sorterInsertionRate;
             _sorterDeletionRate = sorterDeletionRate;
             _name = name;
             _seed = seed;
-            _sorterLayerExpandedGenomeCount = sorterLayerExpandedGenomeCount;
-            _sorterLayerStartingGenomeCount = sorterLayerStartingGenomeCount;
+            _childCount = childCount;
+            _populationCount = populationCount;
             _totalGenerations = totalGenerations;
+            _sorterRecombinationRate = sorterRecombinationRate;
+            _cubCount = cubCount;
+            _legacyCount = legacyCount;
         }
 
         private readonly string _name;
@@ -124,17 +146,30 @@ namespace SorterEvo.Workflows
             get { return _name; }
         }
 
-        private readonly int _sorterLayerStartingGenomeCount;
-        public int SorterLayerStartingGenomeCount
+        private readonly int _populationCount;
+        public int PopulationCount
         {
-            get { return _sorterLayerStartingGenomeCount; }
+            get { return _populationCount; }
         }
 
-        private readonly int _sorterLayerExpandedGenomeCount;
-        public int SorterLayerExpandedGenomeCount
+        private readonly int _childCount;
+        public int ChildCount
         {
-            get { return _sorterLayerExpandedGenomeCount; }
+            get { return _childCount; }
         }
+
+        private readonly int _cubCount;
+        public int CubCount
+        {
+            get { return _cubCount; }
+        }
+
+        private readonly int _legacyCount;
+        public int LegacyCount
+        {
+            get { return _legacyCount; }
+        }
+
         private readonly double _sorterMutationRate;
         public double SorterMutationRate
         {
@@ -153,13 +188,19 @@ namespace SorterEvo.Workflows
             get { return _sorterDeletionRate; }
         }
 
+        private readonly double _sorterRecombinationRate;
+        public double SorterRecombinationRate
+        {
+            get { return _sorterRecombinationRate; }
+        }
+
         private readonly int _seed;
         public int Seed
         {
             get { return _seed; }
         }
 
-        private int _totalGenerations;
+        private readonly int _totalGenerations;
         public int TotalGenerations
         {
             get { return _totalGenerations; }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
-             xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -15,6 +14,11 @@
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
     </UserControl.Resources>
@@ -27,8 +31,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <DockPanel LastChildFill="True" 
-                   Grid.Column="0"
+        <DockPanel Grid.Column="0"
                    DataContext="{Binding SorterGenomeEvalGridVm}">
 
             <TextBlock  DockPanel.Dock="Top" 
@@ -53,7 +56,7 @@
 						Text="Updating Params" 
 						HorizontalAlignment="Center" />
 
-            <makeTunedSorters:ConfigScpParamControl 
+            <parts:ConfigScpParamControl 
                 Margin="10"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" />

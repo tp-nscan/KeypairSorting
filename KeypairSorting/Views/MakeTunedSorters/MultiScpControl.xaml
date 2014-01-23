@@ -13,11 +13,16 @@
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
         </Style>
 
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+        
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="True" x:Name="LayoutRoot">
+    <DockPanel x:Name="LayoutRoot">
 
         <ContentControl
             Content="{Binding ConfigRunSelectorVm}"

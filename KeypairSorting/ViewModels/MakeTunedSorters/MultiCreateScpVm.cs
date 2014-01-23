@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using KeypairSorting.Resources;
+using SorterEvo.TestData;
 using SorterEvo.Workflows;
 using WpfUtils;
 
@@ -54,17 +55,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         {
             ConfigScpVms.Add(
                 new ConfigScpVm(
-                    scpParams: ScpParams.Make
-                    (
-                        sorterLayerStartingGenomeCount: 10,
-                        sorterLayerExpandedGenomeCount: 30,
-                        sorterMutationRate: 0.03,
-                        sorterInsertionRate: 0.03,
-                        sorterDeletionRate: 0.03,
-                        name: "standard",
-                        seed: 1234,
-                        totalGenerations: 10
-                    )
+                    scpParams: Layers.ScpParams()
                 ));
         }
 

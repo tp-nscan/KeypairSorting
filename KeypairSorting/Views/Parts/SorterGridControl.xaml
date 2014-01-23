@@ -17,7 +17,7 @@
         </Style>
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="True" Background="#4F44">
+    <DockPanel LastChildFill="True">
 
         <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
             <Button Command="{Binding CopyGridCommand}" Content="Copy" Style="{DynamicResource PlainButtonStyle}"/>

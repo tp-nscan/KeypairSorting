@@ -40,7 +40,7 @@ namespace SorterEvo.Workflows
                     sorterLayer: SorterLayer.Create
                                 (
                                       seed: randy.NextInt(),
-                                      genomeCount: sorterCompParaPoolParams.SorterLayerStartingGenomeCount,
+                                      genomeCount: sorterCompParaPoolParams.PopulationSize,
                                       keyCount: keyCount,
                                       keyPairCount: keyPairCount
                                 ),
@@ -193,7 +193,7 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Reproduce(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SorterLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
+            var sorterLayer = SorterLayer.Reproduce(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.ChildCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
 
             var switchableGroupLayer = SwitchableGroupLayer.Reproduce(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, insertionRate: SorterCompParaPoolParams.SwitchableGroupInsertionRate, deletionRate: SorterCompParaPoolParams.SwitchableGroupDeletionRate);
 
@@ -296,7 +296,7 @@ namespace SorterEvo.Workflows
                         genomes: SorterLayerEval.GenomeEvals
                                                 .SubSortShuffle(t => t.Score, rando.NextInt())
                                                 .Select(e => e.Genome)
-                                                .Take(SorterCompParaPoolParams.SorterLayerStartingGenomeCount)
+                                                .Take(SorterCompParaPoolParams.PopulationSize)
                         ),
                     switchableGroupLayer: Layer.Make(
                         generation: Generation + 1,

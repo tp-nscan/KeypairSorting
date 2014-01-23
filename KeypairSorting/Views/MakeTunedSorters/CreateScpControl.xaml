@@ -6,23 +6,30 @@
              xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters"
              x:Class="KeypairSorting.Views.MakeTunedSorters.CreateScpControl" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600">
     
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}"/>
         
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}"/>
+
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
         
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}"/>
     </UserControl.Resources>
 
-	<DockPanel LastChildFill="True">
+	<DockPanel>
 		<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Command="{Binding CreateScpCommand}" Content="Make"
 				Width="60"/>
 		</StackPanel>
 
-        <makeTunedSorters:ConfigScpControl DataContext="{Binding ConfigScpVm}" Margin="10"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <makeTunedSorters:ConfigScpControl DataContext="{Binding ConfigScpVm}" />
+        </ScrollViewer>
         
 	</DockPanel>
 

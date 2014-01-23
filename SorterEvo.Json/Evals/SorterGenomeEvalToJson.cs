@@ -10,7 +10,7 @@ namespace SorterEvo.Json.Evals
     public class SorterGenomeEvalToJson
     {
         public SorterGenomeToJson SorterGenomeToJson { get; set; }
-        public IImmutableStack<Guid> ParentGuids { get; set; }
+        public IImmutableStack<int> ParentScores { get; set; }
         public SorterEvalToJson SorterEvalToJson { get; set; }
         public int Generation { get; set; }
         public double Score { get; set; }
@@ -24,7 +24,7 @@ namespace SorterEvo.Json.Evals
             {
                 SorterGenomeToJson = sorterGenomeEval.SorterGenome.ToJsonAdapter(),
                 SorterEvalToJson = sorterGenomeEval.SorterEval.ToJsonAdapter(),
-                ParentGuids = sorterGenomeEval.Ancestors,
+                ParentScores = sorterGenomeEval.Ancestors,
                 Generation = sorterGenomeEval.Generation,
                 Score = sorterGenomeEval.Score
             };
@@ -47,7 +47,7 @@ namespace SorterEvo.Json.Evals
         {
             return SorterGenomeEval.Make(
                     sorterGenome: sorterGenomeEvalToJson.SorterGenomeToJson.ToSorterGenome(),
-                    ancestors: sorterGenomeEvalToJson.ParentGuids,
+                    ancestors: sorterGenomeEvalToJson.ParentScores,
                     sorterEval: sorterGenomeEvalToJson.SorterEvalToJson.ToSorterEval(),
                     generation: sorterGenomeEvalToJson.Generation
                 );

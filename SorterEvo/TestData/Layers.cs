@@ -17,8 +17,10 @@ namespace SorterEvo.TestData
         public static int KeyPairCount = 1000;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
-        public static int SorterGenomeCount = 100;
-        public static int SorterExpandedGenomeCount = 200;
+        public static int PopulationSize = 100;
+        public static int ChildCount = 200;
+        public static int LegacyCount = 40;
+        public static int CubCount = 20;
         public static double SorterMutationRate = 0.025;
         public static double SorterInsertionRate = 0.025;
         public static double SorterDeletionRate = 0.025;
@@ -28,7 +30,7 @@ namespace SorterEvo.TestData
         public static double SwitchableMutationRate = 0.02;
         public static double SwitchableInsertionRate = 0.02;
         public static double SwitchableDeletionRate = 0.02;
-
+        public static double SorterRecombinationRate = 0;
         public static int SwitchableGroupSize = 200;
         public static int TotalGenerations = 10;
 
@@ -44,7 +46,7 @@ namespace SorterEvo.TestData
         {
             return SorterEvo.Layers.SorterLayer.Create(
                     seed: Seed,
-                    genomeCount: SorterGenomeCount,
+                    genomeCount: PopulationSize,
                     keyCount: KeyCount,
                     keyPairCount: KeyPairCount
                 );
@@ -54,7 +56,7 @@ namespace SorterEvo.TestData
         {
             return SorterEvo.Layers.SorterLayer.Create(
                     seed: Seed,
-                    genomeCount: SorterExpandedGenomeCount,
+                    genomeCount: ChildCount,
                     keyCount: KeyCount,
                     keyPairCount: KeyPairCount
                 );
@@ -85,8 +87,8 @@ namespace SorterEvo.TestData
         public static SorterCompParaPoolParams SorterCompParaPoolParams()
         {
             return new SorterCompParaPoolParams(
-                     sorterLayerStartingGenomeCount: SorterGenomeCount,
-                     sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
+                     populationSize: PopulationSize,
+                     childCount: ChildCount,
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
                      sorterDeletionRate: SorterDeletionRate,
@@ -94,18 +96,22 @@ namespace SorterEvo.TestData
                      switchableLayerExpandedGenomeCount: SwitchableGroupExpandedGenomeCount,
                      switchableGroupMutationRate: SwitchableMutationRate,
                      switchableGroupInsertionRate: SwitchableInsertionRate,
-                     switchableGroupDeletionRate: SwitchableDeletionRate
+                     switchableGroupDeletionRate: SwitchableDeletionRate,
+                     sorterRecombinationRate: SorterRecombinationRate
                 );
         }
 
         public static IScpParams ScpParams()
         {
             return Workflows.ScpParams.Make(
-                     sorterLayerStartingGenomeCount: SorterGenomeCount,
-                     sorterLayerExpandedGenomeCount: SorterExpandedGenomeCount,
+                     populationCount: PopulationSize,
+                     childCount: ChildCount,
+                     legacyCount: LegacyCount,
+                     cubCount: ChildCount,
                      sorterMutationRate: SorterMutationRate,
                      sorterInsertionRate: SorterMutationRate,
                      sorterDeletionRate: SorterDeletionRate,
+                     sorterRecombinationRate: SorterRecombinationRate,
                      name: "Test Params",
                      seed: Seed,
                      totalGenerations: TotalGenerations  

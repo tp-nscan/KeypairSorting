@@ -122,6 +122,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             Busy = false;
         }
 
+        readonly Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
 
         private void UpdateSorterTuneResults(IIterationResult<IScpWorkflow> result)
         {
@@ -136,22 +137,28 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
 
                 var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
 
-                foreach (var genomeEval in result.Data.SorterLayerEval.GenomeEvals
-                                                                       .OrderBy(e=>e.Score) 
-                                                                       .Take(100))
-                {
-                    SorterGenomeEvalGridVm.SorterGenomeEvalVms
-                                           .Add(
-                                                   SorterGenomeEval.Make
-                                                    (
-                                                        sorterGenome: genomeEval.Genome,
-                                                        ancestors: ImmutableStack<Guid>.Empty.Push(genomeEval.Genome.ParentGuid),
-                                                        sorterEval: sorterEvalDict[genomeEval.Guid],
-                                                        generation: ScpParamsVm.CurrentGeneration
-                                                    )
-                                                    .ToSorterGenomeEvalVm()
-                                              );
-                }
+
+                var currentEvals =
+                    result.Data.SorterLayerEval.GenomeEvals
+                        .Select(e =>
+                                    SorterGenomeEval.Make
+                                    (
+                                        sorterGenome: e.Genome,
+                                        ancestors: ImmutableStack<int>.Empty.Push((int)e.Score),
+                                        sorterEval: sorterEvalDict[e.Guid],
+                                        generation: ScpParamsVm.CurrentGeneration
+                                    )
+                               ).ToList();
+
+
+                SorterGenomeEvalGridVm
+                        .SorterGenomeEvalVms
+                        .AddMany(
+                                  currentEvals.OrderBy(e => e.Score)
+                                              .Take(100)
+                                              .Select(g=>g.ToSorterGenomeEvalVm())
+                               );
+
 
                 var groips = sorterEvalDict.Values
                                         .GroupBy(e => e.SwitchUseCount)

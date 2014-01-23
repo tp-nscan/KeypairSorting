@@ -77,7 +77,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\MakeTunedSorters\ConfigScpParamVm.cs" />
+    <Compile Include="DesignData\Parts\ScpParamVmD.cs" />
+    <Compile Include="ViewModels\Parts\ConfigScpParamVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\ConfigScpVm.cs" />
     <Compile Include="ViewModels\MakeTunedSorters\ScpRunnerVm.cs" />
     <Compile Include="ViewModels\Parts\SgHistoryGridVm.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Views\MakeTunedSorters\ConfigScpControl.xaml.cs">
       <DependentUpon>ConfigScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MakeTunedSorters\ConfigScpParamControl.xaml.cs">
+    <Compile Include="Views\Parts\ConfigScpParamControl.xaml.cs">
       <DependentUpon>ConfigScpParamControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\ConfigRunSelector.cs" />
@@ -183,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MakeTunedSorters\ConfigScpParamControl.xaml">
+    <Page Include="Views\Parts\ConfigScpParamControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
