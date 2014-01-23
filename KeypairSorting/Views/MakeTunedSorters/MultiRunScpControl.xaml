@@ -25,10 +25,20 @@
 
     <DockPanel DockPanel.Dock="Bottom">
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" DockPanel.Dock="Bottom">
+            
             <Button Command="{Binding RunCommand}" Content="Run" />
             <Button Command="{Binding StopCommand}" Content="Stop" />
+            
+            <StackPanel Orientation="Horizontal" Margin="10,0">
+                <TextBlock Text="Time" />
+                <TextBlock Text="{Binding ProcTime}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,0">
+                <TextBlock Text="Report freq:" />
+                <TextBox Text="{Binding ReportFrequency, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            
         </StackPanel>
-
         <Grid>
 
             <Grid.ColumnDefinitions>

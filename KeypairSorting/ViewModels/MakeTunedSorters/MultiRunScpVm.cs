@@ -17,6 +17,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         public MultiRunScpVm(IEnumerable<ConfigScpVm> configScpVms)
         {
             _trajectoryGridVm = new SgHistoryGridVm();
+            _reportFrequency = 1;
             _stopwatch = new Stopwatch();
             _scpRunnerVms = new ObservableCollection<ScpRunnerVm>(
                     configScpVms.Select
@@ -108,9 +109,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             Busy = false;
         }
 
-        bool CanRunCommand()
+        public bool CanRunCommand()
         {
-            return !_busy;
+            return !_busy
+                   &&
+                   ReportFrequency.HasValue;
         }
 
         #endregion // RunCommand
@@ -150,5 +153,20 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             get { return _stopwatch.Elapsed.TotalSeconds.ToString("0"); }
         }
 
+        private int? _reportFrequency;
+        public int? ReportFrequency
+        {
+            get { return _reportFrequency; }
+            set
+            {
+                _reportFrequency = value;
+                foreach (var scpRunnerVm in ScpRunnerVms)
+                {
+                    scpRunnerVm.ReportFrequency = value;
+                }
+                CommandManager.InvalidateRequerySuggested();
+                OnPropertyChanged("ReportFrequency");
+            }
+        }
     }
 }

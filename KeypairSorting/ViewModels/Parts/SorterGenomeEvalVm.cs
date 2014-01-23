@@ -154,7 +154,7 @@ namespace KeypairSorting.ViewModels.Parts
             get
             {
                 return GetSorterGenomeEval().Ancestors
-                    .Aggregate(string.Empty, (s, g) => s + ", " + g.ToString().Substring(0, 5));
+                    .Aggregate(string.Empty, (s, g) => s + ", " + g);
             }
         }
 

@@ -156,9 +156,10 @@ namespace SorterEvo.Test.Workflows
         public IEnumerable<ISorter> RandomSorters(int seed, int keyCount, int switchLength)
         {
             var rando = Rando.Fast(seed);
+            var randoK = rando.Spawn();
             while (true)
             {
-                yield return rando.ToSorter(keyCount, switchLength, Guid.NewGuid());
+                yield return rando.ToSorter(keyCount, switchLength, randoK.NextGuid());
             }
         }
 

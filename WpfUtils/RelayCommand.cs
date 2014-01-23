@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WpfUtils
@@ -63,7 +64,14 @@ namespace WpfUtils
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            try
+            {
+                _execute(parameter);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion // ICommand Members

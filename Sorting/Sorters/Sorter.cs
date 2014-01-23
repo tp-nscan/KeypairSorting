@@ -65,7 +65,7 @@ namespace Sorting.Sorters
                              T => newb.Next(),
                              T => newb.Next()
                         ),
-                        guid: Guid.NewGuid(),
+                        guid: randoK.NextGuid(),
                         keyCount: sorter.KeyCount
                     );
             }

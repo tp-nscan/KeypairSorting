@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="KeypairSorting.Views.MakeTunedSorters.ConfigScpControl"
+﻿<UserControl x:Name="userControl" x:Class="KeypairSorting.Views.MakeTunedSorters.ConfigScpControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,13 +18,13 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="LastChildFill" Value="True"/>
         </Style>
-        
+
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
         </Style>
     </UserControl.Resources>
 
-    
-    <Grid>
+
+    <Grid Height="{Binding ActualHeight, ElementName=userControl, Mode=OneWay}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="Auto"/>
@@ -39,7 +39,9 @@
 						Text="{Binding Name}"
 						HorizontalAlignment="Center" />
 
-            <parts:SorterGenomeEvalsGridControl />
+            <ScrollViewer VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+                <parts:SorterGenomeEvalsGridControl  />
+            </ScrollViewer>
 
         </DockPanel>
 

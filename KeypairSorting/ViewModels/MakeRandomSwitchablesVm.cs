@@ -94,10 +94,13 @@ namespace KeypairSorting.ViewModels
 
         private void GenerateSwitchableGroups()
         {
+            var randoK = Rando.Fast(Seed.Value);
+            var randoG = Rando.Fast(Seed.Value * 377);
+
             for (int i = 1; i < 41; i++)
             {
-                foreach (var switchableGroupVm in Rando.Fast(Seed.Value + i).ToRandomEnumerator().Take(GroupCount.Value)
-                    .Select(r => r.ToSwitchableGroup<uint>(Guid.NewGuid(), KeyCount.Value, GroupSize.Value * i))
+                foreach (var switchableGroupVm in randoK.ToRandomEnumerator().Take(GroupCount.Value)
+                    .Select(r => r.ToSwitchableGroup<uint>(randoG.NextGuid(), KeyCount.Value, GroupSize.Value * i))
                     .Select(s => s.ToSwitchableGroupVm()))
                 {
                     SwitchableGroupGridVm.SwitchableGroupVms.Add(switchableGroupVm);

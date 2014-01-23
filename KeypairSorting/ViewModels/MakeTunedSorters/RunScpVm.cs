@@ -17,6 +17,7 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         {
             ScpRunnerVm = new ScpRunnerVm(scpParams, sorterGenomeEvalVms);
             ScpRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
+            ReportFrequency = 1;
             _trajectoryGridVm = new SgHistoryGridVm();
             _stopwatch = new Stopwatch();
         }
@@ -87,9 +88,11 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             Busy = false;
         }
 
-        bool CanRunCommand()
+        public bool CanRunCommand()
         {
-            return !_busy;
+            return !_busy
+                   &&
+                   ReportFrequency.HasValue;
         }
 
         #endregion // RunCommand
@@ -122,6 +125,19 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         }
 
         #endregion // StopCommand
+
+        private int? _reportFrequency;
+        public int? ReportFrequency
+        {
+            get { return _reportFrequency; }
+            set
+            {
+                _reportFrequency = value;
+                ScpRunnerVm.ReportFrequency = value;
+                CommandManager.InvalidateRequerySuggested();
+                OnPropertyChanged("ReportFrequency");
+            }
+        }
 
         private readonly Stopwatch _stopwatch;
         public string ProcTime
