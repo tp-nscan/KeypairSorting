@@ -51,6 +51,24 @@ namespace Sorting.CompetePools
                     switchUseCount: (switchUseList == null) ? 0 : switchUseList.Count(t => t > 0)
                 );    
         }
+
+        public static IReadOnlyList<int> UsedSwitches(this ISorterEval sorterEval)
+        {
+            var useList = new List<int>();
+            for (var dex = 0; dex < sorterEval.Sorter.KeyPairCount; dex++)
+            {
+                if (sorterEval.SwitchUseList[dex] > 0)
+                {
+                    useList.Add(sorterEval.Sorter.KeyPair(dex).Index);
+                }
+            }
+            return useList;
+        }
+
+        public static string PaddedReport(this IReadOnlyList<int> intList, int padding)
+        {
+            return intList.Aggregate(string.Empty, (o, n) => o + n.ToString().PadLeft(padding));
+        }
     }
 
     public class SorterEvalImpl : ISorterEval

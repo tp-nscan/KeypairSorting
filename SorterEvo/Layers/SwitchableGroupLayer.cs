@@ -35,7 +35,7 @@ namespace SorterEvo.Layers
                 double deletionRate
             )
         {
-            return switchableGroupGenomeLayer.Multiply
+            return switchableGroupGenomeLayer.MultiplyPreserveParents
                 (
                     genomeReproFunc: SwitchableGroupPropigator
                         (

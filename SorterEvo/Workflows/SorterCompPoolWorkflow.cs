@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Genomic.Genomes;
 using Genomic.Layers;
@@ -7,6 +8,7 @@ using SorterEvo.Evals;
 using SorterEvo.Genomes;
 using SorterEvo.Layers;
 using Sorting.CompetePools;
+using Sorting.Sorters;
 
 namespace SorterEvo.Workflows
 {
@@ -17,7 +19,7 @@ namespace SorterEvo.Workflows
         IScpParams ScpParams { get; }
         CompWorkflowState CompWorkflowState { get; }
         IScpWorkflow Step(int seed);
-        ILayer<ISorterGenome> SorterLayer { get; }
+        //ILayer<ISorterGenome> SorterLayer0 { get; }
         ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> SorterLayerEval { get; }
     }
 
@@ -33,7 +35,8 @@ namespace SorterEvo.Workflows
             var randy = Rando.Fast(seed);
             return new ScpWorkflowImpl
                 (
-                    sorterLayer: SorterLayer.Create
+                    sorterLayer0: null,
+                    sorterLayer1: SorterLayer.Create
                                 (
                                       seed: randy.NextInt(),
                                       genomeCount: scpParams.PopulationCount,
@@ -53,7 +56,11 @@ namespace SorterEvo.Workflows
         {
             return new ScpWorkflowImpl
                 (
-                    sorterLayer: sorterLayer,
+                    sorterLayer0: Layer.Make(
+                            generation: generation,
+                            genomes: Enumerable.Empty<ISorterGenome>()
+                        ),
+                    sorterLayer1: sorterLayer,
                     scpParams: scpParams,
                     generation: generation
                 );
@@ -62,33 +69,40 @@ namespace SorterEvo.Workflows
 
     class ScpWorkflowImpl : IScpWorkflow
     {
-        public ScpWorkflowImpl(
-            ILayer<ISorterGenome> sorterLayer,
-            IScpParams scpParams, 
-            int generation
+        public ScpWorkflowImpl
+            (
+                ILayer<ISorterGenome> sorterLayer0, 
+                ILayer<ISorterGenome> sorterLayer1,
+                IScpParams scpParams,
+                int generation
             )
         {
-            _sorterLayer = sorterLayer;
-            _compWorkflowState = CompWorkflowState.ReproGenomes;
+            _sorterLayer0 = sorterLayer0;
+            _compWorkflowState = CompWorkflowState.RunCompetition;
             _scpParams = scpParams;
             _generation = generation;
+            _sorterLayer1 = sorterLayer1;
+            _sorterLayerEval = Enumerable.Empty<ISorterGenomeEval>()
+                                         .Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
         }
 
         private ScpWorkflowImpl
             (
                 CompWorkflowState compWorkflowState,
-                ILayer<ISorterGenome> sorterLayer,
+                ILayer<ISorterGenome> sorterLayer0, 
+                ILayer<ISorterGenome> sorterLayer1,
                 ICompPool compPool,
                 ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> sorterLayerEval,
-                IScpParams scpParams, 
+                IScpParams scpParams,
                 int generation
             )
         {
             _compWorkflowState = compWorkflowState;
-            _sorterLayer = sorterLayer;
+            _sorterLayer0 = sorterLayer0;
             _sorterLayerEval = sorterLayerEval;
             _scpParams = scpParams;
             _generation = generation;
+            _sorterLayer1 = sorterLayer1;
             _compPool = compPool;
         }
 
@@ -111,10 +125,16 @@ namespace SorterEvo.Workflows
             get { return _scpParams; }
         }
 
-        private readonly ILayer<ISorterGenome> _sorterLayer;
-        public ILayer<ISorterGenome> SorterLayer
+        private readonly ILayer<ISorterGenome> _sorterLayer0;
+        public ILayer<ISorterGenome> SorterLayer0
         {
-            get { return _sorterLayer; }
+            get { return _sorterLayer0; }
+        }
+
+        private readonly ILayer<ISorterGenome> _sorterLayer1;
+        public ILayer<ISorterGenome> SorterLayer1
+        {
+            get { return _sorterLayer1; }
         }
 
         private readonly ILayerEval<ISorterGenome, IGenomeEval<ISorterGenome>> _sorterLayerEval;
@@ -157,35 +177,39 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Reproduce
+            var sorterLayer1 = SorterLayer0.Reproduce
                 (
-                    seed: randy.NextInt(), 
+                    seed: randy.NextInt(),
                     newGenomeCount: ScpParams.ChildCount,
                     mutationRate: ScpParams.SorterMutationRate,
-                    insertionRate: ScpParams.SorterMutationRate, 
+                    insertionRate: ScpParams.SorterMutationRate,
                     deletionRate: ScpParams.SorterDeletionRate
                 );
 
             return new ScpWorkflowImpl
                 (
                     compWorkflowState: CompWorkflowState.RunCompetition,
-                    sorterLayer: sorterLayer,
+                    sorterLayer0: _sorterLayer0,
+                    sorterLayer1: sorterLayer1,
                     compPool: null,
-                    sorterLayerEval: null,
+                    sorterLayerEval: SorterLayerEval,
                     scpParams: ScpParams,
                     generation: Generation
                 );
-
         }
 
         private IScpWorkflow RunCompetitionStep(int seed)
         {
+            var newGenomes = SorterLayer1.Genomes
+                .Where(g => SorterLayerEval.GetGenomeEval(g.Guid) == null);
+
             return new ScpWorkflowImpl
                 (
                     compWorkflowState: CompWorkflowState.EvaluateResults,
-                    sorterLayer: SorterLayer,
-                    compPool: SorterLayer.Genomes.Select(t => t.ToSorter()).ToCompPoolParallel(),
-                    sorterLayerEval: null,
+                    sorterLayer0: SorterLayer0,
+                    sorterLayer1: _sorterLayer1,
+                    compPool: newGenomes.Select(t => t.ToSorter()).ToCompPoolParallel(),
+                    sorterLayerEval: SorterLayerEval,
                     scpParams: ScpParams,
                     generation: Generation
                 );
@@ -196,16 +220,18 @@ namespace SorterEvo.Workflows
             var sorterLayerEval =
                 CompPool.SorterEvals.Select(
                     t => GenomeEval.Make(
-                            genome: SorterLayer.GetGenome(t.Sorter.Guid),
+                            genome: SorterLayer1.GetGenome(t.Sorter.Guid),
                             score: t.SwitchUseCount,
                             generation: Generation
                         )
-                    ).Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
+                    ).Concat(SorterLayerEval.GenomeEvals)
+                     .Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
 
             return new ScpWorkflowImpl
                 (
                     compWorkflowState: CompWorkflowState.UpdateGenomes,
-                    sorterLayer: SorterLayer,
+                    sorterLayer0: SorterLayer0,
+                    sorterLayer1: _sorterLayer1,
                     compPool: CompPool,
                     sorterLayerEval: sorterLayerEval,
                     scpParams: ScpParams,
@@ -215,29 +241,61 @@ namespace SorterEvo.Workflows
 
         private IScpWorkflow UpdateGenomesStep(int seed)
         {
-            var rando = Rando.Fast(seed);
+            var evaluatedGenomes = SorterLayerEval.GenomeEvals
+                                            .OrderBy(e => e.Score)
+                                            .Select(e => e.Genome)
+                                            .Take(ScpParams.PopulationCount)
+                                            .ToList();
+            var legacyCount = 0;
+            var cubCount = 0;
+            var leftoverCount = 0;
+            var leftoverTotal = ScpParams.PopulationCount - ScpParams.CubCount - ScpParams.LegacyCount;
+            var newGenomes = new List<ISorterGenome>();
+
+            foreach (var evaluatedGenome in evaluatedGenomes)
+            {
+                if (
+                        SorterLayer0.GetGenome(evaluatedGenome.Guid) != null
+                        &&
+                        legacyCount < ScpParams.LegacyCount
+                   )
+                {
+                    newGenomes.Add(evaluatedGenome);
+                    legacyCount++;
+                }
+
+                else if (
+                        SorterLayer1.GetGenome(evaluatedGenome.Guid) != null
+                        &&
+                        cubCount < ScpParams.CubCount
+                   )
+                {
+                    newGenomes.Add(evaluatedGenome);
+                    cubCount++;
+                }
+                else if(leftoverCount < leftoverTotal)
+                {
+                    newGenomes.Add(evaluatedGenome);
+                    leftoverCount++;
+                }
+            }
+
             return new ScpWorkflowImpl
                 (
                     compWorkflowState: CompWorkflowState.ReproGenomes,
-                    sorterLayer: Layer.Make(
-                        generation: Generation + 1,
-                        genomes: SorterLayerEval.GenomeEvals
-                                                .SubSortShuffle(t => t.Score, rando.NextInt())
-                                                .Select(e => e.Genome)
-                                                .Take(ScpParams.PopulationCount)
-
-                                                //.Take(
-                                                //    (Generation % 4 == 0) ?
-                                                //        ScpParams.SorterLayerStartingGenomeCount/4
-                                                //    :
-                                                //        ScpParams.SorterLayerStartingGenomeCount
-                                                // )
+                    sorterLayer0: Layer.Make(
+                            generation: Generation + 1,
+                            genomes: newGenomes
                         ),
-                        compPool: CompPool,
-                        sorterLayerEval: SorterLayerEval,
-                        scpParams: ScpParams,
-                        generation: Generation + 1
+                    sorterLayer1: null,
+                    compPool: CompPool,
+                    sorterLayerEval: evaluatedGenomes.Select(g => SorterLayerEval.GetGenomeEval(g.Guid))
+                                                .Make<ISorterGenome, IGenomeEval<ISorterGenome>>(),
+                    scpParams: ScpParams,
+                    generation: Generation + 1
                 );
         }
     }
+
+
 }

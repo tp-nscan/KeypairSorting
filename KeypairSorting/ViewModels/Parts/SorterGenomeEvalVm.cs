@@ -151,11 +151,7 @@ namespace KeypairSorting.ViewModels.Parts
 
         public string Ancestors
         {
-            get
-            {
-                return GetSorterGenomeEval().Ancestors
-                    .Aggregate(string.Empty, (s, g) => s + ", " + g);
-            }
+            get { return _sorterGenomeEval.SorterEval.UsedSwitches().PaddedReport(3); }
         }
 
         public string AncestorsJson

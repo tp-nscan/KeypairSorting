@@ -51,6 +51,7 @@
     <Compile Include="Genomes\SwitchableGroupGenome.cs" />
     <Compile Include="Genomes\SwitchableGroupGenomeType.cs" />
     <Compile Include="Layers\SwitchableGroupLayer.cs" />
+    <Compile Include="TestData\Evals.cs" />
     <Compile Include="TestData\Genomes.cs" />
     <Compile Include="TestData\TestRepository.cs" />
     <Compile Include="TestData\Layers.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Workflows\SorterCompPoolWorkflow.cs" />
     <Compile Include="Workflows\SorterCompPoolWorkflowBuilder.cs" />
     <Compile Include="Trackers\TrackBundle.cs" />
+    <Compile Include="Workflows\ScpWorkflowImplN.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

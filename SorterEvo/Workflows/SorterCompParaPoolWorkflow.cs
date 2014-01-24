@@ -193,7 +193,7 @@ namespace SorterEvo.Workflows
         {
             var randy = Rando.Fast(seed);
 
-            var sorterLayer = SorterLayer.Reproduce(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.ChildCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
+            var sorterLayer = SorterLayer.ReproducePreserveParents(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.ChildCount, mutationRate: SorterCompParaPoolParams.SorterMutationRate, insertionRate: SorterCompParaPoolParams.SorterMutationRate, deletionRate: SorterCompParaPoolParams.SorterDeletionRate);
 
             var switchableGroupLayer = SwitchableGroupLayer.Reproduce(seed: randy.NextInt(), newGenomeCount: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, mutationRate: SorterCompParaPoolParams.SwitchableLayerExpandedGenomeCount, insertionRate: SorterCompParaPoolParams.SwitchableGroupInsertionRate, deletionRate: SorterCompParaPoolParams.SwitchableGroupDeletionRate);
 

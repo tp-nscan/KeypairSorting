@@ -163,17 +163,16 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                         .AddMany(
                                   nextEvals.OrderBy(e => e.Score)
                                               .ThenByDescending(e=>e.Generation)
-                                              .Take(100)
+                                              .Take(200)
                                               .Select(g=>g.ToSorterGenomeEvalVm())
                                );
 
 
-                var groips = sorterEvalDict.Values
-                                        .GroupBy(e => e.SwitchUseCount)
-                                        .OrderBy(g=>g.Key)
-                                        .Select(g => "[" + g.Key + "," + g.Count() + "]\t")
+                var groips = result.Data.SorterLayerEval.GenomeEvals
+                                        .GroupBy(e => e.Score)
+                                        .OrderBy(g => g.Key)
+                                        .Select(g =>  string.Format("[{0}, {1}]", g.Key, g.Count()).PadLeft(12))
                                         .Aggregate(string.Empty, (e, n) => e + n);
-
 
                 _sorterGenomeEvals = nextEvals.ToDictionary(e => e.Guid);
 

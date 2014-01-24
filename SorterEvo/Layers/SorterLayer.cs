@@ -38,7 +38,7 @@ namespace SorterEvo.Layers
                 );
         }
 
-        public static ILayer<ISorterGenome> Reproduce
+        public static ILayer<ISorterGenome> ReproducePreserveParents
             (
                 this ILayer<ISorterGenome> sorterGenomeLayer,
                 int seed,
@@ -47,6 +47,29 @@ namespace SorterEvo.Layers
                 double insertionRate,
                 double deletionRate
             )
+        {
+            return sorterGenomeLayer.MultiplyPreserveParents
+                (
+                    genomeReproFunc: SorterPropigator
+                        (
+                            mutationRate: mutationRate,
+                            insertionRate: insertionRate,
+                            deletionRate: deletionRate
+                        ),
+                    newGenomeCount: newGenomeCount,
+                    seed: seed
+                );
+        }
+
+        public static ILayer<ISorterGenome> Reproduce
+    (
+        this ILayer<ISorterGenome> sorterGenomeLayer,
+        int seed,
+        int newGenomeCount,
+        double mutationRate,
+        double insertionRate,
+        double deletionRate
+    )
         {
             return sorterGenomeLayer.Multiply
                 (
@@ -60,7 +83,6 @@ namespace SorterEvo.Layers
                     seed: seed
                 );
         }
-
 
         public static ILayer<ISorterGenome> NextGen
         (

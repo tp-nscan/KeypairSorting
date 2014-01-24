@@ -33,6 +33,24 @@ namespace Genomic.Layers
         }
 
         public static ILayer<TG> Multiply<TG>
+        (
+            this ILayer<TG> layer,
+            Func<TG, int, Guid, TG> genomeReproFunc,
+            int newGenomeCount,
+            int seed
+        ) where TG : IGenome
+        {
+            var randy = Rando.Fast(seed);
+
+            return Make(
+                    generation: layer.Generation,
+                    genomes: layer.Genomes
+                             .Repeat().Take(newGenomeCount)
+                             .Select(g => genomeReproFunc(g, randy.NextInt(), randy.NextGuid()))
+                );
+        }
+
+        public static ILayer<TG> MultiplyPreserveParents<TG>
             (
                 this ILayer<TG> layer,
                 Func<TG, int, Guid, TG> genomeReproFunc,
