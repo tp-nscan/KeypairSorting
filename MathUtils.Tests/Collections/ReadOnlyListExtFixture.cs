@@ -313,29 +313,14 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
-        public void Recombine()
+        public void PairRandomlyTest()
         {
-            //var aList = new List<string> {"a0", "a1", "a2", "a3", "a4", "a5", "a6"};
-            //var a2List = new List<string> {"a0", "a1", "a2", "a3", "a4", "a5", "a6"};
-            //var bList = new List<string> { "b0", "b1", "b2", "b3", "b4", "b5", "b6" };
-            //var swaps1 = new List<bool> { false, false, true, false, false, false, false};
-            //var swaps2 = new List<bool> { true, false, false, false, false, false, false };
+            var aList = new List<string> { "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7" };
+            var bList = new List<string> { "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7" };
 
-            //var aRes = new List<string> { "a0", "a1", "b2", "b3", "b4", "b5", "b6" };
-            //var bRes = new List<string> { "b0", "b1", "a2", "a3", "a4", "a5", "a6" };
+            var outPairs = aList.Concat(bList).ToList().PairRandomly(Rando.Fast(123)).ToList();
 
-            //List<string> aOut;
-            //List<string> bOut;
-
-            //List.Recombine(aList, bList, swaps1, out aOut, out bOut);
-
-            //Assert.IsTrue(aOut.SequenceEqual(aRes));
-            //Assert.IsTrue(bOut.SequenceEqual(bRes));
-
-
-            //List.Recombine(aList, bList, swaps2, out aOut, out bOut);
-            //Assert.IsTrue(aOut.SequenceEqual(bList));
-            //Assert.IsTrue(bOut.SequenceEqual(aList));
+            Assert.AreEqual(outPairs.Count, aList.Count);
         }
 
         [TestMethod]

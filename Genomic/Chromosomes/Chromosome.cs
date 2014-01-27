@@ -18,6 +18,8 @@ namespace Genomic.Chromosomes
         IReadOnlyList<T> Blocks { get; }
         T NewBlock(IRando rando);
         IChromosome<T> Mutate(Func<IReadOnlyList<T>, IReadOnlyList<T>> mutator);
+        Tuple<IChromosome<T>, IChromosome<T>> Recombine(
+            Func<IReadOnlyList<T>, IReadOnlyList<T>, Tuple<IReadOnlyList<T>, IReadOnlyList<T>>> recombinator, IReadOnlyList<T> partner);
     }
 
     public static class Chromosome
@@ -117,26 +119,58 @@ namespace Genomic.Chromosomes
                 );
         }
 
-        //public static IChromosome<T> StandardPropigate<T>
-        //    (
-        //        this IChromosome<T> chromosome,
-        //        IRando rando,
-        //        double mutationRate,
-        //        double insertionRate,
-        //        double deletionRate
-        //    ) where T : IGene
-        //{
-        //    return chromosome.Mutate(
-        //        mutator: StandardMutator
-        //            (
-        //                deletionRate: deletionRate,
-        //                insertionRate: insertionRate,
-        //                mutationRate: mutationRate, 
-        //                geneMutator: () => chromosome.NewBlock(rando),
-        //                rando: rando
-        //            )
-        //        );
-        //}
+        public static Func<IReadOnlyList<T>, IReadOnlyList<T>, Tuple<IReadOnlyList<T>, IReadOnlyList<T>>>
+            StandardRecombinator<T>(
+                                        IRando rando,
+                                        double recombinationRate
+                                   )
+        {
+            return (tLeft, tRight) =>
+            {
+                var retLeft = new List<T>();
+                var retRight = new List<T>();
+
+                var minCount = Math.Min(tLeft.Count, tRight.Count);
+
+                var feedLeft = tLeft;
+                var feedRight = tRight;
+
+                for (var i = 0; i < minCount; i++)
+                {
+                    retLeft.Add(feedLeft[i]);
+                    retRight.Add(feedRight[i]);
+
+                    if (rando.NextDouble() > recombinationRate) continue;
+
+                    var temp = feedLeft;
+                    feedLeft = feedRight;
+                    feedRight = temp;
+                }
+
+                if (feedLeft.Count > minCount)
+                {
+                    retLeft.AddRange(feedLeft.Skip(minCount).Take(feedLeft.Count - minCount));
+                }
+
+                if (feedRight.Count > minCount)
+                {
+                    retRight.AddRange(feedRight.Skip(minCount).Take(feedRight.Count - minCount));
+                }
+
+                return new Tuple<IReadOnlyList<T>, IReadOnlyList<T>>(retLeft, retRight);
+            };
+        }
+
+        public static Tuple<IChromosome<T>, IChromosome<T>> StandardRecombine<T>
+            (
+                this IChromosome<T> chromosome,
+                IChromosome<T> partner,
+                IRando rando,
+                double recombinationRate
+            ) where T : IGene
+        {
+            return chromosome.Recombine(StandardRecombinator<T>(rando, recombinationRate), partner.Blocks);
+        }
 
     }
 
@@ -162,5 +196,8 @@ namespace Genomic.Chromosomes
         public abstract T NewBlock(IRando rando);
 
         public abstract IChromosome<T> Mutate(Func<IReadOnlyList<T>, IReadOnlyList<T>> mutator);
+        public abstract Tuple<IChromosome<T>, IChromosome<T>> Recombine(
+            Func<IReadOnlyList<T>, IReadOnlyList<T>, Tuple<IReadOnlyList<T>, IReadOnlyList<T>>> recombinator, 
+            IReadOnlyList<T> partner);
     }
 }

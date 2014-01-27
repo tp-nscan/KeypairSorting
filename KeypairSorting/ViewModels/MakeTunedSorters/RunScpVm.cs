@@ -17,15 +17,15 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
         {
             ScpRunnerVm = new ScpRunnerVm(scpParams, sorterGenomeEvalVms);
             ScpRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
-            ReportFrequency = 1;
+            ReportFrequency = 10;
             _trajectoryGridVm = new SgHistoryGridVm();
             _stopwatch = new Stopwatch();
         }
 
-        void ReportBestResult(Tuple<string, string> result)
+        void ReportBestResult(Tuple<string, int, string> result)
         {
             OnPropertyChanged("ProcTime");
-            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2));
+            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2, result.Item3));
         }
 
         private readonly SgHistoryGridVm _trajectoryGridVm;

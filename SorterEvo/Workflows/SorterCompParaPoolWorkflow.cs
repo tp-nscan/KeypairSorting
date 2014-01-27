@@ -258,7 +258,8 @@ namespace SorterEvo.Workflows
                     t => GenomeEval.Make(
                             genome: SorterLayer.GetGenome(t.Sorter.Guid), 
                             score:  t.SwitchesUsed,
-                            generation: Generation
+                            generation: Generation,
+                            hash: 0
                         )
                     ).Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
 
@@ -268,7 +269,8 @@ namespace SorterEvo.Workflows
                     g => GenomeEval.Make(
                             genome: SwitchableGroupLayer.GetGenome(g.Key),
                             score: g.Sum(s=> - s.SwitchUseCount),
-                            generation: Generation
+                            generation: Generation,
+                            hash: 0
                         )
                     ).Make<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>>();
 

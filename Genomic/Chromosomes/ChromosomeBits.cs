@@ -73,5 +73,28 @@ namespace Genomic.Chromosomes
                     BitCount
                 );
         }
+
+        public override Tuple<IChromosome<IGeneBits>, IChromosome<IGeneBits>> Recombine(
+            Func<
+                 IReadOnlyList<IGeneBits>, IReadOnlyList<IGeneBits>, 
+                 Tuple<IReadOnlyList<IGeneBits>, IReadOnlyList<IGeneBits>>
+                > recombinator,
+            IReadOnlyList<IGeneBits> partner)
+        {
+            var children = recombinator(Blocks, partner);
+
+            return new Tuple<IChromosome<IGeneBits>, IChromosome<IGeneBits>>(
+                new ChromosomeBitsImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(), 
+                    BitCount
+                ),
+                new ChromosomeBitsImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(), 
+                    BitCount
+                )
+           );
+        }
     }
 }

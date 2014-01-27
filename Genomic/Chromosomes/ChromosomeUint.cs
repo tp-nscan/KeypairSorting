@@ -72,5 +72,29 @@ namespace Genomic.Chromosomes
                     MaxVal
                 );
         }
+
+        public override Tuple<IChromosome<IGeneUintModN>, IChromosome<IGeneUintModN>> Recombine(
+            Func<
+                 IReadOnlyList<IGeneUintModN>, IReadOnlyList<IGeneUintModN>,
+                 Tuple<IReadOnlyList<IGeneUintModN>, IReadOnlyList<IGeneUintModN>>
+                > recombinator,
+            IReadOnlyList<IGeneUintModN> partner)
+        {
+            var children = recombinator(Blocks, partner);
+
+            return new Tuple<IChromosome<IGeneUintModN>, IChromosome<IGeneUintModN>>(
+                new ChromosomeUintImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(),
+                    MaxVal
+                ),
+                new ChromosomeUintImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(),
+                    MaxVal
+                )
+           );
+        }
+
     }
 }

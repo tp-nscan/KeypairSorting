@@ -88,5 +88,30 @@ namespace Genomic.Chromosomes
                     MixingRate
                 );
         }
+
+        public override Tuple<IChromosome<IGenePermutation>, IChromosome<IGenePermutation>> Recombine(
+            Func<
+                 IReadOnlyList<IGenePermutation>, IReadOnlyList<IGenePermutation>,
+                 Tuple<IReadOnlyList<IGenePermutation>, IReadOnlyList<IGenePermutation>>
+                > recombinator,
+            IReadOnlyList<IGenePermutation> partner)
+        {
+            var children = recombinator(Blocks, partner);
+
+            return new Tuple<IChromosome<IGenePermutation>, IChromosome<IGenePermutation>>(
+                new ChromosomePermutationImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(),
+                    PermutationItemCount,
+                    MixingRate
+                ),
+                new ChromosomePermutationImpl
+                (
+                    children.Item1.SelectMany(b => b.ToIntStream).ToList(),
+                    PermutationItemCount,
+                    MixingRate
+                )
+           );
+        }
     }
 }

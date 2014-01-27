@@ -12,6 +12,7 @@ namespace Genomic.Genomes
         /// Low scores are better
         /// </summary>
         double Score { get; }
+        ulong Hash { get; }
     }
 
     public static class GenomeEval
@@ -19,15 +20,17 @@ namespace Genomic.Genomes
         public static IGenomeEval<TG> Make<TG>
         (
             TG genome,
-            double score, 
-            int generation
+            double score,
+            int generation, 
+            ulong hash
         ) where TG : IGenome
         {
             return new GenomeEvalImpl<TG>
                 (
                     genome: genome,
                     score: score,
-                    generation: generation
+                    generation: generation,
+                    hash: hash
                 );
         }
     }
@@ -37,11 +40,12 @@ namespace Genomic.Genomes
         private readonly TG _genome;
         private readonly double _score;
 
-        public GenomeEvalImpl(TG genome, double score, int generation)
+        public GenomeEvalImpl(TG genome, double score, int generation, ulong hash)
         {
             _genome = genome;
             _score = score;
             _generation = generation;
+            _hash = hash;
         }
 
         private readonly int _generation;
@@ -58,6 +62,12 @@ namespace Genomic.Genomes
         public double Score
         {
             get { return _score; }
+        }
+
+        private readonly ulong _hash;
+        public ulong Hash
+        {
+            get { return _hash; }
         }
 
         public Guid Guid

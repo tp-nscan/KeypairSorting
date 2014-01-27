@@ -35,10 +35,10 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             }
         }
 
-        void ReportBestResult(Tuple<string, string> result)
+        void ReportBestResult(Tuple<string, int, string> result)
         {
             OnPropertyChanged("ProcTime");
-            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2));
+            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2, result.Item3));
         }
 
         private readonly SgHistoryGridVm _trajectoryGridVm;

@@ -27,6 +27,16 @@ namespace MathUtils.Collections
 
             return track.Item1;
         }
+
+        public static Tuple<IReadOnlyList<T>, IReadOnlyList<T>> Recombine<T>(this IReadOnlyList<T> first,
+            IReadOnlyList<T> second, IRando rando, double recombinationFrequency)
+        {
+            var firstRet = new List<T>();
+
+            var secondRet = new List<T>();
+
+            return new Tuple<IReadOnlyList<T>, IReadOnlyList<T>>(firstRet, secondRet);
+        }
     }
 
     public class ListPropigator<T>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Genomic.Chromosomes;
+using Genomic.Genes;
 using Genomic.Layers;
+using MathUtils.Collections;
 using MathUtils.Rand;
 using SorterEvo.Genomes;
 
@@ -62,14 +65,14 @@ namespace SorterEvo.Layers
         }
 
         public static ILayer<ISorterGenome> Reproduce
-    (
-        this ILayer<ISorterGenome> sorterGenomeLayer,
-        int seed,
-        int newGenomeCount,
-        double mutationRate,
-        double insertionRate,
-        double deletionRate
-    )
+        (
+            this ILayer<ISorterGenome> sorterGenomeLayer,
+            int seed,
+            int newGenomeCount,
+            double mutationRate,
+            double insertionRate,
+            double deletionRate
+        )
         {
             return sorterGenomeLayer.Multiply
                 (
@@ -82,6 +85,30 @@ namespace SorterEvo.Layers
                     newGenomeCount: newGenomeCount,
                     seed: seed
                 );
+        }
+
+        public static ILayer<ISorterGenome> Recombinate
+        (
+            this ILayer<ISorterGenome> sorterGenomeLayer,
+            double recombinationRate,
+            int seed
+        )
+        {
+            var rando = Rando.Fast(seed);
+
+            var recombinedGenomes = sorterGenomeLayer.Genomes
+                .ToList()
+                .PairRandomly(rando.Spawn())
+                .Select(p=>p.Recombine(rando.Spawn(), recombinationRate))
+                .SelectMany(rp=> new[] {rp.Item1, rp.Item2})
+                .ToList();
+
+
+            return Make
+            (
+                recombinedGenomes,
+                sorterGenomeLayer.Generation
+            );
         }
 
         public static ILayer<ISorterGenome> NextGen

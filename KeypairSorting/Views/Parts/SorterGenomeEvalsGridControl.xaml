@@ -21,13 +21,14 @@
         </WrapPanel>
 
         <DataGrid x:Name="dataGrid" VerticalScrollBarVisibility="Auto"
-				    DockPanel.Dock="Bottom"
+                  IsReadOnly="True"
+				  DockPanel.Dock="Bottom"
                   AutoGenerateColumns="False"
-				    ItemsSource="{Binding SorterGenomeEvalVms}">
+				  ItemsSource="{Binding SorterGenomeEvalVms}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Generation" Binding="{Binding Generation}" />
                 <DataGridTextColumn Header="Count" Binding="{Binding SwitchUseCount}" />
-                <DataGridTextColumn Header="Ancestors" FontFamily="Courrier New" Binding="{Binding Ancestors}" />
+                <DataGridTextColumn Header="Switches" FontFamily="Courrier New" Binding="{Binding Ancestors}" />
                 <!--<DataGridTextColumn Header="Switches" Binding="{Binding SwitchUseListAlt}" />-->
             </DataGrid.Columns>
         </DataGrid>

@@ -47,9 +47,28 @@ namespace MathUtils.Collections
                     yield return new Tuple<int, T, T>(i, listA[i], listB[i]);
                 }
             }
-
         }
 
+        public static IEnumerable<Tuple<T, T>> PairRandomly<T>(this IReadOnlyList<T> items, IRando rando)
+        {
+            var workingList = items.ToList();
+            if (workingList.Count % 2 == 1)
+            {
+                throw new ArgumentException("An odd number of items was sent to PairRandomly");
+            }
+            while (workingList.Any())
+            {
+                var nextIndex = rando.NextInt() % workingList.Count();
+                var itemA = workingList[nextIndex];
+                workingList.RemoveAt(nextIndex);
+                nextIndex = rando.NextInt() % workingList.Count();
+                var itemB = workingList[nextIndex];
+                workingList.RemoveAt(nextIndex);
+
+                yield return new Tuple<T, T>(itemA, itemB);
+            }
+        }
+             
         public static IReadOnlyList<double> VectorSumDouble(this IEnumerable<IReadOnlyList<double>> listOfList)
         {
             var retVal = new double[0];

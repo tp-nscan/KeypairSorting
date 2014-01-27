@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathUtils.Collections;
 using Sorting.Sorters;
 
 namespace Sorting.CompetePools
@@ -68,6 +69,16 @@ namespace Sorting.CompetePools
         public static string PaddedReport(this IReadOnlyList<int> intList, int padding)
         {
             return intList.Aggregate(string.Empty, (o, n) => o + n.ToString().PadLeft(padding));
+        }
+
+        public static ulong Hash(this IReadOnlyList<int> intList, int start)
+        {
+            ulong i = 57;
+            return intList
+                        .Repeat()
+                        .Skip(start)
+                        .Take(30)
+                        .Aggregate((ulong)377, (o, n) => (ulong)(n + 1) * (o + i++));
         }
     }
 

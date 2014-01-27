@@ -19,7 +19,8 @@ namespace SorterEvo.Evals
                 ISorterGenome sorterGenome,
                 IImmutableStack<int> ancestors,
                 ISorterEval sorterEval,
-                int generation
+                int generation,
+                ulong hash
             )
         {
             return new SorterGenomeEvalImpl
@@ -28,7 +29,8 @@ namespace SorterEvo.Evals
                     ancestors: ancestors,
                     sorterEval: sorterEval,
                     generation: generation,
-                    score: sorterEval.SwitchUseCount
+                    score: sorterEval.SwitchUseCount,
+                    hash: hash
                 );
         }
 
@@ -36,7 +38,8 @@ namespace SorterEvo.Evals
             ISorterGenome sorterGenome,
             ISorterGenomeEval parentGenomeEval,
             ISorterEval sorterEval,
-            int generation
+            int generation,
+            ulong hash
         )
         {
             return Make
@@ -47,7 +50,8 @@ namespace SorterEvo.Evals
                                 sorterEval.SwitchUseCount
                             ),
                     sorterEval: sorterEval,
-                    generation: generation
+                    generation: generation,
+                    hash: hash
                 );
         }
     }
@@ -66,14 +70,15 @@ namespace SorterEvo.Evals
                 IImmutableStack<int> ancestors, 
                 ISorterEval sorterEval, 
                 int generation, 
-                double score
-            )
+                double score, 
+                ulong hash)
         {
             _sorterGenome = sorterGenome;
             _ancestors = ancestors;
             _sorterEval = sorterEval;
             _generation = generation;
             _score = score;
+            _hash = hash;
         }
 
         public ISorterGenome SorterGenome
@@ -104,6 +109,12 @@ namespace SorterEvo.Evals
         public ISorterGenome Genome
         {
             get { return SorterGenome; }
+        }
+
+        private readonly ulong _hash;
+        public ulong Hash
+        {
+            get { return _hash; }
         }
 
         public double Score

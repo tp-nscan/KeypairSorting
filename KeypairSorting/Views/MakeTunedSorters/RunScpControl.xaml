@@ -65,7 +65,7 @@
 						    Text="{Binding Name}" 
 						    HorizontalAlignment="Center" />
 
-                    <makeTunedSorters:SgHistoryGridControl  />
+                    <makeTunedSorters:SgHistoryGridControl />
 
             </DockPanel>
 

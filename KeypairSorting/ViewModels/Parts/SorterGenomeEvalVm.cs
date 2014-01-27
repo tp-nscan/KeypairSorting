@@ -77,7 +77,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation
+                        generation: generation,
+                        hash:0
                     )
                 );
             }
@@ -103,7 +104,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation
+                        generation: generation,
+                        hash:0
                     )
                 );
             }
@@ -125,7 +127,8 @@ namespace KeypairSorting.ViewModels.Parts
                     sorterGenome: sorterGenome,
                     ancestors: ancestors,
                     sorterEval: sorterEval, 
-                    generation: generation
+                    generation: generation,
+                    hash:0
                 )
             );
 

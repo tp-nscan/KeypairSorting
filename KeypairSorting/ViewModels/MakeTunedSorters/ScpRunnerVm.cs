@@ -8,9 +8,11 @@ using Entities.BackgroundWorkers;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
 using MathUtils.Rand;
+using Newtonsoft.Json;
 using SorterEvo.Evals;
 using SorterEvo.Layers;
 using SorterEvo.Workflows;
+using Sorting.CompetePools;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MakeTunedSorters
@@ -29,9 +31,9 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
             _scpParamsVm = new ScpParamVm(scpParams);
         }
 
-        private readonly Subject<Tuple<string, string>> _onIterationResult 
-            = new Subject<Tuple<string, string>>();
-        public IObservable<Tuple<string, string>> OnIterationResult
+        private readonly Subject<Tuple<string, int, string>> _onIterationResult 
+            = new Subject<Tuple<string, int, string>>();
+        public IObservable<Tuple<string, int, string>> OnIterationResult
         {
             get { return _onIterationResult; }
         }
@@ -131,9 +133,6 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                     (result.Data.SorterLayerEval != null)
                )
             {
-                ScpParamsVm.CurrentGeneration = result.Data.Generation;
-                SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
-
                 var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
 
                 var nextEvals = new List<ISorterGenomeEval>();
@@ -145,38 +144,56 @@ namespace KeypairSorting.ViewModels.MakeTunedSorters
                     }
                     else
                     {
-                        nextEvals.Add(
+                        nextEvals.Add
+                            (
                                     SorterGenomeEval.Make
                                     (
                                         sorterGenome: genomeEval.Genome,
                                         parentGenomeEval: _sorterGenomeEvals[genomeEval.Genome.ParentGuid],
                                         sorterEval: sorterEvalDict[genomeEval.Guid],
-                                        generation: ScpParamsVm.CurrentGeneration
+                                        generation: ScpParamsVm.CurrentGeneration,
+                                        hash: genomeEval.Hash
                                     )
                             );
                     }
                 }
 
 
-                SorterGenomeEvalGridVm
-                        .SorterGenomeEvalVms
-                        .AddMany(
-                                  nextEvals.OrderBy(e => e.Score)
-                                              .ThenByDescending(e=>e.Generation)
-                                              .Take(200)
-                                              .Select(g=>g.ToSorterGenomeEvalVm())
-                               );
+                ScpParamsVm.CurrentGeneration = result.Data.Generation;
 
+                if (ScpParamsVm.CurrentGeneration % ReportFrequency == 0)
+                {
+                    SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
 
-                var groips = result.Data.SorterLayerEval.GenomeEvals
+                    SorterGenomeEvalGridVm
+                            .SorterGenomeEvalVms
+                            .AddMany(
+                                      nextEvals.OrderBy(e => e.Score)
+                                                  .ThenByDescending(e => e.Generation)
+                                                  .Take(200)
+                                                  .Select(g => g.ToSorterGenomeEvalVm())
+                                    );
+
+                }
+
+                //var groips = result.Data.SorterLayerEval.GenomeEvals
+                //                        .GroupBy(e => e.Score)
+                //                        .OrderBy(g => g.Key)
+                //                        .Select(g =>  string.Format("[{0}, {1}]", g.Key, g.Count()).PadLeft(12))
+                //                        .Aggregate(string.Empty, (e, n) => e + n);
+
+                var groips = JsonConvert.SerializeObject
+                    ( 
+                             result.Data.SorterLayerEval.GenomeEvals
                                         .GroupBy(e => e.Score)
                                         .OrderBy(g => g.Key)
-                                        .Select(g =>  string.Format("[{0}, {1}]", g.Key, g.Count()).PadLeft(12))
-                                        .Aggregate(string.Empty, (e, n) => e + n);
+                                        .Select(g => new Tuple<int, int>((int) g.Key, g.Count()))
+                                        .ToList()
+                    );
 
                 _sorterGenomeEvals = nextEvals.ToDictionary(e => e.Guid);
 
-                _onIterationResult.OnNext(new Tuple<string, string>(ScpParamsVm.Name, groips));
+                _onIterationResult.OnNext(new Tuple<string, int, string>(ScpParamsVm.Name, ScpParamsVm.CurrentGeneration, groips));
             }
         }
 

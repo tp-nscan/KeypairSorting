@@ -12,18 +12,18 @@ namespace SorterEvo.TestData
 {
     public static class Layers
     {
-        public static int Seed = 15394;
+        public static int Seed = 447744;
         public static int KeyCount = 12;
         public static int KeyPairCount = 1000;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
         public static int PopulationSize = 100;
-        public static int ChildCount = 200;
-        public static int LegacyCount = 40;
-        public static int CubCount = 20;
+        public static int ChildCount = 100;
+        public static int LegacyCount = 0;
+        public static int CubCount = 0;
         public static double SorterMutationRate = 0.025;
-        public static double SorterInsertionRate = 0.025;
-        public static double SorterDeletionRate = 0.025;
+        public static double SorterInsertionRate = 0.005;
+        public static double SorterDeletionRate = 0.005;
 
         public static int SwitchableGroupGenomeCount = 3;
         public static int SwitchableGroupExpandedGenomeCount = 6;
@@ -90,7 +90,7 @@ namespace SorterEvo.TestData
                      populationSize: PopulationSize,
                      childCount: ChildCount,
                      sorterMutationRate: SorterMutationRate,
-                     sorterInsertionRate: SorterMutationRate,
+                     sorterInsertionRate: SorterInsertionRate,
                      sorterDeletionRate: SorterDeletionRate,
                      switchableLayerStartingGenomeCount: SwitchableGroupGenomeCount,
                      switchableLayerExpandedGenomeCount: SwitchableGroupExpandedGenomeCount,
@@ -107,9 +107,9 @@ namespace SorterEvo.TestData
                      populationCount: PopulationSize,
                      childCount: ChildCount,
                      legacyCount: LegacyCount,
-                     cubCount: ChildCount,
+                     cubCount: CubCount,
                      sorterMutationRate: SorterMutationRate,
-                     sorterInsertionRate: SorterMutationRate,
+                     sorterInsertionRate: SorterInsertionRate,
                      sorterDeletionRate: SorterDeletionRate,
                      sorterRecombinationRate: SorterRecombinationRate,
                      name: "Test Params",

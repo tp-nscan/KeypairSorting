@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Genomic.Chromosomes;
+using Genomic.Genes;
 using Genomic.Genomes;
 using MathUtils.Rand;
 using Sorting.KeyPairs;
@@ -37,6 +38,23 @@ namespace SorterEvo.Genomes
                 keyCount: keyCount,
                 keyPairCount: keyPairCount
            );
+        }
+
+        public static Tuple<ISorterGenome, ISorterGenome> Recombine(this Tuple<ISorterGenome, ISorterGenome> parents, IRando rando, double recombinationRate)
+        {
+            var newChromosomes = parents.Item1.Chromosome.Recombine
+                (
+                    Chromosome.StandardRecombinator<IGeneUintModN>
+                                        (rando.Spawn(), 
+                                         recombinationRate), 
+                    parents.Item2.Chromosome.Blocks
+                );
+
+            return new Tuple<ISorterGenome, ISorterGenome>(
+                Make(parents.Item1.Guid, parents.Item1.ParentGuid, (IChromosomeUint)newChromosomes.Item1, parents.Item1.KeyCount, parents.Item1.KeyPairCount),
+                Make(parents.Item2.Guid, parents.Item2.ParentGuid, (IChromosomeUint)newChromosomes.Item2, parents.Item2.KeyCount, parents.Item2.KeyPairCount)
+                );
+
         }
 
         public static ISorterGenome Make(
