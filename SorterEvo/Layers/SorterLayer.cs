@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Genomic.Chromosomes;
-using Genomic.Genes;
 using Genomic.Layers;
 using MathUtils.Collections;
 using MathUtils.Rand;
@@ -96,6 +95,33 @@ namespace SorterEvo.Layers
         {
             var rando = Rando.Fast(seed);
 
+            var listGenomes = sorterGenomeLayer.Genomes
+                .ToList();
+
+            var pairedGenomes = listGenomes.PairRandomly(rando.Spawn());
+
+            var recombinedGenomes = pairedGenomes.Select(p => p.Recombine(rando.Spawn(), recombinationRate))
+                .SelectMany(rp => new[] { rp.Item1, rp.Item2 })
+                .ToList();
+
+            //System.Diagnostics.Debug.WriteLine(recombinedGenomes.Select(g=>g.ParentGuid).Aggregate(string.Empty, (o,n) => o + " " + n.ToString()));
+
+            return Make
+            (
+                recombinedGenomes,
+                sorterGenomeLayer.Generation
+            );
+        }
+
+        public static ILayer<ISorterGenome> Recombinate0
+        (
+            this ILayer<ISorterGenome> sorterGenomeLayer,
+            double recombinationRate,
+            int seed
+        )
+        {
+            var rando = Rando.Fast(seed);
+
             var recombinedGenomes = sorterGenomeLayer.Genomes
                 .ToList()
                 .PairRandomly(rando.Spawn())
@@ -103,6 +129,7 @@ namespace SorterEvo.Layers
                 .SelectMany(rp=> new[] {rp.Item1, rp.Item2})
                 .ToList();
 
+            //System.Diagnostics.Debug.WriteLine(recombinedGenomes.Select(g=>g.ParentGuid).Aggregate(string.Empty, (o,n) => o + " " + n.ToString()));
 
             return Make
             (

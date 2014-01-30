@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using Genomic.Genomes;
 using SorterEvo.Genomes;
 using Sorting.CompetePools;
+using Sorting.Sorters;
 
 namespace SorterEvo.Evals
 {
@@ -11,6 +12,7 @@ namespace SorterEvo.Evals
         ISorterGenome SorterGenome { get; }
         IImmutableStack<int> Ancestors { get; }
         ISorterEval SorterEval { get; }
+        IStagedSorter StagedSorter { get; }
     }
 
     public static class SorterGenomeEval
@@ -19,8 +21,7 @@ namespace SorterEvo.Evals
                 ISorterGenome sorterGenome,
                 IImmutableStack<int> ancestors,
                 ISorterEval sorterEval,
-                int generation,
-                ulong hash
+                int generation
             )
         {
             return new SorterGenomeEvalImpl
@@ -29,8 +30,7 @@ namespace SorterEvo.Evals
                     ancestors: ancestors,
                     sorterEval: sorterEval,
                     generation: generation,
-                    score: sorterEval.SwitchUseCount,
-                    hash: hash
+                    score: sorterEval.SwitchUseCount
                 );
         }
 
@@ -38,8 +38,7 @@ namespace SorterEvo.Evals
             ISorterGenome sorterGenome,
             ISorterGenomeEval parentGenomeEval,
             ISorterEval sorterEval,
-            int generation,
-            ulong hash
+            int generation
         )
         {
             return Make
@@ -50,8 +49,7 @@ namespace SorterEvo.Evals
                                 sorterEval.SwitchUseCount
                             ),
                     sorterEval: sorterEval,
-                    generation: generation,
-                    hash: hash
+                    generation: generation
                 );
         }
     }
@@ -63,6 +61,7 @@ namespace SorterEvo.Evals
         private readonly ISorterEval _sorterEval;
         private readonly int _generation;
         private readonly double _score;
+        private readonly IStagedSorter _stagedSorter;
 
         public SorterGenomeEvalImpl
             (
@@ -70,15 +69,15 @@ namespace SorterEvo.Evals
                 IImmutableStack<int> ancestors, 
                 ISorterEval sorterEval, 
                 int generation, 
-                double score, 
-                ulong hash)
+                double score
+            )
         {
             _sorterGenome = sorterGenome;
             _ancestors = ancestors;
             _sorterEval = sorterEval;
             _generation = generation;
             _score = score;
-            _hash = hash;
+            _stagedSorter = sorterEval.Reduce(Guid.NewGuid()).ToStagedSorter();
         }
 
         public ISorterGenome SorterGenome
@@ -96,6 +95,11 @@ namespace SorterEvo.Evals
             get { return _sorterEval; }
         }
 
+        public IStagedSorter StagedSorter
+        {
+            get { return _stagedSorter; }
+        }
+
         public Guid Guid
         {
             get { return _sorterGenome.Guid; }
@@ -109,12 +113,6 @@ namespace SorterEvo.Evals
         public ISorterGenome Genome
         {
             get { return SorterGenome; }
-        }
-
-        private readonly ulong _hash;
-        public ulong Hash
-        {
-            get { return _hash; }
         }
 
         public double Score

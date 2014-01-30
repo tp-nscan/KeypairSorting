@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Genomic.GenomePools;
+﻿using System.Linq;
 using SorterEvo.Genomes;
 using Sorting.CompetePools;
 
@@ -15,10 +10,10 @@ namespace SorterEvo.TestData
         {
             get
             {
-                return
-                    (new[] {Genomes.SorterGenome.ToSorter()})
-                                .ToCompPoolParallel()
-                                .SorterEvals.First();
+                return CompPool.MakeEmpty(Genomes.KeyCount).AddSorterEvalsParallel(
+
+                    (new[] { Genomes.SorterGenome.ToSorter() })
+                        ).SorterEvals.First();
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Sorting.KeyPairs;
@@ -22,13 +21,6 @@ namespace Sorting.Sorters
         public static ISorter ToSorter(this IEnumerable<IKeyPair> keyPairs, Guid guid, int keyCount)
         {
             return new SorterImpl(keyPairs, guid, keyCount);
-        }
-
-        public static string ToString(this ISorter sorter)
-        {
-            var sbRet = new StringBuilder();
-
-            return sbRet.ToString();
         }
 
         public static ISorter ToSorter(this IReadOnlyList<IKeyPair> keyPairs, IEnumerable<uint> keyPairChoices, int keyCount, Guid guid)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MathUtils.Collections;
+using Sorting.KeyPairs;
 using Sorting.Sorters;
 
 namespace Sorting.CompetePools
@@ -53,20 +54,23 @@ namespace Sorting.CompetePools
                 );    
         }
 
-        public static IReadOnlyList<int> UsedSwitches(this ISorterEval sorterEval)
+        public static IEnumerable<IKeyPair> UsedKeyPairs(this ISorterEval sorterEval)
         {
-            var useList = new List<int>();
             for (var dex = 0; dex < sorterEval.Sorter.KeyPairCount; dex++)
             {
                 if (sorterEval.SwitchUseList[dex] > 0)
                 {
-                    useList.Add(sorterEval.Sorter.KeyPair(dex).Index);
+                   yield return sorterEval.Sorter.KeyPair(dex);
                 }
             }
-            return useList;
         }
 
-        public static string PaddedReport(this IReadOnlyList<int> intList, int padding)
+        public static ISorter Reduce(this ISorterEval sorterEval, Guid guid)
+        {
+            return sorterEval.UsedKeyPairs().ToSorter(sorterEval.Sorter.Guid, sorterEval.Sorter.KeyCount);
+        }
+
+        public static string PaddedReport(this IEnumerable<int> intList, int padding)
         {
             return intList.Aggregate(string.Empty, (o, n) => o + n.ToString().PadLeft(padding));
         }
@@ -78,6 +82,13 @@ namespace Sorting.CompetePools
                         .Repeat()
                         .Skip(start)
                         .Take(30)
+                        .Aggregate((ulong)377, (o, n) => (ulong)(n + 1) * (o + i++));
+        }
+
+        public static ulong Hash(this IEnumerable<int> intList)
+        {
+            ulong i = 57;
+            return intList
                         .Aggregate((ulong)377, (o, n) => (ulong)(n + 1) * (o + i++));
         }
     }

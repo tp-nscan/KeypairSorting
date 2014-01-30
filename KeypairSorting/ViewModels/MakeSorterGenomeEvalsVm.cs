@@ -11,6 +11,7 @@ using KeypairSorting.ViewModels.Parts;
 using SorterEvo.Evals;
 using SorterEvo.Genomes;
 using SorterEvo.Json.Genomes;
+using Sorting.CompetePools;
 using Sorting.Sorters;
 using WpfUtils;
 
@@ -83,21 +84,24 @@ namespace KeypairSorting.ViewModels
                 if (_sorterBackgroundWorker == null)
                 {
                     var i = 0;
-                    _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make
+                    _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make<ISorterGenome, ISorterGenomeEval>
                         (
                             inputs: SorterGenomeGridVm.SorterGenomeVms.Select(t => t.SorterGenomeJson.ToSorterGenome()),
-                            mapper: (s, c) => 
-                                IterationResult.Make
-                                (
-                                    data: SorterGenomeEval.Make(
-                                        sorterGenome: s, 
-                                        ancestors: ImmutableStack<int>.Empty, 
-                                        sorterEval: s.ToSorter().FullTest(),
-                                        generation: 1,
-                                        hash: 0
-                                        ),
-                                    progressStatus: ProgressStatus.StepComplete
-                                )
+                            mapper: (s, c) =>
+                            {
+                                var eval = s.ToSorter().FullTest();
+                                return IterationResult.Make
+                                    (
+                                        data: SorterGenomeEval.Make(
+                                            sorterGenome: s,
+                                            ancestors: ImmutableStack<int>.Empty,
+                                            sorterEval: eval,
+                                            generation: 1
+                                            ),
+                                        progressStatus: ProgressStatus.StepComplete
+                                    );
+                            }
+
                         );
 
                     _updateSubscription = _sorterBackgroundWorker.OnIterationResult.Subscribe(UpdateSorterResults);

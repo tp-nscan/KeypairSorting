@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using KeypairSorting.Resources;
-using KeypairSorting.ViewModels.MakeTunedSorters;
+using KeypairSorting.ViewModels.MutateSorters;
+using KeypairSorting.ViewModels.Scp;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels
@@ -163,6 +164,34 @@ namespace KeypairSorting.ViewModels
         }
 
         bool CanGenomeGenCommand()
+        {
+            return true;
+        }
+
+        #endregion // SortersSwitchesEvalCommand
+
+        #region MutateSorterGenomesCommand
+
+        RelayCommand _mutateSorterGenomesCommand;
+        public ICommand MutateSorterGenomesCommand
+        {
+            get
+            {
+                return _mutateSorterGenomesCommand ?? (_mutateSorterGenomesCommand
+                    = new RelayCommand
+                        (
+                            param => OnMutateSorterGenomesCommand(),
+                            param => CanMutateSorterGenomesCommand()
+                        ));
+            }
+        }
+
+        protected void OnMutateSorterGenomesCommand()
+        {
+            ToolTemplateVm = new MutateSortersVm();
+        }
+
+        bool CanMutateSorterGenomesCommand()
         {
             return true;
         }

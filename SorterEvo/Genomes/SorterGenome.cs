@@ -44,9 +44,10 @@ namespace SorterEvo.Genomes
         {
             var newChromosomes = parents.Item1.Chromosome.Recombine
                 (
-                    Chromosome.StandardRecombinator<IGeneUintModN>
-                                        (rando.Spawn(), 
-                                         recombinationRate), 
+                    Chromosome.StandardRecombinator<IGeneUintModN>(
+                        rando: rando.Spawn(), 
+                        recombinationRate: recombinationRate
+                    ), 
                     parents.Item2.Chromosome.Blocks
                 );
 

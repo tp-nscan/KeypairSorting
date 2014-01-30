@@ -2,18 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:views="clr-namespace:KeypairSorting.Views"
                     xmlns:resources="clr-namespace:KeypairSorting.Resources"
-                    xmlns:makeTunedSorters="clr-namespace:KeypairSorting.Views.MakeTunedSorters">
+                    xmlns:scp="clr-namespace:KeypairSorting.Views.Scp"
+                    xmlns:mutateSorters="clr-namespace:KeypairSorting.Views.MutateSorters">
 
     <DataTemplate x:Key="defaultTemplate">
         <views:DefaultControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="createScpTemplate">
-        <makeTunedSorters:CreateScpControl/>
+        <scp:CreateScpControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="runScpTemplate">
-        <makeTunedSorters:RunScpControl/>
+        <scp:RunScpControl/>
     </DataTemplate>
     
     <resources:ConfigRunSelector x:Key="tuneSorterSelector"
@@ -22,18 +23,36 @@
         RunTemplate="{StaticResource runScpTemplate}"
      />
 
+    
+    
     <DataTemplate x:Key="createMultiScpTemplate">
-        <makeTunedSorters:MultiCreateScpControl/>
+        <scp:MultiCreateScpControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="runMultiScpTemplate">
-        <makeTunedSorters:MultiRunScpControl/>
+        <scp:MultiRunScpControl/>
     </DataTemplate>
 
     <resources:ConfigRunSelector x:Key="multiTuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
         ConfigTemplate="{StaticResource createMultiScpTemplate}"
         RunTemplate="{StaticResource runMultiScpTemplate}"
+     />
+
+    
+    
+    <DataTemplate x:Key="configMutateSortersTemplate">
+        <mutateSorters:ConfigMutateSortersControl/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="createMutateSortersTemplate">
+        <mutateSorters:CreateMutateSortersControl/>
+    </DataTemplate>
+
+    <resources:ConfigRunSelector x:Key="mutateSorterSelector"
+        DefaultTemplate="{StaticResource defaultTemplate}"
+        ConfigTemplate="{StaticResource configMutateSortersTemplate}"
+        RunTemplate="{StaticResource createMutateSortersTemplate}"
      />
 
 </ResourceDictionary>

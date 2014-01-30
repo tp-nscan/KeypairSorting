@@ -22,7 +22,7 @@ namespace KeypairSorting.ViewModels.Parts
         string AncestorsJson { get; }
         Guid SwitchableGroupGuid { get; }
         string SwitchUseList { get; }
-        ISorterGenomeEval GetSorterGenomeEval();
+        ISorterGenomeEval SorterGenomeEval { get; }
     }
 
     public static class SorterGenomeEvalVm
@@ -77,8 +77,7 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation,
-                        hash:0
+                        generation: generation
                     )
                 );
             }
@@ -104,8 +103,7 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation,
-                        hash:0
+                        generation: generation
                     )
                 );
             }
@@ -127,8 +125,7 @@ namespace KeypairSorting.ViewModels.Parts
                     sorterGenome: sorterGenome,
                     ancestors: ancestors,
                     sorterEval: sorterEval, 
-                    generation: generation,
-                    hash:0
+                    generation: generation
                 )
             );
 
@@ -154,7 +151,7 @@ namespace KeypairSorting.ViewModels.Parts
 
         public string Ancestors
         {
-            get { return _sorterGenomeEval.SorterEval.UsedSwitches().PaddedReport(3); }
+            get { return _sorterGenomeEval.SorterEval.UsedKeyPairs().Select(kp=>kp.Index).PaddedReport(3); }
         }
 
         public string AncestorsJson
@@ -163,7 +160,7 @@ namespace KeypairSorting.ViewModels.Parts
             {
               return JsonConvert.SerializeObject
                 (
-                   GetSorterGenomeEval().Ancestors,
+                   SorterGenomeEval.Ancestors,
                   Formatting.None
               );
 
@@ -174,15 +171,25 @@ namespace KeypairSorting.ViewModels.Parts
             get { return _sorterGenomeEval.SorterEval.SwitchableGroupGuid; }
         }
 
+        private string _switchUseList;
         public string SwitchUseList
         {
             get
             {
-                return JsonConvert.SerializeObject
-                (
-                    GetSorterGenomeEval().SorterEval.SwitchUseList,
-                    Formatting.None
-                );
+                return _switchUseList ??
+                       (_switchUseList =
+
+                            _sorterGenomeEval.StagedSorter
+                                             .SorterStages.Aggregate
+                             (
+                                string.Empty,
+                                (o,n) => o + " " + n.KeyPairs.Aggregate
+                                    (
+                                        String.Empty, 
+                                        (a,b)=> a + "," + b.Index
+                                    )
+                            )
+                      );
             }
         }
 
@@ -190,7 +197,7 @@ namespace KeypairSorting.ViewModels.Parts
         {
             get
             {
-                return GetSorterGenomeEval().SorterEval.SwitchUseList
+                return SorterGenomeEval.SorterEval.SwitchUseList
                     .Select(v => v.ToString("0"))
                     .Aggregate(String.Empty, (v, e) => v + "\t" + e);
             }
@@ -207,9 +214,9 @@ namespace KeypairSorting.ViewModels.Parts
         }
 
         private readonly ISorterGenomeEval _sorterGenomeEval;
-        public ISorterGenomeEval GetSorterGenomeEval()
+        public ISorterGenomeEval SorterGenomeEval
         {
-            return _sorterGenomeEval;
+            get { return _sorterGenomeEval; }
         }
 
     }

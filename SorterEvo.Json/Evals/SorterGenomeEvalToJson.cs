@@ -49,8 +49,7 @@ namespace SorterEvo.Json.Evals
                     sorterGenome: sorterGenomeEvalToJson.SorterGenomeToJson.ToSorterGenome(),
                     ancestors: sorterGenomeEvalToJson.ParentScores,
                     sorterEval: sorterGenomeEvalToJson.SorterEvalToJson.ToSorterEval(),
-                    generation: sorterGenomeEvalToJson.Generation,
-                    hash: 0
+                    generation: sorterGenomeEvalToJson.Generation
                 );
         }
     }

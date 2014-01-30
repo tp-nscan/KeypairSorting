@@ -28,7 +28,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Generation" Binding="{Binding Generation}" />
                 <DataGridTextColumn Header="Count" Binding="{Binding SwitchUseCount}" />
-                <DataGridTextColumn Header="Switches" FontFamily="Courrier New" Binding="{Binding Ancestors}" />
+                <DataGridTextColumn Header="Used Switches" FontFamily="Courrier New" Binding="{Binding SwitchUseList}" />
                 <!--<DataGridTextColumn Header="Switches" Binding="{Binding SwitchUseListAlt}" />-->
             </DataGrid.Columns>
         </DataGrid>

@@ -64,11 +64,12 @@
     <Compile Include="Workflows\SorterCompParaPoolWorkflow.cs" />
     <Compile Include="Trackers\SorterCompParaPoolWorkflowTracker.cs" />
     <Compile Include="Workflows\SorterCompParaPoolWorkflowBuilder.cs" />
-    <Compile Include="Workflows\SorterCompPoolParams.cs" />
+    <Compile Include="Workflows\ScpParams.cs" />
     <Compile Include="Workflows\SorterCompPoolWorkflow.cs" />
     <Compile Include="Workflows\SorterCompPoolWorkflowBuilder.cs" />
     <Compile Include="Trackers\TrackBundle.cs" />
     <Compile Include="Workflows\ScpWorkflowImplN.cs" />
+    <Compile Include="Workflows\SorterMutateParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">

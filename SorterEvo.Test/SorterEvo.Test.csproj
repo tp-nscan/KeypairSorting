@@ -82,6 +82,10 @@
       <Project>{45d0ac20-8adf-4830-8ce9-37749385834f}</Project>
       <Name>MathUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SorterEvo.Json\SorterEvo.Json.csproj">
+      <Project>{294504ca-4ccc-4b97-a605-bc51b379514e}</Project>
+      <Name>SorterEvo.Json</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SorterEvo\SorterEvo.csproj">
       <Project>{fa79b317-6a42-4dec-9ed0-95b69d467c77}</Project>
       <Name>SorterEvo</Name>

@@ -90,7 +90,7 @@ namespace Genomic.Chromosomes
                 ),
                 new ChromosomeUintImpl
                 (
-                    children.Item1.SelectMany(b => b.ToIntStream).ToList(),
+                    children.Item2.SelectMany(b => b.ToIntStream).ToList(),
                     MaxVal
                 )
            );

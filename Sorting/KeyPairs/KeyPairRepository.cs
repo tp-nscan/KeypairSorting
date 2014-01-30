@@ -63,6 +63,17 @@ namespace Sorting.KeyPairs
             return (keyCount * (keyCount - 1)) / 2;
         }
 
+        public static bool Overlaps(this IKeyPair lhs, IKeyPair rhs)
+        {
+            return (lhs.LowKey == rhs.LowKey)
+                   ||
+                   (lhs.LowKey == rhs.HiKey)
+                   ||
+                   (lhs.HiKey == rhs.LowKey)
+                   ||
+                   (lhs.HiKey == rhs.HiKey);
+        }
+
         public static int MaxKeyCount { get { return 64; } }
 
         class KeyPair : IKeyPair

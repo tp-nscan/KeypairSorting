@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Roslyn.Compilers.Common.1.2.20906.2\lib\net45\Roslyn.Compilers.dll</HintPath>
@@ -73,7 +76,10 @@
     <Compile Include="Properties\Entities\IEntityFunctionParams.cs" />
     <Compile Include="KeyPairs\KeyPairSet.cs" />
     <Compile Include="CompetePools\SorterEval.cs" />
+    <Compile Include="Sorters\SorterStage.cs" />
+    <Compile Include="Sorters\SorterStager.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
+    <Compile Include="Sorters\StagedSorter.cs" />
     <Compile Include="Switchables\Switchable.cs" />
     <Compile Include="Switchables\SwitchableGroup.cs" />
     <Compile Include="SwitchFunctionSets\ArraySwitchSet.cs" />

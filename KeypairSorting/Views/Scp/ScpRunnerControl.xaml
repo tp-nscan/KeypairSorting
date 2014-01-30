@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="KeypairSorting.Views.Scp.ScpRunnerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:parts="clr-namespace:KeypairSorting.Views.Parts"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="700">
+    
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource PlainTextBlockStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PlainButtonStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type DockPanel}" >
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="LastChildFill" Value="True"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource PlainTextBoxStyle}">
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" 
+                       DataContext="{Binding SorterGenomeEvalGridVmInitial}" >
+
+                    <TextBlock DockPanel.Dock="Top" 
+                        FontSize="14"
+						Text="{Binding Name}" 
+						HorizontalAlignment="Center" />
+
+                    <parts:SorterGenomeEvalsGridControl />
+
+                </DockPanel>
+
+                <DockPanel Grid.Row="2">
+					
+                    <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Updating Params" 
+						HorizontalAlignment="Center" />
+
+                    <ScrollViewer>
+                    	<parts:ScpParamsControl DataContext="{Binding ScpParamsVm}"/>
+                    </ScrollViewer>
+                    
+                </DockPanel>
+                
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+							  Height="3" Background="#8FFF" />
+
+            </Grid>
+            
+        </DockPanel>
+
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" 
+				Width="3" Margin="0,2" Background="#8FFF" />
+
+        <DockPanel Grid.Column="2">
+
+            <TextBlock DockPanel.Dock="Top" 
+						Style="{DynamicResource PlainTextBlockStyle}"
+						Text="Current Generation" 
+						HorizontalAlignment="Center" />
+
+            <parts:SorterGenomeEvalsGridControl DataContext="{Binding SorterGenomeEvalGridVm}" />
+
+        </DockPanel>
+        
+    </Grid>
+
+</UserControl>

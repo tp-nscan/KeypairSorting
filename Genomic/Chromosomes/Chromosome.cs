@@ -161,16 +161,16 @@ namespace Genomic.Chromosomes
             };
         }
 
-        public static Tuple<IChromosome<T>, IChromosome<T>> StandardRecombine<T>
-            (
-                this IChromosome<T> chromosome,
-                IChromosome<T> partner,
-                IRando rando,
-                double recombinationRate
-            ) where T : IGene
-        {
-            return chromosome.Recombine(StandardRecombinator<T>(rando, recombinationRate), partner.Blocks);
-        }
+        //public static Tuple<IChromosome<T>, IChromosome<T>> StandardRecombine<T>
+        //    (
+        //        this IChromosome<T> chromosome,
+        //        IChromosome<T> partner,
+        //        IRando rando,
+        //        double recombinationRate
+        //    ) where T : IGene
+        //{
+        //    return chromosome.Recombine(StandardRecombinator<T>(rando, recombinationRate), partner.Blocks);
+        //}
 
     }
 

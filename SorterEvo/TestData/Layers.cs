@@ -14,10 +14,10 @@ namespace SorterEvo.TestData
     {
         public static int Seed = 447744;
         public static int KeyCount = 12;
-        public static int KeyPairCount = 1000;
+        public static int KeyPairCount = 10;
         public static SwitchableGroupGenomeType SwitchableGroupGenomeType = SwitchableGroupGenomeType.UInt;
 
-        public static int PopulationSize = 100;
+        public static int PopulationSize = 4;
         public static int ChildCount = 100;
         public static int LegacyCount = 0;
         public static int CubCount = 0;
