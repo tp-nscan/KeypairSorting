@@ -9,17 +9,6 @@ namespace Sorting.Json.Sorters
 {
     public class SorterToJson
     {
-        public static SorterToJson ToJsonAdapter(ISorter sorter)
-        {
-            var chromosomeUintToJson = new SorterToJson
-            {
-                Guid = sorter.Guid,
-                Sequence = sorter.KeyPairs.Select(kp=>kp.Index).ToList(),
-                KeyCount = sorter.KeyCount
-            };
-
-            return chromosomeUintToJson;
-        }
 
         public Guid Guid { get; set; }
 
@@ -32,7 +21,19 @@ namespace Sorting.Json.Sorters
     {
         public static string ToJsonString(this ISorter sorter)
         {
-            return JsonConvert.SerializeObject(SorterToJson.ToJsonAdapter(sorter), Formatting.None);
+            return JsonConvert.SerializeObject(sorter.ToJsonAdapter(), Formatting.None);
+        }
+
+        public static SorterToJson ToJsonAdapter(this ISorter sorter)
+        {
+            var chromosomeUintToJson = new SorterToJson
+            {
+                Guid = sorter.Guid,
+                Sequence = sorter.KeyPairs.Select(kp => kp.Index).ToList(),
+                KeyCount = sorter.KeyCount
+            };
+
+            return chromosomeUintToJson;
         }
 
         public static ISorter ToSorter(this string sorterString)

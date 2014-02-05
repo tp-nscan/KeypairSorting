@@ -25,7 +25,7 @@
     <DockPanel Background="#40F0">
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding CreateMultiScpCommand}" Content="Make"
+            <Button Command="{Binding CreateRunnerCommand}" Content="Make"
                     Width="60"/>
         </StackPanel>
 

@@ -6,7 +6,7 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Scp
 {
-    public class ConfigScpVm : ViewModelBase, IConfigRunSelectorVm
+    public class ConfigScpVm : ViewModelBase, ICreateRunSelectorVm
     {
         public ConfigScpVm(IScpParams scpParams)
         {
@@ -14,9 +14,9 @@ namespace KeypairSorting.ViewModels.Scp
             SorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Progenitors");
         }
 
-        public ConfigRunTemplateType ConfigRunTemplateType
+        public CreateRunTemplateType CreateRunTemplateType
         {
-            get { return ConfigRunTemplateType.Config; }
+            get { return CreateRunTemplateType.Create; }
         }
 
         public string Description

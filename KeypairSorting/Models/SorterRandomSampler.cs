@@ -69,6 +69,7 @@ namespace KeypairSorting.Models
                     if (!sorterOnSwitchableGroup.Success)
                     {
                         sortFails++;
+                        continue;
                     }
 
                     histo[sorterOnSwitchableGroup.SwitchUseCount] = histo[sorterOnSwitchableGroup.SwitchUseCount] + 1;
@@ -89,7 +90,7 @@ namespace KeypairSorting.Models
             var randoK = rando.Spawn();
             while (true)
             {
-                yield return rando.ToSorter(keyCount, switchLength, randoK.NextGuid());
+                yield return rando.ToSorter2(keyCount, switchLength, randoK.NextGuid());
             }
         }
 
@@ -106,6 +107,12 @@ namespace KeypairSorting.Models
             {
                 yield return chunk.AsParallel().Select(s => s.Sort(testSet));
             }
+
+            //foreach (var sorter in RandomSorters(seed, keyCount, switchLength))
+            //{
+            //    var res = sorter.Sort(testSet);
+            //    yield return new[] {res};
+            //}
         }
 
 

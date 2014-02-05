@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Security;
 using MathUtils.Collections;
 using MathUtils.Rand;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -41,27 +37,37 @@ namespace Sorting.Test.Sorters
         }
 
         [TestMethod]
-        public void TestSorterJason()
+        public void TestSorterSpeed()
         {
             var stopwatch = new Stopwatch();
             const int keyCount = 16;
-            const int keyPairCount = 600;
+            const int keyPairCount = 6400;
             const int sorterCount = 6000;
             const int switchableCount = 100;
             const int switchableGroupCount = 40;
 
-            var sorter = Rando.Fast(1243).ToRandomEnumerator()
-                .Select(t => t.ToSorter(keyCount, keyPairCount, Guid.NewGuid()))
-                .First();
+
+            var rando = Rando.Fast(1243);
+
+            //var sorter = Rando.Fast(1243).ToRandomEnumerator()
+            //    .Select(t => t.ToSorter(keyCount, keyPairCount, Guid.NewGuid()))
+            //    .First();
 
             stopwatch.Start();
 
-
+            for (var i = 0; i < 10; i++)
+            {
+                var sorter = rando.Spawn().ToSorter2(keyCount, keyPairCount, Guid.NewGuid());
+            }
 
             stopwatch.Stop();
 
 
             Debug.WriteLine("Time(ms): {0}", stopwatch.ElapsedMilliseconds);
         }
+
+
+
+
     }
 }

@@ -9,7 +9,7 @@ namespace KeypairSorting.ViewModels.Scp
     {
         public MultiScpVm()
         {
-            ConfigRunSelectorVm = new MultiCreateScpVm(MultiCreateScpCommand);
+            CreateRunSelectorVm = new MultiCreateScpVm(MultiCreateScpCommand);
         }
 
         public ToolTemplateType ToolTemplateType
@@ -40,16 +40,16 @@ namespace KeypairSorting.ViewModels.Scp
 
         void OnMultiCreateScpCommand()
         {
-            var multiCreateScpVm = _configRunSelectorVm as MultiCreateScpVm;
+            var multiCreateScpVm = _createRunSelectorVm as MultiCreateScpVm;
 
             // ReSharper disable PossibleNullReferenceException
-               ConfigRunSelectorVm = new MultiRunScpVm(multiCreateScpVm.ConfigScpVms);
+               CreateRunSelectorVm = new MultiRunScpVm(multiCreateScpVm.ConfigScpVms);
             // ReSharper restore PossibleNullReferenceException
         }
 
         bool CanMultiCreateScpCommand()
         {
-            var multiCreateScpVm = _configRunSelectorVm as MultiCreateScpVm;
+            var multiCreateScpVm = _createRunSelectorVm as MultiCreateScpVm;
 
             return multiCreateScpVm != null
                    &&
@@ -58,13 +58,13 @@ namespace KeypairSorting.ViewModels.Scp
 
         #endregion // MultiCreateScpCommand
 
-        private IConfigRunSelectorVm _configRunSelectorVm;
-        public IConfigRunSelectorVm ConfigRunSelectorVm
+        private ICreateRunSelectorVm _createRunSelectorVm;
+        public ICreateRunSelectorVm CreateRunSelectorVm
         {
-            get { return _configRunSelectorVm; }
+            get { return _createRunSelectorVm; }
             set
             {
-                _configRunSelectorVm = value;
+                _createRunSelectorVm = value;
                 OnPropertyChanged("ConfigRunSelectorVm");
             }
         }

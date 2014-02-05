@@ -12,6 +12,16 @@ namespace SorterEvo.Test.Layers
     public class SorterLayerFixture
     {
         [TestMethod]
+        public void TestMethod1()
+        {
+            var pcs = Enumerable.Range(1, 10).ToList();
+
+            var part = pcs.Take(15).ToList();
+
+            Assert.AreEqual(part.Count(), 10);
+        }
+
+        [TestMethod]
         public void TestCreate()
         {
             var layer = TestData.Layers.SorterLayer();

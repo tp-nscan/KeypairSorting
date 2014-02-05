@@ -40,7 +40,7 @@
 			<DataGrid x:Name="dataGrid" 
                     VerticalScrollBarVisibility="Auto"
 				    DockPanel.Dock="Bottom"
-				    ItemsSource="{Binding SorterEvalVms}"/>
+				    ItemsSource="{Binding SorterGenomeEvalVms}"/>
 
 		</DockPanel>
 	</Grid>

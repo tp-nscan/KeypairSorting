@@ -12,6 +12,7 @@ namespace Genomic.Genomes
         /// Low scores are better
         /// </summary>
         double Score { get; }
+        bool Success { get; }
     }
 
     public static class GenomeEval
@@ -20,14 +21,16 @@ namespace Genomic.Genomes
         (
             TG genome,
             double score,
-            int generation
+            int generation,
+            bool success
         ) where TG : IGenome
         {
             return new GenomeEvalImpl<TG>
                 (
                     genome: genome,
                     score: score,
-                    generation: generation
+                    generation: generation,
+                    success: success
                 );
         }
     }
@@ -37,11 +40,12 @@ namespace Genomic.Genomes
         private readonly TG _genome;
         private readonly double _score;
 
-        public GenomeEvalImpl(TG genome, double score, int generation)
+        public GenomeEvalImpl(TG genome, double score, int generation, bool success)
         {
             _genome = genome;
             _score = score;
             _generation = generation;
+            _success = success;
         }
 
         private readonly int _generation;
@@ -58,6 +62,12 @@ namespace Genomic.Genomes
         public double Score
         {
             get { return _score; }
+        }
+
+        private readonly bool _success;
+        public bool Success
+        {
+            get { return _success; }
         }
 
         public Guid Guid

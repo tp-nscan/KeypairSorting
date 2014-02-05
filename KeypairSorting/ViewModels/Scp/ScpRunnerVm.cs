@@ -5,7 +5,6 @@ using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
 using Entities.BackgroundWorkers;
-using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
 using MathUtils.Rand;
 using Newtonsoft.Json;
@@ -30,16 +29,13 @@ namespace KeypairSorting.ViewModels.Scp
             _scpParamsVm = new ScpParamVm(scpParams);
         }
 
+        Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
+
         private readonly Subject<Tuple<string, int, string>> _onIterationResult 
             = new Subject<Tuple<string, int, string>>();
         public IObservable<Tuple<string, int, string>> OnIterationResult
         {
             get { return _onIterationResult; }
-        }
-
-        public ConfigRunTemplateType ConfigRunTemplateType
-        {
-            get { return ConfigRunTemplateType.Run; }
         }
 
         private bool _busy;
@@ -70,7 +66,6 @@ namespace KeypairSorting.ViewModels.Scp
         {
             get { return _scpParamsVm; }
         }
-
 
         #region Run functions
 
@@ -122,8 +117,6 @@ namespace KeypairSorting.ViewModels.Scp
             Busy = false;
         }
 
-        Dictionary<Guid, ISorterGenomeEval> _sorterGenomeEvals = new Dictionary<Guid, ISorterGenomeEval>();
-
         private void UpdateSorterTuneResults(IIterationResult<IScpWorkflow> result)
         {
             if (
@@ -135,7 +128,7 @@ namespace KeypairSorting.ViewModels.Scp
                 var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
 
                 var nextEvals = new List<ISorterGenomeEval>();
-                foreach (var genomeEval in result.Data.SorterLayerEval.GenomeEvals)
+                foreach (var genomeEval in result.Data.SorterLayerEval.GenomeEvals.Where(ev=>ev.Success))
                 {
                     if (_sorterGenomeEvals.ContainsKey(genomeEval.Guid))
                     {
@@ -148,14 +141,15 @@ namespace KeypairSorting.ViewModels.Scp
                                     SorterGenomeEval.Make
                                     (
                                         sorterGenome: genomeEval.Genome,
-                                        parentGenomeEval: _sorterGenomeEvals[genomeEval.Genome.ParentGuid],
+                                        parentGenomeEval: _sorterGenomeEvals.ContainsKey(genomeEval.Genome.ParentGuid) 
+                                                           ?  _sorterGenomeEvals[genomeEval.Genome.ParentGuid] : null,
                                         sorterEval: sorterEvalDict[genomeEval.Guid],
-                                        generation: ScpParamsVm.CurrentGeneration
+                                        generation: ScpParamsVm.CurrentGeneration,
+                                        success: genomeEval.Success
                                     )
                             );
                     }
                 }
-
 
                 ScpParamsVm.CurrentGeneration = result.Data.Generation;
 
@@ -168,7 +162,7 @@ namespace KeypairSorting.ViewModels.Scp
                             .AddMany(
                                       nextEvals.OrderBy(e => e.Score)
                                                   .ThenByDescending(e => e.Generation)
-                                                  .Take(200)
+                                                  .Take(1000)
                                                   .Select(g => g.ToSorterGenomeEvalVm())
                                     );
 
@@ -190,64 +184,15 @@ namespace KeypairSorting.ViewModels.Scp
                     );
 
                 _sorterGenomeEvals = nextEvals.ToDictionary(e => e.Guid);
-
-                _onIterationResult.OnNext(new Tuple<string, int, string>(ScpParamsVm.Name, ScpParamsVm.CurrentGeneration, groips));
+                if (ScpParamsVm.CurrentGeneration % ReportFrequency == 0)
+                {
+                    _onIterationResult.OnNext(new Tuple<string, int, string>(ScpParamsVm.Name, ScpParamsVm.CurrentGeneration, groips));
+                }
             }
         }
 
-
-        //private void UpdateSorterTuneResults(IIterationResult<IScpWorkflow> result)
-        //{
-        //    if (
-        //            (result.ProgressStatus == ProgressStatus.StepComplete)
-        //            &&
-        //            (result.Data.SorterLayerEval != null)
-        //       )
-        //    {
-        //        ScpParamsVm.CurrentGeneration = result.Data.Generation;
-        //        SorterGenomeEvalGridVm.SorterGenomeEvalVms.Clear();
-
-        //        var sorterEvalDict = result.Data.CompPool.SorterEvals.ToDictionary(e => e.Sorter.Guid);
-
-
-        //        var currentEvals =
-        //            result.Data.SorterLayerEval.GenomeEvals
-        //                .Select(e =>
-        //                            SorterGenomeEval.Make
-        //                            (
-        //                                sorterGenome: e.Genome,
-        //                                ancestors: ImmutableStack<int>.Empty.Push((int)e.Score),
-        //                                sorterEval: sorterEvalDict[e.Guid],
-        //                                generation: ScpParamsVm.CurrentGeneration
-        //                            )
-        //                       ).ToList();
-
-
-        //        SorterGenomeEvalGridVm
-        //                .SorterGenomeEvalVms
-        //                .AddMany(
-        //                          currentEvals.OrderBy(e => e.Score)
-        //                                      .ThenBy(e => e.Guid)
-        //                                      .Take(100)
-        //                                      .Select(g => g.ToSorterGenomeEvalVm())
-        //                       );
-
-
-        //        var groips = sorterEvalDict.Values
-        //                                .GroupBy(e => e.SwitchUseCount)
-        //                                .OrderBy(g => g.Key)
-        //                                .Select(g => "[" + g.Key + "," + g.Count() + "]\t")
-        //                                .Aggregate(string.Empty, (e, n) => e + n);
-
-        //        _onIterationResult.OnNext(new Tuple<string, string>(ScpParamsVm.Name, groips));
-        //    }
-        //}
-
-
-
         #endregion // Run functions
 
-        private int? _reportFrequency;
         public int? ReportFrequency { get; set; }
 
     }

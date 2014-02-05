@@ -4,6 +4,7 @@ using System.Linq;
 using MathUtils.Collections;
 using Sorting.KeyPairs;
 using Sorting.Sorters;
+using Sorting.Switchables;
 
 namespace Sorting.CompetePools
 {
@@ -11,6 +12,7 @@ namespace Sorting.CompetePools
     {
         ISorter Sorter { get; }
         IReadOnlyList<double> SwitchUseList { get; }
+        ISwitchableGroup CoveringSet { get; } 
         int SwitchUseCount { get; }
         Guid SwitchableGroupGuid { get; }
         bool Success { get; }
@@ -23,7 +25,8 @@ namespace Sorting.CompetePools
             ISorter sorter,
             Guid switchableGroupGuid,
             bool success,
-            int switchUseCount
+            int switchUseCount,
+            ISwitchableGroup coveringSet
         )
         {
             return new SorterEvalImpl
@@ -32,7 +35,8 @@ namespace Sorting.CompetePools
                     switchableGroupGuid: switchableGroupGuid,
                     switchUseList: null,
                     success: success,
-                    switchUseCount: switchUseCount
+                    switchUseCount: switchUseCount,
+                    coveringSet: coveringSet
                 );
         }
 
@@ -41,7 +45,8 @@ namespace Sorting.CompetePools
                 ISorter sorter,
                 Guid switchableGroupGuid,
                 bool success,
-                IReadOnlyList<double> switchUseList
+                IReadOnlyList<double> switchUseList,
+                ISwitchableGroup coveringSet
             )
         {
             return new SorterEvalImpl
@@ -50,7 +55,8 @@ namespace Sorting.CompetePools
                     switchableGroupGuid: switchableGroupGuid,
                     switchUseList: switchUseList, 
                     success: success,
-                    switchUseCount: (switchUseList == null) ? 0 : switchUseList.Count(t => t > 0)
+                    switchUseCount: (switchUseList == null) ? 0 : switchUseList.Count(t => t > 0),
+                    coveringSet: coveringSet
                 );    
         }
 
@@ -68,11 +74,6 @@ namespace Sorting.CompetePools
         public static ISorter Reduce(this ISorterEval sorterEval, Guid guid)
         {
             return sorterEval.UsedKeyPairs().ToSorter(sorterEval.Sorter.Guid, sorterEval.Sorter.KeyCount);
-        }
-
-        public static string PaddedReport(this IEnumerable<int> intList, int padding)
-        {
-            return intList.Aggregate(string.Empty, (o, n) => o + n.ToString().PadLeft(padding));
         }
 
         public static ulong Hash(this IReadOnlyList<int> intList, int start)
@@ -103,7 +104,8 @@ namespace Sorting.CompetePools
             Guid switchableGroupGuid,
             IReadOnlyList<double> switchUseList, 
             bool success,
-            int switchUseCount
+            int switchUseCount,
+            ISwitchableGroup coveringSet
         )
         {
             _sorter = sorter;
@@ -111,6 +113,7 @@ namespace Sorting.CompetePools
             _success = success;
             _switchableGroupGuid = switchableGroupGuid;
             _switchUseCount = switchUseCount;
+            _coveringSet = coveringSet;
         }
 
         private readonly Guid _switchableGroupGuid;
@@ -134,6 +137,12 @@ namespace Sorting.CompetePools
         public IReadOnlyList<double> SwitchUseList
         {
             get { return _switchUseList; }
+        }
+
+        private readonly ISwitchableGroup _coveringSet;
+        public ISwitchableGroup CoveringSet
+        {
+            get { return _coveringSet; }
         }
 
         private readonly int _switchUseCount;

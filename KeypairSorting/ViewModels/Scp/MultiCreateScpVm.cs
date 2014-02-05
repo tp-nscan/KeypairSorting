@@ -7,16 +7,16 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Scp
 {
-    public class MultiCreateScpVm : ViewModelBase, IConfigRunSelectorVm
+    public class MultiCreateScpVm : ViewModelBase, ICreateRunSelectorVm
     {
         public MultiCreateScpVm(ICommand createMultiScpCommand)
         {
             CreateMultiScpCommand = createMultiScpCommand;
         }
 
-        public ConfigRunTemplateType ConfigRunTemplateType
+        public CreateRunTemplateType CreateRunTemplateType
         {
-            get { return ConfigRunTemplateType.Config; }
+            get { return CreateRunTemplateType.Create; }
         }
 
         public string Description

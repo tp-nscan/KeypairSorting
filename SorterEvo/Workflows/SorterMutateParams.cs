@@ -3,6 +3,7 @@
     public interface ISorterMutateParams
     {
         string Name { get; }
+        double MaxScore { get; }
         int MutantCount { get; }
         double SorterMutationRate { get; }
         double SorterInsertionRate { get; }
@@ -15,6 +16,7 @@
         public static ISorterMutateParams Make
         (
             int mutantCount,
+            double maxScore,
             double sorterMutationRate,
             double sorterInsertionRate,
             double sorterDeletionRate,
@@ -28,6 +30,7 @@
                     sorterMutationRate: sorterMutationRate,
                     sorterInsertionRate: sorterInsertionRate,
                     sorterDeletionRate: sorterDeletionRate,
+                    maxScore: maxScore,
                     name: name,
                     seed: seed
                 );
@@ -42,14 +45,14 @@
                 double sorterInsertionRate,
                 double sorterDeletionRate,
                 string name,
-                int seed
-            )
+                int seed, double maxScore)
         {
             _sorterMutationRate = sorterMutationRate;
             _sorterInsertionRate = sorterInsertionRate;
             _sorterDeletionRate = sorterDeletionRate;
             _name = name;
             _seed = seed;
+            _maxScore = maxScore;
             _mutantCount = mutantCount;
         }
 
@@ -57,6 +60,12 @@
         public string Name
         {
             get { return _name; }
+        }
+
+        private readonly double _maxScore;
+        public double MaxScore
+        {
+            get { return _maxScore; }
         }
 
         private readonly int _mutantCount;

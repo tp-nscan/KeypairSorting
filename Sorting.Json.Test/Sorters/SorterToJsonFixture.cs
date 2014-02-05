@@ -27,7 +27,7 @@ namespace Sorting.Json.Test.Sorters
 
             var sorter = keyPairs.ToSorter(guid: guid, keyCount: keyCount);
 
-            var serialized = JsonConvert.SerializeObject(SorterToJson.ToJsonAdapter(sorter), Formatting.Indented);
+            var serialized = JsonConvert.SerializeObject(sorter.ToJsonAdapter(), Formatting.Indented);
             var newSorter = serialized.ToSorter();
 
             Assert.AreEqual(newSorter.Guid, guid);

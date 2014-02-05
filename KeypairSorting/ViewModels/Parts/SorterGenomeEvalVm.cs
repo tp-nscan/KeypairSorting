@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using MathUtils.Collections;
 using Newtonsoft.Json;
 using SorterEvo.Evals;
 using SorterEvo.Genomes;
@@ -67,7 +68,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorter: sorter,
                         switchableGroupGuid: switchableGuid,
                         success: success,
-                        switchUseCount: useCount
+                        switchUseCount: useCount,
+                        coveringSet: null
                     );
 
                 return new SorterGenomeEvalVmImpl
@@ -77,7 +79,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation
+                        generation: generation,
+                        success: true
                     )
                 );
             }
@@ -93,7 +96,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorter: sorter,
                         switchableGroupGuid: switchableGuid,
                         success: success,
-                        switchUseCount: useCount
+                        switchUseCount: useCount,
+                        coveringSet:null
                     );
 
                 return new SorterGenomeEvalVmImpl
@@ -103,7 +107,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorterGenome: sorterGenome,
                         ancestors: ancestors,
                         sorterEval: sorterEval,
-                        generation: generation
+                        generation: generation,
+                        success: true
                     )
                 );
             }
@@ -115,7 +120,8 @@ namespace KeypairSorting.ViewModels.Parts
                 sorter: sorter,
                 switchableGroupGuid: switchableGuid,
                 success: success,
-                switchUseList: useList
+                switchUseList: useList,
+                coveringSet:null
             );
 
             return new SorterGenomeEvalVmImpl
@@ -124,8 +130,9 @@ namespace KeypairSorting.ViewModels.Parts
                 (
                     sorterGenome: sorterGenome,
                     ancestors: ancestors,
-                    sorterEval: sorterEval, 
-                    generation: generation
+                    sorterEval: sorterEval,
+                    generation: generation,
+                        success: true
                 )
             );
 
@@ -183,7 +190,7 @@ namespace KeypairSorting.ViewModels.Parts
                                              .SorterStages.Aggregate
                              (
                                 string.Empty,
-                                (o,n) => o + " " + n.KeyPairs.Aggregate
+                                (o,n) => o + " | " + n.KeyPairs.Aggregate
                                     (
                                         String.Empty, 
                                         (a,b)=> a + "," + b.Index

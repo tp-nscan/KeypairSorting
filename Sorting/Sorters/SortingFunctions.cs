@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Sorting.CompetePools;
 using Sorting.Switchables;
 using Sorting.SwitchFunctionSets;
@@ -52,7 +50,8 @@ namespace Sorting.Sorters
                 sorter: sorter,
                 switchableGroupGuid: switchableGroup.Guid,
                 success: totalSuccess,
-                switchUseList: switchUseList
+                switchUseList: switchUseList,
+                coveringSet: null
                 );
         }
 

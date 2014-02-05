@@ -3,13 +3,13 @@ using System.Windows.Controls;
 
 namespace KeypairSorting.Resources
 {
-    public interface IConfigRunSelectorVm
+    public interface ICreateRunSelectorVm
     {
-        ConfigRunTemplateType ConfigRunTemplateType { get; }
+        CreateRunTemplateType CreateRunTemplateType { get; }
         string Description { get; }
     }
 
-    public class ConfigRunSelector : DataTemplateSelector
+    public class CreateRunSelector : DataTemplateSelector
     {
         #region ConfigTemplate
 
@@ -31,14 +31,14 @@ namespace KeypairSorting.Resources
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var tabItem = item as IConfigRunSelectorVm;
+            var tabItem = item as ICreateRunSelectorVm;
 
             if (tabItem != null)
-                switch (tabItem.ConfigRunTemplateType)
+                switch (tabItem.CreateRunTemplateType)
                 {
-                    case ConfigRunTemplateType.Config:
+                    case CreateRunTemplateType.Create:
                         return ConfigTemplate;
-                    case ConfigRunTemplateType.Run:
+                    case CreateRunTemplateType.Run:
                         return RunTemplate;
                     default:
                         return DefaultTemplate;
@@ -47,9 +47,9 @@ namespace KeypairSorting.Resources
         }
     }
 
-    public enum ConfigRunTemplateType
+    public enum CreateRunTemplateType
     {
-        Config,
+        Create,
         Run
     }
 

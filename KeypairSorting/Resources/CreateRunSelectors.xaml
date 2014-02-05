@@ -17,7 +17,7 @@
         <scp:RunScpControl/>
     </DataTemplate>
     
-    <resources:ConfigRunSelector x:Key="tuneSorterSelector"
+    <resources:CreateRunSelector x:Key="tuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
         ConfigTemplate="{StaticResource createScpTemplate}"
         RunTemplate="{StaticResource runScpTemplate}"
@@ -33,26 +33,26 @@
         <scp:MultiRunScpControl/>
     </DataTemplate>
 
-    <resources:ConfigRunSelector x:Key="multiTuneSorterSelector"
+    <resources:CreateRunSelector x:Key="multiTuneSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
         ConfigTemplate="{StaticResource createMultiScpTemplate}"
         RunTemplate="{StaticResource runMultiScpTemplate}"
      />
 
-    
-    
-    <DataTemplate x:Key="configMutateSortersTemplate">
-        <mutateSorters:ConfigMutateSortersControl/>
-    </DataTemplate>
 
-    <DataTemplate x:Key="createMutateSortersTemplate">
+
+    <DataTemplate x:Key="mutateSortersControlHost">
         <mutateSorters:CreateMutateSortersControl/>
     </DataTemplate>
 
-    <resources:ConfigRunSelector x:Key="mutateSorterSelector"
+    <DataTemplate x:Key="runMutateSortersTemplate">
+        <mutateSorters:RunMutateSortersControl/>
+    </DataTemplate>
+
+    <resources:CreateRunSelector x:Key="mutateSorterSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
-        ConfigTemplate="{StaticResource configMutateSortersTemplate}"
-        RunTemplate="{StaticResource createMutateSortersTemplate}"
+        ConfigTemplate="{StaticResource mutateSortersControlHost}"
+        RunTemplate="{StaticResource runMutateSortersTemplate}"
      />
 
 </ResourceDictionary>

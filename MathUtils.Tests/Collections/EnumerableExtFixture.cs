@@ -22,14 +22,11 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
-        public void HasSameElementsAsTest()
+        public void TestChop()
         {
-            //const int arraySize = 100;
-            //var testPool = Enumerable.Range(0, arraySize).ToList();
-            //var randomized = testPool.PickMembers(Rando.Fast(22).(arraySize)).ToList();
-            //Assert.IsTrue(testPool.HasSameElementsAs(randomized));
+            var loaf = Enumerable.Range(0, 100)
+                .Slice(30).ToList();
         }
-
 
         [TestMethod]
         public void ChunkTest()
@@ -43,6 +40,16 @@ namespace MathUtils.Tests.Collections
             Assert.AreEqual(chunks[0].Last(), "a1");
             Assert.AreEqual(chunks[3].First(), "a6");
             Assert.AreEqual(chunks[3].Last(), "a7");
+        }
+
+        [TestMethod]
+        public void WeaveTest()
+        {
+            var aList = Enumerable.Range(0, 10).ToList();
+
+            var weaved = aList.Weave().ToList();
+
+            System.Diagnostics.Debug.WriteLine(weaved);
         }
 
         [TestMethod]

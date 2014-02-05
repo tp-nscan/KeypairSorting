@@ -188,7 +188,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnMutateSorterGenomesCommand()
         {
-            ToolTemplateVm = new MutateSortersVm();
+            ToolTemplateVm = new MutateSortersHostVm();
         }
 
         bool CanMutateSorterGenomesCommand()
@@ -272,7 +272,7 @@ namespace KeypairSorting.ViewModels
 
         protected void OnTuneSortersCommand()
         {
-            ToolTemplateVm = new ScpVm();
+            ToolTemplateVm = new ScpHostVm();
         }
 
         bool CanTuneSortersCommand()

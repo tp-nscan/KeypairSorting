@@ -9,7 +9,7 @@
                 <ResourceDictionary Source="Resources\CommonStyles.xaml"/>
                 <ResourceDictionary Source="Resources\ButtonStyles.xaml"/>
                 <ResourceDictionary Source="Resources\ToolSelectors.xaml"/>
-                <ResourceDictionary Source="Resources\ConfigRunSelectors.xaml"/>
+                <ResourceDictionary Source="Resources\CreateRunSelectors.xaml"/>
     		</ResourceDictionary.MergedDictionaries>
     	</ResourceDictionary>
          

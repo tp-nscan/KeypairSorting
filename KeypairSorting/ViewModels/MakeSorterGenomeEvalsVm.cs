@@ -11,7 +11,6 @@ using KeypairSorting.ViewModels.Parts;
 using SorterEvo.Evals;
 using SorterEvo.Genomes;
 using SorterEvo.Json.Genomes;
-using Sorting.CompetePools;
 using Sorting.Sorters;
 using WpfUtils;
 
@@ -84,7 +83,7 @@ namespace KeypairSorting.ViewModels
                 if (_sorterBackgroundWorker == null)
                 {
                     var i = 0;
-                    _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make<ISorterGenome, ISorterGenomeEval>
+                    _sorterBackgroundWorker = EnumerativeBackgroundWorker.Make
                         (
                             inputs: SorterGenomeGridVm.SorterGenomeVms.Select(t => t.SorterGenomeJson.ToSorterGenome()),
                             mapper: (s, c) =>
@@ -96,7 +95,8 @@ namespace KeypairSorting.ViewModels
                                             sorterGenome: s,
                                             ancestors: ImmutableStack<int>.Empty,
                                             sorterEval: eval,
-                                            generation: 1
+                                            generation: 1,
+                        success: true
                                             ),
                                         progressStatus: ProgressStatus.StepComplete
                                     );
@@ -216,8 +216,5 @@ namespace KeypairSorting.ViewModels
         }
 
         #endregion // ResetCommand
-
-
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathUtils.Rand;
 
 namespace Sorting.KeyPairs
 {
@@ -14,6 +15,15 @@ namespace Sorting.KeyPairs
     public static class KeyPairRepository
     {
         private static readonly List<KeyPairSet> keyPairSets = Enumerable.Repeat<KeyPairSet>(null, 64).ToList();
+
+        public static IEnumerable<IKeyPair> RandomKeyPairs(int keyCount, int numKeyPairs, int seed)
+        {
+            var rando = Rando.Fast(seed);
+            for (var i = 0; i < numKeyPairs; i++)
+            {
+                yield return AtIndex(rando.NextInt(KeyPairSetSizeForKeyCount(keyCount)));
+            }
+        }
 
         static KeyPairRepository()
         {
@@ -51,6 +61,11 @@ namespace Sorting.KeyPairs
         public static IKeyPair AtIndex(int dex)
         {
             return keyPairs[dex]; 
+        }
+
+        public static IKeyPair ForKeys(int lowKey, int highKey)
+        {
+            return AtIndex(KeyPairIndex(lowKey, highKey));
         }
 
         public static KeyPairSet KeyPairSet(int keyCount)

@@ -227,7 +227,7 @@ namespace SorterEvo.Workflows
                     compWorkflowState: CompWorkflowState.EvaluateResults,
                     sorterLayer0: SorterLayer0,
                     sorterLayer1: _sorterLayer1,
-                    compPool: CompPool.AddSorterEvalsParallel(newGenomes.Select(t => t.ToSorter())),
+                    compPool: CompPool.AddSorterEvalsParallel(newGenomes.Select(t => t.ToSorter2())),
                     sorterLayerEval: SorterLayerEval,
                     scpParams: ScpParams,
                     generation: Generation,
@@ -237,17 +237,37 @@ namespace SorterEvo.Workflows
 
         private IScpWorkflow EvaluateResultsStep(int seed)
         {
+
+            Func<ISorterEval, double> evalFunc;
+
+            evalFunc = ev => ev.SwitchUseCount
+                                +
+                                ev.Reduce(guid: Guid.NewGuid()).ToStagedSorter().SorterStages.Count / 1000;
+
+            //evalFunc = ev => ev.SwitchUseCount;
+
+            //if (Generation % 10 < 5)
+            //{
+            //    evalFunc = ev => ev.Reduce(guid: Guid.NewGuid()).ToStagedSorter().SorterStages.Count;
+            //}
+            //else
+            //{
+            //    evalFunc = ev => ev.SwitchUseCount;
+            //}
+
             var sorterLayerEval =
                     CompPool.SorterEvals
-                    .Where(t=>SorterLayer1.GetGenome(t.Sorter.Guid) != null)
+                    .Where(t => SorterLayer1.GetGenome(t.Sorter.Guid) != null)
                     .Select(
                         t => GenomeEval.Make(
                                 genome: SorterLayer1.GetGenome(t.Sorter.Guid),
-                                score: t.SwitchUseCount,
-                                generation: Generation
+                                score: evalFunc(t),
+                                generation: Generation,
+                                success: t.Success
                             )
                         ).Concat(SorterLayerEval.GenomeEvals)
                          .Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
+
 
             return new ScpWorkflowImpl
                 (
@@ -264,7 +284,8 @@ namespace SorterEvo.Workflows
 
         private IScpWorkflow UpdateGenomesStep(int seed)
         {
-            var evaluatedGenomes = SorterLayerEval.GenomeEvals
+            var successfulEvals = SorterLayerEval.GenomeEvals
+                                            .Where(ev=>ev.Success)
                                             .SubSortShuffle(e=>e.Score, seed)
                                             .ToList();
             var legacyCount = 0;
@@ -274,7 +295,7 @@ namespace SorterEvo.Workflows
             var newGenomes = new List<ISorterGenome>();
 
 
-            foreach (var evaluatedGenome in evaluatedGenomes)
+            foreach (var evaluatedGenome in successfulEvals)
             {
                 if (
                         SorterLayer0.GetGenome(evaluatedGenome.Guid) != null
@@ -331,8 +352,9 @@ namespace SorterEvo.Workflows
 
         private IScpWorkflow UpdateGenomesStepH(int seed)
         {
-            var evaluatedGenomes = SorterLayerEval.GenomeEvals
-                                            .SubSortShuffle(e => e.Score, seed)
+            var successfulEvals = SorterLayerEval.GenomeEvals
+                                            .Where(ev => ev.Success)
+                                            .OrderBy(e => e.Score)
                                             .ToList();
             var legacyCount = 0;
             var cubCount = 0;
@@ -343,19 +365,28 @@ namespace SorterEvo.Workflows
 
           
 
-            foreach (var evaluatedGenome in evaluatedGenomes)
+            foreach (var evaluatedGenome in successfulEvals)
             {
                 var sorterStages = CompPool.SorterEval(evaluatedGenome.Guid)
                     .Reduce(Guid.NewGuid()).ToStagedSorter()
                     .SorterStages
                     .ToList();
 
+                //var hash = evaluatedGenome.Score + " " +
+                //sorterStages.Repeat().Skip((Generation / 5) % sorterStages.Count).Take(5)
+                //    .Select(s=>s.KeyPairs.Select(kp=>kp.Index)
+                //                         .Aggregate(string.Empty, (str,i) => str + "," + i)
+                //           )
+                //    .Aggregate(string.Empty, (st,i) => st + (String.IsNullOrEmpty(st) ? "" : ",") + i);
+
+                var hashStageCount = 1 + Generation/200;
+
                 var hash = evaluatedGenome.Score + " " +
-                sorterStages.Repeat().Skip((Generation / 5) % sorterStages.Count).Take(5)
-                    .Select(s=>s.KeyPairs.Select(kp=>kp.Index)
-                                         .Aggregate(string.Empty, (str,i) => str + "," + i)
+                sorterStages.Take(hashStageCount)
+                    .Select(s => s.KeyPairs.Select(kp => kp.Index)
+                                         .Aggregate(string.Empty, (str, i) => str + "," + i)
                            )
-                    .Aggregate(string.Empty, (st,i) => st + (String.IsNullOrEmpty(st) ? "" : ",") + i);
+                    .Aggregate(string.Empty, (st, i) => st + (String.IsNullOrEmpty(st) ? "" : ",") + i);
                     
 
                 if (newGenomes.ContainsKey(hash))

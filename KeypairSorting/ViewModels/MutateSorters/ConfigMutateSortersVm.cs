@@ -1,24 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using KeypairSorting.Resources;
+using KeypairSorting.ViewModels.Parts;
+using SorterEvo.Workflows;
 using WpfUtils;
 
 namespace KeypairSorting.ViewModels.MutateSorters
 {
-    public class ConfigMutateSortersVm : ViewModelBase, IConfigRunSelectorVm
+    public class ConfigMutateSortersVm : ViewModelBase
     {
-
-        public ConfigRunTemplateType ConfigRunTemplateType
+        public ConfigMutateSortersVm(ISorterMutateParams sorterMutateParams)
         {
-            get { return ConfigRunTemplateType.Config; }
+            ConfigMutateSortersParamVm = new ConfigMutateSortersParamVm(sorterMutateParams);
+            SorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Progenitors");
         }
 
-        public string Description
+        public SorterGenomeEvalGridVm SorterGenomeEvalGridVm { get; set; }
+
+        public ConfigMutateSortersParamVm ConfigMutateSortersParamVm { get; set; }
+
+        public bool IsValid
         {
-            get { return "Config mutate sorters"; }
+            get
+            {
+                return
+                    SorterGenomeEvalGridVm.SorterGenomeEvalVms.Any()
+                    &&
+                    ConfigMutateSortersParamVm.HasValidData;
+            }
         }
     }
 }

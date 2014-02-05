@@ -328,7 +328,7 @@ namespace KeypairSorting.ViewModels
             }
             if (keyCount == 13)
             {
-                return new SorterSamplerParams { KeyCount = 13, HistogramMin = 54, HistogramMax = 81, SwitchCount = 1400 };
+                return new SorterSamplerParams { KeyCount = 13, HistogramMin = 54, HistogramMax = 81, SwitchCount = 4500 };
             }
             if (keyCount == 14)
             {
@@ -340,7 +340,7 @@ namespace KeypairSorting.ViewModels
             }
             if (keyCount == 16)
             {
-                return new SorterSamplerParams { KeyCount = 16, HistogramMin = 85, HistogramMax = 119, SwitchCount = 2200 };
+                return new SorterSamplerParams { KeyCount = 16, HistogramMin = 85, HistogramMax = 119, SwitchCount = 6400 };
             }
             if (keyCount == 17)
             {

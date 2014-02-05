@@ -117,6 +117,22 @@ namespace MathUtils.Collections
             }
         }
 
+        public static IEnumerable<IReadOnlyList<T>> Slice<T>(this IEnumerable<T> enumerT, int chunkSize)
+        {
+            var retChunk = new List<T>();
+            foreach (var t in enumerT)
+            {
+                retChunk.Add(t);
+                if (retChunk.Count != chunkSize) continue;
+                yield return retChunk;
+                retChunk = new List<T>();
+            }
+            if (retChunk.Count > 0)
+            {
+                yield return retChunk;
+            }
+        }
+
         public static IEnumerable<IList<Tuple<TS, T>>> DoubleChunk<TS, T>(this IEnumerable<TS> enumerableS, IEnumerable<T> enumerableT, int chunkSize)
         {
             var enumeratorS = enumerableS.GetEnumerator();
@@ -226,6 +242,42 @@ namespace MathUtils.Collections
             }
         }
 
+        //public static IEnumerable<T> Weave<T>(this IEnumerable<T> original)
+        //{
+        //    var origList = original as IList<T> ?? original.ToList();
+
+        //    for (var i = 0; i < 10; i++)
+        //    {
+        //        for (var j = 0; (i+j) < origList.Count(); j+=10)
+        //        {
+        //            yield return origList[i+j];
+        //        }
+        //    }
+        //}
+
+
+        //public static IEnumerable<T> Weave<T>(this IEnumerable<T> original)
+        //{
+        //    var origList = original as IList<T> ?? original.ToList();
+
+        //    for (var i = 0; i < origList.Count()/2; i++)
+        //    {
+        //        yield return origList[i];
+        //        yield return origList[origList.Count() - i -1];
+        //    }
+        //}
+
+        public static IEnumerable<T> Weave<T>(this IEnumerable<T> original)
+        {
+            var origList = original as IList<T> ?? original.ToList();
+            var halfSz = origList.Count()/2;
+            for (var i = 0; i < halfSz; i++)
+            {
+                yield return origList[halfSz + i];
+                yield return origList[halfSz - i - 1];
+            }
+        }
+
         public static IEnumerable<ulong> ToUlongs(this IEnumerable<uint> uints)
         {
             var ready = false;
@@ -256,6 +308,10 @@ namespace MathUtils.Collections
             }
         }
 
+        public static string PaddedReport(this IEnumerable<int> intList, int padding)
+        {
+            return intList.Aggregate(string.Empty, (o, n) => o + n.ToString().PadLeft(padding));
+        }
     }
 
 

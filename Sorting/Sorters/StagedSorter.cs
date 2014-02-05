@@ -16,8 +16,7 @@ namespace Sorting.Sorters
         public static IStagedSorter Make(
                 Guid guid,
                 int keyCount,
-                IReadOnlyList<ISorterStage> sorterStages,
-                IReadOnlyList<IKeyPair> keyPairs
+                IReadOnlyList<ISorterStage> sorterStages
             )
         {
             return new StagedSorterImpl(guid, keyCount, sorterStages);
@@ -50,7 +49,19 @@ namespace Sorting.Sorters
             _guid = guid;
             _keyCount = keyCount;
             _sorterStages = sorterStages;
- 
+
+            var tempList = new List<IKeyPair>();
+            for (var i = 0; i < _sorterStages.Count; i++)
+            {
+                var curStage = _sorterStages[i];
+                for (var j = 0; j < curStage.KeyPairs.Count; j++)
+                {
+                    tempList.Add(curStage.KeyPairs[j]);
+                }
+            }
+
+            _keyPairs = tempList;
+            _keyPairCount = SorterStages.Sum(s => s.KeyPairCount);
         }
 
         public Guid Guid
@@ -63,9 +74,10 @@ namespace Sorting.Sorters
             get { return _keyCount; }
         }
 
+        private readonly int _keyPairCount;
         public int KeyPairCount
         {
-            get { return SorterStages.Sum(s=>s.KeyPairCount); }
+            get { return _keyPairCount; }
         }
 
         public IKeyPair KeyPair(int index)

@@ -80,6 +80,9 @@
     <Compile Include="Sorters\SorterStager.cs" />
     <Compile Include="Sorters\SortingFunctions.cs" />
     <Compile Include="Sorters\StagedSorter.cs" />
+    <Compile Include="Sorters\StageGenerators\DependentKeyPair.cs" />
+    <Compile Include="Sorters\StageGenerators\StageGenerator.cs" />
+    <Compile Include="TestData\Switchables.cs" />
     <Compile Include="Switchables\Switchable.cs" />
     <Compile Include="Switchables\SwitchableGroup.cs" />
     <Compile Include="SwitchFunctionSets\ArraySwitchSet.cs" />

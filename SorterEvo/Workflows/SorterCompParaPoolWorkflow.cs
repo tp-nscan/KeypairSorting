@@ -44,7 +44,7 @@ namespace SorterEvo.Workflows
                                       keyCount: keyCount,
                                       keyPairCount: keyPairCount
                                 ),
-                    switchableGroupLayer: SwitchableGroupLayer.Create
+                    switchableGroupLayer: SwitchableLayer.Create
                                 (
                                       seed: randy.NextInt(),
                                       switchableGroupGenomeType: switchableGroupGenomeType,
@@ -258,7 +258,8 @@ namespace SorterEvo.Workflows
                     t => GenomeEval.Make(
                             genome: SorterLayer.GetGenome(t.Sorter.Guid), 
                             score:  t.SwitchesUsed,
-                            generation: Generation
+                            generation: Generation,
+                            success: t.SorterOnSwitchableGroups.All(sg=>sg.Success)
                         )
                     ).Make<ISorterGenome, IGenomeEval<ISorterGenome>>();
 
@@ -268,7 +269,8 @@ namespace SorterEvo.Workflows
                     g => GenomeEval.Make(
                             genome: SwitchableGroupLayer.GetGenome(g.Key),
                             score: g.Sum(s=> - s.SwitchUseCount),
-                            generation: Generation
+                            generation: Generation,
+                            success: g.All(m=>m.Success)
                         )
                     ).Make<ISwitchableGroupGenome, IGenomeEval<ISwitchableGroupGenome>>();
 

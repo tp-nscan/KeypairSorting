@@ -6,13 +6,13 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Scp
 {
-    public class ScpVm : ViewModelBase, IToolTemplateVm
+    public class ScpHostVm : ViewModelBase, IToolTemplateVm
     {
-        public ScpVm()
+        public ScpHostVm()
         {
-            _createScpParamVm = new CreateScpVm(
+            _createRunSelectorVm = new CreateScpVm(
                     Layers.ScpParams(),
-                    CreateMiltiScpCommand
+                    CreateRunnerCommand
                 );
         }
 
@@ -26,56 +26,56 @@ namespace KeypairSorting.ViewModels.Scp
             get { return "Optimize Sorters"; }
         }
 
-        #region CreateScpCommand
+        #region CreateRunnerCommand
 
-        RelayCommand _createScpCommand;
-        public ICommand CreateMiltiScpCommand
+        RelayCommand _createRunnerCommand;
+        public ICommand CreateRunnerCommand
         {
             get
             {
-                return _createScpCommand ?? (_createScpCommand
+                return _createRunnerCommand ?? (_createRunnerCommand
                     = new RelayCommand
                         (
-                            param => OnCreateMultiScpCommand(),
-                            param => CanCreateMultiScpCommand()
+                            param => OnCreateRunnerCommand(),
+                            param => CanCreateRunnerCommand()
                         ));
             }
         }
 
-        void OnCreateMultiScpCommand()
+        void OnCreateRunnerCommand()
         {
-            var createScpVm = ConfigRunSelectorVm as CreateScpVm;
+            var createScpVm = CreateRunSelectorVm as CreateScpVm;
             if (createScpVm == null)
             {
                 throw new Exception("CreateScpVm is null");
             }
 
-            ConfigRunSelectorVm = new RunScpVm
+            CreateRunSelectorVm = new RunScpVm
                 (
                     scpParams: createScpVm.ConfigScpVm.ConfigScpParamVm.GetParams,
                     sorterGenomeEvalVms: createScpVm.ConfigScpVm.SorterGenomeEvalGridVm.SorterGenomeEvalVms
                 );
         }
 
-        bool CanCreateMultiScpCommand()
+        bool CanCreateRunnerCommand()
         {
-            var createScpVm = _createScpParamVm as CreateScpVm;
+            var createScpVm = _createRunSelectorVm as CreateScpVm;
 
             return  createScpVm != null
                     &&
                     createScpVm.ConfigScpVm.IsValid;
         }
 
-        #endregion // CreateScpCommand
+        #endregion // CreateRunnerCommand
 
-        private IConfigRunSelectorVm _createScpParamVm;
-        public IConfigRunSelectorVm ConfigRunSelectorVm
+        private ICreateRunSelectorVm _createRunSelectorVm;
+        public ICreateRunSelectorVm CreateRunSelectorVm
         {
-            get { return _createScpParamVm; }
+            get { return _createRunSelectorVm; }
             set
             {
-                _createScpParamVm = value;
-                OnPropertyChanged("ConfigRunSelectorVm");
+                _createRunSelectorVm = value;
+                OnPropertyChanged("CreateRunSelectorVm");
             }
         }
     }

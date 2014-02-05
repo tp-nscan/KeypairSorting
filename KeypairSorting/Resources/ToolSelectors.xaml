@@ -34,11 +34,11 @@
     </DataTemplate>
 
     <DataTemplate x:Key="sorterMuatateTemplate">
-        <mutateSorters:MutateSortersControl/>
+        <mutateSorters:MutateSortersHostControl/>
     </DataTemplate>
     
     <DataTemplate x:Key="configSorterTuneTemplate">
-        <scp:ScpControl/>
+        <scp:ScpHostControl/>
     </DataTemplate>
 
     <DataTemplate x:Key="configMultiSorterTuneTemplate">

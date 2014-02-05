@@ -59,7 +59,8 @@ namespace KeypairSorting.ViewModels.Parts
                         sorter: sorter,
                         switchableGroupGuid: switchableGuid,
                         success: success,
-                        switchUseCount: useCount
+                        switchUseCount: useCount,
+                        coveringSet:null
                     )
                 );
             }
@@ -73,7 +74,8 @@ namespace KeypairSorting.ViewModels.Parts
                     sorter: sorter,
                     switchableGroupGuid: switchableGuid,
                     success: success,
-                    switchUseList: useList
+                    switchUseList: useList,
+                    coveringSet: null
                 )
             );
         }

@@ -24,6 +24,15 @@ namespace MathUtils.Tests.Collections
         }
 
         [TestMethod]
+        public void TestChop()
+        {
+            IReadOnlyList<int> loaf = Enumerable.Range(0, 100).ToList();
+
+            var slices = loaf.Chop(30).ToList();
+
+        }
+
+        [TestMethod]
         public void TestSum()
         {
             var listlist = new[] { new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 } };

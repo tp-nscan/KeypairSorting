@@ -6,32 +6,30 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using KeypairSorting.Resources;
 using KeypairSorting.ViewModels.Parts;
+using SorterEvo.Evals;
 using SorterEvo.Workflows;
 using WpfUtils;
 
-namespace KeypairSorting.ViewModels.Scp
+namespace KeypairSorting.ViewModels.MutateSorters
 {
-    public class RunScpVm : ViewModelBase, ICreateRunSelectorVm
+    public class RunMutateSortersVm : ViewModelBase, ICreateRunSelectorVm
     {
-        public RunScpVm(IScpParams scpParams, IEnumerable<ISorterGenomeEvalVm> sorterGenomeEvalVms)
+        public RunMutateSortersVm(ISorterMutateParams sorterMutateParams, IEnumerable<ISorterGenomeEvalVm> sorterGenomeEvalVms)
         {
-            ScpRunnerVm = new ScpRunnerVm(scpParams, sorterGenomeEvalVms);
-            ScpRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
+            MutateSortersRunnerVm = new MutateSortersRunnerVm(sorterMutateParams, sorterGenomeEvalVms);
+            MutateSortersRunnerVm.OnIterationResult.Subscribe(ReportBestResult);
+            _sorterGenomeEvalGridVm = new SorterGenomeEvalGridVm("Selected mutants");
             ReportFrequency = 10;
-            _trajectoryGridVm = new SgHistoryGridVm();
             _stopwatch = new Stopwatch();
         }
 
-        void ReportBestResult(Tuple<string, int, string> result)
+        void ReportBestResult(IEnumerable<ISorterGenomeEval> results)
         {
             OnPropertyChanged("ProcTime");
-            TrajectoryGridVm.SgHistoryVms.Add(new SgHistoryVm(result.Item1, result.Item2, result.Item3));
-        }
-
-        private readonly SgHistoryGridVm _trajectoryGridVm;
-        public SgHistoryGridVm TrajectoryGridVm
-        {
-            get { return _trajectoryGridVm; }
+            foreach (var sorterGenomeEval in results)
+            {
+                _sorterGenomeEvalGridVm.SorterGenomeEvalVms.Add(sorterGenomeEval.ToSorterGenomeEvalVm());
+            }
         }
 
         public CreateRunTemplateType CreateRunTemplateType
@@ -41,8 +39,10 @@ namespace KeypairSorting.ViewModels.Scp
 
         public string Description
         {
-            get { return "Tune sorters"; }
+            get { return "Mutate sorters"; }
         }
+
+        public MutateSortersRunnerVm MutateSortersRunnerVm { get; set; }
 
         private bool _busy;
         public bool Busy
@@ -55,8 +55,6 @@ namespace KeypairSorting.ViewModels.Scp
                 OnPropertyChanged("Busy");
             }
         }
-
-        public ScpRunnerVm ScpRunnerVm { get; set; }
 
         #region RunCommand
 
@@ -82,7 +80,7 @@ namespace KeypairSorting.ViewModels.Scp
             _stopwatch.Start();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            await ScpRunnerVm.OnRunAsync(_cancellationTokenSource);
+            await MutateSortersRunnerVm.OnRunAsync(_cancellationTokenSource);
 
             _stopwatch.Stop();
             Busy = false;
@@ -96,6 +94,7 @@ namespace KeypairSorting.ViewModels.Scp
         }
 
         #endregion // RunCommand
+
 
         #region StopCommand
 
@@ -133,7 +132,7 @@ namespace KeypairSorting.ViewModels.Scp
             set
             {
                 _reportFrequency = value;
-                ScpRunnerVm.ReportFrequency = value;
+                MutateSortersRunnerVm.ReportFrequency = value;
                 CommandManager.InvalidateRequerySuggested();
                 OnPropertyChanged("ReportFrequency");
             }
@@ -145,5 +144,11 @@ namespace KeypairSorting.ViewModels.Scp
             get { return _stopwatch.Elapsed.TotalSeconds.ToString("0"); }
         }
 
+        private SorterGenomeEvalGridVm _sorterGenomeEvalGridVm;
+        public SorterGenomeEvalGridVm SorterGenomeEvalGridVm
+        {
+            get { return _sorterGenomeEvalGridVm; }
+            set { _sorterGenomeEvalGridVm = value; }
+        }
     }
 }

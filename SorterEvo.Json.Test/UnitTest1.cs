@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SorterEvo.Json.Test
@@ -9,6 +10,11 @@ namespace SorterEvo.Json.Test
         [TestMethod]
         public void TestMethod1()
         {
+            var pcs = Enumerable.Range(1, 10).ToList();
+
+            var part = pcs.Take(5);
+
+            Assert.AreEqual(part.Count(), 5);
         }
     }
 }

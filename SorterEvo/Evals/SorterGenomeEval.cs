@@ -21,7 +21,8 @@ namespace SorterEvo.Evals
                 ISorterGenome sorterGenome,
                 IImmutableStack<int> ancestors,
                 ISorterEval sorterEval,
-                int generation
+                int generation,
+                bool success
             )
         {
             return new SorterGenomeEvalImpl
@@ -30,7 +31,8 @@ namespace SorterEvo.Evals
                     ancestors: ancestors,
                     sorterEval: sorterEval,
                     generation: generation,
-                    score: sorterEval.SwitchUseCount
+                    score: sorterEval.SwitchUseCount,
+                    success: success
                 );
         }
 
@@ -38,18 +40,21 @@ namespace SorterEvo.Evals
             ISorterGenome sorterGenome,
             ISorterGenomeEval parentGenomeEval,
             ISorterEval sorterEval,
-            int generation
+            int generation,
+                bool success
         )
         {
             return Make
                 (
                     sorterGenome: sorterGenome,
-                    ancestors: parentGenomeEval.Ancestors.Push
+                    ancestors: (parentGenomeEval==null) ? ImmutableStack<int>.Empty : 
+                            parentGenomeEval.Ancestors.Push
                             (
                                 sorterEval.SwitchUseCount
                             ),
                     sorterEval: sorterEval,
-                    generation: generation
+                    generation: generation,
+                    success: success
                 );
         }
     }
@@ -62,6 +67,7 @@ namespace SorterEvo.Evals
         private readonly int _generation;
         private readonly double _score;
         private readonly IStagedSorter _stagedSorter;
+        private readonly bool _success;
 
         public SorterGenomeEvalImpl
             (
@@ -69,7 +75,8 @@ namespace SorterEvo.Evals
                 IImmutableStack<int> ancestors, 
                 ISorterEval sorterEval, 
                 int generation, 
-                double score
+                double score, 
+                bool success
             )
         {
             _sorterGenome = sorterGenome;
@@ -77,6 +84,7 @@ namespace SorterEvo.Evals
             _sorterEval = sorterEval;
             _generation = generation;
             _score = score;
+            _success = success;
             _stagedSorter = sorterEval.Reduce(Guid.NewGuid()).ToStagedSorter();
         }
 
@@ -118,6 +126,11 @@ namespace SorterEvo.Evals
         public double Score
         {
             get { return _score; }
+        }
+
+        public bool Success
+        {
+            get { return _success; }
         }
     }
 }

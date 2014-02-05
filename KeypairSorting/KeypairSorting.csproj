@@ -80,8 +80,14 @@
     <Compile Include="DesignData\Parts\ScpParamVmD.cs" />
     <Compile Include="ViewModels\MutateSorters\ConfigMutateSortersVm.cs" />
     <Compile Include="ViewModels\MutateSorters\CreateMutateSortersVm.cs" />
-    <Compile Include="ViewModels\MutateSorters\MutateSortersVm.cs" />
+    <Compile Include="ViewModels\MutateSorters\MutateSortersHostVm.cs" />
+    <Compile Include="ViewModels\MutateSorters\MutateSortersRunnerVm.cs" />
+    <Compile Include="ViewModels\MutateSorters\RunMutateSortersVm.cs" />
+    <Compile Include="ViewModels\MutateSorters\SgMutantProfileGridVm.cs" />
+    <Compile Include="ViewModels\MutateSorters\SgMutantProfileVm.cs" />
+    <Compile Include="ViewModels\Parts\ConfigMutateSortersParamVm.cs" />
     <Compile Include="ViewModels\Parts\ConfigScpParamVm.cs" />
+    <Compile Include="ViewModels\Parts\SgHistoryVmLow.cs" />
     <Compile Include="ViewModels\Scp\ConfigScpVm.cs" />
     <Compile Include="ViewModels\Scp\ScpRunnerVm.cs" />
     <Compile Include="ViewModels\Parts\SgHistoryGridVm.cs" />
@@ -93,8 +99,20 @@
     <Compile Include="Views\MutateSorters\CreateMutateSortersControl.xaml.cs">
       <DependentUpon>CreateMutateSortersControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MutateSorters\MutateSortersControl.xaml.cs">
-      <DependentUpon>MutateSortersControl.xaml</DependentUpon>
+    <Compile Include="Views\MutateSorters\MutateSortersHostControl.xaml.cs">
+      <DependentUpon>MutateSortersHostControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MutateSorters\MutateSortersRunnerControl.xaml.cs">
+      <DependentUpon>MutateSortersRunnerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MutateSorters\RunMutateSortersControl.xaml.cs">
+      <DependentUpon>RunMutateSortersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MutateSorters\SgMutantProfileGridControl.xaml.cs">
+      <DependentUpon>SgMutantProfileGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parts\ConfigSorterMutateParamsControl.xaml.cs">
+      <DependentUpon>ConfigSorterMutateParamsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Scp\ConfigScpControl.xaml.cs">
       <DependentUpon>ConfigScpControl.xaml</DependentUpon>
@@ -102,7 +120,7 @@
     <Compile Include="Views\Parts\ConfigScpParamControl.xaml.cs">
       <DependentUpon>ConfigScpParamControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ConfigRunSelector.cs" />
+    <Compile Include="Resources\CreateRunSelector.cs" />
     <Compile Include="ViewModels\MakeSorterGenomeEvalsVm.cs" />
     <Compile Include="ViewModels\MakeSorterSwitchableEvalsVm.cs" />
     <Compile Include="ViewModels\Scp\MultiCreateScpVm.cs" />
@@ -114,7 +132,7 @@
     <Compile Include="Views\Scp\MultiScpControl.xaml.cs">
       <DependentUpon>MultiScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Scp\ScpVm.cs" />
+    <Compile Include="ViewModels\Scp\ScpHostVm.cs" />
     <Compile Include="ViewModels\MakeRandomSwitchablesVm.cs" />
     <Compile Include="ViewModels\MakeSorterGenomesVm.cs" />
     <Compile Include="ViewModels\Scp\RunScpVm.cs" />
@@ -153,8 +171,8 @@
     <Compile Include="Views\Scp\MultiRunScpControl.xaml.cs">
       <DependentUpon>MultiRunScpControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Scp\ScpControl.xaml.cs">
-      <DependentUpon>ScpControl.xaml</DependentUpon>
+    <Compile Include="Views\Scp\ScpHostControl.xaml.cs">
+      <DependentUpon>ScpHostControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Scp\RunScpControl.xaml.cs">
       <DependentUpon>RunScpControl.xaml</DependentUpon>
@@ -204,7 +222,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MutateSorters\MutateSortersControl.xaml">
+    <Page Include="Views\MutateSorters\MutateSortersHostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MutateSorters\MutateSortersRunnerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MutateSorters\RunMutateSortersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MutateSorters\SgMutantProfileGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parts\ConfigSorterMutateParamsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,7 +258,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\ConfigRunSelectors.xaml">
+    <Page Include="Resources\CreateRunSelectors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,7 +302,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Scp\ScpControl.xaml">
+    <Page Include="Views\Scp\ScpHostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

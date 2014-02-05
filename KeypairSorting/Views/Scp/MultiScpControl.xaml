@@ -25,7 +25,7 @@
     <DockPanel x:Name="LayoutRoot">
 
         <ContentControl
-            Content="{Binding ConfigRunSelectorVm}"
+            Content="{Binding CreateRunSelectorVm}"
             ContentTemplateSelector="{DynamicResource multiTuneSorterSelector}"/>
 
     </DockPanel>

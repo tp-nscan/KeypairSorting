@@ -12,6 +12,16 @@ namespace MathUtils.Collections
             return list.Where((t, i) => indexer(t) != i).Any();
         }
 
+        public static IEnumerable<IReadOnlyList<T>> Chop<T>(this IReadOnlyList<T> loaf, int thickness)
+        {
+            var position = 0;
+            while (position < loaf.Count)
+            {
+                yield return loaf.Skip(position).Take(thickness).ToList();
+                position += thickness;
+            }
+        }
+
         public static IReadOnlyList<T> VectorSum<T>(this IEnumerable<IReadOnlyList<T>> listOfList, Func<T, T, T> adder)
         {
             var retVal = new T[0];
@@ -26,6 +36,14 @@ namespace MathUtils.Collections
                 retVal[i] = adder(lhs[i], rhs[i]);
             }
             return retVal;
+        }
+
+        public static IEnumerable<T> ElementsAfter<T>(this IReadOnlyList<T> list, int index)
+        {
+            for (var curDex = index + 1; curDex < list.Count; curDex++)
+            {
+                yield return list[curDex];
+            }
         }
 
         public static T[] VectorSum<T>(this T[] lhs, IReadOnlyList<T> rhs, Func<T, T, T> adder)

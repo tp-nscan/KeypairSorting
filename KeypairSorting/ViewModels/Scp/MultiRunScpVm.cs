@@ -12,7 +12,7 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Scp
 {
-    public class MultiRunScpVm : ViewModelBase, IConfigRunSelectorVm
+    public class MultiRunScpVm : ViewModelBase, ICreateRunSelectorVm
     {
         public MultiRunScpVm(IEnumerable<ConfigScpVm> configScpVms)
         {
@@ -54,9 +54,9 @@ namespace KeypairSorting.ViewModels.Scp
             set { _scpRunnerVms = value; }
         }
 
-        public ConfigRunTemplateType ConfigRunTemplateType
+        public CreateRunTemplateType CreateRunTemplateType
         {
-            get { return ConfigRunTemplateType.Run; }
+            get { return CreateRunTemplateType.Run; }
         }
 
         public string Description

@@ -6,7 +6,7 @@ using SorterEvo.Genomes;
 
 namespace SorterEvo.Layers
 {
-    public static class SwitchableGroupLayer
+    public static class SwitchableLayer
     {
         public static ILayer<ISwitchableGroupGenome> Create
             (

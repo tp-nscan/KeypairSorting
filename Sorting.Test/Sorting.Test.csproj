@@ -63,6 +63,7 @@
     <Compile Include="Sorters\SortingFunctionsFixture.cs" />
     <Compile Include="Sorters\SorterFixture.cs" />
     <Compile Include="Sorters\StagedSorterFixture.cs" />
+    <Compile Include="Sorters\StageGeneratorFixture.cs" />
     <Compile Include="Switchables\SwitchableFixture.cs" />
     <Compile Include="Switchables\SwitchableGroupFixture.cs" />
     <Compile Include="SwitchFunctionSets\SortedNumberEvalFixture.cs" />

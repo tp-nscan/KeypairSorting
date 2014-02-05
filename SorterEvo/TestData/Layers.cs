@@ -21,6 +21,8 @@ namespace SorterEvo.TestData
         public static int ChildCount = 100;
         public static int LegacyCount = 0;
         public static int CubCount = 0;
+        public static int MutantCount = 100;
+        public static double MaxScore = 57;
         public static double SorterMutationRate = 0.025;
         public static double SorterInsertionRate = 0.005;
         public static double SorterDeletionRate = 0.005;
@@ -64,7 +66,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISwitchableGroupGenome> SwitchableGroupLayer()
         {
-            return SorterEvo.Layers.SwitchableGroupLayer.Create(
+            return SorterEvo.Layers.SwitchableLayer.Create(
                     seed: Seed,
                     switchableGroupGenomeType: SwitchableGroupGenomeType,
                     genomeCount: SwitchableGroupGenomeCount,
@@ -75,7 +77,7 @@ namespace SorterEvo.TestData
 
         public static ILayer<ISwitchableGroupGenome> SwitchableGroupExpandedLayer()
         {
-            return SorterEvo.Layers.SwitchableGroupLayer.Create(
+            return SorterEvo.Layers.SwitchableLayer.Create(
                     seed: Seed,
                     switchableGroupGenomeType: SwitchableGroupGenomeType,
                     genomeCount: SwitchableGroupExpandedGenomeCount,
@@ -118,6 +120,18 @@ namespace SorterEvo.TestData
                 );
         }
 
+        public static ISorterMutateParams SorterMutateParams()
+        {
+            return Workflows.SorterMutateParams.Make(
+                     mutantCount: MutantCount,
+                     sorterMutationRate: SorterMutationRate,
+                     sorterInsertionRate: SorterInsertionRate,
+                     sorterDeletionRate: SorterDeletionRate,
+                     name: "Test Params",
+                     maxScore: MaxScore,
+                     seed: Seed
+                );
+        }
         static ICompParaPool _compParaPool;
         public static ICompParaPool CompParaPool
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Sorting.CompetePools;
 using Sorting.Json.Sorters;
+using Sorting.Json.Switchables;
 
 namespace Sorting.Json.CompetePools
 {
@@ -14,6 +15,8 @@ namespace Sorting.Json.CompetePools
         public List<double> SwitchUseList { get; set; } 
 
         public SorterToJson SorterToJson { get; set; }
+
+        public SwitchableGroupToJson CoveringSet { get; set; }
 
         public bool Success { get; set; }
 
@@ -27,7 +30,8 @@ namespace Sorting.Json.CompetePools
             var sorterEvalToJson = new SorterEvalToJson
             {
                 SwitchableGroupGuid = sorterEval.SwitchableGroupGuid,
-                SorterToJson = SorterToJson.ToJsonAdapter(sorterEval.Sorter),
+                SorterToJson = sorterEval.Sorter.ToJsonAdapter(),
+                CoveringSet = sorterEval.CoveringSet.ToJsonAdapter(),
                 Success = sorterEval.Success,
                 SwitchesUsed = sorterEval.SwitchUseCount,
                 SwitchUseList = sorterEval.SwitchUseList.ToList()
@@ -54,7 +58,8 @@ namespace Sorting.Json.CompetePools
                     sorter: sorterGenomeToJson.SorterToJson.ToSorter(),
                     switchableGroupGuid: sorterGenomeToJson.SwitchableGroupGuid,
                     switchUseList: sorterGenomeToJson.SwitchUseList,
-                    success: sorterGenomeToJson.Success
+                    success: sorterGenomeToJson.Success,
+                    coveringSet: sorterGenomeToJson.CoveringSet.ToSwitchableGroup()
                 );
         }
     }

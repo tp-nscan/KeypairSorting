@@ -5,7 +5,7 @@ using WpfUtils;
 
 namespace KeypairSorting.ViewModels.Scp
 {
-    public class CreateScpVm : ViewModelBase, IConfigRunSelectorVm
+    public class CreateScpVm : ViewModelBase, ICreateRunSelectorVm
     {
         public CreateScpVm(IScpParams scpParams, ICommand createScpCommand)
         {
@@ -15,9 +15,9 @@ namespace KeypairSorting.ViewModels.Scp
 
         public ICommand CreateScpCommand { get; private set; }
 
-        public ConfigRunTemplateType ConfigRunTemplateType
+        public CreateRunTemplateType CreateRunTemplateType
         {
-            get { return ConfigRunTemplateType.Config; }
+            get { return CreateRunTemplateType.Create; }
         }
 
         public string Description
