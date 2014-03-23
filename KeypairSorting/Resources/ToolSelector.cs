@@ -11,7 +11,7 @@ namespace KeypairSorting.Resources
 
     public enum ToolTemplateType
     {
-        RandomSorter,
+        RandomGenome,
         SorterEval,
         SorterGenomeEval,
         SorterGenomeGen,
@@ -25,65 +25,26 @@ namespace KeypairSorting.Resources
 
     public class ToolSelector : DataTemplateSelector 
     {
-        #region DefaultTemplate
-
         public DataTemplate DefaultTemplate { get; set; }
-
-        #endregion
-
-        #region MultiSorterTuneTemplate
 
         public DataTemplate MultiSorterTuneTemplate { get; set; }
 
-        #endregion
-
-        #region RandomSorterTemplate
-
-        public DataTemplate RandomSorterTemplate { get; set; }
-
-        #endregion
-
-        #region SorterEvalTemplate
+        public DataTemplate RandomGenomeTemplate { get; set; }
 
         public DataTemplate SorterEvalTemplate { get; set; }
 
-        #endregion
-
-        #region SorterMuatateTemplate
-
         public DataTemplate SorterMuatateTemplate { get; set; }
-
-        #endregion
-
-        #region SorterGenomeEvalTemplate
 
         public DataTemplate SorterGenomeEvalTemplate { get; set; }
 
-        #endregion
-
-        #region SorterGenomeGenTemplate
-
         public DataTemplate SorterGenomeGenTemplate { get; set; }
-
-        #endregion
-
-        #region SorterSwitchableEvalTemplate
 
         public DataTemplate SorterSwitchableEvalTemplate { get; set; }
 
-        #endregion
-
-        #region SwitchableGenTemplate
-
         public DataTemplate SwitchableGenTemplate { get; set; }
-
-        #endregion
-
-        #region SorterTuneTemplate
 
         public DataTemplate SorterTuneTemplate { get; set; }
 
-        #endregion
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -94,8 +55,8 @@ namespace KeypairSorting.Resources
                 {
                     case ToolTemplateType.MultiSorterTune:
                         return MultiSorterTuneTemplate;
-                    case ToolTemplateType.RandomSorter:
-                        return RandomSorterTemplate;
+                    case ToolTemplateType.RandomGenome:
+                        return RandomGenomeTemplate;
                     case ToolTemplateType.SorterEval:
                         return SorterEvalTemplate;
                     case ToolTemplateType.SorterGenomeGen:

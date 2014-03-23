@@ -93,6 +93,9 @@
     <Compile Include="ViewModels\Parts\SgHistoryGridVm.cs" />
     <Compile Include="ViewModels\Parts\SgHistoryVm.cs" />
     <Compile Include="ViewModels\Parts\SorterMutateParamsVm.cs" />
+    <Compile Include="Views\MakeRandomGenomesControl.xaml.cs">
+      <DependentUpon>MakeRandomGenomesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MutateSorters\ConfigMutateSortersControl.xaml.cs">
       <DependentUpon>ConfigMutateSortersControl.xaml</DependentUpon>
     </Compile>
@@ -211,6 +214,10 @@
     </Compile>
     <Compile Include="Resources\ToolSelector.cs" />
     <Page Include="Resources\ControlTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MakeRandomGenomesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

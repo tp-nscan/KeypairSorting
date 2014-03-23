@@ -9,7 +9,7 @@
         <views:DefaultControl/>
     </DataTemplate>
     
-    <DataTemplate x:Key="randomSorterTemplate">
+    <DataTemplate x:Key="RandomGenomeTemplate">
         <views:MakeRandomSorterControl/>
     </DataTemplate>
 
@@ -48,7 +48,7 @@
     <resources:ToolSelector x:Key="toolSelector"
         DefaultTemplate="{StaticResource defaultTemplate}"
         MultiSorterTuneTemplate="{StaticResource configMultiSorterTuneTemplate}"
-        RandomSorterTemplate="{StaticResource randomSorterTemplate}"
+        RandomGenomeTemplate="{StaticResource RandomGenomeTemplate}"
         SorterEvalTemplate="{StaticResource sorterEvalTemplate}"
         SorterGenomeEvalTemplate="{StaticResource sorterGenomeEvalTemplate}"
         SorterGenomeGenTemplate="{StaticResource sorterGenomeGenTemplate}"

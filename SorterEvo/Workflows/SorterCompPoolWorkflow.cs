@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Genomic.Genomes;
 using Genomic.Layers;
-using MathUtils.Collections;
 using MathUtils.Rand;
 using Newtonsoft.Json;
 using SorterEvo.Evals;
@@ -379,10 +378,10 @@ namespace SorterEvo.Workflows
                 //           )
                 //    .Aggregate(string.Empty, (st,i) => st + (String.IsNullOrEmpty(st) ? "" : ",") + i);
 
-                var hashStageCount = 1 + Generation/200;
 
                 var hash = evaluatedGenome.Score + " " +
-                sorterStages.Take(hashStageCount)
+                sorterStages
+                    .Take(5)
                     .Select(s => s.KeyPairs.Select(kp => kp.Index)
                                          .Aggregate(string.Empty, (str, i) => str + "," + i)
                            )

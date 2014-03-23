@@ -32,7 +32,7 @@ namespace KeypairSorting.ViewModels
 
         public ToolTemplateType ToolTemplateType
         {
-            get { return ToolTemplateType.RandomSorter; }
+            get { return ToolTemplateType.RandomGenome; }
         }
 
         public string Description
