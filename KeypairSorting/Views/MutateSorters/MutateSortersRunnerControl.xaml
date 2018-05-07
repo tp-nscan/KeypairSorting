@@ -60,7 +60,7 @@
 						HorizontalAlignment="Center" />
 
                     <ScrollViewer>
-                        <parts:SorterMutateParamsControl DataContext="{Binding SorterMutateParamsVm}"/>
+                        <!--<parts:SorterMutateParamsControl DataContext="{Binding SorterMutateParamsVm}"/>-->
                     </ScrollViewer>
 
                 </DockPanel>

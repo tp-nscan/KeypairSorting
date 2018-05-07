@@ -59,10 +59,10 @@
 						Text="Updating Params" 
 						HorizontalAlignment="Center" />
 
-            <parts:ConfigScpParamControl 
+            <!--<parts:ConfigScpParamControl 
                 Margin="10"
                 HorizontalAlignment="Center" 
-                VerticalAlignment="Center" />
+                VerticalAlignment="Center" />-->
 
         </DockPanel>
 

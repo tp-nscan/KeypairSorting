@@ -59,7 +59,7 @@
 						HorizontalAlignment="Center" />
 
                     <ScrollViewer>
-                    	<parts:ScpParamsControl DataContext="{Binding ScpParamsVm}"/>
+                    	<!--<parts:ScpParamsControl DataContext="{Binding ScpParamsVm}"/>-->
                     </ScrollViewer>
                     
                 </DockPanel>

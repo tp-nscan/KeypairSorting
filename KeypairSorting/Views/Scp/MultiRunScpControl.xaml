@@ -74,7 +74,7 @@
 						    Text="{Binding Name}" 
 						    HorizontalAlignment="Center" />
 
-                <parts:SgHistoryGridControl  />
+                <!--<parts:SgHistoryGridControl  />-->
 
             </DockPanel>
 
